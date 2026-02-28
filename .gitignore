@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.spec.bak
+
+# Virtual Environment
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Logs
+*.log
+
+# User Data (Struktur bleibt, Inhalte sind nutzerspezifisch)
+rpx_pro_data/worlds/*.json
+rpx_pro_data/sessions/*.json
+rpx_pro_data/characters/*.json
+rpx_pro_data/items/*.json
+rpx_pro_data/weapons/*.json
+rpx_pro_data/armor/*.json
+rpx_pro_data/spells/*.json
+rpx_pro_data/vehicles/*.json
+rpx_pro_data/backups/*
+rpx_pro_data/media/sounds/*
+rpx_pro_data/media/music/*
+rpx_pro_data/media/images/*
+rpx_pro_data/media/maps/*
+rpx_pro_data/config.json
+
+rpx_light_data/worlds/*.json
+rpx_light_data/sessions/*.json
+rpx_light_data/characters/*.json
+rpx_light_data/backups/*
+rpx_light_data/media/sounds/*
+rpx_light_data/media/music/*
+rpx_light_data/media/images/*
+rpx_light_data/media/maps/*
+rpx_light_data/config.json
+
+# Keep directory structure
+!**/.gitkeep
+
+# Archiv (alte Entwicklungshistorie)
+Archiv/
+
+# Excel-Arbeitsdateien
+*.xlsx
+
+# PyInstaller Output
+*.manifest
+*.spec.bak
