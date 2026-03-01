@@ -70,6 +70,8 @@ Der GM kann einen separaten Bildschirm fuer Spieler oeffnen (Einstellungen-Tab):
 
 ## Lizenz
 
-MIT License - siehe [LICENSE](LICENSE).
+AGPL-3.0 - siehe [LICENSE](LICENSE).
+
+RPX ist freie Software: Du kannst es unter den Bedingungen der GNU Affero General Public License (Version 3 oder spaeter) weitergeben und/oder modifizieren. Fuer kommerzielle Nutzung ohne Copyleft-Pflicht kontaktiere den Autor.
 
 Die Regelwerk-Templates enthalten nur generische Spielmechaniken. D&D-Inhalte basieren auf dem SRD 5.1 (OGL). DSA-Inhalte sind abstrahiert und enthalten keine geschuetzten Texte.
