@@ -428,7 +428,9 @@ class ViewsTab(QWidget):
 
     def _toggle_player_screen(self):
         # Signal senden - MainWindow handhabt das eigentliche Oeffnen/Schliessen
-        self.player_screen_toggled.emit(True)
+        # Aktuellen Status invertieren (Button-Text zeigt ob offen oder zu)
+        is_currently_open = "schliessen" in self.ps_toggle_btn.text().lower()
+        self.player_screen_toggled.emit(not is_currently_open)
 
     def update_ps_button_state(self, is_open: bool):
         """Aktualisiert den Button-Text basierend auf dem PlayerScreen-Status."""

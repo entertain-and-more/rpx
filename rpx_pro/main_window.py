@@ -413,7 +413,8 @@ class RPXProMainWindow(QMainWindow):
         self.combat_tab.refresh_combat_lists()
         self.inventory_tab.refresh_items_table()
         self.inventory_tab.refresh_location_combos()
-        self.settings_tab.load_from_session()
+        if self.data_manager.current_session:
+            self.settings_tab.load_from_session()
 
     def _on_world_saved(self):
         """Welt gespeichert - Einstellungen zurueckschreiben."""
@@ -607,6 +608,8 @@ class RPXProMainWindow(QMainWindow):
             loc = world.locations[location_id]
             for trigger in loc.triggers:
                 if trigger.trigger_type == TriggerType.ON_EVERY_LEAVE:
+                    self._fire_trigger(trigger)
+                elif trigger.trigger_type == TriggerType.ON_FIRST_LEAVE and loc.first_visit:
                     self._fire_trigger(trigger)
             self.audio_manager.stop_music()
             if session:
@@ -1059,7 +1062,8 @@ class RPXProMainWindow(QMainWindow):
                 self.chat_widget.add_message(msg)
                 session.chat_history.append(msg)
                 self.light_manager.flash_strobe(flashes=3, interval_ms=200)
-                if self.player_screen and self.player_screen.isVisible():
+                if self.player_screen and self.player_screen.isVisible() \
+                        and self.views_tab.mirror_effects_check.isChecked():
                     self.player_screen.trigger_effect("strobe")
                 changed = True
 

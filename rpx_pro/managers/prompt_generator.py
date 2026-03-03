@@ -26,9 +26,10 @@ class PromptGenerator:
     @staticmethod
     def generate_game_start_prompt(session: Session, world: World) -> str:
         """Generiert den Spielstart-Prompt mit allen relevanten Infos"""
+        player_count = sum(1 for c in session.characters.values() if not c.is_npc)
         lines = [
             "=== SPIELSTART ===",
-            f"Wir sind eine Gruppe aus {len(session.characters)} Spielern.",
+            f"Wir sind eine Gruppe aus {player_count} Spielern.",
             f"Wir spielen ein Pen & Paper Rollenspiel im Genre: {world.settings.genre}",
             f"Die Welt heisst: {world.settings.name}",
             ""
