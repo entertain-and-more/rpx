@@ -1,0 +1,14 @@
+{
+  "app_name": "RPX Pro",
+  "publisher": "CN=LukasGeiger",
+  "publisher_display": "Lukas Geiger",
+  "identity_name": "LukasGeiger.RPXPro",
+  "version": "1.0.0.0",
+  "description": "Professionelles Rollenspiel-Kontrollzentrum fuer Pen-and-Paper (D&D, DSA). Welten-System, Soundboard, Lichteffekte, Kampfsystem, 2. Monitor.",
+  "executable": "RPXPro.exe",
+  "capabilities": "internetClient",
+  "category": "Entertainment",
+  "age_rating": "12+",
+  "privacy_url": "https://github.com/lukisch/rpx",
+  "support_url": "https://github.com/lukisch/rpx/issues"
+}
