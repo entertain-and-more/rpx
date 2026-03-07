@@ -1,191 +1,191 @@
 # RPX Pro - RolePlay Xtreme Professional Edition
 
-Ein professionelles Rollenspiel-Kontrollzentrum fuer Pen & Paper Abenteuer. Offline-faehig, kostenlos, Open Source.
+A professional role-playing control center for pen & paper adventures. Offline-capable, free, open source.
 
 ## Features
 
-| Feature | Beschreibung |
+| Feature | Description |
 |---------|-------------|
-| **Welten-System** | Multi-Map-Karten, Orte (Aussen-/Innenansicht), Nationen, Voelker, Trigger-Automatisierung |
-| **Soundboard** | Multi-Backend Audio (Qt Multimedia, pygame, winsound) |
-| **Lichteffekte** | Blitz, Stroboskop, Tag/Nacht-Zyklus, Farbfilter (konfigurierbar fuer Spieler-Bildschirm) |
-| **Kampfsystem** | Waffen, Ruestungen, Magie, Kampftechniken, konfigurierbares Wuerfelsystem |
-| **Spieler-Bildschirm** | Separater Monitor mit dynamischen Ansichten (Kacheln, Rotation, Bilder) |
-| **Regelwerk-Import** | D&D 5e, DSA 5, Generisches Fantasy (oder eigene JSON-Templates) |
-| **KI-Integration** | Promptgenerator mit 7 spezialisierten KI-Rollen |
-| **CLI/API** | JSON-RPC CLI fuer LLM-Steuerung via stdin/stdout |
-| **Session-Manager** | Missionen, Gruppen, Rundensteuerung |
-| **Charaktere** | Attribute, Inventar-Dialog, Gold, Avatar, Hunger/Durst-Simulation |
-| **Simulation** | Hunger/Durst-Timer, Zeitfortschritt, Naturkatastrophen |
+| **World System** | Multi-map support, locations (exterior/interior views), nations, peoples, trigger automation |
+| **Soundboard** | Multi-backend audio (Qt Multimedia, pygame, winsound) |
+| **Light Effects** | Lightning, strobe, day/night cycle, color filters (configurable for player screen) |
+| **Combat System** | Weapons, armor, magic, combat techniques, configurable dice system |
+| **Player Screen** | Separate monitor with dynamic views (tiles, rotation, images) |
+| **Ruleset Import** | D&D 5e, DSA 5, Generic Fantasy (or custom JSON templates) |
+| **AI Integration** | Prompt generator with 7 specialized AI roles |
+| **CLI/API** | JSON-RPC CLI for LLM control via stdin/stdout |
+| **Session Manager** | Missions, groups, turn management |
+| **Characters** | Attributes, inventory dialog, gold, avatar, hunger/thirst simulation |
+| **Simulation** | Hunger/thirst timer, time progression, natural disasters |
 
 ## Installation
 
 ```bash
-# Abhaengigkeiten installieren
+# Install dependencies
 pip install -r requirements.txt
 
-# Starten
+# Run
 python RPX_Pro_1.py
-# oder direkt:
+# or directly:
 python -m rpx_pro.app
 ```
 
-Oder unter Windows: `START.bat` doppelklicken.
+On Windows: double-click `START.bat`.
 
-### Voraussetzungen
+### Prerequisites
 
 - Python 3.10+
-- PySide6 (Qt6) - beinhaltet Qt Multimedia fuer Audio
-- pygame (optional, Audio-Fallback)
+- PySide6 (Qt6) - includes Qt Multimedia for audio
+- pygame (optional, audio fallback)
 
-## Schnellstart
+## Quick Start
 
-1. **Welt erstellen**: Welt-Tab > "Neue Welt" > Name eingeben
-2. **Karte hinterlegen**: Welt-Tab > "Karte laden..." > Bilddatei auswaehlen
-3. **Orte anlegen**: Welt-Tab > "Ort hinzufuegen" > mit "Bearbeiten" Bilder/Sound zuweisen
-4. **Session starten**: Datei > Neue Session > Welt auswaehlen
-5. **Charaktere erstellen**: Charaktere-Tab > "Charakter erstellen" > mit "Bearbeiten" Details setzen
-6. **Spiel starten**: Toolbar > "Spiel starten" > KI-Prompt wird in die Zwischenablage kopiert
+1. **Create a world**: World tab > "New World" > enter a name
+2. **Add a map**: World tab > "Load Map..." > select an image file
+3. **Create locations**: World tab > "Add Location" > use "Edit" to assign images/sounds
+4. **Start a session**: File > New Session > select a world
+5. **Create characters**: Characters tab > "Create Character" > use "Edit" to set details
+6. **Start the game**: Toolbar > "Start Game" > AI prompt is copied to clipboard
 
-## Architektur
+## Architecture
 
-RPX Pro ist modular aufgebaut als Python-Package (`rpx_pro/`):
+RPX Pro is built as a modular Python package (`rpx_pro/`):
 
 ```
 rpx_pro/
-  app.py                 # Entry Point
-  main_window.py         # Schlanker Orchestrator (~1200 Zeilen)
-  constants.py           # Konfiguration, Pfade, Logging
-  api.py                 # Programmatische Python-API (JSON-serialisierbar)
-  cli.py                 # JSON-RPC CLI fuer LLM-Steuerung
-  models/                # Datenmodelle (Dataclasses)
-    enums.py             # MessageRole, PlayerScreenMode, DamageType, ...
-    entities.py          # Character, Weapon, Armor, Spell, Item, ...
-    world.py             # World, Location, WorldSettings
-    session.py           # Session, ChatMessage, Mission
-  managers/              # Geschaeftslogik
-    data_manager.py      # Persistenz (JSON-Dateien)
-    audio_manager.py     # Multi-Backend Audio
-    light_manager.py     # Lichteffekte (Overlay-basiert)
-    prompt_generator.py  # KI-Prompt-Erzeugung
-    dice_roller.py       # Wuerfelsystem
-  widgets/               # Wiederverwendbare UI-Komponenten
-    chat.py              # Chat-Widget mit Rollenauswahl
-    soundboard.py        # Drag&Drop Soundboard
-    player_screen.py     # Spieler-Bildschirm (2. Monitor)
-    map_widget.py        # Interaktive Karte mit Zeichenwerkzeugen
-    location_view.py     # Ortsansicht (Aussen/Innen)
-    inventory_dialog.py  # Charakter-Inventar-Dialog
-    prompt_widget.py     # KI-Prompt-Generator Widget
-    ruleset_importer.py  # Regelwerk-Import
-  tabs/                  # Eigenstaendige Tab-Klassen
-    views_tab.py         # Ansichten (Ort, Inventar, Ambiente, PlayerScreen)
-    world_tab.py         # Weltverwaltung + Multi-Map
-    characters_tab.py    # Charaktere + Inventar-Button
-    combat_tab.py        # Kampf + Wuerfel
-    missions_tab.py      # Missionen
-    inventory_tab.py     # Welt-Item-Bibliothek
-    immersion_tab.py     # Soundboard
-    settings_tab.py      # Session-/Welt-Einstellungen
+  app.py                     # Entry point
+  main_window.py             # Lean orchestrator (~1200 lines)
+  constants.py               # Configuration, paths, logging
+  api.py                     # Programmatic Python API (JSON-serializable)
+  cli.py                     # JSON-RPC CLI for LLM control
+  models/                    # Data models (dataclasses)
+    enums.py                 # MessageRole, PlayerScreenMode, DamageType, ...
+    entities.py              # Character, Weapon, Armor, Spell, Item, ...
+    world.py                 # World, Location, WorldSettings
+    session.py               # Session, ChatMessage, Mission
+  managers/                  # Business logic
+    data_manager.py          # Persistence (JSON files)
+    audio_manager.py         # Multi-backend audio
+    light_manager.py         # Light effects (overlay-based)
+    prompt_generator.py      # AI prompt generation
+    dice_roller.py           # Dice system
+  widgets/                   # Reusable UI components
+    chat.py                  # Chat widget with role selection
+    soundboard.py            # Drag & Drop soundboard
+    player_screen.py         # Player screen (2nd monitor)
+    map_widget.py            # Interactive map with drawing tools
+    location_view.py         # Location view (exterior/interior)
+    inventory_dialog.py      # Character inventory dialog
+    prompt_widget.py         # AI prompt generator widget
+    ruleset_importer.py      # Ruleset import
+  tabs/                      # Standalone tab classes
+    views_tab.py             # Views (location, inventory, ambience, player screen)
+    world_tab.py             # World management + multi-map
+    characters_tab.py        # Characters + inventory button
+    combat_tab.py            # Combat + dice
+    missions_tab.py          # Missions
+    inventory_tab.py         # World item library
+    immersion_tab.py         # Soundboard
+    settings_tab.py          # Session/world settings
 ```
 
-**Design-Prinzipien:**
-- Tabs kommunizieren ausschliesslich ueber Qt Signals (kein `self.window()`)
-- Manager werden per Dependency Injection uebergeben
-- MainWindow ist reiner Orchestrator (verbindet Signals, routet Events)
-- Models sind reine Dataclasses mit `to_dict()`/`from_dict()` Serialisierung
+**Design Principles:**
+- Tabs communicate exclusively via Qt Signals (no `self.window()`)
+- Managers are passed via dependency injection
+- MainWindow is a pure orchestrator (connects signals, routes events)
+- Models are pure dataclasses with `to_dict()`/`from_dict()` serialization
 
-## Tab-Uebersicht
+## Tab Overview
 
 ### Chat (Tab 1)
-- Nachrichten mit verschiedenen Rollen (Spieler, GM, KI-Rollen, Erzaehler)
-- Farbcodierung nach Rolle
-- Chat-Befehle: `/roll`, `/heal`, `/damage`, `/check`, `/give`
-- System-Events werden automatisch geloggt
+- Messages with different roles (player, GM, AI roles, narrator)
+- Color coding by role
+- Chat commands: `/roll`, `/heal`, `/damage`, `/check`, `/give`
+- System events are logged automatically
 
-### Ansichten (Tab 2)
-Vier Sub-Tabs in einem:
+### Views (Tab 2)
+Four sub-tabs in one:
 
-- **Ortsansicht**: Aussen-/Innenansicht mit Blackout-Uebergang, Farbfilter, Trigger
-- **Inventaransicht**: Charakter-Dropdown, Inventar-Tabelle (Name, Anzahl, Gewicht, Wert), Gold
-- **Ambiente**: Lichteffekte (Blitz, Stroboskop, Tag/Nacht, Farbfilter) + Hintergrundmusik (Playlist, Lautstaerke)
-- **Spieler-Bildschirm**: Monitor-Auswahl, Vollbild, Anzeigemodus, Ansichten-Checkboxen, Effekt-Spiegelung
+- **Location View**: Exterior/interior view with blackout transition, color filter, triggers
+- **Inventory View**: Character dropdown, inventory table (name, quantity, weight, value), gold
+- **Ambience**: Light effects (lightning, strobe, day/night, color filter) + background music (playlist, volume)
+- **Player Screen**: Monitor selection, fullscreen, display mode, view checkboxes, effect mirroring
 
-### Welt (Tab 3)
-- Welten erstellen, bearbeiten, speichern
-- **Multi-Map-System**: Mehrere Karten pro Welt (Weltkarte, Dungeons, Staedte)
-- Interaktive Karte mit Zeichenwerkzeugen
-- Orte im Baum verwalten mit Bearbeiten-Dialog
+### World (Tab 3)
+- Create, edit, save worlds
+- **Multi-Map System**: Multiple maps per world (world map, dungeons, cities)
+- Interactive map with drawing tools
+- Manage locations in a tree with edit dialog
 
-### Charaktere (Tab 4)
-- Tabelle aller Charaktere mit Kerndaten
-- **Inventar-Button** pro Zeile -- oeffnet den Inventar-Dialog mit Gold, Gewicht, Items
-- Bearbeiten-Dialog: Name, Rasse, Beruf, Level, HP, Mana, Skills, NPC-Status, Bild, Biografie
-- Schnelle HP/Mana-Steuerung (Schaden, Heilen, Mana)
+### Characters (Tab 4)
+- Table of all characters with core data
+- **Inventory Button** per row -- opens the inventory dialog with gold, weight, items
+- Edit dialog: name, race, class, level, HP, mana, skills, NPC status, image, biography
+- Quick HP/mana controls (damage, heal, mana)
 
-### Kampf (Tab 5)
-- Wuerfelsystem (1-10 Wuerfel, W4 bis W100)
-- Angriffsmechanik mit Treffsicherheit, Kritischen Treffern, Ruestung
-- Waffen- und Zauberlisten
+### Combat (Tab 5)
+- Dice system (1-10 dice, D4 to D100)
+- Attack mechanics with accuracy, critical hits, armor
+- Weapon and spell lists
 
-### Missionen (Tab 6)
-- Aktive und abgeschlossene Missionen
-- Abschliessen oder als gescheitert markieren
-- Status-Aenderungen im Chat geloggt
+### Missions (Tab 6)
+- Active and completed missions
+- Complete or mark as failed
+- Status changes logged in chat
 
-### Inventar (Tab 7)
-- Welt-Item-Bibliothek (Name, Klasse, Gewicht, Wert, Boni)
-- Items an Orten mit Fundwahrscheinlichkeit
-- NPCs an Orten mit Begegnungswahrscheinlichkeit
+### Inventory (Tab 7)
+- World item library (name, class, weight, value, bonuses)
+- Items at locations with find probability
+- NPCs at locations with encounter probability
 
 ### Soundboard (Tab 8)
-- Sound-Effekte per Drag&Drop oder Dialog hinzufuegen
-- Play/Stop pro Sound
+- Add sound effects via drag & drop or dialog
+- Play/stop per sound
 
-### KI-Prompts (Tab 9)
-- 7 KI-Rollen: Storyteller, Plottwist, Spielleiter, Gegner, NPCs, Landschaft, Fauna/Flora
-- Spielstart-Prompt und Update-Prompt generieren
-- In Zwischenablage kopieren
+### AI Prompts (Tab 9)
+- 7 AI roles: Storyteller, Plot Twist, Game Master, Opponents, NPCs, Landscape, Fauna/Flora
+- Generate game start prompt and update prompt
+- Copy to clipboard
 
-### Einstellungen (Tab 10)
-- Session: Rundenmodus, Aktionen/Runde, Spielleiter (Mensch/KI)
-- Welt: Zeitverhaeltnis, Stunden/Tag, Hunger/Durst-Simulation, Naturkatastrophen
+### Settings (Tab 10)
+- Session: Turn mode, actions/turn, game master (human/AI)
+- World: Time ratio, hours/day, hunger/thirst simulation, natural disasters
 
-## Spieler-Bildschirm (2. Monitor)
+## Player Screen (2nd Monitor)
 
-Der GM kann einen separaten Bildschirm fuer Spieler oeffnen (Ansichten > Spieler-Bildschirm):
+The GM can open a separate screen for players (Views > Player Screen):
 
-- **4 Anzeigemodi**: Bild, Karte, Rotation, Kacheln
-- **Dynamische Ansichten**: Per Checkbox waehlbar welche Kacheln aktiv sind
-  - Charaktere (Helden-Uebersicht mit HP/Mana-Balken)
-  - Missionen (aktive Quests)
-  - Karte (Weltkarte mit Markierungen)
-  - Chat (Spielverlauf)
-  - Rundensteuerung (Runde/Zugreihenfolge)
-  - Ortsansicht (aktueller Ort)
-  - Inventar (Charakter-Inventar)
-- **Rotation**: Nur aktivierte Ansichten werden durchrotiert
-- **Event-Overlay**: Ankuendigungen bei Schaden, Heilung, Tod, Missionen, Runden
-- **Effekt-Spiegelung**: Blitz, Tag/Nacht, Farbfilter einzeln steuerbar
-- Monitor-Auswahl, Vollbild, Schwarzbild
+- **4 Display Modes**: Image, map, rotation, tiles
+- **Dynamic Views**: Select via checkboxes which tiles are active
+  - Characters (hero overview with HP/mana bars)
+  - Missions (active quests)
+  - Map (world map with markers)
+  - Chat (game log)
+  - Turn Control (round/turn order)
+  - Location View (current location)
+  - Inventory (character inventory)
+- **Rotation**: Only activated views are cycled through
+- **Event Overlay**: Announcements for damage, healing, death, missions, rounds
+- **Effect Mirroring**: Lightning, day/night, color filter individually controllable
+- Monitor selection, fullscreen, black screen
 
-## CLI / API fuer LLM-Integration
+## CLI / API for LLM Integration
 
-RPX Pro bietet eine programmatische API und ein CLI-Interface fuer KI-Steuerung:
+RPX Pro offers a programmatic API and a CLI interface for AI control:
 
 ```bash
-# Mit CLI starten
+# Start with CLI
 python -m rpx_pro.app --cli
 ```
 
-**JSON-RPC Protokoll** via stdin/stdout:
+**JSON-RPC Protocol** via stdin/stdout:
 
 ```json
 {"id": 1, "method": "roll_dice", "params": {"count": 2, "sides": 20}}
-{"id": 1, "result": {"dice": "2W20", "rolls": [14, 7], "total": 21}}
+{"id": 1, "result": {"dice": "2D20", "rolls": [14, 7], "total": 21}}
 ```
 
-**Verfuegbare Methoden:**
+**Available Methods:**
 `create_world`, `list_worlds`, `load_world`, `create_session`, `list_sessions`, `load_session`,
 `create_character`, `get_character`, `heal_character`, `damage_character`, `get_inventory`, `give_item`,
 `send_chat_message`, `get_chat_history`, `roll_dice`, `create_mission`, `complete_mission`,
@@ -193,70 +193,74 @@ python -m rpx_pro.app --cli
 
 ## Simulation
 
-### Hunger/Durst
-- Steigen proportional zur Spielzeit, Warnungen bei 50% und 75%
-- Rate pro Spielstunde konfigurierbar, Rassen-Modifikatoren moeglich
+### Hunger/Thirst
+- Increase proportionally to game time, warnings at 50% and 75%
+- Rate per game hour configurable, race modifiers possible
 
-### Naturkatastrophen
-- Zufallsereignisse: Erdbeben, Ueberschwemmung, Vulkanausbruch, Tornado, etc.
-- Visueller Stroboskop-Effekt + Chat-Nachricht
+### Natural Disasters
+- Random events: earthquake, flood, volcanic eruption, tornado, etc.
+- Visual strobe effect + chat message
 
-### Zeitfortschritt
-- Spielzeit laeuft proportional zur Echtzeit (Verhaeltnis konfigurierbar)
-- Tageswechsel-Benachrichtigungen, Tageszeit auf Spieler-Bildschirm
+### Time Progression
+- Game time runs proportionally to real time (ratio configurable)
+- Day change notifications, time of day on player screen
 
-## Regelwerk-Import
+## Ruleset Import
 
-Drei mitgelieferte Templates:
+Three included templates:
 
-- **D&D 5e (SRD)** - 9 Rassen, 19 Waffen, 12 Ruestungen, 14 Zauber
-- **DSA 5 (Abstrahiert)** - 12 Voelker, 15 Waffen, 7 Ruestungen, 12 Zauber
-- **Generisches Fantasy** - 5 Rassen, 10 Waffen, 5 Ruestungen, 10 Zauber
+- **D&D 5e (SRD)** - 9 races, 19 weapons, 12 armor sets, 14 spells
+- **DSA 5 (Abstracted)** - 12 peoples, 15 weapons, 7 armor sets, 12 spells
+- **Generic Fantasy** - 5 races, 10 weapons, 5 armor sets, 10 spells
 
-Eigene Regelwerke als JSON importierbar (`Datei > Regelwerk importieren`).
+Custom rulesets can be imported as JSON (`File > Import Ruleset`).
 
-## Datenstruktur
+## Data Structure
 
 ```
 rpx_pro_data/
-  config.json          # Globale Einstellungen
-  worlds/              # Welt-JSONs (Orte, Waffen, Rassen, etc.)
-  sessions/            # Session-JSONs (Charaktere, Missionen, Chat)
+  config.json              # Global settings
+  worlds/                  # World JSONs (locations, weapons, races, etc.)
+  sessions/                # Session JSONs (characters, missions, chat)
   media/
-    sounds/            # Sound-Effekte (.mp3, .wav, .ogg)
-    music/             # Hintergrundmusik
-    images/            # Orts-/Charakter-Bilder
-    maps/              # Weltkarten
-  backups/             # Auto-Backups
+    sounds/                # Sound effects (.mp3, .wav, .ogg)
+    music/                 # Background music
+    images/                # Location/character images
+    maps/                  # World maps
+  backups/                 # Auto-backups
 ```
 
-## Tastenkuerzel
+## Keyboard Shortcuts
 
-| Kuerzel | Aktion |
-|---------|--------|
-| Ctrl+N | Neue Session |
-| Ctrl+O | Session laden |
-| Ctrl+S | Session speichern |
+| Shortcut | Action |
+|----------|--------|
+| Ctrl+N | New session |
+| Ctrl+O | Load session |
+| Ctrl+S | Save session |
 
-## Markt-Vergleich
+## Market Comparison
 
 | Feature | RPX Pro | Roll20 | Foundry VTT | Fantasy Grounds |
-|---------|:-------:|:------:|:-----------:|:---------------:|
-| Offline-faehig | x | - | x | x |
-| Lichteffekte | x | - | ~ | - |
-| KI-Integration | x | - | ~ | - |
-| LLM-API/CLI | x | - | - | - |
-| Hunger-Simulation | x | - | - | - |
-| Naturkatastrophen | x | - | - | - |
-| 2. Monitor (dynamisch) | x | - | ~ | ~ |
-| Modular/Erweiterbar | x | - | x | - |
-| Kostenlos | x | ~ | - | - |
-| Open Source | x | - | - | - |
+|---------|:------:|:-----:|:-----------:|:---------------:|
+| Offline-capable | x | - | x | x |
+| Light effects | x | - | ~ | - |
+| AI integration | x | - | ~ | - |
+| LLM API/CLI | x | - | - | - |
+| Hunger simulation | x | - | - | - |
+| Natural disasters | x | - | - | - |
+| 2nd monitor (dynamic) | x | - | ~ | ~ |
+| Modular/extensible | x | - | x | - |
+| Free | x | ~ | - | - |
+| Open source | x | - | - | - |
 
-## Lizenz
+## License
 
-AGPL-3.0 - siehe [LICENSE](LICENSE).
+AGPL-3.0 - see [LICENSE](LICENSE).
 
-RPX ist freie Software: Du kannst es unter den Bedingungen der GNU Affero General Public License (Version 3 oder spaeter) weitergeben und/oder modifizieren. Fuer kommerzielle Nutzung ohne Copyleft-Pflicht kontaktiere den Autor.
+RPX is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License (version 3 or later). For commercial use without copyleft obligation, contact the author.
 
-Die Regelwerk-Templates enthalten nur generische Spielmechaniken. D&D-Inhalte basieren auf dem SRD 5.1 (OGL). DSA-Inhalte sind abstrahiert und enthalten keine geschuetzten Texte.
+The ruleset templates contain only generic game mechanics. D&D content is based on the SRD 5.1 (OGL). DSA content is abstracted and does not contain any copyrighted text.
+
+---
+
+Deutsche Version: [README.de.md](README.de.md)
