@@ -1,0 +1,250 @@
+{
+  "Abbrechen": {
+    "de": "Abbrechen",
+    "en": "Cancel"
+  },
+  "Abschliessen": {
+    "de": "Abschliessen",
+    "en": "Complete"
+  },
+  "Bearbeiten": {
+    "de": "Bearbeiten",
+    "en": "Edit"
+  },
+  "Bild laden...": {
+    "de": "Bild laden...",
+    "en": "Loading image..."
+  },
+  "Bitte auswählen:": {
+    "de": "Bitte auswählen:",
+    "en": "Please select:"
+  },
+  "Fehler beim Laden": {
+    "de": "Fehler beim Laden",
+    "en": "Error Loading"
+  },
+  "Filter anwenden": {
+    "de": "Filter anwenden",
+    "en": "Apply Filter"
+  },
+  "Filter entfernen": {
+    "de": "Filter entfernen",
+    "en": "Remove Filter"
+  },
+  "KI-Aufträge & Rollen": {
+    "de": "KI-Aufträge & Rollen",
+    "en": "AI Tasks & Roles"
+  },
+  "Keine Ansichten aktiviert": {
+    "de": "Keine Ansichten aktiviert",
+    "en": "No Views Enabled"
+  },
+  "Lautstärke:": {
+    "de": "Lautstärke:",
+    "en": "Volume:"
+  },
+  "Löschen": {
+    "de": "Löschen",
+    "en": "Delete"
+  },
+  "RPX - Spieler-Ansicht": {
+    "de": "RPX - Spieler-Ansicht",
+    "en": "RPX - Player View"
+  },
+  "Regel hinzufügen": {
+    "de": "Regel hinzufügen",
+    "en": "Add Rule"
+  },
+  "Regel löschen": {
+    "de": "Regel löschen",
+    "en": "Delete Rule"
+  },
+  "Regelwerk importieren": {
+    "de": "Regelwerk importieren",
+    "en": "Import Ruleset"
+  },
+  "Schliessen": {
+    "de": "Schliessen",
+    "en": "Close"
+  },
+  "Schließen": {
+    "de": "Schließen",
+    "en": "Close"
+  },
+  "Spieler-Bildschirm oeffnen": {
+    "de": "Spieler-Bildschirm oeffnen",
+    "en": "Open Player Screen"
+  },
+  "Spieler-Bildschirm schliessen": {
+    "de": "Spieler-Bildschirm schliessen",
+    "en": "Close Player Screen"
+  },
+  "Spielstart-Prompt": {
+    "de": "Spielstart-Prompt",
+    "en": "Game Start Prompt"
+  },
+  "Völker": {
+    "de": "Völker",
+    "en": "Races"
+  },
+  "Welt speichern": {
+    "de": "Welt speichern",
+    "en": "Save World"
+  },
+  "Welteinstellungen": {
+    "de": "Welteinstellungen",
+    "en": "World Settings"
+  },
+  "Würfel": {
+    "de": "Würfel",
+    "en": "Dice"
+  },
+  "Würfeln": {
+    "de": "Würfeln",
+    "en": "Roll Dice"
+  },
+  "▶ Ausführen → Spielverlauf": {
+    "de": "▶ Ausführen → Spielverlauf",
+    "en": "▶ Execute → Game History"
+  },
+  "▶ Nächster Zug": {
+    "de": "▶ Nächster Zug",
+    "en": "▶ Next Turn"
+  },
+  "▶ Start (Loop)": {
+    "de": "▶ Start (Loop)",
+    "en": "▶ Start (Loop)"
+  },
+  "✅ Abschließen": {
+    "de": "✅ Abschließen",
+    "en": "✅ Complete"
+  },
+  "✏ Bearbeiten": {
+    "de": "✏ Bearbeiten",
+    "en": "✏ Edit"
+  },
+  "✏️ Bearbeiten": {
+    "de": "✏️ Bearbeiten",
+    "en": "✏️ Edit"
+  },
+  "✓ Abschließen": {
+    "de": "✓ Abschließen",
+    "en": "✓ Complete"
+  },
+  "✖ Filter löschen": {
+    "de": "✖ Filter löschen",
+    "en": "✖ Clear Filter"
+  },
+  "❌ Abbrechen": {
+    "de": "❌ Abbrechen",
+    "en": "❌ Cancel"
+  },
+  "➕ Hinzufügen": {
+    "de": "➕ Hinzufügen",
+    "en": "➕ Add"
+  },
+  "➕ Mission hinzufügen": {
+    "de": "➕ Mission hinzufügen",
+    "en": "➕ Add Mission"
+  },
+  "➕ Ort hinzufügen": {
+    "de": "➕ Ort hinzufügen",
+    "en": "➕ Add Location"
+  },
+  "➕ Sound hinzufügen": {
+    "de": "➕ Sound hinzufügen",
+    "en": "➕ Add Sound"
+  },
+  "➕ Waffe hinzufügen": {
+    "de": "➕ Waffe hinzufügen",
+    "en": "➕ Add Weapon"
+  },
+  "➕ Zauber hinzufügen": {
+    "de": "➕ Zauber hinzufügen",
+    "en": "➕ Add Spell"
+  },
+  "🎨 Farbfilter wählen": {
+    "de": "🎨 Farbfilter wählen",
+    "en": "🎨 Select Color Filter"
+  },
+  "🎬 Start-Prompt generieren": {
+    "de": "🎬 Start-Prompt generieren",
+    "en": "🎬 Generate Start Prompt"
+  },
+  "🎲 Regeln & Würfel": {
+    "de": "🎲 Regeln & Würfel",
+    "en": "🎲 Rules & Dice"
+  },
+  "🎲 Würfeln!": {
+    "de": "🎲 Würfeln!",
+    "en": "🎲 Roll Dice!"
+  },
+  "🏞 Außen": {
+    "de": "🏞 Außen",
+    "en": "🏞 Outdoors"
+  },
+  "🏞️\\nKein Bild verfügbar": {
+    "de": "🏞️\\nKein Bild verfügbar",
+    "en": "🏞️\\nNo Image Available"
+  },
+  "🏞️\\nKein Ort ausgewählt": {
+    "de": "🏞️\\nKein Ort ausgewählt",
+    "en": "🏞️\\nNo Location Selected"
+  },
+  "💾 Chat exportieren": {
+    "de": "💾 Chat exportieren",
+    "en": "💾 Export Chat"
+  },
+  "💾 Speichern": {
+    "de": "💾 Speichern",
+    "en": "💾 Save"
+  },
+  "💾 Welt speichern": {
+    "de": "💾 Welt speichern",
+    "en": "💾 Save World"
+  },
+  "📊 Details anzeigen": {
+    "de": "📊 Details anzeigen",
+    "en": "📊 Show Details"
+  },
+  "📋 Spielstart → Clipboard": {
+    "de": "📋 Spielstart → Clipboard",
+    "en": "📋 Game Start → Clipboard"
+  },
+  "📥 Zu Session hinzufügen": {
+    "de": "📥 Zu Session hinzufügen",
+    "en": "📥 Add to Session"
+  },
+  "🔄 Runde zurücksetzen": {
+    "de": "🔄 Runde zurücksetzen",
+    "en": "🔄 Reset Round"
+  },
+  "🔲 Effekte löschen": {
+    "de": "🔲 Effekte löschen",
+    "en": "🔲 Clear Effects"
+  },
+  "🔴 Rot-Filter": {
+    "de": "🔴 Rot-Filter",
+    "en": "🔴 Red Filter"
+  },
+  "🔵 Blau-Filter": {
+    "de": "🔵 Blau-Filter",
+    "en": "🔵 Blue Filter"
+  },
+  "🗑 Löschen": {
+    "de": "🗑 Löschen",
+    "en": "🗑 Delete"
+  },
+  "🗑️ Löschen": {
+    "de": "🗑️ Löschen",
+    "en": "🗑️ Delete"
+  },
+  "🗺 Weltkarte laden": {
+    "de": "🗺 Weltkarte laden",
+    "en": "🗺 Load World Map"
+  },
+  "🚀 Spielstart-Prompt": {
+    "de": "🚀 Spielstart-Prompt",
+    "en": "🚀 Game Start Prompt"
+  }
+}

@@ -260,3 +260,30 @@ AGPL-3.0 - siehe [LICENSE](LICENSE).
 RPX ist freie Software: Du kannst es unter den Bedingungen der GNU Affero General Public License (Version 3 oder spaeter) weitergeben und/oder modifizieren. Fuer kommerzielle Nutzung ohne Copyleft-Pflicht kontaktiere den Autor.
 
 Die Regelwerk-Templates enthalten nur generische Spielmechaniken. D&D-Inhalte basieren auf dem SRD 5.1 (OGL). DSA-Inhalte sind abstrahiert und enthalten keine geschuetzten Texte.
+
+---
+
+## English
+
+A professional role-playing game control center with world systems, soundboard, and AI integration.
+
+### Features
+
+- World/campaign management
+- Character sheets
+- Integrated soundboard
+- AI-powered storytelling
+- Map viewer
+
+### Installation
+
+```bash
+git clone https://github.com/lukisch/REL_RPG.git
+cd REL_RPG
+pip install -r requirements.txt
+python "RPX_Pro_1.py"
+```
+
+### License
+
+See [LICENSE](LICENSE) for details.
