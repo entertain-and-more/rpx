@@ -44,7 +44,7 @@ class PromptGeneratorWidget(QWidget):
 
         layout.addLayout(form_layout)
 
-        ki_group = QGroupBox("KI-Auftraege")
+        ki_group = QGroupBox("KI-Aufträge")
         ki_layout = QGridLayout(ki_group)
 
         ki_buttons = [

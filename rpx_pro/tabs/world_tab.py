@@ -84,7 +84,7 @@ class WorldTab(QWidget):
         rename_map_btn.clicked.connect(self._rename_current_map)
         map_bar.addWidget(rename_map_btn)
 
-        del_map_btn = QPushButton("Loeschen")
+        del_map_btn = QPushButton("Löschen")
         del_map_btn.clicked.connect(self.delete_map)
         map_bar.addWidget(del_map_btn)
 
@@ -117,7 +117,7 @@ class WorldTab(QWidget):
         loc_layout.addWidget(self.locations_tree)
 
         loc_btn_layout = QHBoxLayout()
-        add_loc_btn = QPushButton("+ Ort hinzufuegen")
+        add_loc_btn = QPushButton("+ Ort hinzufügen")
         add_loc_btn.clicked.connect(self.add_location)
         loc_btn_layout.addWidget(add_loc_btn)
 
@@ -129,7 +129,7 @@ class WorldTab(QWidget):
         layout.addWidget(locations_group)
 
         # Faehigkeiten
-        skills_btn = QPushButton("Faehigkeiten definieren...")
+        skills_btn = QPushButton("Fähigkeiten definieren...")
         skills_btn.setStyleSheet("QPushButton { background: #3498db; color: white; }")
         skills_btn.clicked.connect(self._edit_skill_definitions)
         layout.addWidget(skills_btn)
@@ -282,7 +282,7 @@ class WorldTab(QWidget):
     def add_location(self):
         world = self.data_manager.current_world
         if not world:
-            QMessageBox.warning(self, "Fehler", "Keine Welt ausgewaehlt!")
+            QMessageBox.warning(self, "Fehler", "Keine Welt ausgewählt!")
             return
         name, ok = QInputDialog.getText(self, "Neuer Ort", "Name des Ortes:")
         if ok and name:
@@ -298,7 +298,7 @@ class WorldTab(QWidget):
             return
         item = self.locations_tree.currentItem()
         if not item:
-            QMessageBox.warning(self, "Fehler", "Kein Ort ausgewaehlt!")
+            QMessageBox.warning(self, "Fehler", "Kein Ort ausgewählt!")
             return
         loc_id = item.data(0, Qt.UserRole)
         if loc_id not in world.locations:
@@ -325,7 +325,7 @@ class WorldTab(QWidget):
             ("river", "Fluss/Anomalie"),
             ("mountain", "Berg/Region"),
             ("forest", "Wald"),
-            ("building", "Gebaeude"),
+            ("building", "Gebäude"),
             ("ship", "Raumschiff"),
             ("anomaly", "Anomalie"),
         ]
@@ -344,13 +344,13 @@ class WorldTab(QWidget):
         ext_btn = QPushButton("...")
         ext_btn.clicked.connect(lambda: ext_edit.setText(
             QFileDialog.getOpenFileName(
-                dialog, "Aussenbild", str(IMAGES_DIR),
+                dialog, "Außenbild", str(IMAGES_DIR),
                 "Bilder (*.png *.jpg *.jpeg *.bmp)")[0] or ext_edit.text()
         ))
         ext_layout = QHBoxLayout()
         ext_layout.addWidget(ext_edit)
         ext_layout.addWidget(ext_btn)
-        form.addRow("Aussenbild:", ext_layout)
+        form.addRow("Außenbild:", ext_layout)
 
         int_edit = QLineEdit(loc.interior_image or "")
         int_btn = QPushButton("...")
@@ -395,19 +395,19 @@ class WorldTab(QWidget):
             QMessageBox.warning(self, "Fehler", "Keine Welt geladen!")
             return
         dialog = QDialog(self)
-        dialog.setWindowTitle("Faehigkeiten definieren")
+        dialog.setWindowTitle("Fähigkeiten definieren")
         dialog.setMinimumSize(500, 400)
         dlayout = QVBoxLayout(dialog)
 
         dlayout.addWidget(QLabel(
-            "Definiere Faehigkeiten fuer diese Welt.\n"
-            "Jede Faehigkeit hat ein Max-Level und Auswirkungen auf Attribute."
+            "Definiere Fähigkeiten für diese Welt.\n"
+            "Jede Fähigkeit hat ein Max-Level und Auswirkungen auf Attribute."
         ))
 
         table = QTableWidget()
         table.setColumnCount(5)
         table.setHorizontalHeaderLabels([
-            "Name", "Max-Level", "Staerke/Lvl", "Leben/Lvl", "Beschreibung"
+            "Name", "Max-Level", "Stärke/Lvl", "Leben/Lvl", "Beschreibung"
         ])
         table.horizontalHeader().setStretchLastSection(True)
         skills = world.skill_definitions
@@ -422,12 +422,12 @@ class WorldTab(QWidget):
         dlayout.addWidget(table)
 
         btn_layout = QHBoxLayout()
-        add_btn = QPushButton("Hinzufuegen")
+        add_btn = QPushButton("Hinzufügen")
 
         def _add_skill():
             r = table.rowCount()
             table.setRowCount(r + 1)
-            table.setItem(r, 0, QTableWidgetItem("Neue Faehigkeit"))
+            table.setItem(r, 0, QTableWidgetItem("Neue Fähigkeit"))
             table.setItem(r, 1, QTableWidgetItem("10"))
             table.setItem(r, 2, QTableWidgetItem("0"))
             table.setItem(r, 3, QTableWidgetItem("0"))
@@ -436,7 +436,7 @@ class WorldTab(QWidget):
         add_btn.clicked.connect(_add_skill)
         btn_layout.addWidget(add_btn)
 
-        del_btn = QPushButton("Zeile loeschen")
+        del_btn = QPushButton("Zeile löschen")
 
         def _del_skill():
             r = table.currentRow()
@@ -475,14 +475,14 @@ class WorldTab(QWidget):
                 }
             world.skill_definitions = new_skills
             self.data_manager.save_world(world)
-            self.status_message.emit(f"{len(new_skills)} Faehigkeiten gespeichert")
+            self.status_message.emit(f"{len(new_skills)} Fähigkeiten gespeichert")
 
     # --- Multi-Map ---
 
     def add_map(self):
         world = self.data_manager.current_world
         if not world:
-            QMessageBox.warning(self, "Fehler", "Keine Welt ausgewaehlt!")
+            QMessageBox.warning(self, "Fehler", "Keine Welt ausgewählt!")
             return
         name, ok = QInputDialog.getText(self, "Neue Karte", "Name der Karte:")
         if not ok or not name:
@@ -505,8 +505,8 @@ class WorldTab(QWidget):
         if not game_map:
             return
         reply = QMessageBox.question(
-            self, "Karte loeschen",
-            f"Karte '{game_map.name}' wirklich loeschen?",
+            self, "Karte löschen",
+            f"Karte '{game_map.name}' wirklich löschen?",
             QMessageBox.Yes | QMessageBox.No)
         if reply != QMessageBox.Yes:
             return
@@ -522,7 +522,7 @@ class WorldTab(QWidget):
         else:
             self.world_map_widget.clear_draw_elements()
             self.world_map_widget.load_map(None)
-        self.status_message.emit("Karte geloescht")
+        self.status_message.emit("Karte gelöscht")
 
     def _rename_current_map(self):
         world = self.data_manager.current_world
@@ -565,7 +565,7 @@ class WorldTab(QWidget):
         if not world or not world.active_map_id:
             QMessageBox.warning(
                 self, "Fehler",
-                "Keine Karte ausgewaehlt! Erstelle zuerst eine Karte.")
+                "Keine Karte ausgewählt! Erstelle zuerst eine Karte.")
             return
         game_map = world.maps.get(world.active_map_id)
         if not game_map:

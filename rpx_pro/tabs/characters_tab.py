@@ -62,7 +62,7 @@ class CharactersTab(QWidget):
         edit_char_btn.clicked.connect(self.edit_character)
         btn_layout.addWidget(edit_char_btn)
 
-        delete_char_btn = QPushButton("Loeschen")
+        delete_char_btn = QPushButton("Löschen")
         delete_char_btn.clicked.connect(self.delete_character)
         btn_layout.addWidget(delete_char_btn)
 
@@ -87,7 +87,7 @@ class CharactersTab(QWidget):
         mana_drain_btn.clicked.connect(self.drain_mana)
         hp_layout.addWidget(mana_drain_btn)
 
-        mana_restore_btn = QPushButton("Mana auffuellen")
+        mana_restore_btn = QPushButton("Mana auffüllen")
         mana_restore_btn.setStyleSheet("background-color: #3498db; color: white; font-weight: bold; padding: 8px;")
         mana_restore_btn.clicked.connect(self.restore_mana)
         hp_layout.addWidget(mana_restore_btn)
@@ -141,7 +141,7 @@ class CharactersTab(QWidget):
             return None, None
         row = self.char_table.currentRow()
         if row < 0:
-            QMessageBox.warning(self, "Fehler", "Kein Charakter ausgewaehlt!")
+            QMessageBox.warning(self, "Fehler", "Kein Charakter ausgewählt!")
             return None, None
         char_list = list(session.characters.values())
         if row >= len(char_list):
@@ -166,7 +166,7 @@ class CharactersTab(QWidget):
             return
         row = self.char_table.currentRow()
         if row < 0:
-            QMessageBox.warning(self, "Fehler", "Kein Charakter ausgewaehlt!")
+            QMessageBox.warning(self, "Fehler", "Kein Charakter ausgewählt!")
             return
         char_list = list(session.characters.values())
         if row >= len(char_list):
@@ -232,7 +232,7 @@ class CharactersTab(QWidget):
         world = self.data_manager.current_world
         skill_sliders = {}
         if world and world.skill_definitions:
-            skill_group = QGroupBox("Faehigkeiten")
+            skill_group = QGroupBox("Fähigkeiten")
             skill_group.setStyleSheet("QGroupBox { font-weight: bold; border: 1px solid #3498db; border-radius: 5px; margin-top: 8px; padding-top: 15px; } QGroupBox::title { color: #3498db; }")
             skill_layout = QFormLayout(skill_group)
             for skill_name, skill_def in world.skill_definitions.items():
@@ -326,7 +326,7 @@ class CharactersTab(QWidget):
             return
         row = self.char_table.currentRow()
         if row < 0:
-            QMessageBox.warning(self, "Fehler", "Kein Charakter ausgewaehlt!")
+            QMessageBox.warning(self, "Fehler", "Kein Charakter ausgewählt!")
             return
         char_list = list(session.characters.keys())
         if row >= len(char_list):
@@ -335,8 +335,8 @@ class CharactersTab(QWidget):
         char_name = session.characters[char_id].name
 
         reply = QMessageBox.question(
-            self, "Charakter loeschen",
-            f"'{char_name}' wirklich loeschen?",
+            self, "Charakter löschen",
+            f"'{char_name}' wirklich löschen?",
             QMessageBox.Yes | QMessageBox.No
         )
         if reply == QMessageBox.Yes:
@@ -397,7 +397,7 @@ class CharactersTab(QWidget):
             QMessageBox.information(self, "Voll", f"{char.name} hat bereits volles Mana!")
             return
         amount, ok = QInputDialog.getInt(
-            self, "Mana auffuellen", f"Mana fuer {char.name}:", min(10, max_restore), 1, max_restore)
+            self, "Mana auffüllen", f"Mana fuer {char.name}:", min(10, max_restore), 1, max_restore)
         if ok:
             char.mana = min(char.max_mana, char.mana + amount)
             self.data_manager.save_session(session)

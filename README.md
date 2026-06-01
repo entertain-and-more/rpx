@@ -201,11 +201,17 @@ python -m rpx_pro.app --cli
 {"id": 1, "result": {"dice": "2W20", "rolls": [14, 7], "total": 21}}
 ```
 
-**Verfuegbare Methoden:**
+**Verfügbare Methoden:**
 `create_world`, `list_worlds`, `load_world`, `create_session`, `list_sessions`, `load_session`,
 `create_character`, `get_character`, `heal_character`, `damage_character`, `get_inventory`, `give_item`,
 `send_chat_message`, `get_chat_history`, `roll_dice`, `create_mission`, `complete_mission`,
-`generate_start_prompt`, `generate_context_update`
+`generate_start_prompt`, `generate_context_update`, `export_campaign_bundle`, `import_campaign_bundle`
+
+Für plattformübergreifenden Datenaustausch erzeugt `export_campaign_bundle` ein ZIP-Bundle im Format
+`rpx-campaign-bundle-v1` mit `manifest.json`, Welten, Sessions, Regelwerken und optionalen Medien.
+`import_campaign_bundle` liest dieses Format wieder ein, normalisiert Medienpfade für den Desktop
+und unterstützt Konfliktstrategien für bestehende Welten, Sessions und Regelwerke.
+Details stehen in [EXPORTFORMAT.md](EXPORTFORMAT.md).
 
 ## Simulation
 

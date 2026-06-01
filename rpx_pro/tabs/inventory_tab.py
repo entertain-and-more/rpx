@@ -51,7 +51,7 @@ class InventoryTab(QWidget):
         lib_layout.addWidget(self.items_table)
 
         item_btn_layout = QHBoxLayout()
-        add_item_btn = QPushButton("Hinzufuegen")
+        add_item_btn = QPushButton("Hinzufügen")
         add_item_btn.clicked.connect(self.add_item_to_world)
         item_btn_layout.addWidget(add_item_btn)
 
@@ -59,7 +59,7 @@ class InventoryTab(QWidget):
         edit_item_btn.clicked.connect(self.edit_world_item)
         item_btn_layout.addWidget(edit_item_btn)
 
-        del_item_btn = QPushButton("Loeschen")
+        del_item_btn = QPushButton("Löschen")
         del_item_btn.clicked.connect(self.delete_world_item)
         item_btn_layout.addWidget(del_item_btn)
 
@@ -198,7 +198,7 @@ class InventoryTab(QWidget):
             return
         row = self.items_table.currentRow()
         if row < 0:
-            QMessageBox.warning(self, "Fehler", "Kein Gegenstand ausgewaehlt!")
+            QMessageBox.warning(self, "Fehler", "Kein Gegenstand ausgewählt!")
             return
         items = list(world.typical_items.values())
         if row < len(items):
@@ -215,7 +215,7 @@ class InventoryTab(QWidget):
         if row >= len(items):
             return
         item = items[row]
-        reply = QMessageBox.question(self, "Loeschen",
+        reply = QMessageBox.question(self, "Löschen",
                                      f"'{item.name}' wirklich loeschen?",
                                      QMessageBox.Yes | QMessageBox.No)
         if reply == QMessageBox.Yes:
@@ -311,7 +311,7 @@ class InventoryTab(QWidget):
             return
         row = self.items_table.currentRow()
         if row < 0:
-            QMessageBox.warning(self, "Fehler", "Kein Gegenstand ausgewaehlt!")
+            QMessageBox.warning(self, "Fehler", "Kein Gegenstand ausgewählt!")
             return
         items = list(world.typical_items.values())
         if row >= len(items):
@@ -324,7 +324,7 @@ class InventoryTab(QWidget):
             QMessageBox.warning(self, "Fehler", "Keine Charaktere vorhanden!")
             return
 
-        name, ok = QInputDialog.getItem(self, "Charakter waehlen",
+        name, ok = QInputDialog.getItem(self, "Charakter wählen",
                                          f"'{item.name}' geben an:", char_names, 0, False)
         if ok:
             idx = char_names.index(name)
@@ -346,14 +346,14 @@ class InventoryTab(QWidget):
             return
         loc_id = self.inv_location_combo.currentData()
         if not loc_id:
-            QMessageBox.warning(self, "Fehler", "Kein Ort ausgewaehlt!")
+            QMessageBox.warning(self, "Fehler", "Kein Ort ausgewählt!")
             return
         item_names = [f"{it.name} ({it.item_class})" for it in world.typical_items.values()]
         item_ids = list(world.typical_items.keys())
         if not item_names:
-            QMessageBox.warning(self, "Fehler", "Keine Gegenstaende definiert!")
+            QMessageBox.warning(self, "Fehler", "Keine Gegenstände definiert!")
             return
-        name, ok = QInputDialog.getItem(self, "Item waehlen",
+        name, ok = QInputDialog.getItem(self, "Item wählen",
                                          "Gegenstand platzieren:", item_names, 0, False)
         if ok:
             idx = item_names.index(name)
@@ -441,14 +441,14 @@ class InventoryTab(QWidget):
             return
         loc_id = self.npc_location_combo.currentData()
         if not loc_id or loc_id not in world.locations:
-            QMessageBox.warning(self, "Fehler", "Kein Ort ausgewaehlt!")
+            QMessageBox.warning(self, "Fehler", "Kein Ort ausgewählt!")
             return
         npcs = [(cid, c) for cid, c in session.characters.items() if c.is_npc]
         if not npcs:
             QMessageBox.information(self, "Info", "Keine NPCs vorhanden. Erstelle zuerst einen NPC-Charakter.")
             return
         npc_names = [f"{c.name} ({c.npc_type})" for _, c in npcs]
-        name, ok = QInputDialog.getItem(self, "NPC platzieren", "NPC auswaehlen:", npc_names, 0, False)
+        name, ok = QInputDialog.getItem(self, "NPC platzieren", "NPC auswählen:", npc_names, 0, False)
         if not ok:
             return
         idx = npc_names.index(name)

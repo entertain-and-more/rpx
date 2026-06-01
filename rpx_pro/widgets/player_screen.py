@@ -648,14 +648,14 @@ class PlayerScreen(QMainWindow):
 
     def update_weather(self, weather: str):
         weather_icons = {
-            "clear": "Klar", "cloudy": "Bewoelkt", "rain": "Regen",
+            "clear": "Klar", "cloudy": "Bewölkt", "rain": "Regen",
             "storm": "Sturm", "snow": "Schnee", "fog": "Nebel"
         }
         self.weather_label.setText(weather_icons.get(weather, weather))
 
     def update_time(self, time_of_day: str):
         time_icons = {
-            "dawn": "Morgendaemmerung", "morning": "Morgen", "noon": "Mittag",
+            "dawn": "Morgendämmerung", "morning": "Morgen", "noon": "Mittag",
             "afternoon": "Nachmittag", "evening": "Abend", "night": "Nacht",
             "midnight": "Mitternacht"
         }

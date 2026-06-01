@@ -29,7 +29,7 @@ class SoundboardWidget(QWidget):
         layout.addWidget(title)
 
         vol_layout = QHBoxLayout()
-        vol_layout.addWidget(QLabel("Lautstaerke:"))
+        vol_layout.addWidget(QLabel("Lautstärke:"))
         self.volume_slider = QSlider(Qt.Horizontal)
         self.volume_slider.setRange(0, 100)
         self.volume_slider.setValue(70)
@@ -41,7 +41,7 @@ class SoundboardWidget(QWidget):
         layout.addLayout(self.button_grid)
 
         btn_layout = QHBoxLayout()
-        add_btn = QPushButton("Sound hinzufuegen")
+        add_btn = QPushButton("Sound hinzufügen")
         add_btn.clicked.connect(self.add_sound)
         btn_layout.addWidget(add_btn)
 
@@ -90,7 +90,7 @@ class SoundboardWidget(QWidget):
     def add_sound(self):
         """Dialog zum Hinzufuegen eines Sounds"""
         file_path, _ = QFileDialog.getOpenFileName(
-            self, "Sound auswaehlen", str(SOUNDS_DIR),
+            self, "Sound auswählen", str(SOUNDS_DIR),
             "Audio-Dateien (*.mp3 *.wav *.ogg)"
         )
         if file_path:
@@ -103,7 +103,7 @@ class SoundboardWidget(QWidget):
         if not self.sound_buttons:
             return
         name, ok = QInputDialog.getItem(
-            self, "Sound entfernen", "Auswaehlen:",
+            self, "Sound entfernen", "Auswählen:",
             list(self.sound_buttons.keys()), 0, False
         )
         if ok and name in self.sound_buttons:

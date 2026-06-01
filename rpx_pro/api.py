@@ -57,6 +57,7 @@ class RPXProAPI:
             return {"error": f"Session {session_id} nicht gefunden"}
         session = self.dm.sessions[session_id]
         self.dm.current_session = session
+        self.dm.current_world = self.dm.worlds.get(session.world_id)
         return {"id": session.id, "name": session.name, "characters": len(session.characters)}
 
     # --- Charaktere ---
@@ -133,7 +134,7 @@ class RPXProAPI:
         message = ChatMessage(role=msg_role, author=author, content=content)
         session.chat_history.append(message)
         self.dm.save_session(session)
-        return {"role": role, "author": author, "content": content, "timestamp": message.timestamp}
+        return {"role": msg_role.value, "author": author, "content": content, "timestamp": message.timestamp}
 
     def get_chat_history(self, limit: int = 50) -> list:
         session = self.dm.current_session
@@ -185,4 +186,31 @@ class RPXProAPI:
         session = self.dm.current_session
         if not session:
             return ""
-        return PromptGenerator.generate_context_update_prompt(session)
+        prompt = PromptGenerator.generate_context_update_prompt(session)
+        session.last_clipboard_index = len(session.chat_history)
+        self.dm.save_session(session)
+        return prompt
+
+    def export_campaign_bundle(
+        self,
+        destination: str,
+        world_ids: Optional[List[str]] = None,
+        session_ids: Optional[List[str]] = None,
+        include_media: str = "manifest",
+    ) -> dict:
+        return self.dm.export_campaign_bundle(
+            destination=destination,
+            world_ids=world_ids,
+            session_ids=session_ids,
+            include_media=include_media,
+        )
+
+    def import_campaign_bundle(
+        self,
+        source: str,
+        conflict_strategy: str = "rename",
+    ) -> dict:
+        return self.dm.import_campaign_bundle(
+            source=source,
+            conflict_strategy=conflict_strategy,
+        )

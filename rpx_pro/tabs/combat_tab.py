@@ -35,8 +35,8 @@ class CombatTab(QWidget):
     def _setup_ui(self):
         layout = QVBoxLayout(self)
 
-        # Wuerfelsystem
-        dice_group = QGroupBox("Wuerfelsystem")
+        # Würfelsystem
+        dice_group = QGroupBox("Würfelsystem")
         dice_layout = QVBoxLayout(dice_group)
 
         dice_ctrl = QHBoxLayout()
@@ -52,7 +52,7 @@ class CombatTab(QWidget):
         self.dice_sides_combo.setCurrentText("W20")
         dice_ctrl.addWidget(self.dice_sides_combo)
 
-        roll_btn = QPushButton("Wuerfeln!")
+        roll_btn = QPushButton("Würfeln!")
         roll_btn.setMinimumHeight(50)
         roll_btn.clicked.connect(self.roll_dice)
         dice_ctrl.addWidget(roll_btn)
@@ -78,7 +78,7 @@ class CombatTab(QWidget):
         self.defender_combo = QComboBox()
         att_row.addWidget(self.defender_combo, stretch=1)
         attack_layout.addLayout(att_row)
-        attack_btn = QPushButton("Angriff wuerfeln!")
+        attack_btn = QPushButton("Angriff würfeln!")
         attack_btn.setMinimumHeight(40)
         attack_btn.setStyleSheet("QPushButton { background: #e74c3c; color: white; font-size: 14px; font-weight: bold; }")
         attack_btn.clicked.connect(self._execute_attack)
@@ -95,7 +95,7 @@ class CombatTab(QWidget):
         self.weapons_list = QListWidget()
         weapons_layout.addWidget(self.weapons_list)
         weap_btn_layout = QHBoxLayout()
-        add_weap_btn = QPushButton("+ Waffe hinzufuegen")
+        add_weap_btn = QPushButton("+ Waffe hinzufügen")
         add_weap_btn.clicked.connect(self.add_weapon)
         weap_btn_layout.addWidget(add_weap_btn)
         weapons_layout.addLayout(weap_btn_layout)
@@ -107,7 +107,7 @@ class CombatTab(QWidget):
         self.spells_list = QListWidget()
         spells_layout.addWidget(self.spells_list)
         spell_btn_layout = QHBoxLayout()
-        add_spell_btn = QPushButton("+ Zauber hinzufuegen")
+        add_spell_btn = QPushButton("+ Zauber hinzufügen")
         add_spell_btn.clicked.connect(self.add_spell)
         spell_btn_layout.addWidget(add_spell_btn)
         spells_layout.addLayout(spell_btn_layout)
@@ -161,7 +161,7 @@ class CombatTab(QWidget):
         if not att_id or not def_id:
             return
         if att_id == def_id:
-            QMessageBox.warning(self, "Fehler", "Angreifer und Verteidiger muessen verschieden sein!")
+            QMessageBox.warning(self, "Fehler", "Angreifer und Verteidiger müssen verschieden sein!")
             return
         attacker = session.characters.get(att_id)
         defender = session.characters.get(def_id)

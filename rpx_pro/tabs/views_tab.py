@@ -197,7 +197,7 @@ class ViewsTab(QWidget):
         color_layout = QFormLayout(color_group)
         self.color_combo = QComboBox()
         for name, hex_val in [("Kein", ""), ("Rot", "#ff0000"), ("Blau", "#0000ff"),
-                               ("Gruen", "#00ff00"), ("Gelb", "#ffff00"), ("Lila", "#800080"),
+                               ("Grün", "#00ff00"), ("Gelb", "#ffff00"), ("Lila", "#800080"),
                                ("Orange", "#ff8c00"), ("Cyan", "#00ffff")]:
             self.color_combo.addItem(name, hex_val)
         color_layout.addRow("Farbe:", self.color_combo)
@@ -205,7 +205,7 @@ class ViewsTab(QWidget):
         self.color_opacity_slider = QSlider(Qt.Horizontal)
         self.color_opacity_slider.setRange(10, 80)
         self.color_opacity_slider.setValue(30)
-        color_layout.addRow("Staerke:", self.color_opacity_slider)
+        color_layout.addRow("Stärke:", self.color_opacity_slider)
 
         apply_color_btn = QPushButton("Filter anwenden")
         apply_color_btn.clicked.connect(self._apply_color_filter)
@@ -242,7 +242,7 @@ class ViewsTab(QWidget):
 
         # Lautstaerke
         vol_layout = QHBoxLayout()
-        vol_layout.addWidget(QLabel("Lautstaerke:"))
+        vol_layout.addWidget(QLabel("Lautstärke:"))
         self.volume_slider = QSlider(Qt.Horizontal)
         self.volume_slider.setRange(0, 100)
         self.volume_slider.setValue(70)
@@ -315,7 +315,7 @@ class ViewsTab(QWidget):
         ctrl_group = QGroupBox("Steuerung")
         ctrl_layout = QVBoxLayout(ctrl_group)
 
-        self.ps_toggle_btn = QPushButton("Spieler-Bildschirm oeffnen")
+        self.ps_toggle_btn = QPushButton("Spieler-Bildschirm öffnen")
         self.ps_toggle_btn.setStyleSheet("background-color: #27ae60; color: white; font-weight: bold; padding: 12px;")
         self.ps_toggle_btn.clicked.connect(self._toggle_player_screen)
         ctrl_layout.addWidget(self.ps_toggle_btn)
@@ -386,13 +386,13 @@ class ViewsTab(QWidget):
         layout.addWidget(quick_group)
 
         # Ansichten-Checkboxen
-        views_group = QGroupBox("Verfuegbare Ansichten")
+        views_group = QGroupBox("Verfügbare Ansichten")
         views_group.setStyleSheet("QGroupBox { font-weight: bold; border: 2px solid #3498db; border-radius: 5px; margin-top: 8px; padding-top: 15px; } QGroupBox::title { color: #3498db; }")
         views_layout = QVBoxLayout(views_group)
 
         self.view_checks = {}
         view_defs = [
-            ("characters", "Charaktere", "Helden-Uebersicht", True),
+            ("characters", "Charaktere", "Helden-Übersicht", True),
             ("missions", "Missionen", "Aktive Quests", True),
             ("map", "Karte", "Weltkarte", True),
             ("chat", "Chat", "Spielverlauf", True),
@@ -435,10 +435,10 @@ class ViewsTab(QWidget):
         """Aktualisiert den Button-Text basierend auf dem PlayerScreen-Status."""
         self._ps_is_open = is_open
         if is_open:
-            self.ps_toggle_btn.setText("Spieler-Bildschirm schliessen")
+            self.ps_toggle_btn.setText("Spieler-Bildschirm schließen")
             self.ps_toggle_btn.setStyleSheet("background-color: #c0392b; color: white; font-weight: bold; padding: 12px;")
         else:
-            self.ps_toggle_btn.setText("Spieler-Bildschirm oeffnen")
+            self.ps_toggle_btn.setText("Spieler-Bildschirm öffnen")
             self.ps_toggle_btn.setStyleSheet("background-color: #27ae60; color: white; font-weight: bold; padding: 12px;")
 
     def _load_image_for_ps(self):

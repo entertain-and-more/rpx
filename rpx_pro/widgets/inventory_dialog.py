@@ -56,8 +56,8 @@ class CharacterInventoryDialog(QDialog):
         self.weight_label.setStyleSheet("font-weight: bold; color: #3498db; padding: 5px;")
         layout.addWidget(self.weight_label)
 
-        # Item hinzufuegen
-        add_group = QGroupBox("Item hinzufuegen")
+        # Item hinzufügen
+        add_group = QGroupBox("Item hinzufügen")
         add_layout = QHBoxLayout(add_group)
         self.item_combo = QComboBox()
         self.item_combo.setMinimumWidth(200)
@@ -73,7 +73,7 @@ class CharacterInventoryDialog(QDialog):
         add_layout.addWidget(QLabel("Anzahl:"))
         add_layout.addWidget(self.add_count_spin)
 
-        add_btn = QPushButton("Hinzufuegen")
+        add_btn = QPushButton("Hinzufügen")
         add_btn.setStyleSheet("background-color: #27ae60; color: white; font-weight: bold;")
         add_btn.clicked.connect(self._add_item)
         add_layout.addWidget(add_btn)

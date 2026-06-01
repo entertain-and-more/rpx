@@ -185,7 +185,7 @@ class RulesetImportDialog(QDialog):
     def _setup_ui(self):
         layout = QVBoxLayout(self)
 
-        source_group = QGroupBox("Regelwerk auswaehlen")
+        source_group = QGroupBox("Regelwerk auswählen")
         source_layout = QVBoxLayout(source_group)
 
         self.ruleset_combo = QComboBox()
@@ -203,16 +203,16 @@ class RulesetImportDialog(QDialog):
 
         self.preview_group = QGroupBox("Vorschau")
         self.preview_layout = QVBoxLayout(self.preview_group)
-        self.preview_label = QLabel("Bitte Regelwerk auswaehlen")
+        self.preview_label = QLabel("Bitte Regelwerk auswählen")
         self.preview_layout.addWidget(self.preview_label)
         layout.addWidget(self.preview_group)
 
         cat_group = QGroupBox("Kategorien importieren")
         cat_layout = QVBoxLayout(cat_group)
         self.cat_checks = {}
-        labels = {"races": "Voelker/Rassen", "professions": "Professionen/Klassen",
-                  "weapons": "Waffen", "armors": "Ruestungen",
-                  "spells": "Zauber", "dice_rules": "Wuerfelregeln"}
+        labels = {"races": "Völker/Rassen", "professions": "Professionen/Klassen",
+                  "weapons": "Waffen", "armors": "Rüstungen",
+                  "spells": "Zauber", "dice_rules": "Würfelregeln"}
         for key, label in labels.items():
             cb = QCheckBox(label)
             cb.setChecked(True)
@@ -241,7 +241,7 @@ class RulesetImportDialog(QDialog):
         path = self.ruleset_combo.currentData()
         if path == "__custom__":
             file_path, _ = QFileDialog.getOpenFileName(
-                self, "Regelwerk-Datei oeffnen", "", "JSON (*.json)")
+                self, "Regelwerk-Datei öffnen", "", "JSON (*.json)")
             if not file_path:
                 self.ruleset_combo.blockSignals(True)
                 self.ruleset_combo.setCurrentIndex(0)
@@ -255,9 +255,9 @@ class RulesetImportDialog(QDialog):
             self.desc_label.setText(self.template.get("description", ""))
             preview = RulesetImporter.preview(self.template)
             lines = []
-            labels = {"races": "Voelker", "professions": "Professionen",
-                      "weapons": "Waffen", "armors": "Ruestungen",
-                      "spells": "Zauber", "dice_rules": "Wuerfelregeln"}
+            labels = {"races": "Völker", "professions": "Professionen",
+                      "weapons": "Waffen", "armors": "Rüstungen",
+                      "spells": "Zauber", "dice_rules": "Würfelregeln"}
             for key, label in labels.items():
                 count = preview.get(key, 0)
                 lines.append(f"  {label}: {count}")
@@ -276,7 +276,7 @@ class RulesetImportDialog(QDialog):
                 cats.add(key)
 
         if not cats:
-            QMessageBox.warning(self, "Fehler", "Keine Kategorien ausgewaehlt!")
+            QMessageBox.warning(self, "Fehler", "Keine Kategorien ausgewählt!")
             return
 
         target = self.target_combo.currentData()

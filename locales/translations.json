@@ -4,7 +4,7 @@
     "en": "Cancel"
   },
   "Abschliessen": {
-    "de": "Abschliessen",
+    "de": "Abschließen",
     "en": "Complete"
   },
   "Bearbeiten": {
@@ -15,7 +15,7 @@
     "de": "Bild laden...",
     "en": "Loading image..."
   },
-  "Bitte auswählen:": {
+  "Bitte auswÃ¤hlen:": {
     "de": "Bitte auswählen:",
     "en": "Please select:"
   },
@@ -31,7 +31,7 @@
     "de": "Filter entfernen",
     "en": "Remove Filter"
   },
-  "KI-Aufträge & Rollen": {
+  "KI-AuftrÃ¤ge & Rollen": {
     "de": "KI-Aufträge & Rollen",
     "en": "AI Tasks & Roles"
   },
@@ -39,11 +39,11 @@
     "de": "Keine Ansichten aktiviert",
     "en": "No Views Enabled"
   },
-  "Lautstärke:": {
+  "LautstÃ¤rke:": {
     "de": "Lautstärke:",
     "en": "Volume:"
   },
-  "Löschen": {
+  "LÃ¶schen": {
     "de": "Löschen",
     "en": "Delete"
   },
@@ -51,11 +51,11 @@
     "de": "RPX - Spieler-Ansicht",
     "en": "RPX - Player View"
   },
-  "Regel hinzufügen": {
+  "Regel hinzufÃ¼gen": {
     "de": "Regel hinzufügen",
     "en": "Add Rule"
   },
-  "Regel löschen": {
+  "Regel lÃ¶schen": {
     "de": "Regel löschen",
     "en": "Delete Rule"
   },
@@ -64,26 +64,26 @@
     "en": "Import Ruleset"
   },
   "Schliessen": {
-    "de": "Schliessen",
-    "en": "Close"
-  },
-  "Schließen": {
     "de": "Schließen",
     "en": "Close"
   },
-  "Spieler-Bildschirm oeffnen": {
-    "de": "Spieler-Bildschirm oeffnen",
+  "SchlieÃŸen": {
+    "de": "Schließen",
+    "en": "Close"
+  },
+  "Spieler-Bildschirm Ã¶ffnen": {
+    "de": "Spieler-Bildschirm öffnen",
     "en": "Open Player Screen"
   },
-  "Spieler-Bildschirm schliessen": {
-    "de": "Spieler-Bildschirm schliessen",
+  "Spieler-Bildschirm schlieÃŸen": {
+    "de": "Spieler-Bildschirm schließen",
     "en": "Close Player Screen"
   },
   "Spielstart-Prompt": {
     "de": "Spielstart-Prompt",
     "en": "Game Start Prompt"
   },
-  "Völker": {
+  "VÃ¶lker": {
     "de": "Völker",
     "en": "Races"
   },
@@ -95,155 +95,155 @@
     "de": "Welteinstellungen",
     "en": "World Settings"
   },
-  "Würfel": {
+  "WÃ¼rfel": {
     "de": "Würfel",
     "en": "Dice"
   },
-  "Würfeln": {
+  "WÃ¼rfeln": {
     "de": "Würfeln",
     "en": "Roll Dice"
   },
-  "▶ Ausführen → Spielverlauf": {
+  "â–¶ AusfÃ¼hren â†’ Spielverlauf": {
     "de": "▶ Ausführen → Spielverlauf",
     "en": "▶ Execute → Game History"
   },
-  "▶ Nächster Zug": {
+  "â–¶ NÃ¤chster Zug": {
     "de": "▶ Nächster Zug",
     "en": "▶ Next Turn"
   },
-  "▶ Start (Loop)": {
+  "â–¶ Start (Loop)": {
     "de": "▶ Start (Loop)",
     "en": "▶ Start (Loop)"
   },
-  "✅ Abschließen": {
+  "âœ… AbschlieÃŸen": {
     "de": "✅ Abschließen",
     "en": "✅ Complete"
   },
-  "✏ Bearbeiten": {
+  "âœ Bearbeiten": {
     "de": "✏ Bearbeiten",
     "en": "✏ Edit"
   },
-  "✏️ Bearbeiten": {
+  "âœï¸ Bearbeiten": {
     "de": "✏️ Bearbeiten",
     "en": "✏️ Edit"
   },
-  "✓ Abschließen": {
+  "âœ“ AbschlieÃŸen": {
     "de": "✓ Abschließen",
     "en": "✓ Complete"
   },
-  "✖ Filter löschen": {
+  "âœ– Filter lÃ¶schen": {
     "de": "✖ Filter löschen",
     "en": "✖ Clear Filter"
   },
-  "❌ Abbrechen": {
+  "âŒ Abbrechen": {
     "de": "❌ Abbrechen",
     "en": "❌ Cancel"
   },
-  "➕ Hinzufügen": {
+  "âž• HinzufÃ¼gen": {
     "de": "➕ Hinzufügen",
     "en": "➕ Add"
   },
-  "➕ Mission hinzufügen": {
+  "âž• Mission hinzufÃ¼gen": {
     "de": "➕ Mission hinzufügen",
     "en": "➕ Add Mission"
   },
-  "➕ Ort hinzufügen": {
+  "âž• Ort hinzufÃ¼gen": {
     "de": "➕ Ort hinzufügen",
     "en": "➕ Add Location"
   },
-  "➕ Sound hinzufügen": {
+  "âž• Sound hinzufÃ¼gen": {
     "de": "➕ Sound hinzufügen",
     "en": "➕ Add Sound"
   },
-  "➕ Waffe hinzufügen": {
+  "âž• Waffe hinzufÃ¼gen": {
     "de": "➕ Waffe hinzufügen",
     "en": "➕ Add Weapon"
   },
-  "➕ Zauber hinzufügen": {
+  "âž• Zauber hinzufÃ¼gen": {
     "de": "➕ Zauber hinzufügen",
     "en": "➕ Add Spell"
   },
-  "🎨 Farbfilter wählen": {
+  "ðŸŽ¨ Farbfilter wÃ¤hlen": {
     "de": "🎨 Farbfilter wählen",
     "en": "🎨 Select Color Filter"
   },
-  "🎬 Start-Prompt generieren": {
+  "ðŸŽ¬ Start-Prompt generieren": {
     "de": "🎬 Start-Prompt generieren",
     "en": "🎬 Generate Start Prompt"
   },
-  "🎲 Regeln & Würfel": {
+  "ðŸŽ² Regeln & WÃ¼rfel": {
     "de": "🎲 Regeln & Würfel",
     "en": "🎲 Rules & Dice"
   },
-  "🎲 Würfeln!": {
+  "ðŸŽ² WÃ¼rfeln!": {
     "de": "🎲 Würfeln!",
     "en": "🎲 Roll Dice!"
   },
-  "🏞 Außen": {
+  "ðŸž AuÃŸen": {
     "de": "🏞 Außen",
     "en": "🏞 Outdoors"
   },
-  "🏞️\\nKein Bild verfügbar": {
+  "ðŸžï¸\\nKein Bild verfÃ¼gbar": {
     "de": "🏞️\\nKein Bild verfügbar",
     "en": "🏞️\\nNo Image Available"
   },
-  "🏞️\\nKein Ort ausgewählt": {
+  "ðŸžï¸\\nKein Ort ausgewÃ¤hlt": {
     "de": "🏞️\\nKein Ort ausgewählt",
     "en": "🏞️\\nNo Location Selected"
   },
-  "💾 Chat exportieren": {
+  "ðŸ’¾ Chat exportieren": {
     "de": "💾 Chat exportieren",
     "en": "💾 Export Chat"
   },
-  "💾 Speichern": {
+  "ðŸ’¾ Speichern": {
     "de": "💾 Speichern",
     "en": "💾 Save"
   },
-  "💾 Welt speichern": {
+  "ðŸ’¾ Welt speichern": {
     "de": "💾 Welt speichern",
     "en": "💾 Save World"
   },
-  "📊 Details anzeigen": {
+  "ðŸ“Š Details anzeigen": {
     "de": "📊 Details anzeigen",
     "en": "📊 Show Details"
   },
-  "📋 Spielstart → Clipboard": {
+  "ðŸ“‹ Spielstart â†’ Clipboard": {
     "de": "📋 Spielstart → Clipboard",
     "en": "📋 Game Start → Clipboard"
   },
-  "📥 Zu Session hinzufügen": {
+  "ðŸ“¥ Zu Session hinzufÃ¼gen": {
     "de": "📥 Zu Session hinzufügen",
     "en": "📥 Add to Session"
   },
-  "🔄 Runde zurücksetzen": {
+  "ðŸ”„ Runde zurÃ¼cksetzen": {
     "de": "🔄 Runde zurücksetzen",
     "en": "🔄 Reset Round"
   },
-  "🔲 Effekte löschen": {
+  "ðŸ”² Effekte lÃ¶schen": {
     "de": "🔲 Effekte löschen",
     "en": "🔲 Clear Effects"
   },
-  "🔴 Rot-Filter": {
+  "ðŸ”´ Rot-Filter": {
     "de": "🔴 Rot-Filter",
     "en": "🔴 Red Filter"
   },
-  "🔵 Blau-Filter": {
+  "ðŸ”µ Blau-Filter": {
     "de": "🔵 Blau-Filter",
     "en": "🔵 Blue Filter"
   },
-  "🗑 Löschen": {
+  "ðŸ—‘ LÃ¶schen": {
     "de": "🗑 Löschen",
     "en": "🗑 Delete"
   },
-  "🗑️ Löschen": {
+  "ðŸ—‘ï¸ LÃ¶schen": {
     "de": "🗑️ Löschen",
     "en": "🗑️ Delete"
   },
-  "🗺 Weltkarte laden": {
+  "ðŸ—º Weltkarte laden": {
     "de": "🗺 Weltkarte laden",
     "en": "🗺 Load World Map"
   },
-  "🚀 Spielstart-Prompt": {
+  "ðŸš€ Spielstart-Prompt": {
     "de": "🚀 Spielstart-Prompt",
     "en": "🚀 Game Start Prompt"
   }

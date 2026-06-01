@@ -111,6 +111,8 @@ class CLIInterface:
             "complete_mission": self.api.complete_mission,
             "generate_start_prompt": lambda **_: self.api.generate_start_prompt(),
             "generate_context_update": lambda **_: self.api.generate_context_update(),
+            "export_campaign_bundle": self.api.export_campaign_bundle,
+            "import_campaign_bundle": self.api.import_campaign_bundle,
         }
 
         if method not in method_map:

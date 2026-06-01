@@ -49,7 +49,7 @@ class MissionsTab(QWidget):
         # Buttons
         btn_layout = QHBoxLayout()
 
-        add_mission_btn = QPushButton("+ Mission hinzufuegen")
+        add_mission_btn = QPushButton("+ Mission hinzufügen")
         add_mission_btn.clicked.connect(self.add_mission)
         btn_layout.addWidget(add_mission_btn)
 
@@ -111,7 +111,7 @@ class MissionsTab(QWidget):
             return
         item = self.active_missions_list.currentItem()
         if not item:
-            QMessageBox.warning(self, "Fehler", "Keine Mission ausgewaehlt!")
+            QMessageBox.warning(self, "Fehler", "Keine Mission ausgewählt!")
             return
         idx = self.active_missions_list.currentRow()
         active_missions = [m for m in session.active_missions.values() if m.status == MissionStatus.ACTIVE]
@@ -132,7 +132,7 @@ class MissionsTab(QWidget):
             return
         item = self.active_missions_list.currentItem()
         if not item:
-            QMessageBox.warning(self, "Fehler", "Keine Mission ausgewaehlt!")
+            QMessageBox.warning(self, "Fehler", "Keine Mission ausgewählt!")
             return
         idx = self.active_missions_list.currentRow()
         active_missions = [m for m in session.active_missions.values() if m.status == MissionStatus.ACTIVE]

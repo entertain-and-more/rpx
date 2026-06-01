@@ -195,7 +195,7 @@ class RPXProMainWindow(QMainWindow):
         self.end_turn_btn.setMinimumHeight(40)
         layout.addWidget(self.end_turn_btn)
 
-        self.next_round_btn = QPushButton("Naechste Runde")
+        self.next_round_btn = QPushButton("Nächste Runde")
         self.next_round_btn.clicked.connect(self._next_round)
         self.next_round_btn.setMinimumHeight(40)
         self.next_round_btn.setStyleSheet("QPushButton { background: #2980b9; color: white; font-weight: bold; }")
@@ -243,7 +243,7 @@ class RPXProMainWindow(QMainWindow):
         # PlayerScreen-Menu
         ps_menu = menubar.addMenu("Spieler-Bildschirm")
 
-        self.ps_open_action = QAction("Spieler-Bildschirm oeffnen", self)
+        self.ps_open_action = QAction("Spieler-Bildschirm öffnen", self)
         self.ps_open_action.triggered.connect(self._toggle_player_screen)
         ps_menu.addAction(self.ps_open_action)
 
@@ -261,7 +261,7 @@ class RPXProMainWindow(QMainWindow):
 
         # Hilfe
         help_menu = menubar.addMenu("Hilfe")
-        about_action = QAction("Ueber", self)
+        about_action = QAction("Über", self)
         about_action.triggered.connect(self._show_about)
         help_menu.addAction(about_action)
 
@@ -275,7 +275,7 @@ class RPXProMainWindow(QMainWindow):
 
         toolbar.addSeparator()
 
-        dice_action = QAction("Wuerfeln", self)
+        dice_action = QAction("Würfeln", self)
         dice_action.triggered.connect(self.combat_tab.roll_dice)
         toolbar.addAction(dice_action)
 
@@ -305,6 +305,7 @@ class RPXProMainWindow(QMainWindow):
         if last_session and last_session in self.data_manager.sessions:
             session = self.data_manager.sessions[last_session]
             self.data_manager.current_session = session
+            self.data_manager.current_world = self.data_manager.worlds.get(session.world_id)
             self._refresh_all_from_session(session)
             self.status_bar.showMessage(f"Session geladen: {session.name}")
             logger.info(f"Letzte Session wiederhergestellt: {session.name}")
@@ -329,7 +330,7 @@ class RPXProMainWindow(QMainWindow):
             QMessageBox.warning(self, "Fehler", "Erstelle zuerst eine Welt!")
             return
         world_names = [w.settings.name for w in self.data_manager.worlds.values()]
-        world_name, ok = QInputDialog.getItem(self, "Welt auswaehlen", "Welt:", world_names, 0, False)
+        world_name, ok = QInputDialog.getItem(self, "Welt auswählen", "Welt:", world_names, 0, False)
         if not ok:
             return
         world = next((w for w in self.data_manager.worlds.values() if w.settings.name == world_name), None)
@@ -359,8 +360,7 @@ class RPXProMainWindow(QMainWindow):
             session = next((s for s in self.data_manager.sessions.values() if s.name == name), None)
             if session:
                 self.data_manager.current_session = session
-                if session.world_id in self.data_manager.worlds:
-                    self.data_manager.current_world = self.data_manager.worlds[session.world_id]
+                self.data_manager.current_world = self.data_manager.worlds.get(session.world_id)
                 self._refresh_all_from_session(session)
                 self.status_bar.showMessage(f"Session '{name}' geladen")
 
@@ -464,7 +464,7 @@ class RPXProMainWindow(QMainWindow):
     def _on_character_died(self, char_id: str, char_name: str):
         if not self._add_chat_message(
                 f"{char_name} ist bewusstlos/tot! (0 HP)",
-                role=MessageRole.NARRATOR, author="Erzaehler"):
+                role=MessageRole.NARRATOR, author="Erzähler"):
             return
         self._route_to_player_screen(PlayerEvent(
             event_type="character_died",
@@ -473,7 +473,7 @@ class RPXProMainWindow(QMainWindow):
             source_tab="characters"))
 
     def _on_dice_rolled(self, result_text: str):
-        self._add_chat_message(result_text, author="Wuerfel")
+        self._add_chat_message(result_text, author="Würfel")
 
     def _on_attack_executed(self, data: dict):
         if not self._add_chat_message(data.get("result_text", ""), author="Kampf"):
@@ -507,7 +507,7 @@ class RPXProMainWindow(QMainWindow):
             source_tab="missions"))
 
     def _on_item_given(self, char_name: str, item_name: str):
-        self._add_chat_message(f"{char_name} erhaelt: {item_name}")
+        self._add_chat_message(f"{char_name} erhält: {item_name}")
 
     def _on_round_mode_changed(self, is_round_based: bool):
         self.turn_panel.setVisible(is_round_based)
@@ -582,7 +582,7 @@ class RPXProMainWindow(QMainWindow):
                 self.light_manager.flash_strobe()
         if trigger.chat_message:
             msg = ChatMessage(
-                role=MessageRole.NARRATOR, author="Erzaehler",
+                role=MessageRole.NARRATOR, author="Erzähler",
                 content=trigger.chat_message
             )
             self.chat_widget.add_message(msg)
@@ -610,7 +610,7 @@ class RPXProMainWindow(QMainWindow):
                     sides = int(sides_str)
                     rolls = [random.randint(1, sides) for _ in range(count)]
                     total = sum(rolls)
-                    result = f"Wuerfel {count}W{sides}: [{', '.join(map(str, rolls))}] = {total}"
+                    result = f"Würfel {count}W{sides}: [{', '.join(map(str, rolls))}] = {total}"
             elif cmd == "/heal" and len(args) >= 2:
                 name, amount = args[0], int(args[1])
                 char = self._find_char_by_name(name)
@@ -640,7 +640,7 @@ class RPXProMainWindow(QMainWindow):
                     roll = random.randint(1, 20)
                     total = roll + skill_val
                     success = total >= difficulty
-                    result = (f"Faehigkeitsprobe: {char.name} - {skill_name} (Wert: {skill_val})\n"
+                    result = (f"Fähigkeitsprobe: {char.name} - {skill_name} (Wert: {skill_val})\n"
                               f"W20 = {roll} + {skill_val} = {total} vs. Schwierigkeit {difficulty}: "
                               f"{'ERFOLG!' if success else 'FEHLSCHLAG!'}")
                 else:
@@ -656,13 +656,13 @@ class RPXProMainWindow(QMainWindow):
                             break
                     if item:
                         char.inventory[item.id] = char.inventory.get(item.id, 0) + 1
-                        result = f"{char.name} erhaelt: {item.name}"
+                        result = f"{char.name} erhält: {item.name}"
                     else:
                         result = f"Item '{item_name}' nicht gefunden."
                 else:
                     result = f"Charakter '{char_name}' nicht gefunden."
             else:
-                result = f"Unbekannter Befehl: {cmd}. Verfuegbar: /roll, /heal, /damage, /check, /give"
+                result = f"Unbekannter Befehl: {cmd}. Verfügbar: /roll, /heal, /damage, /check, /give"
         except (ValueError, IndexError) as e:
             result = f"Fehler bei Befehl {cmd}: {e}"
         if result:
@@ -748,7 +748,7 @@ class RPXProMainWindow(QMainWindow):
                 pass
             self.player_screen.close()
             self.player_screen = None
-            self.ps_open_action.setText("Spieler-Bildschirm oeffnen")
+            self.ps_open_action.setText("Spieler-Bildschirm öffnen")
             self.views_tab.update_ps_button_state(False)
             self.status_bar.showMessage("Spieler-Bildschirm geschlossen")
             return
@@ -782,9 +782,9 @@ class RPXProMainWindow(QMainWindow):
         # Enabled Views aus ViewsTab uebernehmen
         self.player_screen.set_enabled_views(self.views_tab.get_enabled_views())
 
-        self.ps_open_action.setText("Spieler-Bildschirm schliessen")
+        self.ps_open_action.setText("Spieler-Bildschirm schließen")
         self.views_tab.update_ps_button_state(True)
-        self.status_bar.showMessage("Spieler-Bildschirm geoeffnet")
+        self.status_bar.showMessage("Spieler-Bildschirm geöffnet")
 
     def _sync_player_screen_data(self):
         if not self.player_screen or not self.player_screen.isVisible():
@@ -1007,11 +1007,11 @@ class RPXProMainWindow(QMainWindow):
         if world.settings.simulate_disasters:
             if random.random() < world.settings.disaster_probability * game_hours_per_tick:
                 disaster = random.choice([
-                    "Erdbeben", "Ueberschwemmung", "Vulkanausbruch",
-                    "Tornado", "Duerre", "Meteoritenschauer",
+                    "Erdbeben", "Überschwemmung", "Vulkanausbruch",
+                    "Tornado", "Dürre", "Meteoritenschauer",
                     "Magischer Sturm", "Seuche", "Heuschreckenschwarm"
                 ])
-                msg = ChatMessage(role=MessageRole.NARRATOR, author="Erzaehler",
+                msg = ChatMessage(role=MessageRole.NARRATOR, author="Erzähler",
                     content=f"NATURKATASTROPHE: {disaster}! Die Gruppe muss reagieren!")
                 self.chat_widget.add_message(msg)
                 session.chat_history.append(msg)
@@ -1172,7 +1172,7 @@ class RPXProMainWindow(QMainWindow):
     # ================================================================
 
     def _show_about(self):
-        QMessageBox.about(self, "Ueber",
+        QMessageBox.about(self, "Über",
             f"<h2>{APP_TITLE}</h2>"
             f"<p>Version {VERSION}</p>"
             f"<p>Ein umfassendes Pen & Paper Toolkit</p>")

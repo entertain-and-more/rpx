@@ -41,7 +41,7 @@ class LocationViewWidget(QWidget):
                 border-radius: 10px;
             }
         """)
-        self.image_label.setText("Kein Ort ausgewaehlt")
+        self.image_label.setText("Kein Ort ausgewählt")
         layout.addWidget(self.image_label, stretch=1)
 
         if self.light_manager:
@@ -94,7 +94,7 @@ class LocationViewWidget(QWidget):
             pixmap = pixmap.scaled(self.image_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
             self.image_label.setPixmap(pixmap)
         else:
-            self.image_label.setText("Kein Bild verfuegbar")
+            self.image_label.setText("Kein Bild verfügbar")
 
         if location.color_filter and self.light_manager:
             self.light_manager.set_color_filter(location.color_filter, location.color_filter_opacity)
@@ -155,4 +155,4 @@ class LocationViewWidget(QWidget):
         if loc.price_list_file and Path(loc.price_list_file).exists():
             os.startfile(loc.price_list_file)
         else:
-            QMessageBox.information(self, "Info", f"Verfuegbare Aktionen: {', '.join(loc.actions_available) or 'Keine'}")
+            QMessageBox.information(self, "Info", f"Verfügbare Aktionen: {', '.join(loc.actions_available) or 'Keine'}")
