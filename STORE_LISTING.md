@@ -6,53 +6,53 @@
 Pen & Paper Kontrollzentrum: Welten, Charaktere, Soundboard, KI-Integration -- offline & gratis.
 
 ### Beschreibung (max 10.000 Zeichen)
-RPX Pro (RolePlay Xtreme Professional Edition) ist ein umfassendes Kontrollzentrum fuer Pen & Paper Rollenspiele. Ob D&D 5e, DSA 5 oder ein eigenes Regelwerk -- RPX Pro bietet alles, was ein Spielleiter braucht, in einer einzigen Desktop-Anwendung. Komplett offline-faehig, kostenlos und Open Source.
+RPX Pro (RolePlay Xtreme Professional Edition) ist ein umfassendes Kontrollzentrum für Pen & Paper Rollenspiele. Ob D&D 5e, DSA 5 oder ein eigenes Regelwerk -- RPX Pro bietet alles, was ein Spielleiter braucht, in einer einzigen Desktop-Anwendung. Komplett offline-fähig, kostenlos und Open Source.
 
 **Welten-System:**
 
-Erstellen Sie detaillierte Spielwelten mit Multi-Map-Unterstuetzung. Jede Welt kann beliebig viele Karten enthalten -- Weltkarte, Dungeons, Staedte. Legen Sie Orte mit Aussen- und Innenansicht an, definieren Sie Nationen und Voelker, und nutzen Sie Trigger fuer automatisierte Ereignisse. Die interaktive Karte bietet Zeichenwerkzeuge fuer spontane Anpassungen waehrend des Spiels.
+Erstellen Sie detaillierte Spielwelten mit Multi-Map-Unterstützung. Jede Welt kann beliebig viele Karten enthalten -- Weltkarte, Dungeons, Städte. Legen Sie Orte mit Außen- und Innenansicht an, definieren Sie Nationen und Völker, und nutzen Sie Trigger für automatisierte Ereignisse. Die interaktive Karte bietet Zeichenwerkzeuge für spontane Anpassungen während des Spiels.
 
 **Charaktere & Inventar:**
 
-Verwalten Sie Spieler- und Nicht-Spieler-Charaktere mit allen Details: Attribute, Skills, HP, Mana, Inventar, Gold, Avatare und Biografien. Der Inventar-Dialog zeigt Gegenstaende mit Gewicht und Wert. Chat-Befehle wie /heal, /damage und /give ermoeglichen schnelle Aenderungen im Spielfluss.
+Verwalten Sie Spieler- und Nicht-Spieler-Charaktere mit allen Details: Attribute, Skills, HP, Mana, Inventar, Gold, Avatare und Biografien. Der Inventar-Dialog zeigt Gegenstände mit Gewicht und Wert. Chat-Befehle wie /heal, /damage und /give ermöglichen schnelle Änderungen im Spielfluss.
 
 **Kampfsystem:**
 
-Ein konfigurierbares Wuerfelsystem (W4 bis W100, 1-10 Wuerfel) mit Angriffsmechanik, Treffsicherheit, kritischen Treffern und Ruestungsberechnung. Waffen, Ruestungen und Zauber aus den mitgelieferten Regelwerken oder eigene Kreationen.
+Ein konfigurierbares Würfelsystem (W4 bis W100, 1-10 Würfel) mit Angriffsmechanik, Treffsicherheit, kritischen Treffern und Rüstungsberechnung. Waffen, Rüstungen und Zauber aus den mitgelieferten Regelwerken oder eigene Kreationen.
 
 **Soundboard & Lichteffekte:**
 
-Integriertes Soundboard mit Drag & Drop fuer Effekte und Hintergrundmusik. Lichteffekte wie Blitz, Stroboskop, Tag/Nacht-Zyklen und Farbfilter erhoehen die Immersion. Alle Effekte koennen auf den Spieler-Bildschirm gespiegelt werden.
+Integriertes Soundboard mit Drag & Drop für Effekte und Hintergrundmusik. Lichteffekte wie Blitz, Stroboskop, Tag/Nacht-Zyklen und Farbfilter erhöhen die Immersion. Alle Effekte können auf den Spieler-Bildschirm gespiegelt werden.
 
 **Spieler-Bildschirm (2. Monitor):**
 
-Schliessen Sie einen zweiten Monitor an und praesentieren Sie Ihren Spielern dynamische Ansichten: Karten, Charakteruebersichten mit HP/Mana-Balken, aktive Quests, Ortsansichten, Chat und Rundensteuerung. Vier Anzeigemodi (Bild, Karte, Rotation, Kacheln) und ein Event-Overlay fuer dramatische Momente.
+Schließen Sie einen zweiten Monitor an und präsentieren Sie Ihren Spielern dynamische Ansichten: Karten, Charakterübersichten mit HP/Mana-Balken, aktive Quests, Ortsansichten, Chat und Rundensteuerung. Vier Anzeigemodi (Bild, Karte, Rotation, Kacheln) und ein Event-Overlay für dramatische Momente.
 
 **KI-Integration:**
 
-Sieben spezialisierte KI-Rollen (Storyteller, Plottwist, Spielleiter, Gegner, NPCs, Landschaft, Fauna/Flora) generieren kontextbezogene Prompts. Kopieren Sie diese in Ihr bevorzugtes KI-Tool fuer kreative Inspiration. Eine JSON-RPC CLI ermoeglicht die direkte LLM-Steuerung.
+Sieben spezialisierte KI-Rollen (Storyteller, Plottwist, Spielleiter, Gegner, NPCs, Landschaft, Fauna/Flora) generieren kontextbezogene Prompts. Kopieren Sie diese in Ihr bevorzugtes KI-Tool für kreative Inspiration. Eine JSON-RPC CLI ermöglicht die direkte LLM-Steuerung.
 
 **Simulation:**
 
-Hunger/Durst-Simulation mit konfigurierbaren Raten, Zeitfortschritt proportional zur Echtzeit, Tageswechsel-Benachrichtigungen und zufaellige Naturkatastrophen (Erdbeben, Ueberschwemmung, Vulkanausbruch) mit visuellen Effekten.
+Hunger/Durst-Simulation mit konfigurierbaren Raten, Zeitfortschritt proportional zur Echtzeit, Tageswechsel-Benachrichtigungen und zufällige Naturkatastrophen (Erdbeben, Überschwemmung, Vulkanausbruch) mit visuellen Effekten.
 
 **Regelwerk-Import:**
 
-Drei mitgelieferte Templates (D&D 5e SRD, DSA 5 abstrahiert, Generisches Fantasy) oder eigene Regelwerke als JSON importieren. Rassen, Waffen, Ruestungen und Zauber sind frei erweiterbar.
+Drei mitgelieferte Templates (D&D 5e SRD, DSA 5 abstrahiert, Generisches Fantasy) oder eigene Regelwerke als JSON importieren. Rassen, Waffen, Rüstungen und Zauber sind frei erweiterbar.
 
 **Session-Management:**
 
-Speichern und laden Sie beliebig viele Sessions. Missionen verfolgen, Runden steuern, Chat-Verlauf automatisch protokollieren. Alles lokal in JSON-Dateien -- keine Cloud, kein Account noetig.
+Speichern und laden Sie beliebig viele Sessions. Missionen verfolgen, Runden steuern, Chat-Verlauf automatisch protokollieren. Alles lokal in JSON-Dateien -- keine Cloud, kein Account nötig.
 
-**Fuer wen ist RPX Pro?**
+**Für wen ist RPX Pro?**
 
-- Spielleiter (GM/DM) fuer Pen & Paper Rollenspiele
+- Spielleiter (GM/DM) für Pen & Paper Rollenspiele
 - D&D, DSA, Pathfinder und andere Regelwerke
 - Gruppen, die am Tisch mit einem Laptop oder Bildschirm spielen
-- Alle, die ein offline-faehiges, kostenloses Alternativtool zu Roll20 oder Foundry VTT suchen
+- Alle, die ein offline-fähiges, kostenloses Alternativtool zu Roll20 oder Foundry VTT suchen
 
-### Schluesselwoerter
-Pen and Paper, Rollenspiel, D&D, Dungeons and Dragons, DSA, Das Schwarze Auge, RPG, Spielleiter, Game Master, Dungeon Master, Soundboard, Virtual Tabletop, VTT, Charakterbogen, Wuerfelsystem, Kampfsystem, KI, AI, Weltenbau
+### Schlüsselwörter
+Pen and Paper, Rollenspiel, D&D, Dungeons and Dragons, DSA, Das Schwarze Auge, RPG, Spielleiter, Game Master, Dungeon Master, Soundboard, Virtual Tabletop, VTT, Charakterbogen, Würfelsystem, Kampfsystem, KI, AI, Weltenbau
 
 ### Kategorie
 Entertainment / Gaming
