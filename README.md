@@ -18,6 +18,7 @@ Ein professionelles Rollenspiel-Kontrollzentrum für Pen & Paper Abenteuer. Offl
 | **Regelwerk-Import** | D&D 5e, DSA 5, Generisches Fantasy (oder eigene JSON-Templates) |
 | **KI-Integration** | Promptgenerator mit 7 spezialisierten KI-Rollen |
 | **CLI/API** | JSON-RPC CLI für LLM-Steuerung via stdin/stdout |
+| **Web/PWA-Companion** | Liest lokale `rpx-campaign-bundle-v1`-ZIPs für Kampagnenübersicht, Charakterstatus, Missionen und Medienhinweise |
 | **Session-Manager** | Missionen, Gruppen, Rundensteuerung |
 | **Charaktere** | Attribute, Inventar-Dialog, Gold, Avatar, Hunger/Durst-Simulation |
 | **Simulation** | Hunger/Durst-Timer, Zeitfortschritt, Naturkatastrophen |
@@ -59,6 +60,8 @@ Die Build-Ausgabe landet in `dist/RPX_Pro/`. Das Spec-File bindet die `rulesets/
 ```bash
 python -m pytest -q
 python -m compileall -q RPX_Pro_1.py manage_translations.py translator.py rpx_pro tests
+node --test web_companion/tests/library.test.mjs
+node --test web_companion/tests/pwa.test.mjs
 ```
 
 ## Schnellstart
@@ -218,6 +221,23 @@ Für plattformübergreifenden Datenaustausch erzeugt `export_campaign_bundle` ei
 `rpx-campaign-bundle-v1` mit `manifest.json`, Welten, Sessions, Regelwerken und optionalen Medien.
 `import_campaign_bundle` liest dieses Format wieder ein, normalisiert Medienpfade für den Desktop
 und unterstützt Konfliktstrategien für bestehende Welten, Sessions und Regelwerke.
+
+## Web/PWA-Companion
+
+Unter `web_companion/` liegt jetzt ein statischer Offline-Companion für dasselbe Bundle-Format.
+Er lädt lokale ZIP-Dateien per Dateiauswahl oder Drag-and-drop und zeigt:
+
+- Kampagnenübersicht mit Exportzeit und Bundle-Statistiken
+- Welten, Karten und Orts-Hinweise
+- Session-Ansichten mit Charakterstatus, Missionen und letzten Chat-Zeilen
+- Regelwerke sowie Medienreferenzen aus `media/manifest.json`
+
+Start lokal:
+
+```bash
+cd web_companion
+python -m http.server 8765
+```
 Details stehen in [EXPORTFORMAT.md](EXPORTFORMAT.md).
 
 ## Simulation
@@ -330,4 +350,3 @@ Dieses Projekt ist eine **unentgeltliche Open-Source-Schenkung** im Sinne der §
 Nutzung auf eigenes Risiko. Keine Wartungszusage, keine Verfügbarkeitsgarantie, keine Gewähr für Fehlerfreiheit oder Eignung für einen bestimmten Zweck.
 
 This project is an unpaid open-source donation. Liability is limited to intent and gross negligence (§ 521 German Civil Code). Use at your own risk. No warranty, no maintenance guarantee, no fitness-for-purpose assumed. The MIT License disclaimer also applies.
-
