@@ -235,6 +235,42 @@ export async function loadBundleFromArrayBuffer(arrayBuffer, sourceName = "campa
   };
 }
 
+export function getCharacterList(bundle) {
+  const list = [];
+  for (const session of bundle.sessions) {
+    for (const character of session.characters) {
+      list.push({
+        sessionId: session.id,
+        sessionName: session.name,
+        characterId: character.id,
+        characterName: character.name,
+        health: character.health,
+        maxHealth: character.maxHealth,
+        mana: character.mana,
+        maxMana: character.maxMana,
+        gold: character.gold,
+      });
+    }
+  }
+  return list;
+}
+
+export function getPlayerView(bundle, sessionId, characterId) {
+  const session = bundle.sessions.find((s) => s.id === sessionId);
+  if (!session) {
+    throw new Error(`Session nicht gefunden: ${sessionId}`);
+  }
+  const character = session.characters.find((c) => c.id === characterId);
+  if (!character) {
+    throw new Error(`Charakter nicht gefunden: ${characterId}`);
+  }
+  return {
+    character,
+    activeMissions: session.activeMissions,
+    chatExcerpt: session.chat,
+  };
+}
+
 export async function loadBundleFromFile(file) {
   return loadBundleFromArrayBuffer(await file.arrayBuffer(), file.name);
 }

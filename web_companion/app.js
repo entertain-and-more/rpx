@@ -1,4 +1,4 @@
-import { loadBundleFromFile } from "./library.js";
+import { loadBundleFromFile, getCharacterList, getPlayerView } from "./library.js";
 
 const fileInput = document.querySelector("#bundle-file");
 const dropzone = document.querySelector(".dropzone");
@@ -9,6 +9,16 @@ const worldsNode = document.querySelector("#worlds");
 const sessionsNode = document.querySelector("#sessions");
 const rulesetsNode = document.querySelector("#rulesets");
 const mediaNode = document.querySelector("#media");
+
+const playerOverlay = document.createElement("div");
+playerOverlay.className = "player-overlay hidden";
+document.body.appendChild(playerOverlay);
+
+const playerModeRow = document.createElement("div");
+playerModeRow.className = "button-row hidden";
+playerModeRow.innerHTML = '<button class="ghost" id="player-mode-btn">Spieler-Modus</button>';
+statusNode.after(playerModeRow);
+playerModeRow.querySelector("#player-mode-btn").addEventListener("click", showPlayerMode);
 
 let bundleState = null;
 
@@ -235,11 +245,92 @@ function renderBundle(bundle) {
   renderMedia(bundle);
 }
 
+function renderStatBar(current, max, cssClass) {
+  const pct = (max > 0 && current != null) ? Math.round((current / max) * 100) : 0;
+  return `<div class="stat-bar"><div class="stat-bar-fill ${escapeHtml(cssClass)}" style="width:${pct}%"></div></div>`;
+}
+
+function renderPlayerCard(view) {
+  const { character, activeMissions } = view;
+  playerOverlay.innerHTML = `
+    <div class="player-card">
+      <h2>${escapeHtml(character.name)}</h2>
+      <ul class="meta-list">
+        <li><span>HP</span><strong>${escapeHtml(character.health ?? "–")} / ${escapeHtml(character.maxHealth ?? "–")}</strong></li>
+      </ul>
+      ${renderStatBar(character.health, character.maxHealth, "hp")}
+      <ul class="meta-list">
+        <li><span>Mana</span><strong>${escapeHtml(character.mana ?? "–")} / ${escapeHtml(character.maxMana ?? "–")}</strong></li>
+      </ul>
+      ${renderStatBar(character.mana, character.maxMana, "mana")}
+      <ul class="meta-list">
+        <li><span>Gold</span><strong>${escapeHtml(character.gold ?? "–")}</strong></li>
+      </ul>
+      <h3>Aktive Missionen</h3>
+      ${activeMissions.length
+        ? `<div class="pill-row">${activeMissions.map((m) => `<span class="pill">${escapeHtml(m.name)}</span>`).join("")}</div>`
+        : '<p class="meta-note">Keine aktiven Missionen.</p>'}
+      <div class="button-row"><button class="ghost" id="player-pick">← Auswahl</button></div>
+    </div>
+  `;
+  playerOverlay.querySelector("#player-pick").addEventListener("click", () => {
+    renderPlayerPicker(bundleState);
+  });
+}
+
+function renderPlayerPicker(bundle) {
+  const characters = getCharacterList(bundle);
+  if (!characters.length) {
+    playerOverlay.innerHTML = `
+      <div class="player-card">
+        <p class="meta-note">Keine Charaktere im Bundle.</p>
+        <div class="button-row"><button class="ghost" id="player-back">← Zurück</button></div>
+      </div>
+    `;
+    playerOverlay.querySelector("#player-back").addEventListener("click", hidePlayerMode);
+    return;
+  }
+  playerOverlay.innerHTML = `
+    <div class="player-card">
+      <h2>Spieler-Modus</h2>
+      <p class="meta-note">Wähle deinen Charakter:</p>
+      <ul class="character-list">
+        ${characters.map((c) => `
+          <li class="character-item"
+              data-session="${escapeHtml(c.sessionId)}"
+              data-character="${escapeHtml(c.characterId)}">
+            <strong>${escapeHtml(c.characterName)}</strong>
+            <span class="meta-note">${escapeHtml(c.sessionName)}</span>
+          </li>
+        `).join("")}
+      </ul>
+      <div class="button-row"><button class="ghost" id="player-back">← Zurück</button></div>
+    </div>
+  `;
+  playerOverlay.querySelectorAll(".character-item").forEach((item) => {
+    item.addEventListener("click", () => {
+      const view = getPlayerView(bundle, item.dataset.session, item.dataset.character);
+      renderPlayerCard(view);
+    });
+  });
+  playerOverlay.querySelector("#player-back").addEventListener("click", hidePlayerMode);
+}
+
+function showPlayerMode() {
+  playerOverlay.classList.remove("hidden");
+  renderPlayerPicker(bundleState);
+}
+
+function hidePlayerMode() {
+  playerOverlay.classList.add("hidden");
+}
+
 async function handleFile(file) {
   try {
     setStatus(`Lade ${file.name} …`);
     bundleState = await loadBundleFromFile(file);
     renderBundle(bundleState);
+    playerModeRow.classList.remove("hidden");
     setStatus(`Bundle ${file.name} erfolgreich geladen.`);
   } catch (error) {
     bundleState = null;
@@ -281,6 +372,8 @@ clearButton.addEventListener("click", () => {
   bundleState = null;
   fileInput.value = "";
   renderEmpty();
+  playerModeRow.classList.add("hidden");
+  hidePlayerMode();
   setStatus("Ansicht geleert.");
 });
 

@@ -5,6 +5,13 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### web_companion
+
+- Player Mode: Spieler können nach Bundle-Import ihren Charakter wählen und sehen eine portrait-optimierte Karte mit HP/Mana-Balken, Gold und aktiven Missionen
+- Neue library.js-Funktionen: `getCharacterList(bundle)` + `getPlayerView(bundle, sessionId, characterId)`
+- `apple-touch-icon` von SVG auf PNG korrigiert (iOS ignoriert SVG)
+- Testsuite von 7 auf 10 Tests erweitert (`player.test.mjs` mit 5 Unit-Tests für neue library-Funktionen)
+
 ### Hinzugefügt / Added
 - README-Hinweise für Screenshot, EXE-Build, lokales Datenschutzmodell und aktuelles GitHub-Repository ergänzt.
 - GitHub Actions Syntax-Smoke-Test für Python 3.10-3.12 ergänzt.

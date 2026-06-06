@@ -352,3 +352,91 @@ button:active {
     padding-right: 18px;
   }
 }
+
+/* --- Player Mode --- */
+
+.player-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 20px;
+  background: rgba(19, 13, 12, 0.97);
+  backdrop-filter: blur(12px);
+}
+
+.player-overlay.hidden {
+  display: none;
+}
+
+.player-card {
+  width: min(480px, 100%);
+  padding: 28px 24px;
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(59, 38, 33, 0.98), var(--panel));
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.player-card h2 {
+  margin: 0 0 18px;
+  font-family: var(--font-head);
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+}
+
+.player-card h3 {
+  margin: 20px 0 10px;
+  font-family: var(--font-head);
+  font-size: 1.1rem;
+  color: var(--accent);
+}
+
+.stat-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 4px 0 14px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.stat-bar-fill.hp {
+  background: linear-gradient(90deg, #a83232, #c55c52);
+}
+
+.stat-bar-fill.mana {
+  background: linear-gradient(90deg, #2a6688, var(--accent-2));
+}
+
+.character-list {
+  list-style: none;
+  margin: 14px 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.character-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--panel-strong);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  cursor: pointer;
+  transition: border-color 140ms ease;
+}
+
+.character-item:hover,
+.character-item:focus {
+  border-color: var(--accent);
+  outline: none;
+}
