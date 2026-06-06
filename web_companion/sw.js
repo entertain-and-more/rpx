@@ -1,4 +1,4 @@
-const CACHE_NAME = "rpx-companion-v1";
+const CACHE_NAME = "rpx-companion-v2";
 const SHELL_FILES = [
   "./index.html",
   "./styles.css",
@@ -7,6 +7,10 @@ const SHELL_FILES = [
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-maskable.svg",
+  "./icons/Icon-192.png",
+  "./icons/Icon-512.png",
+  "./icons/Icon-maskable-192.png",
+  "./icons/Icon-maskable-512.png",
 ];
 
 self.addEventListener("install", (event) => {
