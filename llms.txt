@@ -1,0 +1,51 @@
+# rpx
+
+> RPX Pro — RolePlay Xtreme Professional Edition
+
+A professional, offline-capable, open-source control center for tabletop pen & paper RPG sessions.
+Built with Python + PySide6. Features a world system, soundboard, light effects, combat engine,
+AI prompt generator, JSON-RPC CLI/API, and a static PWA companion for bundle viewing.
+
+## Tools
+
+- `python RPX_Pro_1.py` — launch the desktop application
+- `python -m rpx_pro.app --cli` — start in JSON-RPC CLI mode for LLM control
+- `python -m pytest -q` — run Python test suite
+- `node --test web_companion/tests/library.test.mjs` — run web companion tests
+- `cd web_companion && python -m http.server 8765` — serve the PWA companion locally
+
+## Install
+
+```bash
+pip install -r requirements.txt
+python RPX_Pro_1.py
+```
+
+Requires Python 3.10+, PySide6 (Qt6). `pygame` is optional (audio fallback).
+
+## Audience
+
+- Tabletop RPG game masters looking for a desktop companion with AI integration
+- Developers building LLM-driven RPG tools who want a JSON-RPC CLI backend
+- Python/PySide6 developers studying modular Qt app architecture
+- AI assistants that need to interface with the RPX Pro API programmatically
+
+## Search Phrases
+
+- rpx pro pen paper tabletop control center python
+- rpx-campaign-bundle-v1 format
+- LLM game master assistant JSON-RPC CLI
+- offline RPG campaign manager PySide6
+- AI storytelling tool tabletop open source
+- entertain-and-more rpx github
+
+## Important Files
+
+- `README.md`: full documentation (English primary, German secondary)
+- `rpx_pro/api.py`: programmatic Python API
+- `rpx_pro/cli.py`: JSON-RPC CLI entry point
+- `web_companion/`: static PWA companion for bundle format
+- `EXPORTFORMAT.md`: `rpx-campaign-bundle-v1` bundle specification
+- `CHANGELOG.md`: version history
+
+## Last-checked: 2026-06-10

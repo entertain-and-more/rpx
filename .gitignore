@@ -98,3 +98,10 @@ DECISIONS.md
 PORTIERUNGSPLAN.md
 TODO.md
 DONE.md
+
+# ---- Entwicklungs-Artefakte / Build-Snapshots ----
+web_companion_FINAL_*/
+*PREFIXBAK*
+# docs/ enthält keine öffentlichen Projektdateien; GitHub Pages ist nicht aktiviert.
+# Wenn Pages künftig aus docs/ bedient wird, diesen Eintrag entfernen.
+docs/

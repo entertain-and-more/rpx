@@ -29,7 +29,10 @@ test("HTML-Shell bietet lokalen ZIP-Import an", async () => {
 test("Service Worker cached nur lokale Shell-Dateien", async () => {
   const sw = await readFile(resolve(baseDir, "sw.js"), "utf8");
 
-  assert.match(sw, /CACHE_NAME = "rpx-companion-v1"/);
+  assert.match(sw, /CACHE_NAME = "rpx-companion-v2"/);
   assert.match(sw, /index\.html/);
   assert.doesNotMatch(sw, /https?:\/\//);
+  assert.match(sw, /skipWaiting/, "skipWaiting fehlt — neue SW-Version wartet auf Tab-Schließung");
+  assert.match(sw, /clients\.claim/, "clients.claim fehlt — bestehende Seiten nicht sofort kontrolliert");
+  assert.match(sw, /ignoreSearch\s*:\s*true/, "ignoreSearch fehlt — Offline-Anfragen mit Query-Params verfehlen Cache");
 });

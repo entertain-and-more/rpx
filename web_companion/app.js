@@ -335,6 +335,8 @@ async function handleFile(file) {
   } catch (error) {
     bundleState = null;
     renderEmpty();
+    playerModeRow.classList.add("hidden");
+    hidePlayerMode();
     setStatus(error instanceof Error ? error.message : "Bundle konnte nicht geladen werden.", true);
   }
 }
@@ -343,6 +345,7 @@ fileInput.addEventListener("change", async (event) => {
   const [file] = event.target.files ?? [];
   if (file) {
     await handleFile(file);
+    fileInput.value = "";
   }
 });
 
