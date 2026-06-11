@@ -19,7 +19,7 @@ Offline-capable, free, and open source.
 | **Ruleset Import** | D&D 5e, DSA 5, Generic Fantasy — or custom JSON templates |
 | **AI Integration** | Prompt generator with 7 specialized AI roles |
 | **CLI / API** | JSON-RPC CLI for LLM control via stdin/stdout |
-| **Web/PWA Companion** | Reads local `rpx-campaign-bundle-v1` ZIPs for campaign overview, character status, missions, and media |
+| **Web/PWA Companion** | Reads local `rpx-campaign-bundle-v1` ZIPs for campaign overview, character status, missions, media, and restores the last loaded bundle for offline mobile restarts |
 | **Session Manager** | Missions, groups, round control |
 | **Characters** | Attributes, inventory dialog, gold, avatar, hunger/thirst simulation |
 | **Simulation** | Hunger/thirst timer, time progression, natural disasters |
@@ -63,6 +63,7 @@ python -m pytest -q
 python -m compileall -q RPX_Pro_1.py manage_translations.py translator.py rpx_pro tests
 node --test web_companion/tests/library.test.mjs
 node --test web_companion/tests/pwa.test.mjs
+node --test web_companion/tests/player.test.mjs
 ```
 
 ## Quick Start

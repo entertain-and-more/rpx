@@ -4,6 +4,7 @@ const fileInput = document.querySelector("#bundle-file");
 const dropzone = document.querySelector(".dropzone");
 const clearButton = document.querySelector("#clear-button");
 const statusNode = document.querySelector("#status");
+const installHintsNode = document.querySelector("#install-hints");
 const summaryNode = document.querySelector("#summary");
 const worldsNode = document.querySelector("#worlds");
 const sessionsNode = document.querySelector("#sessions");
@@ -20,6 +21,7 @@ playerModeRow.innerHTML = '<button class="ghost" id="player-mode-btn">Spieler-Mo
 statusNode.after(playerModeRow);
 playerModeRow.querySelector("#player-mode-btn").addEventListener("click", showPlayerMode);
 
+const STORAGE_KEY = "rpx-companion:last-bundle:v1";
 let bundleState = null;
 
 function escapeHtml(value) {
@@ -34,6 +36,111 @@ function escapeHtml(value) {
 function setStatus(message, isError = false) {
   statusNode.textContent = message;
   statusNode.classList.toggle("is-error", isError);
+}
+
+function detectPlatform() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  if (/iphone|ipad|ipod/.test(userAgent)) {
+    return "ios";
+  }
+  if (userAgent.includes("android")) {
+    return "android";
+  }
+  return "desktop";
+}
+
+function isStandaloneMode() {
+  return Boolean(window.matchMedia?.("(display-mode: standalone)")?.matches || navigator.standalone);
+}
+
+function saveBundleSnapshot(bundle) {
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        version: 1,
+        savedAt: Date.now(),
+        bundle,
+      })
+    );
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function clearBundleSnapshot() {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // ignore
+  }
+}
+
+function restoreBundleSnapshot() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      return null;
+    }
+    const parsed = JSON.parse(raw);
+    if (parsed?.version !== 1 || parsed?.bundle?.manifest?.format !== "rpx-campaign-bundle-v1") {
+      clearBundleSnapshot();
+      return null;
+    }
+    return parsed.bundle;
+  } catch {
+    clearBundleSnapshot();
+    return null;
+  }
+}
+
+function renderInstallHints() {
+  const platform = detectPlatform();
+  const hints = [];
+  const standalone = isStandaloneMode();
+
+  if (platform === "ios") {
+    hints.push({
+      title: standalone ? "iPhone/iPad als App" : "iPhone/iPad installieren",
+      body: standalone
+        ? "Die PWA läuft im Standalone-Modus. Zuletzt geladene Bundles werden lokal für Offline-Starts wiederhergestellt."
+        : "Über Teilen → Zum Home-Bildschirm kann der Companion ohne Safari-Chrome gestartet werden."
+    });
+  } else if (platform === "android") {
+    hints.push({
+      title: standalone ? "Android-App aktiv" : "Android installieren",
+      body: standalone
+        ? "Die PWA läuft installiert. Bundle-Stand und Offline-Shell bleiben lokal auf dem Gerät."
+        : "Über Browser-Menü → App installieren oder Zum Startbildschirm hinzufügen wird der Companion zur App."
+    });
+  } else {
+    hints.push({
+      title: "Desktop- und Tablet-Companion",
+      body: "Für mobile Prüfungen denselben Build als PWA auf Android oder iOS installieren; Desktop bleibt die GM-Hauptlinie."
+    });
+  }
+
+  hints.push({
+    title: navigator.onLine ? "Offline bereit" : "Offline aktiv",
+    body: navigator.onLine
+      ? "Nach dem ersten Öffnen hält der Service Worker die Shell-Dateien lokal vor. Der letzte geladene Bundle-Stand wird zusätzlich im Gerätespeicher gehalten."
+      : "Die App läuft gerade offline. Wenn bereits ein Bundle geladen war, wird der zuletzt gespeicherte Stand lokal wiederhergestellt."
+  });
+
+  if (!bundleState) {
+    hints.push({
+      title: "Erster Testschritt",
+      body: "Für Android-/iOS-Smokes zuerst ein kleines Kampagnen-Bundle importieren und danach den Offline-Neustart gegen den Testplan prüfen."
+    });
+  }
+
+  installHintsNode.innerHTML = hints.map((hint) => `
+    <article class="hint-card">
+      <div class="hint-title">${escapeHtml(hint.title)}</div>
+      <p>${escapeHtml(hint.body)}</p>
+    </article>
+  `).join("");
 }
 
 function renderEmpty() {
@@ -246,7 +353,7 @@ function renderBundle(bundle) {
 }
 
 function renderStatBar(current, max, cssClass) {
-  const pct = (max > 0 && current != null) ? Math.round((current / max) * 100) : 0;
+  const pct = max > 0 && current != null ? Math.round((current / max) * 100) : 0;
   return `<div class="stat-bar"><div class="stat-bar-fill ${escapeHtml(cssClass)}" style="width:${pct}%"></div></div>`;
 }
 
@@ -268,7 +375,7 @@ function renderPlayerCard(view) {
       </ul>
       <h3>Aktive Missionen</h3>
       ${activeMissions.length
-        ? `<div class="pill-row">${activeMissions.map((m) => `<span class="pill">${escapeHtml(m.name)}</span>`).join("")}</div>`
+        ? `<div class="pill-row">${activeMissions.map((mission) => `<span class="pill">${escapeHtml(mission.name)}</span>`).join("")}</div>`
         : '<p class="meta-note">Keine aktiven Missionen.</p>'}
       <div class="button-row"><button class="ghost" id="player-pick">← Auswahl</button></div>
     </div>
@@ -290,23 +397,25 @@ function renderPlayerPicker(bundle) {
     playerOverlay.querySelector("#player-back").addEventListener("click", hidePlayerMode);
     return;
   }
+
   playerOverlay.innerHTML = `
     <div class="player-card">
       <h2>Spieler-Modus</h2>
       <p class="meta-note">Wähle deinen Charakter:</p>
       <ul class="character-list">
-        ${characters.map((c) => `
+        ${characters.map((character) => `
           <li class="character-item"
-              data-session="${escapeHtml(c.sessionId)}"
-              data-character="${escapeHtml(c.characterId)}">
-            <strong>${escapeHtml(c.characterName)}</strong>
-            <span class="meta-note">${escapeHtml(c.sessionName)}</span>
+              data-session="${escapeHtml(character.sessionId)}"
+              data-character="${escapeHtml(character.characterId)}">
+            <strong>${escapeHtml(character.characterName)}</strong>
+            <span class="meta-note">${escapeHtml(character.sessionName)}</span>
           </li>
         `).join("")}
       </ul>
       <div class="button-row"><button class="ghost" id="player-back">← Zurück</button></div>
     </div>
   `;
+
   playerOverlay.querySelectorAll(".character-item").forEach((item) => {
     item.addEventListener("click", () => {
       const view = getPlayerView(bundle, item.dataset.session, item.dataset.character);
@@ -325,19 +434,42 @@ function hidePlayerMode() {
   playerOverlay.classList.add("hidden");
 }
 
+function applyBundle(bundle) {
+  bundleState = bundle;
+  renderBundle(bundleState);
+  playerModeRow.classList.remove("hidden");
+  hidePlayerMode();
+  renderInstallHints();
+}
+
 async function handleFile(file) {
+  const previousBundle = bundleState;
   try {
     setStatus(`Lade ${file.name} …`);
-    bundleState = await loadBundleFromFile(file);
-    renderBundle(bundleState);
-    playerModeRow.classList.remove("hidden");
-    setStatus(`Bundle ${file.name} erfolgreich geladen.`);
+    const loadedBundle = await loadBundleFromFile(file);
+    applyBundle(loadedBundle);
+    const persisted = saveBundleSnapshot(bundleState);
+    setStatus(
+      persisted
+        ? `Bundle ${file.name} erfolgreich geladen. Offline-Wiedereinstieg ist vorbereitet.`
+        : `Bundle ${file.name} erfolgreich geladen. Die lokale Wiederherstellung konnte auf diesem Gerät nicht gespeichert werden.`,
+      !persisted
+    );
   } catch (error) {
-    bundleState = null;
-    renderEmpty();
-    playerModeRow.classList.add("hidden");
-    hidePlayerMode();
-    setStatus(error instanceof Error ? error.message : "Bundle konnte nicht geladen werden.", true);
+    if (previousBundle) {
+      applyBundle(previousBundle);
+      setStatus(
+        `${error instanceof Error ? error.message : "Bundle konnte nicht geladen werden."} Das vorherige Bundle bleibt sichtbar.`,
+        true
+      );
+    } else {
+      bundleState = null;
+      renderEmpty();
+      playerModeRow.classList.add("hidden");
+      hidePlayerMode();
+      renderInstallHints();
+      setStatus(error instanceof Error ? error.message : "Bundle konnte nicht geladen werden.", true);
+    }
   }
 }
 
@@ -373,11 +505,13 @@ dropzone.addEventListener("drop", async (event) => {
 
 clearButton.addEventListener("click", () => {
   bundleState = null;
+  clearBundleSnapshot();
   fileInput.value = "";
   renderEmpty();
   playerModeRow.classList.add("hidden");
   hidePlayerMode();
-  setStatus("Ansicht geleert.");
+  renderInstallHints();
+  setStatus("Ansicht geleert. Lokaler Bundle-Stand wurde entfernt.");
 });
 
 if ("serviceWorker" in navigator) {
@@ -388,4 +522,16 @@ if ("serviceWorker" in navigator) {
   });
 }
 
+window.addEventListener("online", renderInstallHints);
+window.addEventListener("offline", renderInstallHints);
+
 renderEmpty();
+renderInstallHints();
+
+const restoredBundle = restoreBundleSnapshot();
+if (restoredBundle) {
+  applyBundle(restoredBundle);
+  setStatus(
+    `Zuletzt geladenes Bundle ${restoredBundle.sourceName ?? "Unbekannt"} wurde lokal für den Offline-Start wiederhergestellt.`
+  );
+}

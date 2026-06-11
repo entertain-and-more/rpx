@@ -2,11 +2,16 @@
   "name": "RPX Pro Companion",
   "short_name": "RPX Companion",
   "description": "Offline-PWA zum Lesen lokaler RPX-Pro-Kampagnen-Bundles.",
-  "start_url": "./index.html",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "browser"],
+  "orientation": "portrait-primary",
   "background_color": "#130d0c",
   "theme_color": "#241714",
   "lang": "de",
+  "categories": ["games", "entertainment", "utilities"],
   "icons": [
     {
       "src": "./icons/Icon-192.png",

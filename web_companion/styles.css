@@ -24,6 +24,11 @@ body {
   min-height: 100vh;
   font-family: var(--font-body);
   color: var(--text);
+  padding:
+    env(safe-area-inset-top, 0)
+    env(safe-area-inset-right, 0)
+    env(safe-area-inset-bottom, 0)
+    env(safe-area-inset-left, 0);
   background:
     radial-gradient(circle at top, rgba(212, 156, 90, 0.18), transparent 32%),
     linear-gradient(180deg, #241714 0%, #130d0c 58%, #0b0807 100%);
@@ -145,8 +150,10 @@ button {
   border: 0;
   border-radius: 999px;
   padding: 12px 18px;
+  min-height: 44px;
   font: inherit;
   cursor: pointer;
+  touch-action: manipulation;
   transition: transform 140ms ease, background 140ms ease, opacity 140ms ease;
 }
 
@@ -171,6 +178,33 @@ button:active {
 
 .status.is-error {
   color: var(--danger);
+}
+
+.hint-stack {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.hint-card {
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(11, 8, 7, 0.35);
+}
+
+.hint-card p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.hint-title {
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .summary-grid,
@@ -427,6 +461,7 @@ button:active {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-height: 56px;
   padding: 16px;
   border-radius: 16px;
   background: var(--panel-strong);
@@ -439,4 +474,26 @@ button:active {
 .character-item:focus {
   border-color: var(--accent);
   outline: none;
+}
+
+@media (max-width: 560px) {
+  .button-row {
+    justify-content: stretch;
+  }
+
+  .button-row button {
+    width: 100%;
+  }
+
+  .dropzone {
+    padding: 22px 18px;
+  }
+
+  .player-overlay {
+    padding:
+      calc(12px + env(safe-area-inset-top, 0))
+      calc(12px + env(safe-area-inset-right, 0))
+      calc(16px + env(safe-area-inset-bottom, 0))
+      calc(12px + env(safe-area-inset-left, 0));
+  }
 }

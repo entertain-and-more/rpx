@@ -2,9 +2,12 @@
 <html lang="de">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#241714">
     <meta name="description" content="Offline-PWA-Companion für RPX-Pro-Kampagnen-Bundles.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="RPX Companion">
     <link rel="manifest" href="./manifest.webmanifest">
     <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="./icons/Icon-192.png">
@@ -44,6 +47,8 @@
           <p id="status" class="status" role="status" aria-live="polite">
             Noch kein Bundle geladen.
           </p>
+
+          <div id="install-hints" class="hint-stack" aria-live="polite"></div>
         </section>
 
         <section class="panel summary-panel">
@@ -88,7 +93,7 @@
 
         <section class="panel">
           <div class="panel-head">
-            <h2>Karten & Medien</h2>
+            <h2>Karten &amp; Medien</h2>
             <p>Referenzen aus <code>media/manifest.json</code>.</p>
           </div>
           <div id="media" class="stack empty-state">
