@@ -8,6 +8,8 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 ### Documentation
 - Restructured README.md to English-first; German documentation retained as collapsible secondary section.
 - Added `llms.txt` with project description, tools, install instructions, audience, and search phrases.
+- Standardized `llms.txt`: moved `Last-checked` header to first line, converted Search Phrases to fenced
+  code block, added canonical repository URL and two additional search phrases.
 
 ### Maintenance
 - Added `web_companion_FINAL_*/`, `*PREFIXBAK*`, and `docs/` to `.gitignore` to prevent stale build artifacts from being tracked.

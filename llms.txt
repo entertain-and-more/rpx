@@ -1,6 +1,10 @@
+## Last-checked: 2026-06-11
+
 # rpx
 
 > RPX Pro — RolePlay Xtreme Professional Edition
+
+Canonical repository: https://github.com/entertain-and-more/rpx
 
 A professional, offline-capable, open-source control center for tabletop pen & paper RPG sessions.
 Built with Python + PySide6. Features a world system, soundboard, light effects, combat engine,
@@ -32,12 +36,16 @@ Requires Python 3.10+, PySide6 (Qt6). `pygame` is optional (audio fallback).
 
 ## Search Phrases
 
-- rpx pro pen paper tabletop control center python
-- rpx-campaign-bundle-v1 format
-- LLM game master assistant JSON-RPC CLI
-- offline RPG campaign manager PySide6
-- AI storytelling tool tabletop open source
-- entertain-and-more rpx github
+```
+rpx pro pen paper tabletop control center python
+rpx-campaign-bundle-v1 format
+LLM game master assistant JSON-RPC CLI
+offline RPG campaign manager PySide6
+AI storytelling tool tabletop open source
+entertain-and-more rpx github
+rpx roleplay xtreme professional python pyside6
+tabletop rpg desktop app json-rpc api
+```
 
 ## Important Files
 
@@ -47,5 +55,3 @@ Requires Python 3.10+, PySide6 (Qt6). `pygame` is optional (audio fallback).
 - `web_companion/`: static PWA companion for bundle format
 - `EXPORTFORMAT.md`: `rpx-campaign-bundle-v1` bundle specification
 - `CHANGELOG.md`: version history
-
-## Last-checked: 2026-06-10
