@@ -51,6 +51,15 @@ Speichern und laden Sie beliebig viele Sessions. Missionen verfolgen, Runden ste
 - Gruppen, die am Tisch mit einem Laptop oder Bildschirm spielen
 - Alle, die ein offline-fähiges, kostenloses Alternativtool zu Roll20 oder Foundry VTT suchen
 
+### Screenshot-Set (reproduzierbar)
+
+- `README/screenshots/store/main-window.png`
+- `README/screenshots/store/world-map.png`
+- `README/screenshots/store/player-screen.png`
+- `README/screenshots/store/soundboard.png`
+- `README/screenshots/store/ai-prompts.png`
+- Generator: `python generate_store_screenshots.py`
+
 ### Schlüsselwörter
 Pen and Paper, Rollenspiel, D&D, Dungeons and Dragons, DSA, Das Schwarze Auge, RPG, Spielleiter, Game Master, Dungeon Master, Soundboard, Virtual Tabletop, VTT, Charakterbogen, Würfelsystem, Kampfsystem, KI, AI, Weltenbau
 
@@ -109,6 +118,15 @@ Save and load unlimited sessions. Track missions, manage turns, automatically lo
 - D&D, DSA, Pathfinder, and other rulesets
 - Groups playing at the table with a laptop or screen
 - Anyone looking for an offline-capable, free alternative to Roll20 or Foundry VTT
+
+### Screenshot set (reproducible)
+
+- `README/screenshots/store/main-window.png`
+- `README/screenshots/store/world-map.png`
+- `README/screenshots/store/player-screen.png`
+- `README/screenshots/store/soundboard.png`
+- `README/screenshots/store/ai-prompts.png`
+- Generator: `python generate_store_screenshots.py`
 
 ### Keywords
 Pen and Paper, Role Playing Game, D&D, Dungeons and Dragons, DSA, The Dark Eye, RPG, Game Master, Dungeon Master, Soundboard, Virtual Tabletop, VTT, Character Sheet, Dice System, Combat System, AI, World Building

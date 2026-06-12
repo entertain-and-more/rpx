@@ -56,11 +56,23 @@ python -m PyInstaller --noconfirm --clean RPX_Pro.spec
 Build output lands in `dist/RPX_Pro/`. The spec file includes `rulesets/`; runtime data stays in `rpx_pro_data/`.
 `build/`, `dist/`, `releases/`, and `_WARTUNG/` are local build/staging directories and are not versioned.
 
+## Windows Store Screenshots
+
+Reproducible Store screenshots are generated with:
+
+```bash
+python generate_store_screenshots.py
+```
+
+The generator writes anonymized demo screenshots to `README/screenshots/store/`
+and documents the file set in `README/screenshots/store/README.md`.
+
 ## Tests
 
 ```bash
 python -m pytest -q
 python -m compileall -q RPX_Pro_1.py manage_translations.py translator.py rpx_pro tests
+python generate_store_screenshots.py
 node --test web_companion/tests/library.test.mjs
 node --test web_companion/tests/pwa.test.mjs
 node --test web_companion/tests/player.test.mjs

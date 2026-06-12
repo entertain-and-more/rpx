@@ -25,6 +25,12 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 - Android-/iOS-PWA-Härtung ergänzt: `viewport-fit=cover`, Installhinweise, Safe-Area-Abstände und 44px-Touch-Ziele.
 - Neuer `web_companion/PWA_TESTPLAN.md` beschreibt Bundle-Import, Touch-Layout, Installation und Offline-Start für Android/iOS.
 
+### Store
+
+- Reproduzierbaren Screenshot-Generator `generate_store_screenshots.py` für den Windows-Store-Strang ergänzt.
+- Neues Screenshot-Set unter `README/screenshots/store/`: Hauptfenster, Weltkarte, Spieler-Bildschirm, Soundboard und KI-Prompts.
+- Regressionstest `tests/test_store_screenshots.py` deckt PNG-Erzeugung, Mindestgröße und `summary.json` ab.
+
 ### Hinzugefügt / Added
 - README-Hinweise für Screenshot, EXE-Build, lokales Datenschutzmodell und aktuelles GitHub-Repository ergänzt.
 - GitHub Actions Syntax-Smoke-Test für Python 3.10-3.12 ergänzt.
