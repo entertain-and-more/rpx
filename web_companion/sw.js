@@ -44,6 +44,17 @@ self.addEventListener("fetch", (event) => {
   }
 
   event.respondWith(
-    caches.match(event.request, { ignoreSearch: true }).then((cached) => cached || fetch(event.request))
+    caches.match(event.request, { ignoreSearch: true }).then((cached) => {
+      if (cached) {
+        return cached;
+      }
+      return fetch(event.request).catch(() =>
+        new Response("Offline – Ressource nicht im Cache.", {
+          status: 503,
+          statusText: "Service Unavailable",
+          headers: { "Content-Type": "text/plain; charset=utf-8" },
+        })
+      );
+    })
   );
 });

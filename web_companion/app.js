@@ -498,8 +498,8 @@ fileInput.addEventListener("change", async (event) => {
 dropzone.addEventListener("drop", async (event) => {
   const [file] = event.dataTransfer?.files ?? [];
   if (file) {
-    fileInput.files = event.dataTransfer.files;
     await handleFile(file);
+    fileInput.value = "";
   }
 });
 
