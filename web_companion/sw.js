@@ -1,4 +1,4 @@
-const CACHE_NAME = "rpx-companion-v3";
+const CACHE_NAME = "rpx-companion-v4";
 const SHELL_FILES = [
   "./index.html",
   "./styles.css",
@@ -11,6 +11,7 @@ const SHELL_FILES = [
   "./icons/Icon-512.png",
   "./icons/Icon-maskable-192.png",
   "./icons/Icon-maskable-512.png",
+  "./icons/apple-touch-icon-180.png",
 ];
 
 self.addEventListener("install", (event) => {
