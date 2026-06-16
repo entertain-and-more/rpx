@@ -67,12 +67,12 @@ test("iOS PWA: apple-touch-icon-180.png existiert physisch", async () => {
   );
 });
 
-test("iOS PWA: apple-touch-icon verweist auf 180px-Icon", async () => {
+test("iOS PWA: apple-touch-icon verweist auf 180px-Icon mit sizes=180x180", async () => {
   const html = await readFile(resolve(baseDir, "index.html"), "utf8");
   assert.match(
     html,
-    /rel="apple-touch-icon" href="\.\/icons\/apple-touch-icon-180\.png"/,
-    "apple-touch-icon muss auf apple-touch-icon-180.png zeigen"
+    /rel="apple-touch-icon" sizes="180x180" href="\.\/icons\/apple-touch-icon-180\.png"/,
+    "apple-touch-icon muss sizes=\"180x180\" und apple-touch-icon-180.png haben"
   );
 });
 
