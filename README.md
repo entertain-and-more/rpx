@@ -1,11 +1,14 @@
+<img src="assets/banner.svg" width="100%" alt="RPX Pro — RolePlay Xtreme Professional Edition" />
+
 # RPX Pro — RolePlay Xtreme Professional Edition
 
-A professional role-playing game control center for tabletop pen & paper adventures.
-Offline-capable, free, and open source.
+> Professional role-playing game control center for tabletop pen & paper adventures. Offline-capable, free, and open source.
+
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
+[![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey.svg)](https://github.com/entertain-and-more/rpx)
 
 ![RPX Pro Main Window](README/screenshots/main.png)
-
-**Repository:** https://github.com/entertain-and-more/rpx
 
 ## Features
 

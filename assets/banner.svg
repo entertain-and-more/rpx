@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 340" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#08060c" />
+      <stop offset="50%" stop-color="#120e20" />
+      <stop offset="100%" stop-color="#0a0812" />
+    </linearGradient>
+    
+    <!-- Gold Metallic Gradient -->
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffe57f" />
+      <stop offset="30%" stop-color="#ffc107" />
+      <stop offset="70%" stop-color="#ff9800" />
+      <stop offset="100%" stop-color="#b78103" />
+    </linearGradient>
+
+    <!-- Silver Metallic Gradient for Blades -->
+    <linearGradient id="silverGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="45%" stop-color="#cfd8dc" />
+      <stop offset="75%" stop-color="#90a4ae" />
+      <stop offset="100%" stop-color="#455a64" />
+    </linearGradient>
+
+    <!-- Border Gradient -->
+    <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffe57f" stop-opacity="0.35" />
+      <stop offset="50%" stop-color="#b78103" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#ffe57f" stop-opacity="0.35" />
+    </linearGradient>
+
+    <!-- Radial Glow behind the Icon -->
+    <radialGradient id="iconGlow" cx="240" cy="180" r="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#512da8" stop-opacity="0.35" />
+      <stop offset="50%" stop-color="#311b92" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#08060c" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Soft Glow behind the Text -->
+    <radialGradient id="textGlow" cx="750" cy="180" r="350" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#512da8" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#08060c" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Filters for Glow and Shadow -->
+    <filter id="magicGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur1" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.75" />
+    </filter>
+
+    <!-- Shared Sparkle Definition -->
+    <g id="sparkle">
+      <path d="M 0 -10 Q 0 0 10 0 Q 0 0 0 10 Q 0 0 -10 0 Q 0 0 0 -10 Z" fill="url(#goldGradient)" />
+    </g>
+
+    <!-- Reusable Fantasy Sword Template (centered at 0,0 pointing up) -->
+    <g id="sword">
+      <!-- Blade -->
+      <path d="M 0 -120 L 4.5 -108 L 4.5 25 L -4.5 25 L -4.5 -108 Z" fill="url(#silverGradient)" />
+      <!-- Central ridge (fuller) -->
+      <line x1="0" y1="-115" x2="0" y2="25" stroke="#1c2d37" stroke-width="1.2" opacity="0.5" />
+      <!-- Sword guard -->
+      <path d="M -20 25 L 20 25 L 24 29 L 8 32 L 0 36 L -8 32 L -24 29 Z" fill="url(#goldGradient)" filter="url(#shadow)" />
+      <!-- Guard Gems/Details -->
+      <circle cx="0" cy="30" r="1.8" fill="#ffffff" opacity="0.95" />
+      <circle cx="-14" cy="28" r="1.2" fill="#ffffff" opacity="0.75" />
+      <circle cx="14" cy="28" r="1.2" fill="#ffffff" opacity="0.75" />
+      <!-- Grip (wrapped leather look) -->
+      <rect x="-2.5" y="36" width="5" height="38" rx="0.8" fill="#4e342e" />
+      <line x1="-2.5" y1="42" x2="2.5" y2="42" stroke="#3e2723" stroke-width="0.8" />
+      <line x1="-2.5" y1="48" x2="2.5" y2="48" stroke="#3e2723" stroke-width="0.8" />
+      <line x1="-2.5" y1="54" x2="2.5" y2="54" stroke="#3e2723" stroke-width="0.8" />
+      <line x1="-2.5" y1="60" x2="2.5" y2="60" stroke="#3e2723" stroke-width="0.8" />
+      <line x1="-2.5" y1="66" x2="2.5" y2="66" stroke="#3e2723" stroke-width="0.8" />
+      <line x1="-2.5" y1="72" x2="2.5" y2="72" stroke="#3e2723" stroke-width="0.8" />
+      <!-- Pommel -->
+      <circle cx="0" cy="80" r="5.5" fill="url(#goldGradient)" filter="url(#shadow)" />
+      <path d="M -2.5 80 L 2.5 80" stroke="#b78103" stroke-width="0.8" />
+    </g>
+  </defs>
+
+  <!-- Background Base (Fills whole canvas) -->
+  <rect width="1200" height="340" fill="url(#bgGradient)" />
+
+  <!-- Ambient Glows -->
+  <circle cx="240" cy="180" r="220" fill="url(#iconGlow)" />
+  <circle cx="750" cy="180" r="350" fill="url(#textGlow)" />
+
+  <!-- ==================== SAFE ZONE BORDER (Visual Framing) ==================== -->
+  <rect x="80" y="60" width="1040" height="240" rx="8" fill="none" stroke="url(#borderGradient)" stroke-width="1.5" opacity="0.4" />
+  
+  <!-- Corner Ornamental Brackets (Strictly inside safe zone boundary) -->
+  <!-- Top Left -->
+  <path d="M 95 70 L 70 70 L 70 95" fill="none" stroke="url(#goldGradient)" stroke-width="1.2" opacity="0.35" transform="translate(10, -10)" />
+  <!-- Top Right -->
+  <path d="M 1125 70 L 1150 70 L 1150 95" fill="none" stroke="url(#goldGradient)" stroke-width="1.2" opacity="0.35" transform="translate(-30, -10)" />
+  <!-- Bottom Left -->
+  <path d="M 95 290 L 70 290 L 70 265" fill="none" stroke="url(#goldGradient)" stroke-width="1.2" opacity="0.35" transform="translate(10, 10)" />
+  <!-- Bottom Right -->
+  <path d="M 1125 290 L 1150 290 L 1150 265" fill="none" stroke="url(#goldGradient)" stroke-width="1.2" opacity="0.35" transform="translate(-30, 10)" />
+
+  <!-- ==================== ICON GROUP (LEFT) ==================== -->
+  <!-- Crossed Swords (Behind Die) -->
+  <g filter="url(#shadow)">
+    <!-- Sword 1: Diagonal Top-Right to Bottom-Left -->
+    <use href="#sword" transform="translate(240, 180) rotate(45)" />
+    <!-- Sword 2: Diagonal Top-Left to Bottom-Right -->
+    <use href="#sword" transform="translate(240, 180) rotate(-45)" />
+  </g>
+
+  <!-- Glowing Magic Sparkles around Swords and Die (Inside safe zone) -->
+  <use href="#sparkle" transform="translate(145, 105) scale(0.8)" opacity="0.85" filter="url(#magicGlow)" />
+  <use href="#sparkle" transform="translate(335, 105) scale(0.6)" opacity="0.75" filter="url(#magicGlow)" />
+  <use href="#sparkle" transform="translate(155, 240) scale(0.6)" opacity="0.75" filter="url(#magicGlow)" />
+  <use href="#sparkle" transform="translate(325, 235) scale(0.7)" opacity="0.8" filter="url(#magicGlow)" />
+  <use href="#sparkle" transform="translate(240, 85) scale(0.5)" opacity="0.9" filter="url(#magicGlow)" />
+
+  <!-- Twenty-sided Die (d20) -->
+  <g filter="url(#shadow)">
+    <!-- Outer Hexagon / Faces (3D shaded glass-metallic look) -->
+    <!-- Top-Center-Left Face -->
+    <polygon points="240,105 240,150 175,142.5" fill="#2e1859" stroke="url(#goldGradient)" stroke-width="2.2" stroke-linejoin="round" />
+    <!-- Top-Center-Right Face -->
+    <polygon points="240,105 305,142.5 240,150" fill="#3a2070" stroke="url(#goldGradient)" stroke-width="2.2" stroke-linejoin="round" />
+    
+    <!-- Central Face (d20 number face, pointing down) -->
+    <polygon points="240,150 275,200 205,200" fill="#321b64" stroke="url(#goldGradient)" stroke-width="2.2" stroke-linejoin="round" />
+    
+    <!-- Middle-Right Face -->
+    <polygon points="305,142.5 275,200 240,150" fill="#221042" stroke="url(#goldGradient)" stroke-width="2.2" stroke-linejoin="round" />
+    <!-- Middle-Left Face -->
+    <polygon points="175,142.5 240,150 205,200" fill="#2e1859" stroke="url(#goldGradient)" stroke-width="2.2" stroke-linejoin="round" />
+    
+    <!-- Right-Upper Outer Face -->
+    <polygon points="305,142.5 305,217.5 275,200" fill="#160a2b" stroke="url(#goldGradient)" stroke-width="2.2" stroke-linejoin="round" />
+    <!-- Right-Lower Outer Face -->
+    <polygon points="305,217.5 240,255 275,200" fill="#0d051c" stroke="url(#goldGradient)" stroke-width="2.2" stroke-linejoin="round" />
+    
+    <!-- Left-Upper Outer Face -->
+    <polygon points="175,142.5 205,200 175,217.5" fill="#221042" stroke="url(#goldGradient)" stroke-width="2.2" stroke-linejoin="round" />
+    <!-- Left-Lower Outer Face -->
+    <polygon points="175,217.5 205,200 240,255" fill="#160a2b" stroke="url(#goldGradient)" stroke-width="2.2" stroke-linejoin="round" />
+    
+    <!-- Bottom-Center Face -->
+    <polygon points="275,200 240,255 205,200" fill="#0d051c" stroke="url(#goldGradient)" stroke-width="2.2" stroke-linejoin="round" />
+
+    <!-- Stylized "20" on Central Face -->
+    <text x="240" y="185" 
+          font-family="'Georgia', 'Times New Roman', serif" 
+          font-size="28" 
+          font-weight="900" 
+          fill="url(#goldGradient)" 
+          text-anchor="middle" 
+          dominant-baseline="central" 
+          letter-spacing="0.5" 
+          filter="drop-shadow(0px 2px 3px rgba(0,0,0,0.95))">20</text>
+  </g>
+
+  <!-- ==================== TYPOGRAPHY GROUP (RIGHT) ==================== -->
+  <!-- Wordmark 'RPX Pro' -->
+  <g filter="url(#shadow)">
+    <!-- RPX Text (Serif Fantasy Style, Elegant Georgia) -->
+    <text x="490" y="165" 
+          font-family="'Georgia', 'Times New Roman', serif" 
+          font-size="82" 
+          font-weight="bold" 
+          fill="url(#goldGradient)" 
+          dominant-baseline="central" 
+          letter-spacing="5">RPX</text>
+    
+    <!-- PRO Pill Badge -->
+    <g transform="translate(705, 121)">
+      <!-- Glow & border for the pill -->
+      <rect width="105" height="42" rx="21" fill="#140f24" stroke="url(#goldGradient)" stroke-width="2" />
+      <text x="52.5" y="22" 
+            font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" 
+            font-size="20" 
+            font-weight="900" 
+            fill="url(#goldGradient)" 
+            text-anchor="middle" 
+            dominant-baseline="central" 
+            letter-spacing="2">PRO</text>
+    </g>
+  </g>
+
+  <!-- Subtle divider line (starts and ends inside safe zone) -->
+  <line x1="490" y1="197" x2="1010" y2="197" stroke="url(#goldGradient)" stroke-width="1.5" opacity="0.4" />
+  <circle cx="490" cy="197" r="2.5" fill="url(#goldGradient)" opacity="0.6" />
+  <circle cx="1010" cy="197" r="2.5" fill="url(#goldGradient)" opacity="0.6" />
+
+  <!-- Tagline (Clean system-ui font stack) -->
+  <text x="490" y="233" 
+        font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" 
+        font-size="19" 
+        font-weight="500" 
+        fill="#a5a1c9" 
+        dominant-baseline="central" 
+        letter-spacing="3" 
+        opacity="0.95">ROLEPLAY XTREME — PROFESSIONAL EDITION</text>
+</svg>
