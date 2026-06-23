@@ -454,14 +454,23 @@ class WorldTab(QWidget):
 
         if dialog.exec() == QDialog.Accepted:
             new_skills = {}
+            def _cell_int(r, col, default):
+                # FIX: editierbare Skill-Zellen koennen leer/nicht-numerisch sein ->
+                # rohes int() crashte den Dialog-Accept mit ValueError.
+                it = table.item(r, col)
+                txt = (it.text() if it else "").strip()
+                try:
+                    return int(txt)
+                except (ValueError, TypeError):
+                    return default
             for row in range(table.rowCount()):
                 name_item = table.item(row, 0)
                 if not name_item or not name_item.text().strip():
                     continue
                 sname = name_item.text().strip()
-                max_lvl = int(table.item(row, 1).text()) if table.item(row, 1) else 10
-                str_per_lvl = int(table.item(row, 2).text()) if table.item(row, 2) else 0
-                hp_per_lvl = int(table.item(row, 3).text()) if table.item(row, 3) else 0
+                max_lvl = _cell_int(row, 1, 10)
+                str_per_lvl = _cell_int(row, 2, 0)
+                hp_per_lvl = _cell_int(row, 3, 0)
                 desc = table.item(row, 4).text() if table.item(row, 4) else ""
                 affects = {}
                 if str_per_lvl:

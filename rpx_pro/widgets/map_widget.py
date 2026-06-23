@@ -161,8 +161,10 @@ class MapWidget(QWidget):
             self.scene.removeItem(self._map_pixmap_item)
             self._map_pixmap_item = None
 
-        if map_path and Path(map_path).exists():
-            pixmap = QPixmap(map_path)
+        pixmap = QPixmap(map_path) if (map_path and Path(map_path).exists()) else None
+        if pixmap is not None and not pixmap.isNull():
+            # FIX: isNull-Guard -> ein korruptes/Nicht-Bild trotz exists() ergaebe
+            # sonst eine 0x0-SceneRect (Marker auf Ursprung gestapelt, kein Grid).
             self._map_pixmap_item = self.scene.addPixmap(pixmap)
             self._map_pixmap_item.setZValue(0)
             self.scene.setSceneRect(QRectF(pixmap.rect()))
@@ -313,6 +315,10 @@ class MapWidget(QWidget):
             return
         elem_id = generate_short_id()
         pixmap = QPixmap(path)
+        if pixmap.isNull():
+            # FIX: korruptes/Nicht-Bild nicht als leeres (unsichtbares) Element
+            # importieren und ins Welt-Modell persistieren.
+            return
         if pixmap.width() > 300:
             pixmap = pixmap.scaledToWidth(300, Qt.SmoothTransformation)
         item = QGraphicsPixmapItem(pixmap)

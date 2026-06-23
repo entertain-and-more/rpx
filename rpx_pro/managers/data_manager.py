@@ -1,7 +1,9 @@
 """DataManager: Zentralisierte Datenverwaltung fuer alle Entitaeten."""
 
 import json
+import os
 import time
+import tempfile
 import logging
 from pathlib import Path, PurePosixPath
 from zipfile import ZIP_DEFLATED, ZipFile
@@ -16,6 +18,27 @@ from rpx_pro.models.world import World, WorldSettings
 from rpx_pro.models.session import Session
 
 logger = logging.getLogger("RPX")
+
+
+def _atomic_write_json(path, obj) -> None:
+    """Schreibt JSON atomar (tmp + os.replace im selben Verzeichnis): ein Crash oder
+    OneDrive-Sync-Konflikt waehrend des Schreibens kann die bestehende Datei dann
+    nicht mehr truncaten/korrumpieren -> Schutz von config/Welt/Spielstand. save_session
+    laeuft bei nahezu jeder Spielaktion, das Crash-Fenster ist also real."""
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(dir=str(p.parent), suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(obj, f, ensure_ascii=False, indent=2)
+        os.replace(tmp, p)
+    except Exception:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
+
 
 MEDIA_PATH_KEYS = {
     "ambient_sound",
@@ -93,8 +116,7 @@ class DataManager:
                 self.config["last_world_id"] = self.current_world.id
             if self.current_session:
                 self.config["last_session_id"] = self.current_session.id
-            with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
-                json.dump(self.config, f, ensure_ascii=False, indent=2)
+            _atomic_write_json(CONFIG_FILE, self.config)
             logger.info("Konfiguration gespeichert")
         except Exception as e:
             logger.error(f"Fehler beim Speichern der Konfiguration: {e}")
@@ -132,8 +154,7 @@ class DataManager:
         """Speichert eine Welt"""
         try:
             path = WORLDS_DIR / f"{world.id}.json"
-            with open(path, 'w', encoding='utf-8') as f:
-                json.dump(world.to_dict(), f, ensure_ascii=False, indent=2)
+            _atomic_write_json(path, world.to_dict())
             self.worlds[world.id] = world
             logger.info(f"Welt gespeichert: {world.settings.name}")
             return True
@@ -146,8 +167,7 @@ class DataManager:
         try:
             session.last_modified = time.time()
             path = SESSIONS_DIR / f"{session.id}.json"
-            with open(path, 'w', encoding='utf-8') as f:
-                json.dump(session.to_dict(), f, ensure_ascii=False, indent=2)
+            _atomic_write_json(path, session.to_dict())
             self.sessions[session.id] = session
             logger.info(f"Session gespeichert: {session.name}")
             return True

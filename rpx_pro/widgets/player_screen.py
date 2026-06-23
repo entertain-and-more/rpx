@@ -685,21 +685,24 @@ class PlayerScreen(QMainWindow):
         self._characters_data = characters
         if self._mode == PlayerScreenMode.ROTATING:
             self._refresh_char_display(self.rot_chars_list)
-        elif self._mode == PlayerScreenMode.TILES and hasattr(self, "tile_chars_list"):
+        elif self._mode == PlayerScreenMode.TILES and self.tile_chars_list is not None:
+            # FIX: hasattr() ist immer True (Attribut in __init__ auf None gesetzt) ->
+            # bei deaktivierter Helden-Kachel war tile_chars_list None und
+            # _clear_layout(None) crashte mit AttributeError. is-not-None pruefen.
             self._refresh_char_display(self.tile_chars_list)
 
     def update_missions(self, missions: List[Any]):
         self._missions_data = missions
         if self._mode == PlayerScreenMode.ROTATING:
             self._refresh_missions_display(self.rot_missions_list)
-        elif self._mode == PlayerScreenMode.TILES and hasattr(self, "tile_missions_list"):
+        elif self._mode == PlayerScreenMode.TILES and self.tile_missions_list is not None:
             self._refresh_missions_display(self.tile_missions_list)
 
     def update_chat(self, messages: List[str]):
         self._chat_data = messages
         if self._mode == PlayerScreenMode.ROTATING:
             self._refresh_chat_display_browser(self.rot_chat_text)
-        elif self._mode == PlayerScreenMode.TILES and hasattr(self, "tile_chat_text"):
+        elif self._mode == PlayerScreenMode.TILES and self.tile_chat_text is not None:
             self._refresh_chat_display_browser(self.tile_chat_text)
 
     def update_turn_info(self, char_name: str, round_num: int, turn_order: List[str]):
@@ -718,7 +721,7 @@ class PlayerScreen(QMainWindow):
             old_timer.deleteLater()
 
         layouts = [self.rot_chars_list]
-        if hasattr(self, "tile_chars_list"):
+        if self.tile_chars_list is not None:  # FIX: hasattr immer True (Init=None) -> None.count()-Crash
             layouts.append(self.tile_chars_list)
         for target_layout in layouts:
             for i in range(target_layout.count()):
@@ -761,12 +764,12 @@ class PlayerScreen(QMainWindow):
         """Aktualisiert Inventar-Daten fuer die Inventar-Ansicht."""
         self._inventory_data = inventory_data
         if self._mode == PlayerScreenMode.TILES and self._enabled_views.get("inventory", False):
-            if hasattr(self, "tile_inventory_text"):
+            if self.tile_inventory_text is not None:
                 self._refresh_inventory_display()
 
     def _refresh_inventory_display(self):
         """Aktualisiert die Inventar-Kachel mit den aktuellen Daten."""
-        if not hasattr(self, "tile_inventory_text"):
+        if self.tile_inventory_text is None:
             return
         html = "<div style='font-family: monospace;'>"
         items = self._inventory_data.get("items", [])
