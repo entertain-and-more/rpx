@@ -33,6 +33,50 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+function createNode(tagName, className = "", text = null) {
+  const node = document.createElement(tagName);
+  if (className) {
+    node.className = className;
+  }
+  if (text != null) {
+    node.textContent = String(text);
+  }
+  return node;
+}
+
+function appendNode(parent, tagName, className = "", text = null) {
+  const node = createNode(tagName, className, text);
+  parent.appendChild(node);
+  return node;
+}
+
+function renderEmptyMessage(target, className, message) {
+  target.className = className;
+  target.replaceChildren(createNode("p", "", message));
+}
+
+function createMetaList(rows) {
+  const list = createNode("ul", "meta-list");
+  rows.forEach(([label, value]) => {
+    const item = createNode("li");
+    appendNode(item, "span", "", label);
+    appendNode(item, "strong", "", value);
+    list.appendChild(item);
+  });
+  return list;
+}
+
+function createPillRow(values, emptyText) {
+  const row = createNode("div", "pill-row");
+  const safeValues = values ?? [];
+  if (safeValues.length) {
+    safeValues.forEach((value) => row.appendChild(createNode("span", "pill", value)));
+  } else {
+    row.appendChild(createNode("span", "pill", emptyText));
+  }
+  return row;
+}
+
 function setStatus(message, isError = false) {
   statusNode.textContent = message;
   statusNode.classList.toggle("is-error", isError);
@@ -169,179 +213,160 @@ function formatTimestamp(value) {
 function renderSummary(bundle) {
   const { manifest, summary, sourceName } = bundle;
   summaryNode.className = "summary-grid";
-  summaryNode.innerHTML = `
-    <article class="stat-card">
-      <div class="label">Quelle</div>
-      <div class="value">${escapeHtml(sourceName)}</div>
-    </article>
-    <article class="stat-card">
-      <div class="label">Welten</div>
-      <div class="value">${summary.worldCount}</div>
-    </article>
-    <article class="stat-card">
-      <div class="label">Sessions</div>
-      <div class="value">${summary.sessionCount}</div>
-    </article>
-    <article class="stat-card">
-      <div class="label">Charaktere</div>
-      <div class="value">${summary.characterCount}</div>
-    </article>
-    <article class="stat-card">
-      <div class="label">Aktive Missionen</div>
-      <div class="value">${summary.activeMissionCount}</div>
-    </article>
-    <article class="stat-card">
-      <div class="label">Medienmodus</div>
-      <div class="value">${escapeHtml(manifest.media_mode ?? "none")}</div>
-    </article>
-    <article class="stat-card">
-      <div class="label">Exportiert</div>
-      <div class="value">${escapeHtml(formatTimestamp(manifest.exported_at))}</div>
-    </article>
-    <article class="stat-card">
-      <div class="label">Schema</div>
-      <div class="value">${escapeHtml(manifest.app?.schema_version ?? "–")}</div>
-    </article>
-  `;
+  const rows = [
+    ["Quelle", sourceName],
+    ["Welten", summary.worldCount],
+    ["Sessions", summary.sessionCount],
+    ["Charaktere", summary.characterCount],
+    ["Aktive Missionen", summary.activeMissionCount],
+    ["Medienmodus", manifest.media_mode ?? "none"],
+    ["Exportiert", formatTimestamp(manifest.exported_at)],
+    ["Schema", manifest.app?.schema_version ?? "–"],
+  ];
+  summaryNode.replaceChildren(...rows.map(([label, value]) => {
+    const card = createNode("article", "stat-card");
+    appendNode(card, "div", "label", label);
+    appendNode(card, "div", "value", value);
+    return card;
+  }));
 }
 
 function renderWorlds(bundle) {
   if (!bundle.worlds.length) {
-    worldsNode.className = "card-grid empty-state";
-    worldsNode.innerHTML = "<p>Im Bundle sind keine Welten eingetragen.</p>";
+    renderEmptyMessage(worldsNode, "card-grid empty-state", "Im Bundle sind keine Welten eingetragen.");
     return;
   }
 
   worldsNode.className = "card-grid";
-  worldsNode.innerHTML = bundle.worlds.map((world) => `
-    <article class="detail-card">
-      <h3>${escapeHtml(world.name)}</h3>
-      <p>${escapeHtml(world.genre)}</p>
-      <ul class="meta-list">
-        <li><span>Karten</span><strong>${world.mapCount}</strong></li>
-        <li><span>Orte</span><strong>${world.locationCount}</strong></li>
-        <li><span>Hauptkarte</span><strong>${escapeHtml(world.mapImage ?? "Keine")}</strong></li>
-      </ul>
-      <div class="pill-row">
-        ${world.featuredLocations.length
-          ? world.featuredLocations.map((location) => `<span class="pill">${escapeHtml(location)}</span>`).join("")
-          : '<span class="pill">Keine markierten Orte</span>'}
-      </div>
-    </article>
-  `).join("");
+  worldsNode.replaceChildren(...bundle.worlds.map((world) => {
+    const card = createNode("article", "detail-card");
+    appendNode(card, "h3", "", world.name);
+    appendNode(card, "p", "", world.genre);
+    card.appendChild(createMetaList([
+      ["Karten", world.mapCount],
+      ["Orte", world.locationCount],
+      ["Hauptkarte", world.mapImage ?? "Keine"],
+    ]));
+    card.appendChild(createPillRow(world.featuredLocations, "Keine markierten Orte"));
+    return card;
+  }));
 }
 
-function renderCharacters(characters) {
+function renderCharacters(parent, characters) {
   if (!characters.length) {
-    return "<p class=\"meta-note\">Keine Charaktere in dieser Session.</p>";
+    parent.appendChild(createNode("p", "meta-note", "Keine Charaktere in dieser Session."));
+    return;
   }
-  return characters.map((character) => `
-    <div class="chat-line">
-      <div><strong>${escapeHtml(character.name)}</strong></div>
-      <div class="meta-note">
-        HP ${escapeHtml(character.health ?? "–")}/${escapeHtml(character.maxHealth ?? "–")}
-        · Mana ${escapeHtml(character.mana ?? "–")}/${escapeHtml(character.maxMana ?? "–")}
-        · Gold ${escapeHtml(character.gold ?? "–")}
-      </div>
-    </div>
-  `).join("");
+  characters.forEach((character) => {
+    const line = createNode("div", "chat-line");
+    const nameRow = createNode("div");
+    appendNode(nameRow, "strong", "", character.name);
+    line.appendChild(nameRow);
+    appendNode(
+      line,
+      "div",
+      "meta-note",
+      `HP ${character.health ?? "–"}/${character.maxHealth ?? "–"} · Mana ${character.mana ?? "–"}/${character.maxMana ?? "–"} · Gold ${character.gold ?? "–"}`
+    );
+    parent.appendChild(line);
+  });
 }
 
-function renderMissions(session) {
+function renderMissions(parent, session) {
   if (!session.activeMissions.length) {
-    return `<p class="meta-note">Keine aktiven Missionen. Abgeschlossen: ${session.completedMissionCount}</p>`;
+    parent.appendChild(
+      createNode("p", "meta-note", `Keine aktiven Missionen. Abgeschlossen: ${session.completedMissionCount}`)
+    );
+    return;
   }
-  return `
-    <div class="pill-row">
-      ${session.activeMissions.map((mission) => `<span class="pill">${escapeHtml(mission.name)}</span>`).join("")}
-    </div>
-    <p class="meta-note">Abgeschlossen: ${session.completedMissionCount}</p>
-  `;
+  parent.appendChild(createPillRow(session.activeMissions.map((mission) => mission.name), "Keine aktiven Missionen"));
+  parent.appendChild(createNode("p", "meta-note", `Abgeschlossen: ${session.completedMissionCount}`));
 }
 
-function renderChat(chat) {
+function renderChat(parent, chat) {
   if (!chat.length) {
-    return "<p class=\"meta-note\">Kein Chat-Verlauf im Bundle.</p>";
+    parent.appendChild(createNode("p", "meta-note", "Kein Chat-Verlauf im Bundle."));
+    return;
   }
-  return chat.map((message) => `
-    <div class="chat-line">
-      <div class="chat-meta">
-        ${escapeHtml(message.role ?? "system")} · ${escapeHtml(message.author ?? "Unbekannt")}
-      </div>
-      <div class="chat-content">${escapeHtml(message.content ?? "")}</div>
-    </div>
-  `).join("");
+  chat.forEach((message) => {
+    const line = createNode("div", "chat-line");
+    appendNode(line, "div", "chat-meta", `${message.role ?? "system"} · ${message.author ?? "Unbekannt"}`);
+    appendNode(line, "div", "chat-content", message.content ?? "");
+    parent.appendChild(line);
+  });
 }
 
 function renderSessions(bundle) {
   if (!bundle.sessions.length) {
-    sessionsNode.className = "stack empty-state";
-    sessionsNode.innerHTML = "<p>Im Bundle sind keine Sessions eingetragen.</p>";
+    renderEmptyMessage(sessionsNode, "stack empty-state", "Im Bundle sind keine Sessions eingetragen.");
     return;
   }
 
   sessionsNode.className = "stack";
-  sessionsNode.innerHTML = bundle.sessions.map((session) => `
-    <article class="detail-card">
-      <h3>${escapeHtml(session.name)}</h3>
-      <p class="session-world">${escapeHtml(session.worldName)}</p>
-      <div class="session-layout">
-        <section class="subpanel">
-          <h4>Charakterstatus</h4>
-          ${renderCharacters(session.characters)}
-        </section>
-        <section class="subpanel">
-          <h4>Missionen</h4>
-          ${renderMissions(session)}
-        </section>
-        <section class="subpanel">
-          <h4>Letzte Chat-Zeilen</h4>
-          ${renderChat(session.chat)}
-        </section>
-      </div>
-    </article>
-  `).join("");
+  sessionsNode.replaceChildren(...bundle.sessions.map((session) => {
+    const card = createNode("article", "detail-card");
+    appendNode(card, "h3", "", session.name);
+    appendNode(card, "p", "session-world", session.worldName);
+    const layout = createNode("div", "session-layout");
+
+    const charactersPanel = createNode("section", "subpanel");
+    appendNode(charactersPanel, "h4", "", "Charakterstatus");
+    renderCharacters(charactersPanel, session.characters);
+    layout.appendChild(charactersPanel);
+
+    const missionsPanel = createNode("section", "subpanel");
+    appendNode(missionsPanel, "h4", "", "Missionen");
+    renderMissions(missionsPanel, session);
+    layout.appendChild(missionsPanel);
+
+    const chatPanel = createNode("section", "subpanel");
+    appendNode(chatPanel, "h4", "", "Letzte Chat-Zeilen");
+    renderChat(chatPanel, session.chat);
+    layout.appendChild(chatPanel);
+
+    card.appendChild(layout);
+    return card;
+  }));
 }
 
 function renderRulesets(bundle) {
   if (!bundle.rulesets.length) {
-    rulesetsNode.className = "stack empty-state";
-    rulesetsNode.innerHTML = "<p>Keine Regelwerke im Bundle gefunden.</p>";
+    renderEmptyMessage(rulesetsNode, "stack empty-state", "Keine Regelwerke im Bundle gefunden.");
     return;
   }
 
   rulesetsNode.className = "stack";
-  rulesetsNode.innerHTML = bundle.rulesets.map((ruleset) => `
-    <article class="ruleset-card">
-      <h3>${escapeHtml(ruleset.name)}</h3>
-      <ul class="meta-list">
-        <li><span>Waffen</span><strong>${ruleset.weaponCount}</strong></li>
-        <li><span>Zauber</span><strong>${ruleset.spellCount}</strong></li>
-        <li><span>Datei</span><strong>${escapeHtml(ruleset.file)}</strong></li>
-      </ul>
-    </article>
-  `).join("");
+  rulesetsNode.replaceChildren(...bundle.rulesets.map((ruleset) => {
+    const card = createNode("article", "ruleset-card");
+    appendNode(card, "h3", "", ruleset.name);
+    card.appendChild(createMetaList([
+      ["Waffen", ruleset.weaponCount],
+      ["Zauber", ruleset.spellCount],
+      ["Datei", ruleset.file],
+    ]));
+    return card;
+  }));
 }
 
 function renderMedia(bundle) {
   if (!bundle.mediaEntries.length) {
-    mediaNode.className = "stack empty-state";
-    mediaNode.innerHTML = "<p>Keine Medienreferenzen im Bundle gefunden.</p>";
+    renderEmptyMessage(mediaNode, "stack empty-state", "Keine Medienreferenzen im Bundle gefunden.");
     return;
   }
 
   mediaNode.className = "stack";
-  mediaNode.innerHTML = bundle.mediaEntries.slice(0, 18).map((entry) => `
-    <article class="media-card">
-      <strong>${escapeHtml(entry.kind ?? "datei")}</strong>
-      <div class="media-path">${escapeHtml(entry.bundle_path ?? "ohne Pfad")}</div>
-      <div class="meta-note">
-        Quelle: ${escapeHtml(entry.original_path ?? "–")}
-        · vorhanden: ${entry.exists ? "ja" : "nein"}
-        · eingebettet: ${entry.included ? "ja" : "nein"}
-      </div>
-    </article>
-  `).join("");
+  mediaNode.replaceChildren(...bundle.mediaEntries.slice(0, 18).map((entry) => {
+    const card = createNode("article", "media-card");
+    appendNode(card, "strong", "", entry.kind ?? "datei");
+    appendNode(card, "div", "media-path", entry.bundle_path ?? "ohne Pfad");
+    appendNode(
+      card,
+      "div",
+      "meta-note",
+      `Quelle: ${entry.original_path ?? "–"} · vorhanden: ${entry.exists ? "ja" : "nein"} · eingebettet: ${entry.included ? "ja" : "nein"}`
+    );
+    return card;
+  }));
 }
 
 function renderBundle(bundle) {
