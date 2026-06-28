@@ -155,6 +155,7 @@ class World:
 
     @classmethod
     def from_dict(cls, data: Dict) -> 'World':
+        data = dict(data or {})
         maps = {k: GameMap.from_dict(v) for k, v in data.get('maps', {}).items()}
         active_map_id = data.get('active_map_id')
         map_image = data.get('map_image')
@@ -164,7 +165,7 @@ class World:
             maps[migrate_id] = GameMap(id=migrate_id, name="Weltkarte", background_image=map_image)
             active_map_id = migrate_id
         return cls(
-            id=data['id'],
+            id=data.get('id') or generate_short_id(),
             settings=WorldSettings.from_dict(data.get('settings', {})),
             locations={k: Location.from_dict(v) for k, v in data.get('locations', {}).items()},
             nations={k: Nation.from_dict(v) for k, v in data.get('nations', {}).items()},

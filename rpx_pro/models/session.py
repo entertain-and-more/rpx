@@ -11,6 +11,13 @@ from rpx_pro.models.enums import (
 from rpx_pro.models.entities import Character, PlayerGroup
 
 
+def _enum_or_default(enum_cls, value, default):
+    try:
+        return enum_cls(value)
+    except (TypeError, ValueError):
+        return default
+
+
 @dataclass
 class ChatMessage:
     """Repraesentiert eine Chat-Nachricht"""
@@ -31,10 +38,11 @@ class ChatMessage:
 
     @classmethod
     def from_dict(cls, data: Dict) -> 'ChatMessage':
+        data = dict(data or {})
         return cls(
-            role=MessageRole(data['role']),
-            author=data['author'],
-            content=data['content'],
+            role=_enum_or_default(MessageRole, data.get('role'), MessageRole.SYSTEM),
+            author=data.get('author') or "System",
+            content=data.get('content') or "",
             timestamp=data.get('timestamp', time.time()),
             metadata=data.get('metadata', {})
         )
@@ -134,10 +142,11 @@ class Session:
 
     @classmethod
     def from_dict(cls, data: Dict) -> 'Session':
+        data = dict(data or {})
         return cls(
-            id=data['id'],
-            world_id=data['world_id'],
-            name=data['name'],
+            id=data.get('id') or "",
+            world_id=data.get('world_id') or "",
+            name=data.get('name') or "Unbenannte Session",
             created=data.get('created', time.time()),
             last_modified=data.get('last_modified', time.time()),
             characters={k: Character.from_dict(v) for k, v in data.get('characters', {}).items()},
@@ -154,6 +163,6 @@ class Session:
             gm_is_human=data.get('gm_is_human', True),
             gm_player_name=data.get('gm_player_name', ''),
             current_location_id=data.get('current_location_id'),
-            current_weather=WeatherType(data.get('current_weather', 'clear')),
-            current_time_of_day=TimeOfDay(data.get('current_time_of_day', 'noon'))
+            current_weather=_enum_or_default(WeatherType, data.get('current_weather', 'clear'), WeatherType.CLEAR),
+            current_time_of_day=_enum_or_default(TimeOfDay, data.get('current_time_of_day', 'noon'), TimeOfDay.NOON)
         )

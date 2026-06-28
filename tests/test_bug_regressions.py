@@ -9,7 +9,9 @@ D: map_widget QPixmap ohne isNull-Guard -> 0x0-Szene / leeres persistiertes Elem
 import os
 import sys
 import json
+import tempfile
 from pathlib import Path
+from unittest.mock import patch
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
@@ -55,3 +57,60 @@ def test_world_tab_skill_int_guarded():
 def test_map_widget_isnull_guards():
     src = _src("widgets/map_widget.py")
     assert src.count("isNull()") >= 2
+
+
+def test_models_from_dict_tolerate_missing_core_fields():
+    from rpx_pro.models.enums import MessageRole, WeatherType
+    from rpx_pro.models.session import ChatMessage, Session
+    from rpx_pro.models.world import World
+
+    world = World.from_dict({"settings": {"name": "Alte Welt"}})
+    assert world.id
+    assert world.settings.name == "Alte Welt"
+
+    session = Session.from_dict({"chat_history": [{}], "current_weather": "kaputt"})
+    assert session.id == ""
+    assert session.name == "Unbenannte Session"
+    assert session.current_weather is WeatherType.CLEAR
+    assert session.chat_history[0].role is MessageRole.SYSTEM
+
+    message = ChatMessage.from_dict({})
+    assert message.role is MessageRole.SYSTEM
+    assert message.author == "System"
+    assert message.content == ""
+
+
+def test_data_manager_quarantines_unloadable_savegame():
+    from rpx_pro.managers import data_manager as dm_module
+    from rpx_pro.managers.data_manager import DataManager
+
+    with tempfile.TemporaryDirectory() as tmp:
+        base = Path(tmp)
+        worlds_dir = base / "worlds"
+        sessions_dir = base / "sessions"
+        backups_dir = base / "backups"
+        config_file = base / "config.json"
+        for directory in (worlds_dir, sessions_dir, backups_dir):
+            directory.mkdir(parents=True, exist_ok=True)
+        broken = worlds_dir / "broken-world.json"
+        broken.write_text("{not valid json", encoding="utf-8")
+
+        patches = [
+            patch.object(dm_module, "CONFIG_FILE", config_file),
+            patch.object(dm_module, "WORLDS_DIR", worlds_dir),
+            patch.object(dm_module, "SESSIONS_DIR", sessions_dir),
+            patch.object(dm_module, "BACKUPS_DIR", backups_dir),
+        ]
+        for patcher in patches:
+            patcher.start()
+        try:
+            dm = DataManager()
+            quarantined = list((backups_dir / "quarantine").glob("world_broken-world_*.json"))
+            assert not broken.exists()
+            assert len(quarantined) == 1
+        finally:
+            for patcher in reversed(patches):
+                patcher.stop()
+
+    assert dm.worlds == {}
+    assert dm.load_warnings

@@ -66,12 +66,26 @@ class RPXProMainWindow(QMainWindow):
         self._apply_dark_theme()
         self._restore_last_session()
         self._setup_simulation_timer()
+        self._show_load_warnings()
 
         logger.info(f"{APP_TITLE} v{VERSION} gestartet")
 
     # ================================================================
     # UI Setup
     # ================================================================
+
+    def _show_load_warnings(self):
+        if not self.data_manager.load_warnings:
+            return
+        detail = "\n".join(self.data_manager.load_warnings[:5])
+        if len(self.data_manager.load_warnings) > 5:
+            detail += f"\n... weitere {len(self.data_manager.load_warnings) - 5} Datei(en)"
+        QMessageBox.warning(
+            self,
+            "Gesicherte beschädigte Dateien",
+            "Einige Welten oder Sessions konnten nicht geladen werden und wurden in den Backup-Ordner verschoben:\n\n"
+            f"{detail}",
+        )
 
     def _setup_ui(self):
         self.setWindowTitle(f"{APP_TITLE} v{VERSION}")

@@ -95,6 +95,7 @@ class DataManager:
         self.current_world: Optional[World] = None
         self.current_session: Optional[Session] = None
         self.config: Dict[str, Any] = dict(self.DEFAULT_CONFIG)
+        self.load_warnings: List[str] = []
         self.load_config()
         self._load_all()
 
@@ -132,11 +133,12 @@ class DataManager:
             try:
                 with open(path, 'r', encoding='utf-8') as f:
                     data = json.load(f)
+                    data.setdefault("id", path.stem)
                     world = World.from_dict(data)
                     self.worlds[world.id] = world
                     logger.info(f"Welt geladen: {world.settings.name}")
             except Exception as e:
-                logger.error(f"Fehler beim Laden von {path}: {e}")
+                self._quarantine_load_failure(path, "world", e)
 
     def _load_sessions(self):
         """Laedt alle Sessions"""
@@ -144,11 +146,32 @@ class DataManager:
             try:
                 with open(path, 'r', encoding='utf-8') as f:
                     data = json.load(f)
+                    data.setdefault("id", path.stem)
+                    data.setdefault("name", path.stem)
                     session = Session.from_dict(data)
                     self.sessions[session.id] = session
                     logger.info(f"Session geladen: {session.name}")
             except Exception as e:
-                logger.error(f"Fehler beim Laden von {path}: {e}")
+                self._quarantine_load_failure(path, "session", e)
+
+    def _quarantine_load_failure(self, path: Path, label: str, error: Exception) -> None:
+        """Verschiebt unladbare Savegame-Dateien aus dem aktiven Startpfad."""
+        display_label = "Welt" if label == "world" else "Session"
+        message = f"{display_label} konnte nicht geladen werden: {path.name} ({error})"
+        quarantine_dir = BACKUPS_DIR / "quarantine"
+        try:
+            quarantine_dir.mkdir(parents=True, exist_ok=True)
+            target = quarantine_dir / f"{label}_{path.stem}_{int(time.time())}{path.suffix}"
+            counter = 2
+            while target.exists():
+                target = quarantine_dir / f"{label}_{path.stem}_{int(time.time())}_{counter}{path.suffix}"
+                counter += 1
+            path.rename(target)
+            message += f" -> verschoben nach {target}"
+        except Exception as quarantine_error:
+            message += f" -> Quarantäne fehlgeschlagen: {quarantine_error}"
+        self.load_warnings.append(message)
+        logger.error(message)
 
     def save_world(self, world: World) -> bool:
         """Speichert eine Welt"""
