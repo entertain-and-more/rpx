@@ -38,6 +38,7 @@ exe = EXE(
     upx=True,
     console=False,
     disable_windowed_traceback=False,
+icon='RPXPro.ico',
 )
 
 coll = COLLECT(
