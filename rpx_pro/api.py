@@ -4,13 +4,15 @@ import random
 import time
 from typing import Dict, List, Optional, Any
 
-from rpx_pro.constants import generate_short_id
+from rpx_pro.constants import generate_short_id, _filter_dataclass_fields
 from rpx_pro.models.enums import MessageRole, MissionStatus
 from rpx_pro.models.entities import Character
 from rpx_pro.models.world import World, WorldSettings
 from rpx_pro.models.session import ChatMessage, Mission, Session
 from rpx_pro.managers.data_manager import DataManager
 from rpx_pro.managers.prompt_generator import PromptGenerator
+
+MAX_API_DICE_COUNT = 100
 
 
 class RPXProAPI:
@@ -67,7 +69,8 @@ class RPXProAPI:
         if not session:
             return {"error": "Keine aktive Session"}
         char_id = generate_short_id()
-        char = Character(id=char_id, name=name, **kwargs)
+        char_data = _filter_dataclass_fields(Character, kwargs)
+        char = Character(id=char_id, name=name, **char_data)
         session.characters[char_id] = char
         self.dm.save_session(session)
         return {"id": char_id, "name": name}
@@ -146,6 +149,15 @@ class RPXProAPI:
     # --- Wuerfel ---
 
     def roll_dice(self, count: int = 1, sides: int = 20) -> dict:
+        try:
+            count = int(count)
+            sides = int(sides)
+        except (TypeError, ValueError):
+            return {"error": "Wuerfelanzahl und Seiten muessen ganze Zahlen sein"}
+        if count < 1 or sides < 1:
+            return {"error": "Wuerfelanzahl und Seiten muessen mindestens 1 sein"}
+        if count > MAX_API_DICE_COUNT:
+            return {"error": f"Wuerfelanzahl darf maximal {MAX_API_DICE_COUNT} sein"}
         rolls = [random.randint(1, sides) for _ in range(count)]
         total = sum(rolls)
         return {"dice": f"{count}W{sides}", "rolls": rolls, "total": total}
