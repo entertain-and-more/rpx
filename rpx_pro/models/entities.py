@@ -191,6 +191,8 @@ class Character:
         inv = data.get('inventory', {})
         if isinstance(inv, list):
             data['inventory'] = {item_id: 1 for item_id in inv}
+        elif not isinstance(inv, dict):
+            data['inventory'] = {}
         return cls(**_filter_dataclass_fields(cls, data))
 
 
