@@ -1,4 +1,4 @@
-## Last-checked: 2026-06-11
+## Last-checked: 2026-07-17
 
 # rpx
 
@@ -9,6 +9,9 @@ Canonical repository: https://github.com/entertain-and-more/rpx
 A professional, offline-capable, open-source control center for tabletop pen & paper RPG sessions.
 Built with Python + PySide6. Features a world system, soundboard, light effects, combat engine,
 AI prompt generator, JSON-RPC CLI/API, and a static PWA companion for bundle viewing.
+
+Use this repository when looking for local-first game-master tooling, a PySide6 tabletop RPG
+session manager, or an LLM-controllable campaign backend that does not require a hosted VTT.
 
 ## Tools
 
@@ -33,18 +36,21 @@ Requires Python 3.10+, PySide6 (Qt6). `pygame` is optional (audio fallback).
 - Developers building LLM-driven RPG tools who want a JSON-RPC CLI backend
 - Python/PySide6 developers studying modular Qt app architecture
 - AI assistants that need to interface with the RPX Pro API programmatically
+- Local-first software users who want campaign data, maps, notes, media, and exports to remain on disk
 
 ## Search Phrases
 
 ```
-rpx pro pen paper tabletop control center python
-rpx-campaign-bundle-v1 format
-LLM game master assistant JSON-RPC CLI
-offline RPG campaign manager PySide6
-AI storytelling tool tabletop open source
+RPX Pro tabletop RPG control center Python PySide6
+RolePlay Xtreme open source game master dashboard
+offline game master tools for pen and paper RPG sessions
+local-first virtual tabletop companion with player screen
+PySide6 RPG session manager with maps soundboard missions
+JSON-RPC LLM game master API for tabletop campaigns
+rpx-campaign-bundle-v1 campaign export format
+AI storytelling prompt tool for tabletop roleplaying games
 entertain-and-more rpx github
-rpx roleplay xtreme professional python pyside6
-tabletop rpg desktop app json-rpc api
+RPX Pro Web PWA companion offline campaign bundle
 ```
 
 ## Important Files

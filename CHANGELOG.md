@@ -6,6 +6,7 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 ## [Unreleased]
 
 ### Documentation
+- Added a README audience/use-case entry section and refreshed `llms.txt` discovery phrases for tabletop RPG, local-first game-master, PWA companion, and JSON-RPC LLM API searches.
 - Restructured README.md to English-first; German documentation retained as collapsible secondary section.
 - Added `llms.txt` with project description, tools, install instructions, audience, and search phrases.
 - Standardized `llms.txt`: moved `Last-checked` header to first line, converted Search Phrases to fenced

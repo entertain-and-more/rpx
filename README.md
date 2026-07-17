@@ -10,6 +10,18 @@
 
 ![RPX Pro Main Window](README/screenshots/main.png)
 
+## Who It Is For
+
+| Need | RPX Pro fit |
+|------|-------------|
+| Run a tabletop RPG session from one local desktop | Worlds, maps, locations, characters, missions, ambience, combat, and notes stay in one offline workspace |
+| Give players a dedicated table display | The second-monitor player screen shows maps, locations, party status, missions, chat, and event overlays |
+| Use AI without handing campaign data to a hosted VTT | RPX Pro generates structured prompts and exposes a JSON-RPC CLI/API; the external AI tool stays optional |
+| Carry a campaign to a phone or tablet between sessions | The static Web/PWA companion reads local `rpx-campaign-bundle-v1` ZIP exports and restores the last loaded bundle offline |
+| Study a PySide6 game-master app architecture | The codebase uses dataclass models, injected managers, Qt signals, and a testable API/CLI layer |
+
+Useful search terms: `tabletop RPG control center`, `offline game master tools`, `PySide6 RPG session manager`, `local-first virtual tabletop companion`, `JSON-RPC LLM game master API`, `rpx-campaign-bundle-v1`.
+
 ## Features
 
 | Feature | Description |
