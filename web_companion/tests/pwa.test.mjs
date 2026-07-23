@@ -40,7 +40,7 @@ test("HTML-Shell bietet lokalen ZIP-Import an", async () => {
 test("Service Worker cached nur lokale Shell-Dateien", async () => {
   const sw = await readFile(resolve(baseDir, "sw.js"), "utf8");
 
-  assert.match(sw, /CACHE_NAME = "rpx-companion-v4"/);
+  assert.match(sw, /CACHE_NAME = "rpx-companion-v5"/);
   assert.match(sw, /index\.html/);
   assert.doesNotMatch(sw, /https?:\/\//);
   assert.match(sw, /skipWaiting/, "skipWaiting fehlt");

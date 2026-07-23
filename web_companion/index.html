@@ -16,9 +16,16 @@
   <body>
     <div class="shell">
       <header class="hero">
-        <p class="eyebrow">Offline Web/PWA Companion</p>
-        <h1>RPX Pro Companion</h1>
-        <p class="lead">
+        <div class="lang-bar">
+          <label for="lang-select" class="visually-hidden" data-i18n="lang.label">Sprache</label>
+          <select id="lang-select" aria-label="Sprache / Language">
+            <option value="de">DE</option>
+            <option value="en">EN</option>
+          </select>
+        </div>
+        <p class="eyebrow" data-i18n="hero.eyebrow">Offline Web/PWA Companion</p>
+        <h1 data-i18n="hero.title">RPX Pro Companion</h1>
+        <p class="lead" data-i18n-html="hero.lead">
           Liest lokale <code>rpx-campaign-bundle-v1</code>-ZIPs für Kampagnenübersicht,
           Charakterstatus, Missionen, Karten- und Medienhinweise.
         </p>
@@ -27,23 +34,23 @@
       <main class="layout">
         <section class="panel import-panel">
           <div class="panel-head">
-            <h2>Bundle laden</h2>
-            <p>Die App arbeitet lokal im Browser. Es werden keine Daten hochgeladen.</p>
+            <h2 data-i18n="import.title">Bundle laden</h2>
+            <p data-i18n="import.description">Die App arbeitet lokal im Browser. Es werden keine Daten hochgeladen.</p>
           </div>
 
           <label class="dropzone" for="bundle-file">
             <input id="bundle-file" type="file" accept=".zip,application/zip">
-            <span class="dropzone-title">ZIP auswählen oder hier ablegen</span>
-            <span class="dropzone-copy">
+            <span class="dropzone-title" data-i18n="import.dropTitle">ZIP auswählen oder hier ablegen</span>
+            <span class="dropzone-copy" data-i18n-html="import.dropCopy">
               Erwartet wird ein Export im Format <code>rpx-campaign-bundle-v1</code>.
             </span>
           </label>
 
           <div class="button-row">
-            <button id="clear-button" type="button" class="ghost">Ansicht leeren</button>
+            <button id="clear-button" type="button" class="ghost" data-i18n="import.clear">Ansicht leeren</button>
           </div>
 
-          <p id="status" class="status" role="status" aria-live="polite">
+          <p id="status" class="status" role="status" aria-live="polite" data-i18n="status.noBundle">
             Noch kein Bundle geladen.
           </p>
 
@@ -52,51 +59,51 @@
 
         <section class="panel summary-panel">
           <div class="panel-head">
-            <h2>Kampagnenstand</h2>
-            <p>Direkt aus dem Bundle extrahiert.</p>
+            <h2 data-i18n="summary.title">Kampagnenstand</h2>
+            <p data-i18n="summary.description">Direkt aus dem Bundle extrahiert.</p>
           </div>
           <div id="summary" class="empty-state">
-            <p>Nach dem Import erscheinen hier Kampagnenmetadaten und Schnellzahlen.</p>
+            <p data-i18n="summary.empty">Nach dem Import erscheinen hier Kampagnenmetadaten und Schnellzahlen.</p>
           </div>
         </section>
 
         <section class="panel wide">
           <div class="panel-head">
-            <h2>Welten</h2>
-            <p>Kerninfos zu Welten, Orten und Karten.</p>
+            <h2 data-i18n="worlds.title">Welten</h2>
+            <p data-i18n="worlds.description">Kerninfos zu Welten, Orten und Karten.</p>
           </div>
           <div id="worlds" class="card-grid empty-state">
-            <p>Noch keine Welten geladen.</p>
+            <p data-i18n="worlds.empty">Noch keine Welten geladen.</p>
           </div>
         </section>
 
         <section class="panel wide">
           <div class="panel-head">
-            <h2>Sessions</h2>
-            <p>Charaktere, Missionen und letzte Chat-Einträge.</p>
+            <h2 data-i18n="sessions.title">Sessions</h2>
+            <p data-i18n="sessions.description">Charaktere, Missionen und letzte Chat-Einträge.</p>
           </div>
           <div id="sessions" class="stack empty-state">
-            <p>Noch keine Sessions geladen.</p>
+            <p data-i18n="sessions.empty">Noch keine Sessions geladen.</p>
           </div>
         </section>
 
         <section class="panel">
           <div class="panel-head">
-            <h2>Regelwerke</h2>
-            <p>Mitgelieferte JSON-Regelwerke aus dem Bundle.</p>
+            <h2 data-i18n="rulesets.title">Regelwerke</h2>
+            <p data-i18n="rulesets.description">Mitgelieferte JSON-Regelwerke aus dem Bundle.</p>
           </div>
           <div id="rulesets" class="stack empty-state">
-            <p>Noch keine Regelwerke geladen.</p>
+            <p data-i18n="rulesets.empty">Noch keine Regelwerke geladen.</p>
           </div>
         </section>
 
         <section class="panel">
           <div class="panel-head">
-            <h2>Karten &amp; Medien</h2>
-            <p>Referenzen aus <code>media/manifest.json</code>.</p>
+            <h2 data-i18n="media.title">Karten &amp; Medien</h2>
+            <p data-i18n-html="media.description">Referenzen aus <code>media/manifest.json</code>.</p>
           </div>
           <div id="media" class="stack empty-state">
-            <p>Noch keine Medienreferenzen geladen.</p>
+            <p data-i18n="media.empty">Noch keine Medienreferenzen geladen.</p>
           </div>
         </section>
       </main>

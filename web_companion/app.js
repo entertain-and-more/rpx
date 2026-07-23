@@ -1,4 +1,5 @@
 import { loadBundleFromFile, getCharacterList, getPlayerView } from "./library.js";
+import { t, setLocale, getLocale, getDateLocale, hydrateI18n } from "./i18n.mjs";
 
 const fileInput = document.querySelector("#bundle-file");
 const dropzone = document.querySelector(".dropzone");
@@ -17,8 +18,9 @@ document.body.appendChild(playerOverlay);
 
 const playerModeRow = document.createElement("div");
 playerModeRow.className = "button-row hidden";
-playerModeRow.innerHTML = '<button class="ghost" id="player-mode-btn">Spieler-Modus</button>';
+playerModeRow.innerHTML = `<button class="ghost" id="player-mode-btn">${escapeHtml(t("import.playerMode"))}</button>`;
 statusNode.after(playerModeRow);
+const langSelect = document.querySelector("#lang-select");
 playerModeRow.querySelector("#player-mode-btn").addEventListener("click", showPlayerMode);
 
 const STORAGE_KEY = "rpx-companion:last-bundle:v1";
@@ -102,36 +104,30 @@ function renderInstallHints() {
 
   if (platform === "ios") {
     hints.push({
-      title: standalone ? "iPhone/iPad als App" : "iPhone/iPad installieren",
-      body: standalone
-        ? "Die PWA läuft im Standalone-Modus. Zuletzt geladene Bundles werden lokal für Offline-Starts wiederhergestellt."
-        : "Über Teilen → Zum Home-Bildschirm kann der Companion ohne Safari-Chrome gestartet werden."
+      title: standalone ? t("hints.iosAppTitle") : t("hints.iosInstallTitle"),
+      body: standalone ? t("hints.iosAppBody") : t("hints.iosInstallBody")
     });
   } else if (platform === "android") {
     hints.push({
-      title: standalone ? "Android-App aktiv" : "Android installieren",
-      body: standalone
-        ? "Die PWA läuft installiert. Bundle-Stand und Offline-Shell bleiben lokal auf dem Gerät."
-        : "Über Browser-Menü → App installieren oder Zum Startbildschirm hinzufügen wird der Companion zur App."
+      title: standalone ? t("hints.androidAppTitle") : t("hints.androidInstallTitle"),
+      body: standalone ? t("hints.androidAppBody") : t("hints.androidInstallBody")
     });
   } else {
     hints.push({
-      title: "Desktop- und Tablet-Companion",
-      body: "Für mobile Prüfungen denselben Build als PWA auf Android oder iOS installieren; Desktop bleibt die GM-Hauptlinie."
+      title: t("hints.desktopTitle"),
+      body: t("hints.desktopBody")
     });
   }
 
   hints.push({
-    title: navigator.onLine ? "Offline bereit" : "Offline aktiv",
-    body: navigator.onLine
-      ? "Nach dem ersten Öffnen hält der Service Worker die Shell-Dateien lokal vor. Der letzte geladene Bundle-Stand wird zusätzlich im Gerätespeicher gehalten."
-      : "Die App läuft gerade offline. Wenn bereits ein Bundle geladen war, wird der zuletzt gespeicherte Stand lokal wiederhergestellt."
+    title: navigator.onLine ? t("hints.offlineReadyTitle") : t("hints.offlineActiveTitle"),
+    body: navigator.onLine ? t("hints.offlineReadyBody") : t("hints.offlineActiveBody")
   });
 
   if (!bundleState) {
     hints.push({
-      title: "Erster Testschritt",
-      body: "Für Android-/iOS-Smokes zuerst ein kleines Kampagnen-Bundle importieren und danach den Offline-Neustart gegen den Testplan prüfen."
+      title: t("hints.firstStepTitle"),
+      body: t("hints.firstStepBody")
     });
   }
 
@@ -145,22 +141,22 @@ function renderInstallHints() {
 
 function renderEmpty() {
   summaryNode.className = "empty-state";
-  summaryNode.innerHTML = "<p>Nach dem Import erscheinen hier Kampagnenmetadaten und Schnellzahlen.</p>";
+  summaryNode.innerHTML = `<p>${escapeHtml(t("summary.empty"))}</p>`;
   worldsNode.className = "card-grid empty-state";
-  worldsNode.innerHTML = "<p>Noch keine Welten geladen.</p>";
+  worldsNode.innerHTML = `<p>${escapeHtml(t("worlds.empty"))}</p>`;
   sessionsNode.className = "stack empty-state";
-  sessionsNode.innerHTML = "<p>Noch keine Sessions geladen.</p>";
+  sessionsNode.innerHTML = `<p>${escapeHtml(t("sessions.empty"))}</p>`;
   rulesetsNode.className = "stack empty-state";
-  rulesetsNode.innerHTML = "<p>Noch keine Regelwerke geladen.</p>";
+  rulesetsNode.innerHTML = `<p>${escapeHtml(t("rulesets.empty"))}</p>`;
   mediaNode.className = "stack empty-state";
-  mediaNode.innerHTML = "<p>Noch keine Medienreferenzen geladen.</p>";
+  mediaNode.innerHTML = `<p>${escapeHtml(t("media.empty"))}</p>`;
 }
 
 function formatTimestamp(value) {
   if (!Number.isFinite(value)) {
-    return "Unbekannt";
+    return t("general.unknown");
   }
-  return new Date(value * 1000).toLocaleString("de-DE", {
+  return new Date(value * 1000).toLocaleString(getDateLocale(), {
     dateStyle: "medium",
     timeStyle: "short",
   });
@@ -171,35 +167,35 @@ function renderSummary(bundle) {
   summaryNode.className = "summary-grid";
   summaryNode.innerHTML = `
     <article class="stat-card">
-      <div class="label">Quelle</div>
+      <div class="label">${escapeHtml(t("summary.source"))}</div>
       <div class="value">${escapeHtml(sourceName)}</div>
     </article>
     <article class="stat-card">
-      <div class="label">Welten</div>
+      <div class="label">${escapeHtml(t("summary.worlds"))}</div>
       <div class="value">${summary.worldCount}</div>
     </article>
     <article class="stat-card">
-      <div class="label">Sessions</div>
+      <div class="label">${escapeHtml(t("summary.sessions"))}</div>
       <div class="value">${summary.sessionCount}</div>
     </article>
     <article class="stat-card">
-      <div class="label">Charaktere</div>
+      <div class="label">${escapeHtml(t("summary.characters"))}</div>
       <div class="value">${summary.characterCount}</div>
     </article>
     <article class="stat-card">
-      <div class="label">Aktive Missionen</div>
+      <div class="label">${escapeHtml(t("summary.activeMissions"))}</div>
       <div class="value">${summary.activeMissionCount}</div>
     </article>
     <article class="stat-card">
-      <div class="label">Medienmodus</div>
+      <div class="label">${escapeHtml(t("summary.mediaMode"))}</div>
       <div class="value">${escapeHtml(manifest.media_mode ?? "none")}</div>
     </article>
     <article class="stat-card">
-      <div class="label">Exportiert</div>
+      <div class="label">${escapeHtml(t("summary.exported"))}</div>
       <div class="value">${escapeHtml(formatTimestamp(manifest.exported_at))}</div>
     </article>
     <article class="stat-card">
-      <div class="label">Schema</div>
+      <div class="label">${escapeHtml(t("summary.schema"))}</div>
       <div class="value">${escapeHtml(manifest.app?.schema_version ?? "–")}</div>
     </article>
   `;
@@ -208,7 +204,7 @@ function renderSummary(bundle) {
 function renderWorlds(bundle) {
   if (!bundle.worlds.length) {
     worldsNode.className = "card-grid empty-state";
-    worldsNode.innerHTML = "<p>Im Bundle sind keine Welten eingetragen.</p>";
+    worldsNode.innerHTML = `<p>${escapeHtml(t("worlds.emptyBundle"))}</p>`;
     return;
   }
 
@@ -218,14 +214,14 @@ function renderWorlds(bundle) {
       <h3>${escapeHtml(world.name)}</h3>
       <p>${escapeHtml(world.genre)}</p>
       <ul class="meta-list">
-        <li><span>Karten</span><strong>${world.mapCount}</strong></li>
-        <li><span>Orte</span><strong>${world.locationCount}</strong></li>
-        <li><span>Hauptkarte</span><strong>${escapeHtml(world.mapImage ?? "Keine")}</strong></li>
+        <li><span>${escapeHtml(t("worlds.maps"))}</span><strong>${world.mapCount}</strong></li>
+        <li><span>${escapeHtml(t("worlds.locations"))}</span><strong>${world.locationCount}</strong></li>
+        <li><span>${escapeHtml(t("worlds.mainMap"))}</span><strong>${escapeHtml(world.mapImage ?? t("worlds.noMap"))}</strong></li>
       </ul>
       <div class="pill-row">
         ${world.featuredLocations.length
           ? world.featuredLocations.map((location) => `<span class="pill">${escapeHtml(location)}</span>`).join("")
-          : '<span class="pill">Keine markierten Orte</span>'}
+          : `<span class="pill">${escapeHtml(t("worlds.noFeatured"))}</span>`}
       </div>
     </article>
   `).join("");
@@ -233,7 +229,7 @@ function renderWorlds(bundle) {
 
 function renderCharacters(characters) {
   if (!characters.length) {
-    return "<p class=\"meta-note\">Keine Charaktere in dieser Session.</p>";
+    return `<p class="meta-note">${escapeHtml(t("sessions.noCharacters"))}</p>`;
   }
   return characters.map((character) => `
     <div class="chat-line">
@@ -249,24 +245,24 @@ function renderCharacters(characters) {
 
 function renderMissions(session) {
   if (!session.activeMissions.length) {
-    return `<p class="meta-note">Keine aktiven Missionen. Abgeschlossen: ${session.completedMissionCount}</p>`;
+    return `<p class="meta-note">${escapeHtml(t("sessions.noActiveMissions"))} ${session.completedMissionCount}</p>`;
   }
   return `
     <div class="pill-row">
       ${session.activeMissions.map((mission) => `<span class="pill">${escapeHtml(mission.name)}</span>`).join("")}
     </div>
-    <p class="meta-note">Abgeschlossen: ${session.completedMissionCount}</p>
+    <p class="meta-note">${escapeHtml(t("sessions.completed"))} ${session.completedMissionCount}</p>
   `;
 }
 
 function renderChat(chat) {
   if (!chat.length) {
-    return "<p class=\"meta-note\">Kein Chat-Verlauf im Bundle.</p>";
+    return `<p class="meta-note">${escapeHtml(t("sessions.noChat"))}</p>`;
   }
   return chat.map((message) => `
     <div class="chat-line">
       <div class="chat-meta">
-        ${escapeHtml(message.role ?? "system")} · ${escapeHtml(message.author ?? "Unbekannt")}
+        ${escapeHtml(message.role ?? "system")} · ${escapeHtml(message.author ?? t("general.unknown"))}
       </div>
       <div class="chat-content">${escapeHtml(message.content ?? "")}</div>
     </div>
@@ -276,7 +272,7 @@ function renderChat(chat) {
 function renderSessions(bundle) {
   if (!bundle.sessions.length) {
     sessionsNode.className = "stack empty-state";
-    sessionsNode.innerHTML = "<p>Im Bundle sind keine Sessions eingetragen.</p>";
+    sessionsNode.innerHTML = `<p>${escapeHtml(t("sessions.emptyBundle"))}</p>`;
     return;
   }
 
@@ -287,15 +283,15 @@ function renderSessions(bundle) {
       <p class="session-world">${escapeHtml(session.worldName)}</p>
       <div class="session-layout">
         <section class="subpanel">
-          <h4>Charakterstatus</h4>
+          <h4>${escapeHtml(t("sessions.characterStatus"))}</h4>
           ${renderCharacters(session.characters)}
         </section>
         <section class="subpanel">
-          <h4>Missionen</h4>
+          <h4>${escapeHtml(t("sessions.missions"))}</h4>
           ${renderMissions(session)}
         </section>
         <section class="subpanel">
-          <h4>Letzte Chat-Zeilen</h4>
+          <h4>${escapeHtml(t("sessions.lastChat"))}</h4>
           ${renderChat(session.chat)}
         </section>
       </div>
@@ -306,7 +302,7 @@ function renderSessions(bundle) {
 function renderRulesets(bundle) {
   if (!bundle.rulesets.length) {
     rulesetsNode.className = "stack empty-state";
-    rulesetsNode.innerHTML = "<p>Keine Regelwerke im Bundle gefunden.</p>";
+    rulesetsNode.innerHTML = `<p>${escapeHtml(t("rulesets.emptyBundle"))}</p>`;
     return;
   }
 
@@ -315,9 +311,9 @@ function renderRulesets(bundle) {
     <article class="ruleset-card">
       <h3>${escapeHtml(ruleset.name)}</h3>
       <ul class="meta-list">
-        <li><span>Waffen</span><strong>${ruleset.weaponCount}</strong></li>
-        <li><span>Zauber</span><strong>${ruleset.spellCount}</strong></li>
-        <li><span>Datei</span><strong>${escapeHtml(ruleset.file)}</strong></li>
+        <li><span>${escapeHtml(t("rulesets.weapons"))}</span><strong>${ruleset.weaponCount}</strong></li>
+        <li><span>${escapeHtml(t("rulesets.spells"))}</span><strong>${ruleset.spellCount}</strong></li>
+        <li><span>${escapeHtml(t("rulesets.file"))}</span><strong>${escapeHtml(ruleset.file)}</strong></li>
       </ul>
     </article>
   `).join("");
@@ -326,19 +322,19 @@ function renderRulesets(bundle) {
 function renderMedia(bundle) {
   if (!bundle.mediaEntries.length) {
     mediaNode.className = "stack empty-state";
-    mediaNode.innerHTML = "<p>Keine Medienreferenzen im Bundle gefunden.</p>";
+    mediaNode.innerHTML = `<p>${escapeHtml(t("media.emptyBundle"))}</p>`;
     return;
   }
 
   mediaNode.className = "stack";
   mediaNode.innerHTML = bundle.mediaEntries.slice(0, 18).map((entry) => `
     <article class="media-card">
-      <strong>${escapeHtml(entry.kind ?? "datei")}</strong>
-      <div class="media-path">${escapeHtml(entry.bundle_path ?? "ohne Pfad")}</div>
+      <strong>${escapeHtml(entry.kind ?? t("media.defaultKind"))}</strong>
+      <div class="media-path">${escapeHtml(entry.bundle_path ?? t("media.noPath"))}</div>
       <div class="meta-note">
-        Quelle: ${escapeHtml(entry.original_path ?? "–")}
-        · vorhanden: ${entry.exists ? "ja" : "nein"}
-        · eingebettet: ${entry.included ? "ja" : "nein"}
+        ${escapeHtml(t("media.source"))} ${escapeHtml(entry.original_path ?? "–")}
+        · ${escapeHtml(t("media.exists"))} ${entry.exists ? escapeHtml(t("general.yes")) : escapeHtml(t("general.no"))}
+        · ${escapeHtml(t("media.included"))} ${entry.included ? escapeHtml(t("general.yes")) : escapeHtml(t("general.no"))}
       </div>
     </article>
   `).join("");
@@ -373,11 +369,11 @@ function renderPlayerCard(view) {
       <ul class="meta-list">
         <li><span>Gold</span><strong>${escapeHtml(character.gold ?? "–")}</strong></li>
       </ul>
-      <h3>Aktive Missionen</h3>
+      <h3>${escapeHtml(t("player.activeMissions"))}</h3>
       ${activeMissions.length
         ? `<div class="pill-row">${activeMissions.map((mission) => `<span class="pill">${escapeHtml(mission.name)}</span>`).join("")}</div>`
-        : '<p class="meta-note">Keine aktiven Missionen.</p>'}
-      <div class="button-row"><button class="ghost" id="player-pick">← Auswahl</button></div>
+        : `<p class="meta-note">${escapeHtml(t("player.noActiveMissions"))}</p>`}
+      <div class="button-row"><button class="ghost" id="player-pick">${escapeHtml(t("player.pick"))}</button></div>
     </div>
   `;
   playerOverlay.querySelector("#player-pick").addEventListener("click", () => {
@@ -390,8 +386,8 @@ function renderPlayerPicker(bundle) {
   if (!characters.length) {
     playerOverlay.innerHTML = `
       <div class="player-card">
-        <p class="meta-note">Keine Charaktere im Bundle.</p>
-        <div class="button-row"><button class="ghost" id="player-back">← Zurück</button></div>
+        <p class="meta-note">${escapeHtml(t("player.noCharacters"))}</p>
+        <div class="button-row"><button class="ghost" id="player-back">${escapeHtml(t("player.back"))}</button></div>
       </div>
     `;
     playerOverlay.querySelector("#player-back").addEventListener("click", hidePlayerMode);
@@ -400,8 +396,8 @@ function renderPlayerPicker(bundle) {
 
   playerOverlay.innerHTML = `
     <div class="player-card">
-      <h2>Spieler-Modus</h2>
-      <p class="meta-note">Wähle deinen Charakter:</p>
+      <h2>${escapeHtml(t("player.modeTitle"))}</h2>
+      <p class="meta-note">${escapeHtml(t("player.pickPrompt"))}</p>
       <ul class="character-list">
         ${characters.map((character) => `
           <li class="character-item"
@@ -412,7 +408,7 @@ function renderPlayerPicker(bundle) {
           </li>
         `).join("")}
       </ul>
-      <div class="button-row"><button class="ghost" id="player-back">← Zurück</button></div>
+      <div class="button-row"><button class="ghost" id="player-back">${escapeHtml(t("player.back"))}</button></div>
     </div>
   `;
 
@@ -445,30 +441,28 @@ function applyBundle(bundle) {
 async function handleFile(file) {
   const previousBundle = bundleState;
   try {
-    setStatus(`Lade ${file.name} …`);
+    setStatus(t("status.loading", { name: file.name }));
     const loadedBundle = await loadBundleFromFile(file);
     applyBundle(loadedBundle);
     const persisted = saveBundleSnapshot(bundleState);
     setStatus(
       persisted
-        ? `Bundle ${file.name} erfolgreich geladen. Offline-Wiedereinstieg ist vorbereitet.`
-        : `Bundle ${file.name} erfolgreich geladen. Die lokale Wiederherstellung konnte auf diesem Gerät nicht gespeichert werden.`,
+        ? t("status.loadedPersisted", { name: file.name })
+        : t("status.loadedNoPersist", { name: file.name }),
       !persisted
     );
   } catch (error) {
+    const message = error instanceof Error ? error.message : t("status.loadFailed");
     if (previousBundle) {
       applyBundle(previousBundle);
-      setStatus(
-        `${error instanceof Error ? error.message : "Bundle konnte nicht geladen werden."} Das vorherige Bundle bleibt sichtbar.`,
-        true
-      );
+      setStatus(t("status.previousKept", { error: message }), true);
     } else {
       bundleState = null;
       renderEmpty();
       playerModeRow.classList.add("hidden");
       hidePlayerMode();
       renderInstallHints();
-      setStatus(error instanceof Error ? error.message : "Bundle konnte nicht geladen werden.", true);
+      setStatus(message, true);
     }
   }
 }
@@ -511,13 +505,13 @@ clearButton.addEventListener("click", () => {
   playerModeRow.classList.add("hidden");
   hidePlayerMode();
   renderInstallHints();
-  setStatus("Ansicht geleert. Lokaler Bundle-Stand wurde entfernt.");
+  setStatus(t("status.cleared"));
 });
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("./sw.js").catch(() => {
-      setStatus("Bundle-Import läuft, aber der Offline-Cache konnte nicht registriert werden.", true);
+      setStatus(t("status.swFailed"), true);
     });
   });
 }
@@ -525,13 +519,31 @@ if ("serviceWorker" in navigator) {
 window.addEventListener("online", renderInstallHints);
 window.addEventListener("offline", renderInstallHints);
 
+function applyLocale() {
+  hydrateI18n();
+  playerModeRow.querySelector("#player-mode-btn").textContent = t("import.playerMode");
+  renderInstallHints();
+  if (bundleState) {
+    renderBundle(bundleState);
+  } else {
+    renderEmpty();
+  }
+}
+
+if (langSelect) {
+  langSelect.value = getLocale();
+  langSelect.addEventListener("change", () => {
+    setLocale(langSelect.value);
+    applyLocale();
+  });
+}
+
+hydrateI18n();
 renderEmpty();
 renderInstallHints();
 
 const restoredBundle = restoreBundleSnapshot();
 if (restoredBundle) {
   applyBundle(restoredBundle);
-  setStatus(
-    `Zuletzt geladenes Bundle ${restoredBundle.sourceName ?? "Unbekannt"} wurde lokal für den Offline-Start wiederhergestellt.`
-  );
+  setStatus(t("status.restored", { name: restoredBundle.sourceName ?? t("general.unknown") }));
 }

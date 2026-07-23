@@ -1,9 +1,10 @@
-const CACHE_NAME = "rpx-companion-v4";
+const CACHE_NAME = "rpx-companion-v5";
 const SHELL_FILES = [
   "./index.html",
   "./styles.css",
   "./app.js",
   "./library.js",
+  "./i18n.mjs",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-maskable.svg",
