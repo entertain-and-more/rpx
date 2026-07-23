@@ -8,10 +8,12 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 ### Fixed
 - Neue Karten starten im `WorldTab` wieder leer: `add_map()` zieht `active_map_id` nicht mehr vor dem Wechsel um, sodass die Elemente der bisherigen Karte nicht in die neue Karte kopiert werden.
 - Inventar-Auswahldialoge für Charaktere, Welt-Items und NPCs machen doppelte Anzeigenamen jetzt über kurze ID-Suffixe eindeutig, damit Auswahlrückläufe nicht mehr still auf die erste passende Entität zeigen.
+- Direktes Schließen des Spieler-Bildschirms (Alt+F4, Fenster-X) wird jetzt erkannt: `PlayerScreen` setzt `Qt.WA_DeleteOnClose` und emittiert ein `closed`-Signal, `MainWindow` räumt Referenz, Menü-/Button-Text und Statusbar zentral in `_on_player_screen_closed()` auf statt nur beim Menü-Toggle.
 
 ### Tests
 - Neuer Regressionstest `tests/test_world_tab_map_regression.py` sichert, dass `add_map()` die Elemente und Charakterpositionen der bisherigen Karte nicht in neue Karten übernimmt.
 - Neue Regressionen in `tests/test_bug_regressions.py` sichern die eindeutigen Auswahl-Labels und den Verzicht auf fehleranfälliges `.index(name)`-Lookup.
+- Neuer Regressionstest `tests/test_player_screen_close_regression.py` sichert `WA_DeleteOnClose`, das `closed`-Signal und den einmaligen Aufräum-Handler in `MainWindow`.
 
 ### Documentation
 - Restructured README.md to English-first; German documentation retained as collapsible secondary section.

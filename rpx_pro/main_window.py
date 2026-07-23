@@ -756,18 +756,11 @@ class RPXProMainWindow(QMainWindow):
 
     def _toggle_player_screen(self):
         if self.player_screen and self.player_screen.isVisible():
-            try:
-                self.light_manager.effect_started.disconnect(self._mirror_effect_to_player)
-            except (RuntimeError, TypeError):
-                pass
             self.player_screen.close()
-            self.player_screen = None
-            self.ps_open_action.setText("Spieler-Bildschirm öffnen")
-            self.views_tab.update_ps_button_state(False)
-            self.status_bar.showMessage("Spieler-Bildschirm geschlossen")
             return
 
         self.player_screen = PlayerScreen(self)
+        self.player_screen.closed.connect(self._on_player_screen_closed)
         try:
             self.light_manager.effect_started.disconnect(self._mirror_effect_to_player)
         except (RuntimeError, TypeError):
@@ -799,6 +792,20 @@ class RPXProMainWindow(QMainWindow):
         self.ps_open_action.setText("Spieler-Bildschirm schließen")
         self.views_tab.update_ps_button_state(True)
         self.status_bar.showMessage("Spieler-Bildschirm geöffnet")
+
+    def _on_player_screen_closed(self):
+        """Zentrale Aufraeumlogik fuer den Spieler-Bildschirm -- wird sowohl beim
+        Menue-Toggle als auch beim Direktschliessen (Alt+F4, Fenster-X) ueber das
+        PlayerScreen.closed-Signal ausgeloest, damit Referenz und UI-Zustand nie
+        auseinanderlaufen."""
+        try:
+            self.light_manager.effect_started.disconnect(self._mirror_effect_to_player)
+        except (RuntimeError, TypeError):
+            pass
+        self.player_screen = None
+        self.ps_open_action.setText("Spieler-Bildschirm öffnen")
+        self.views_tab.update_ps_button_state(False)
+        self.status_bar.showMessage("Spieler-Bildschirm geschlossen")
 
     def _sync_player_screen_data(self):
         if not self.player_screen or not self.player_screen.isVisible():

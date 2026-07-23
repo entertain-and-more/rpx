@@ -3,7 +3,7 @@
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtCore import Qt, QTimer, Signal
 from PySide6.QtGui import QPixmap, QFont
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QGridLayout,
@@ -19,10 +19,13 @@ from rpx_pro.widgets.map_widget import MapWidget
 class PlayerScreen(QMainWindow):
     """Separates Fenster fuer den Spieler-Bildschirm (2. Monitor) mit mehreren Anzeigemodi"""
 
+    closed = Signal()
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("RPX - Spieler-Ansicht")
         self.setWindowFlags(Qt.Window)
+        self.setAttribute(Qt.WA_DeleteOnClose)
         self._current_view = "location"
         self._mode = PlayerScreenMode.IMAGE
         self._prev_mode_index = 0
@@ -787,3 +790,9 @@ class PlayerScreen(QMainWindow):
         super().resizeEvent(event)
         if self.light_manager.overlay:
             self.light_manager.overlay.setGeometry(self.mode_stack.rect())
+
+    def closeEvent(self, event):
+        """Direktes Schliessen (Alt+F4, Fenster-X) genauso behandeln wie den Menue-Toggle,
+        damit MainWindow-Referenz und UI-Zustand nicht desynchronisieren."""
+        self.closed.emit()
+        super().closeEvent(event)
