@@ -5,6 +5,14 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+- Neue Karten starten im `WorldTab` wieder leer: `add_map()` zieht `active_map_id` nicht mehr vor dem Wechsel um, sodass die Elemente der bisherigen Karte nicht in die neue Karte kopiert werden.
+- Inventar-Auswahldialoge für Charaktere, Welt-Items und NPCs machen doppelte Anzeigenamen jetzt über kurze ID-Suffixe eindeutig, damit Auswahlrückläufe nicht mehr still auf die erste passende Entität zeigen.
+
+### Tests
+- Neuer Regressionstest `tests/test_world_tab_map_regression.py` sichert, dass `add_map()` die Elemente und Charakterpositionen der bisherigen Karte nicht in neue Karten übernimmt.
+- Neue Regressionen in `tests/test_bug_regressions.py` sichern die eindeutigen Auswahl-Labels und den Verzicht auf fehleranfälliges `.index(name)`-Lookup.
+
 ### Documentation
 - Restructured README.md to English-first; German documentation retained as collapsible secondary section.
 - Added `llms.txt` with project description, tools, install instructions, audience, and search phrases.
@@ -51,6 +59,7 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 - Exportierte Welt- und Session-JSONs schreiben Medienpfade jetzt relativ als `media/...`, damit spätere Companion-Importer keine Desktop-Pfade voraussetzen.
 
 ### Behoben / Fixed
+- Die kompakten `...`-Buttons für Außen- und Innenbild im Ortsdialog behalten ihre dichte UI, exponieren jetzt aber sprechende Tooltips sowie Accessible Names und Descriptions.
 - Veraltete Legacy-Clone-Links und breit formulierte GPL/MIT/Apache-Haftungspassage bereinigt.
 - Campaign-Bundle-Import normalisiert Bundle-Medienpfade jetzt auf lokale Desktop-Pfade und unterstützt auch ältere relative Pfade wie `maps/...` oder `images/...`.
 

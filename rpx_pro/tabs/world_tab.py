@@ -139,6 +139,41 @@ class WorldTab(QWidget):
         save_btn.clicked.connect(self.save_world)
         layout.addWidget(save_btn)
 
+    def _create_image_picker_row(
+        self,
+        parent_dialog: QDialog,
+        current_path: Optional[str],
+        picker_title: str,
+        accessible_name: str,
+        accessible_description: str,
+        object_name: str,
+    ):
+        """Erzeugt einen kompakten Bildpfad-Picker mit Screenreader-Kontext."""
+        line_edit = QLineEdit(current_path or "")
+        button = QPushButton("...")
+        button.setObjectName(object_name)
+        button.setToolTip(accessible_name)
+        button.setAccessibleName(accessible_name)
+        button.setAccessibleDescription(accessible_description)
+        button.setWhatsThis(accessible_description)
+
+        def _pick_image():
+            selected_path = QFileDialog.getOpenFileName(
+                parent_dialog,
+                picker_title,
+                str(IMAGES_DIR),
+                "Bilder (*.png *.jpg *.jpeg *.bmp)",
+            )[0]
+            if selected_path:
+                line_edit.setText(selected_path)
+
+        button.clicked.connect(_pick_image)
+
+        layout = QHBoxLayout()
+        layout.addWidget(line_edit)
+        layout.addWidget(button)
+        return line_edit, button, layout
+
     # --- Public API ---
 
     def refresh_world_list(self):
@@ -340,28 +375,24 @@ class WorldTab(QWidget):
         has_interior_check.setChecked(loc.has_interior)
         form.addRow("Hat Innenansicht:", has_interior_check)
 
-        ext_edit = QLineEdit(loc.exterior_image or "")
-        ext_btn = QPushButton("...")
-        ext_btn.clicked.connect(lambda: ext_edit.setText(
-            QFileDialog.getOpenFileName(
-                dialog, "Außenbild", str(IMAGES_DIR),
-                "Bilder (*.png *.jpg *.jpeg *.bmp)")[0] or ext_edit.text()
-        ))
-        ext_layout = QHBoxLayout()
-        ext_layout.addWidget(ext_edit)
-        ext_layout.addWidget(ext_btn)
+        ext_edit, _, ext_layout = self._create_image_picker_row(
+            dialog,
+            loc.exterior_image,
+            "Außenbild",
+            "Außenbild auswählen",
+            "Öffnet einen Dateidialog, um ein Außenbild für den Ort auszuwählen.",
+            "locationExteriorBrowseButton",
+        )
         form.addRow("Außenbild:", ext_layout)
 
-        int_edit = QLineEdit(loc.interior_image or "")
-        int_btn = QPushButton("...")
-        int_btn.clicked.connect(lambda: int_edit.setText(
-            QFileDialog.getOpenFileName(
-                dialog, "Innenbild", str(IMAGES_DIR),
-                "Bilder (*.png *.jpg *.jpeg *.bmp)")[0] or int_edit.text()
-        ))
-        int_layout = QHBoxLayout()
-        int_layout.addWidget(int_edit)
-        int_layout.addWidget(int_btn)
+        int_edit, _, int_layout = self._create_image_picker_row(
+            dialog,
+            loc.interior_image,
+            "Innenbild",
+            "Innenbild auswählen",
+            "Öffnet einen Dateidialog, um ein Innenbild für den Ort auszuwählen.",
+            "locationInteriorBrowseButton",
+        )
         form.addRow("Innenbild:", int_layout)
 
         ambient_edit = QLineEdit(loc.ambient_sound or "")
@@ -499,10 +530,10 @@ class WorldTab(QWidget):
         map_id = generate_short_id()
         game_map = GameMap(id=map_id, name=name)
         world.maps[map_id] = game_map
-        world.active_map_id = map_id
         self.data_manager.save_world(world)
         self._refresh_map_combo()
         self.switch_map(map_id)
+        self.data_manager.save_world(world)
         self.status_message.emit(f"Karte erstellt: {name}")
 
     def delete_map(self):

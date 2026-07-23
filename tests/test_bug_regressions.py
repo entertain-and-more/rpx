@@ -54,6 +54,31 @@ def test_world_tab_skill_int_guarded():
     assert "int(table.item(row, 1).text())" not in src
 
 
+def test_inventory_tab_duplicate_choice_labels_are_disambiguated():
+    from rpx_pro.tabs.inventory_tab import InventoryTab
+
+    labels, label_to_id = InventoryTab._build_choice_labels([
+        ("char-alpha", "Alex (NPC)"),
+        ("char-beta", "Alex (NPC)"),
+        ("char-gamma", "Mira (GM)"),
+    ])
+
+    assert labels[0] != labels[1]
+    assert label_to_id[labels[0]] == "char-alpha"
+    assert label_to_id[labels[1]] == "char-beta"
+    assert labels[2] == "Mira (GM)"
+    assert label_to_id[labels[2]] == "char-gamma"
+
+
+def test_inventory_tab_no_longer_uses_label_index_lookup():
+    src = _src("tabs/inventory_tab.py")
+    assert ".index(name)" not in src
+    assert "_build_choice_labels" in src
+    assert "label_to_char_id[name]" in src
+    assert "label_to_item_id[name]" in src
+    assert "label_to_npc_id[name]" in src
+
+
 def test_map_widget_isnull_guards():
     src = _src("widgets/map_widget.py")
     assert src.count("isNull()") >= 2

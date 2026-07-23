@@ -173,6 +173,23 @@ class InventoryTab(QWidget):
                 self.npc_location_combo.addItem(loc.name, loc_id)
         self.npc_location_combo.blockSignals(False)
 
+    @staticmethod
+    def _build_choice_labels(options: list[tuple[str, str]]) -> tuple[list[str], dict[str, str]]:
+        """Erzeugt eindeutige Auswahl-Labels und mappt sie stabil auf die Ziel-ID."""
+        label_totals: dict[str, int] = {}
+        for _, base_label in options:
+            label_totals[base_label] = label_totals.get(base_label, 0) + 1
+
+        labels: list[str] = []
+        label_to_id: dict[str, str] = {}
+        for option_id, base_label in options:
+            label = base_label
+            if label_totals[base_label] > 1:
+                label = f"{base_label} [{option_id[:6]}]"
+            labels.append(label)
+            label_to_id[label] = option_id
+        return labels, label_to_id
+
     # --- Private ---
 
     def _item_context_menu(self, pos):
@@ -318,17 +335,19 @@ class InventoryTab(QWidget):
             return
         item = items[row]
 
-        char_names = [f"{c.name} ({c.player_name or 'NPC'})" for c in session.characters.values()]
-        char_ids = list(session.characters.keys())
+        char_options = [
+            (char_id, f"{character.name} ({character.player_name or 'NPC'})")
+            for char_id, character in session.characters.items()
+        ]
+        char_names, label_to_char_id = self._build_choice_labels(char_options)
         if not char_names:
             QMessageBox.warning(self, "Fehler", "Keine Charaktere vorhanden!")
             return
 
         name, ok = QInputDialog.getItem(self, "Charakter wählen",
                                          f"'{item.name}' geben an:", char_names, 0, False)
-        if ok:
-            idx = char_names.index(name)
-            char = session.characters[char_ids[idx]]
+        if ok and name in label_to_char_id:
+            char = session.characters[label_to_char_id[name]]
             if item.id in char.inventory:
                 if item.stackable:
                     char.inventory[item.id] = min(char.inventory[item.id] + 1, item.max_stack)
@@ -348,16 +367,18 @@ class InventoryTab(QWidget):
         if not loc_id:
             QMessageBox.warning(self, "Fehler", "Kein Ort ausgewählt!")
             return
-        item_names = [f"{it.name} ({it.item_class})" for it in world.typical_items.values()]
-        item_ids = list(world.typical_items.keys())
+        item_options = [
+            (item_id, f"{item.name} ({item.item_class})")
+            for item_id, item in world.typical_items.items()
+        ]
+        item_names, label_to_item_id = self._build_choice_labels(item_options)
         if not item_names:
             QMessageBox.warning(self, "Fehler", "Keine Gegenstände definiert!")
             return
         name, ok = QInputDialog.getItem(self, "Item wählen",
                                          "Gegenstand platzieren:", item_names, 0, False)
-        if ok:
-            idx = item_names.index(name)
-            item_id = item_ids[idx]
+        if ok and name in label_to_item_id:
+            item_id = label_to_item_id[name]
             item = world.typical_items[item_id]
             prob, ok2 = QInputDialog.getInt(
                 self, "Fundwahrscheinlichkeit",
@@ -447,17 +468,20 @@ class InventoryTab(QWidget):
         if not npcs:
             QMessageBox.information(self, "Info", "Keine NPCs vorhanden. Erstelle zuerst einen NPC-Charakter.")
             return
-        npc_names = [f"{c.name} ({c.npc_type})" for _, c in npcs]
+        npc_options = [
+            (char_id, f"{character.name} ({character.npc_type})")
+            for char_id, character in npcs
+        ]
+        npc_names, label_to_npc_id = self._build_choice_labels(npc_options)
         name, ok = QInputDialog.getItem(self, "NPC platzieren", "NPC auswählen:", npc_names, 0, False)
-        if not ok:
+        if not ok or name not in label_to_npc_id:
             return
-        idx = npc_names.index(name)
-        char_id = npcs[idx][0]
+        char_id = label_to_npc_id[name]
         prob, ok = QInputDialog.getInt(self, "Wahrscheinlichkeit", "Begegnungswahrscheinlichkeit (0-100%):", 50, 0, 100)
         if not ok:
             return
         loc = world.locations[loc_id]
-        hostile = npcs[idx][1].npc_type == "hostile"
+        hostile = session.characters[char_id].npc_type == "hostile"
         loc.hidden_npcs[char_id] = {
             "encounter_probability": prob / 100.0,
             "hostile": hostile,
