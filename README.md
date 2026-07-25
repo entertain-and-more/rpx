@@ -2,11 +2,21 @@
 
 # RPX Pro — RolePlay Xtreme Professional Edition
 
+[English](README.md) | [Deutsch](README_de.md)
+
 > Professional role-playing game control center for tabletop pen & paper adventures. Offline-capable, free, and open source.
 
+[![Pytest](https://img.shields.io/badge/Pytest-9%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Web Companion](https://img.shields.io/badge/Web%20Companion-17%20passed-brightgreen.svg)](web_companion/)
+[![PySide6](https://img.shields.io/badge/GUI-PySide6%20%2F%20Qt6-blue.svg)](https://www.qt.io/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey.svg)](https://github.com/entertain-and-more/rpx)
+[![Privacy](https://img.shields.io/badge/Privacy-Local--First%20%2F%20Offline-success.svg)](#privacy--local-data)
+[![LLM Ready](https://img.shields.io/badge/LLM-Ready%20%2F%20JSON--RPC-purple.svg)](#cli--api-for-llm-integration)
+
+> [!NOTE]
+> **Local-First & Machine-Readable Architecture**: RPX Pro runs 100% offline. All campaign data, maps, audio, and rulesets remain locally in `rpx_pro_data/`. For AI agents and external LLM workflows, RPX Pro provides a zero-dependency JSON-RPC CLI (`python -m rpx_pro.app --cli`) over `stdin`/`stdout` and exports standardized `rpx-campaign-bundle-v1` ZIP files readable by the offline PWA companion in `web_companion/`.
 
 ![RPX Pro Main Window](README/screenshots/main.png)
 
@@ -85,12 +95,10 @@ and documents the file set in `README/screenshots/store/README.md`.
 ## Tests
 
 ```bash
-python -m pytest -q
+pytest
 python -m compileall -q RPX_Pro_1.py manage_translations.py translator.py rpx_pro tests
 python generate_store_screenshots.py
-node --test web_companion/tests/library.test.mjs
-node --test web_companion/tests/pwa.test.mjs
-node --test web_companion/tests/player.test.mjs
+node --test web_companion/tests/*.mjs
 ```
 
 ## Quick Start
@@ -102,7 +110,44 @@ node --test web_companion/tests/player.test.mjs
 5. **Create characters**: Characters tab > "Create Character" > use "Edit" to set details
 6. **Start playing**: Toolbar > "Start Game" — AI prompt is copied to clipboard
 
-## Architecture
+## System Architecture
+
+```mermaid
+graph TD
+    subgraph Desktop App [RPX Pro - PySide6 Desktop GUI]
+        WM[World & Map System]
+        SB[Multi-Backend Soundboard]
+        FX[Light & Event Effects]
+        CE[Combat & Dice Engine]
+        AI[AI Prompt Generator]
+        PM[Player Screen Manager]
+    end
+
+    subgraph Programmatic Interfaces
+        CLI[JSON-RPC CLI Interface]
+        API[RPXProAPI Dataclass Contract]
+    end
+
+    subgraph Data & Storage
+        ZIP[rpx-campaign-bundle-v1 ZIP Export]
+        DATA[Local Disk Storage / rpx_pro_data]
+    end
+
+    subgraph Mobile & Offline
+        PWA[Web PWA Companion App]
+        SW[Service Worker Cache]
+    end
+
+    WM --> DATA
+    CE --> DATA
+    Desktop App <--> API
+    API <--> CLI
+    CLI <-->|stdin/stdout| ExternalAI[External LLM / AI Agents]
+    Desktop App -->|Export| ZIP
+    ZIP -->|Import| PWA
+    PWA <--> SW
+    PM -->|Second Monitor| PlayerDisplay[Player Display Output]
+```
 
 RPX Pro is built as a modular Python package (`rpx_pro/`):
 
@@ -347,94 +392,3 @@ The ruleset templates contain only generic game mechanics. D&D content is based 
 This project is an unpaid open-source donation. Liability is limited to intent and gross negligence (§ 521 German Civil Code). Use at your own risk. No warranty, no maintenance guarantee, no fitness-for-purpose assumed. The MIT License disclaimer also applies.
 
 Dieses Projekt ist eine **unentgeltliche Open-Source-Schenkung** im Sinne der §§ 516 ff. BGB. Die Haftung des Urhebers ist gemäß **§ 521 BGB** auf **Vorsatz und grobe Fahrlässigkeit** beschränkt. Ergänzend gilt der Haftungsausschluss der MIT-Lizenz.
-
----
-
-<details>
-<summary>🇩🇪 Deutsch / German Documentation</summary>
-
-## RPX Pro — RolePlay Xtreme Professional Edition (Deutsch)
-
-Ein professionelles Rollenspiel-Kontrollzentrum für Pen & Paper Abenteuer. Offline-fähig, kostenlos, Open Source.
-
-### Features
-
-| Feature | Beschreibung |
-|---------|-------------|
-| **Welten-System** | Multi-Map-Karten, Orte (Außen-/Innenansicht), Nationen, Völker, Trigger-Automatisierung |
-| **Soundboard** | Multi-Backend Audio (Qt Multimedia, pygame, winsound) |
-| **Lichteffekte** | Blitz, Stroboskop, Tag/Nacht-Zyklus, Farbfilter (konfigurierbar für Spieler-Bildschirm) |
-| **Kampfsystem** | Waffen, Rüstungen, Magie, Kampftechniken, konfigurierbares Würfelsystem |
-| **Spieler-Bildschirm** | Separater Monitor mit dynamischen Ansichten (Kacheln, Rotation, Bilder) |
-| **Regelwerk-Import** | D&D 5e, DSA 5, Generisches Fantasy (oder eigene JSON-Templates) |
-| **KI-Integration** | Promptgenerator mit 7 spezialisierten KI-Rollen |
-| **CLI/API** | JSON-RPC CLI für LLM-Steuerung via stdin/stdout |
-| **Web/PWA-Companion** | Liest lokale `rpx-campaign-bundle-v1`-ZIPs für Kampagnenübersicht, Charakterstatus, Missionen und Medienhinweise |
-| **Session-Manager** | Missionen, Gruppen, Rundensteuerung |
-| **Charaktere** | Attribute, Inventar-Dialog, Gold, Avatar, Hunger/Durst-Simulation |
-| **Simulation** | Hunger/Durst-Timer, Zeitfortschritt, Naturkatastrophen |
-
-### Installation
-
-```bash
-# Abhängigkeiten installieren
-pip install -r requirements.txt
-
-# Starten
-python RPX_Pro_1.py
-# oder direkt:
-python -m rpx_pro.app
-```
-
-Unter Windows: `START.bat` doppelklicken.
-
-**Voraussetzungen:** Python 3.10+, PySide6 (Qt6), pygame (optional)
-
-### Schnellstart
-
-1. **Welt erstellen**: Welt-Tab > "Neue Welt" > Name eingeben
-2. **Karte hinterlegen**: Welt-Tab > "Karte laden..." > Bilddatei auswählen
-3. **Orte anlegen**: Welt-Tab > "Ort hinzufügen" > mit "Bearbeiten" Bilder/Sound zuweisen
-4. **Session starten**: Datei > Neue Session > Welt auswählen
-5. **Charaktere erstellen**: Charaktere-Tab > "Charakter erstellen" > mit "Bearbeiten" Details setzen
-6. **Spiel starten**: Toolbar > "Spiel starten" > KI-Prompt wird in die Zwischenablage kopiert
-
-### Tab-Übersicht
-
-**Chat (Tab 1):** Nachrichten mit verschiedenen Rollen, Farbcodierung, Chat-Befehle (`/roll`, `/heal`, `/damage`, `/check`, `/give`)
-
-**Ansichten (Tab 2):** Ortsansicht, Inventaransicht, Ambiente (Lichteffekte + Musik), Spieler-Bildschirm-Steuerung
-
-**Welt (Tab 3):** Welten verwalten, Multi-Map-System, interaktive Karte, Ortsbaum
-
-**Charaktere (Tab 4):** Charaktertabelle, Inventar-Button, Bearbeiten-Dialog, HP/Mana-Schnellsteuerung
-
-**Kampf (Tab 5):** Würfelsystem (W4–W100), Angriffsmechanik, Waffen- und Zauberlisten
-
-**Missionen (Tab 6):** Aktive/abgeschlossene Missionen, Status-Log im Chat
-
-**Inventar (Tab 7):** Welt-Item-Bibliothek, Items und NPCs an Orten mit Wahrscheinlichkeiten
-
-**Soundboard (Tab 8):** Sound-Effekte per Drag&Drop, Play/Stop pro Sound
-
-**KI-Prompts (Tab 9):** 7 KI-Rollen, Spielstart- und Update-Prompt generieren und kopieren
-
-**Einstellungen (Tab 10):** Session- und Welt-Parameter (Zeit, Simulation, Spielleiter-Typ)
-
-### Simulation
-
-**Hunger/Durst:** Steigen proportional zur Spielzeit (konfigurierbare Rate, Rassen-Modifikatoren)
-
-**Naturkatastrophen:** Zufallsereignisse mit Stroboskop-Effekt + Chat-Nachricht
-
-**Zeitfortschritt:** Spielzeit proportional zur Echtzeit, Tageswechsel-Benachrichtigungen
-
-### Regelwerk-Import
-
-Drei mitgelieferte Templates: D&D 5e (SRD), DSA 5 (Abstrahiert), Generisches Fantasy. Eigene Regelwerke als JSON importierbar.
-
-### Lizenz
-
-MIT License — siehe [LICENSE](LICENSE). Freie Verwendung, Modifikation und Weitergabe erlaubt, auch kommerziell.
-
-</details>

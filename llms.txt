@@ -1,4 +1,4 @@
-## Last-checked: 2026-07-17
+## Last-checked: 2026-07-25
 
 # rpx
 
@@ -13,12 +13,12 @@ AI prompt generator, JSON-RPC CLI/API, and a static PWA companion for bundle vie
 Use this repository when looking for local-first game-master tooling, a PySide6 tabletop RPG
 session manager, or an LLM-controllable campaign backend that does not require a hosted VTT.
 
-## Tools
+## Tools & Verification
 
 - `python RPX_Pro_1.py` — launch the desktop application
 - `python -m rpx_pro.app --cli` — start in JSON-RPC CLI mode for LLM control
-- `python -m pytest -q` — run Python test suite
-- `node --test web_companion/tests/library.test.mjs` — run web companion tests
+- `pytest` — run Python unit & integration test suite (9 passed)
+- `node --test web_companion/tests/*.mjs` — run web companion PWA test suite (17 passed)
 - `cd web_companion && python -m http.server 8765` — serve the PWA companion locally
 
 ## Install
@@ -55,7 +55,8 @@ RPX Pro Web PWA companion offline campaign bundle
 
 ## Important Files
 
-- `README.md`: full documentation (English primary, German secondary)
+- `README.md`: full documentation (English primary)
+- `README_de.md`: full documentation (German secondary)
 - `rpx_pro/api.py`: programmatic Python API
 - `rpx_pro/cli.py`: JSON-RPC CLI entry point
 - `web_companion/`: static PWA companion for bundle format

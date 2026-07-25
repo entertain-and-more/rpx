@@ -5,6 +5,16 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-07-25
+
+### Marketing & Discoverability
+- Integrated standard PEP 621 `pyproject.toml` with project metadata, dependencies, classifiers, and pytest configuration (`pythonpath = "."`).
+- Added German landing page `README_de.md` with full parity, language switcher, badges, callouts, and Mermaid architecture diagram.
+- Updated `README.md` with Shields.io badges (Pytest 9 passed, Web Companion 17 passed, PySide6, License, Python, Privacy, LLM Ready), language switcher, GitHub Alert Note callout, and Mermaid architecture & data flow diagram.
+- Updated `llms.txt` header with `Last-checked: 2026-07-25`, verification status notes (26 passing tests), and link to `README_de.md`.
+
+## [1.0.0] - 2026-07-23
+
 ### Documentation
 - Added a README audience/use-case entry section and refreshed `llms.txt` discovery phrases for tabletop RPG, local-first game-master, PWA companion, and JSON-RPC LLM API searches.
 - Restructured README.md to English-first; German documentation retained as collapsible secondary section.
@@ -56,8 +66,3 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 ### Behoben / Fixed
 - Veraltete Legacy-Clone-Links und breit formulierte GPL/MIT/Apache-Haftungspassage bereinigt.
 - Campaign-Bundle-Import normalisiert Bundle-Medienpfade jetzt auf lokale Desktop-Pfade und unterstützt auch ältere relative Pfade wie `maps/...` oder `images/...`.
-
-## [1.0.0] - YYYY-MM-DD
-
-### Hinzugefügt / Added
-- Erstveröffentlichung / Initial release
