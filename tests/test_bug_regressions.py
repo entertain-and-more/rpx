@@ -139,3 +139,50 @@ def test_data_manager_quarantines_unloadable_savegame():
 
     assert dm.worlds == {}
     assert dm.load_warnings
+
+
+def test_delete_world_creates_backup_dir_and_handles_collisions():
+    from rpx_pro.managers import data_manager as dm_module
+    from rpx_pro.managers.data_manager import DataManager
+    from rpx_pro.models.world import World
+
+    with tempfile.TemporaryDirectory() as tmp:
+        base = Path(tmp)
+        worlds_dir = base / "worlds"
+        sessions_dir = base / "sessions"
+        backups_dir = base / "backups"
+        config_file = base / "config.json"
+        worlds_dir.mkdir(parents=True, exist_ok=True)
+        sessions_dir.mkdir(parents=True, exist_ok=True)
+        # backups_dir wird bewusst NICHT angelegt, um mkdir-Erstellung zu testen
+
+        patches = [
+            patch.object(dm_module, "CONFIG_FILE", config_file),
+            patch.object(dm_module, "WORLDS_DIR", worlds_dir),
+            patch.object(dm_module, "SESSIONS_DIR", sessions_dir),
+            patch.object(dm_module, "BACKUPS_DIR", backups_dir),
+        ]
+        for patcher in patches:
+            patcher.start()
+        try:
+            dm = DataManager()
+            w = World(id="testworld")
+            dm.save_world(w)
+            assert (worlds_dir / "testworld.json").exists()
+
+            # Simuliere bestehendes Kollisions-Backup im selben Timestamp-Fenster
+            backups_dir.mkdir(parents=True, exist_ok=True)
+            collision_file = backups_dir / "world_testworld_1000.json"
+            collision_file.write_text("{}", encoding="utf-8")
+
+            with patch("time.time", return_value=1000):
+                success = dm.delete_world("testworld")
+                assert success
+                assert not (worlds_dir / "testworld.json").exists()
+                # Erstes Kollisions-Backup existiert weiter, neues Backup wurde mit Unique-Suffix angelegt
+                assert collision_file.exists()
+                unique_backup = backups_dir / "world_testworld_1000-2.json"
+                assert unique_backup.exists()
+        finally:
+            for patcher in reversed(patches):
+                patcher.stop()

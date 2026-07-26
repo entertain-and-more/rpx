@@ -222,8 +222,9 @@ class DataManager:
             return False
         try:
             path = WORLDS_DIR / f"{world_id}.json"
-            backup_path = BACKUPS_DIR / f"world_{world_id}_{int(time.time())}.json"
             if path.exists():
+                BACKUPS_DIR.mkdir(parents=True, exist_ok=True)
+                backup_path = self._unique_path(BACKUPS_DIR / f"world_{world_id}_{int(time.time())}.json")
                 path.rename(backup_path)
             del self.worlds[world_id]
             if self.current_world and self.current_world.id == world_id:
@@ -239,8 +240,9 @@ class DataManager:
             return False
         try:
             path = SESSIONS_DIR / f"{session_id}.json"
-            backup_path = BACKUPS_DIR / f"session_{session_id}_{int(time.time())}.json"
             if path.exists():
+                BACKUPS_DIR.mkdir(parents=True, exist_ok=True)
+                backup_path = self._unique_path(BACKUPS_DIR / f"session_{session_id}_{int(time.time())}.json")
                 path.rename(backup_path)
             del self.sessions[session_id]
             if self.current_session and self.current_session.id == session_id:
