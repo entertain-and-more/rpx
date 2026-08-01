@@ -5,6 +5,11 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+- Defined the macOS/Linux source smoke in `SOURCE_SMOKE_TEST.md`, added
+  `tests/test_source_platform_smoke.py`, and wired a GitHub Actions
+  `source-smoke` matrix for `ubuntu-latest` and `macos-latest`.
+
 ## [1.0.1] - 2026-07-25
 
 ### Marketing & Discoverability

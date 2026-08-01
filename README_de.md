@@ -6,7 +6,7 @@
 
 > Professionelles Rollenspiel-Kontrollzentrum für Pen & Paper Tabletop-Abenteuer. Offline-fähig, kostenlos und Open Source.
 
-[![Pytest](https://img.shields.io/badge/Pytest-9%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest](https://img.shields.io/badge/Pytest-14%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![Web Companion](https://img.shields.io/badge/Web%20Companion-17%20passed-brightgreen.svg)](web_companion/)
 [![PySide6](https://img.shields.io/badge/GUI-PySide6%20%2F%20Qt6-blue.svg)](https://www.qt.io/)
 [![License](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)
@@ -84,10 +84,13 @@ Die erstellte Anwendung landet in `dist/RPX_Pro/`. Die Spec-Datei bindet `rulese
 
 ```bash
 pytest
+pytest tests/test_source_platform_smoke.py
 python -m compileall -q RPX_Pro_1.py manage_translations.py translator.py rpx_pro tests
 python generate_store_screenshots.py
 node --test web_companion/tests/*.mjs
 ```
+
+Für macOS-/Linux-Source-Smokes siehe [SOURCE_SMOKE_TEST.md](SOURCE_SMOKE_TEST.md).
 
 ## Schnellstart
 
