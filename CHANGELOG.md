@@ -10,6 +10,11 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
   `tests/test_source_platform_smoke.py`, and wired a GitHub Actions
   `source-smoke` matrix for `ubuntu-latest` and `macos-latest`.
 
+### Marketing & Discoverability
+- Synchronized Shields.io badges in `README.md` and `README_de.md` with `entertain-and-more` organization and `open-bricks` ecosystem badges.
+- Verified test suite status across Python Pytest (14 passed) and Node.js Web Companion PWA tests (17 passed, 31 total).
+- Updated `llms.txt` header to `Last-checked: 2026-08-03` with updated test verification notes.
+
 ## [1.0.1] - 2026-07-25
 
 ### Marketing & Discoverability

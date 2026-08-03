@@ -14,6 +14,8 @@
 [![Platform](https://img.shields.io/badge/Plattform-Windows-lightgrey.svg)](https://github.com/entertain-and-more/rpx)
 [![Datenschutz](https://img.shields.io/badge/Datenschutz-Local--First%20%2F%20Offline-success.svg)](#datenschutz--lokale-daten)
 [![LLM Bereit](https://img.shields.io/badge/LLM-Bereit%20%2F%20JSON--RPC-purple.svg)](#cli--api-f%C3%BCr-llm-integration)
+[![Org](https://img.shields.io/badge/Org-entertain--and--more-0055ff.svg)](https://github.com/entertain-and-more)
+[![Ecosystem](https://img.shields.io/badge/Ecosystem-open--bricks-orange.svg)](https://github.com/open-bricks)
 
 > [!NOTE]
 > **Local-First & Maschinenlesbare Architektur**: RPX Pro läuft zu 100% offline. Alle Kampagnendaten, Karten, Audiodateien und Regelwerke verbleiben lokal in `rpx_pro_data/`. Für KI-Agenten und externe LLM-Workflows bietet RPX Pro eine abhaengigkeitsfreie JSON-RPC CLI (`python -m rpx_pro.app --cli`) über `stdin`/`stdout` sowie standardisierte `rpx-campaign-bundle-v1` ZIP-Exporte für den offline PWA-Companion in `web_companion/`.

@@ -1,4 +1,4 @@
-## Last-checked: 2026-07-25
+## Last-checked: 2026-08-03
 
 # rpx
 
@@ -17,7 +17,7 @@ session manager, or an LLM-controllable campaign backend that does not require a
 
 - `python RPX_Pro_1.py` — launch the desktop application
 - `python -m rpx_pro.app --cli` — start in JSON-RPC CLI mode for LLM control
-- `pytest` — run Python unit & integration test suite (9 passed)
+- `pytest` — run Python unit & integration test suite (14 passed)
 - `node --test web_companion/tests/*.mjs` — run web companion PWA test suite (17 passed)
 - `cd web_companion && python -m http.server 8765` — serve the PWA companion locally
 
