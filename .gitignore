@@ -105,3 +105,6 @@ web_companion_FINAL_*/
 # docs/ enthält keine öffentlichen Projektdateien; GitHub Pages ist nicht aktiviert.
 # Wenn Pages künftig aus docs/ bedient wird, diesen Eintrag entfernen.
 docs/
+
+# Interne Multi-Agenten-Koordination (LOCK-System)
+LOCK*.txt

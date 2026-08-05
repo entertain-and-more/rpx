@@ -5,6 +5,12 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+- Der `source-smoke`-Job installiert auf Linux jetzt die Qt-Systembibliotheken
+  (`libegl1`, `libgl1`, `libxkbcommon-x11-0`, `libdbus-1-3`) und läuft mit
+  `QT_QPA_PLATFORM=offscreen`. Der PySide6-Import scheiterte dort an
+  `libEGL.so.1`; der Workflow war seit dem 2026-08-01 rot.
+
 ### Added
 - Defined the macOS/Linux source smoke in `SOURCE_SMOKE_TEST.md`, added
   `tests/test_source_platform_smoke.py`, and wired a GitHub Actions
