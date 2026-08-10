@@ -1,12 +1,14 @@
 # Privacy Policy / Datenschutzerklärung
 
-**RPX Pro** - Last updated: 2026-05-01
+**RPX Pro** - Last updated: 2026-08-10
+
+**Release status: Unreleased** (application version 1.0.0; store package version 1.0.0.0; legal and store approval pending)
 
 ---
 
 ## English
 
-RPX Pro is an offline desktop application.
+RPX Pro is an offline-capable desktop application. The app is local-first and does not automatically collect or transmit user data.
 
 - **No data collection:** RPX Pro does not collect, store, or transmit personal data to the project maintainer.
 - **No tracking:** The application contains no analytics, telemetry, or tracking mechanisms.
@@ -16,11 +18,13 @@ RPX Pro is an offline desktop application.
 
 If you have questions, open an issue at https://github.com/entertain-and-more/rpx/issues. Do not include private session data in public issues.
 
+Privacy policy URL: https://github.com/entertain-and-more/rpx/blob/master/PRIVACY_POLICY.md
+
 ---
 
 ## Deutsch
 
-RPX Pro ist eine Offline-Desktop-Anwendung.
+RPX Pro ist eine offline-fähige Desktop-Anwendung. Die Anwendung ist local-first und erhebt oder überträgt nicht automatisch Nutzerdaten.
 
 - **Keine Datenerhebung:** RPX Pro erhebt, speichert oder überträgt keine personenbezogenen Daten an den Projektbetreiber.
 - **Kein Tracking:** Die Anwendung enthält keine Analyse-, Telemetrie- oder Tracking-Mechanismen.
@@ -30,6 +34,9 @@ RPX Pro ist eine Offline-Desktop-Anwendung.
 
 Bei Fragen eröffnen Sie ein Issue unter https://github.com/entertain-and-more/rpx/issues. Bitte veröffentlichen Sie keine privaten Session-Daten in öffentlichen Issues.
 
+Datenschutz-URL: https://github.com/entertain-and-more/rpx/blob/master/PRIVACY_POLICY.md
+
 ---
 
 *Publisher: Geiger | CN=52596601-BAB4-4F3F-B182-E8F3F273B202*
+*Support: https://github.com/entertain-and-more/rpx/issues*

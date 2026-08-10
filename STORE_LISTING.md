@@ -2,6 +2,22 @@
 
 ## Deutsch
 
+### Release-Metadaten und Datenschutz
+
+| Feld | Wert |
+|------|------|
+| Anwendungsversion | `1.0.0` |
+| Store-Paketversion | `1.0.0.0` |
+| Release-Status | **Unreleased / Unveröffentlicht** (rechtliche und Store-Freigabe ausstehend) |
+| Herausgeber | Geiger (`CN=52596601-BAB4-4F3F-B182-E8F3F273B202`) |
+| Datenschutz-URL | https://github.com/entertain-and-more/rpx/blob/master/PRIVACY_POLICY.md |
+| Support | https://github.com/entertain-and-more/rpx/issues |
+| Datenschutzprüfung | `2026-08-10` |
+
+RPX Pro erhebt oder überträgt keine Daten automatisch. Kampagnendaten bleiben
+lokal. Prompts für ein externes KI-Tool werden lokal kopiert oder angezeigt;
+die Anwendung sendet sie nicht selbst an einen KI-Anbieter.
+
 ### Kurzbeschreibung (max 100 Zeichen)
 Pen & Paper Kontrollzentrum: Welten, Charaktere, Soundboard, KI-Integration -- offline & gratis.
 
@@ -69,6 +85,22 @@ Entertainment / Gaming
 ---
 
 ## English
+
+### Release metadata and privacy
+
+| Field | Value |
+|-------|-------|
+| Application version | `1.0.0` |
+| Store package version | `1.0.0.0` |
+| Release status | **Unreleased / Unveröffentlicht** (legal and store approval pending) |
+| Publisher | Geiger (`CN=52596601-BAB4-4F3F-B182-E8F3F273B202`) |
+| Privacy URL | https://github.com/entertain-and-more/rpx/blob/master/PRIVACY_POLICY.md |
+| Support | https://github.com/entertain-and-more/rpx/issues |
+| Privacy review | `2026-08-10` |
+
+RPX Pro has no automatic data collection or transmission. Campaign data stays
+local. Prompts for an external AI tool are copied or shown locally; the app
+does not send them to an AI provider by itself.
 
 ### Short Description (max 100 chars)
 Pen & Paper control center: worlds, characters, soundboard, AI integration -- offline & free.

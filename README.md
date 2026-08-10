@@ -6,7 +6,23 @@
 
 > Professional role-playing game control center for tabletop pen & paper adventures. Offline-capable, free, and open source.
 
-[![Pytest](https://img.shields.io/badge/Pytest-14%20passed-brightgreen.svg)](https://docs.pytest.org/)
+### Release metadata
+
+| Field | Value |
+|-------|-------|
+| Application version | `1.0.0` |
+| Store package version | `1.0.0.0` |
+| Release status | **Unreleased / Unveröffentlicht** (legal and store approval pending) |
+| Publisher | Geiger (`CN=52596601-BAB4-4F3F-B182-E8F3F273B202`) |
+| Privacy policy | [PRIVACY_POLICY.md](https://github.com/entertain-and-more/rpx/blob/master/PRIVACY_POLICY.md) |
+| Support | [GitHub Issues](https://github.com/entertain-and-more/rpx/issues) |
+| Privacy review | `2026-08-10` |
+
+Privacy boundary: RPX Pro has no automatic data collection or transmission. It
+keeps campaign data local; prompts for an external AI tool are copied or shown
+locally and leave the device only when the user chooses to use that tool.
+
+[![Pytest](https://img.shields.io/badge/Pytest-15%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![Web Companion](https://img.shields.io/badge/Web%20Companion-17%20passed-brightgreen.svg)](web_companion/)
 [![PySide6](https://img.shields.io/badge/GUI-PySide6%20%2F%20Qt6-blue.svg)](https://www.qt.io/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)

@@ -6,7 +6,25 @@
 
 > Professionelles Rollenspiel-Kontrollzentrum für Pen & Paper Tabletop-Abenteuer. Offline-fähig, kostenlos und Open Source.
 
-[![Pytest](https://img.shields.io/badge/Pytest-14%20passed-brightgreen.svg)](https://docs.pytest.org/)
+### Release-Metadaten
+
+| Feld | Wert |
+|------|------|
+| Anwendungsversion | `1.0.0` |
+| Store-Paketversion | `1.0.0.0` |
+| Release-Status | **Unreleased / Unveröffentlicht** (rechtliche und Store-Freigabe ausstehend) |
+| Herausgeber | Geiger (`CN=52596601-BAB4-4F3F-B182-E8F3F273B202`) |
+| Datenschutzerklärung | [PRIVACY_POLICY.md](https://github.com/entertain-and-more/rpx/blob/master/PRIVACY_POLICY.md) |
+| Support | [GitHub Issues](https://github.com/entertain-and-more/rpx/issues) |
+| Datenschutzprüfung | `2026-08-10` |
+
+Datenschutzgrenze: Es gibt keine automatische Datenerhebung oder Übertragung.
+Kampagnendaten bleiben lokal; Prompts für ein externes KI-Tool bzw. einen
+externen KI-Anbieter werden lokal
+kopiert oder angezeigt und verlassen das Gerät nur, wenn die nutzende Person
+dieses Tool ausdrücklich verwendet.
+
+[![Pytest](https://img.shields.io/badge/Pytest-15%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![Web Companion](https://img.shields.io/badge/Web%20Companion-17%20passed-brightgreen.svg)](web_companion/)
 [![PySide6](https://img.shields.io/badge/GUI-PySide6%20%2F%20Qt6-blue.svg)](https://www.qt.io/)
 [![License](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)

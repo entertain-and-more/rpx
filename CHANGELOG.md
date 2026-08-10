@@ -15,10 +15,14 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 - Defined the macOS/Linux source smoke in `SOURCE_SMOKE_TEST.md`, added
   `tests/test_source_platform_smoke.py`, and wired a GitHub Actions
   `source-smoke` matrix for `ubuntu-latest` and `macos-latest`.
+- Aligned release metadata across the privacy policy, store package,
+  AppxManifest, README files, and store listing. The application remains
+  explicitly **Unreleased** pending legal/store approval; no release is
+  implied by this documentation check.
 
 ### Marketing & Discoverability
 - Synchronized Shields.io badges in `README.md` and `README_de.md` with `entertain-and-more` organization and `open-bricks` ecosystem badges.
-- Verified test suite status across Python Pytest (14 passed) and Node.js Web Companion PWA tests (17 passed, 31 total).
+- Verified test suite status across Python Pytest (15 passed) and Node.js Web Companion PWA tests (17 passed, 32 total).
 - Updated `llms.txt` header to `Last-checked: 2026-08-03` with updated test verification notes.
 
 ## [1.0.1] - 2026-07-25
