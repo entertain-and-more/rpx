@@ -10,6 +10,13 @@
 - Pre-existing Web Companion changes were preserved unchanged: six tracked files
   (`manifest.webmanifest` plus five PNGs) and nine untracked icon/favicon assets.
 
+## Current clone readback — 2026-08-10
+
+- Fresh readback before this slice: HEAD is `6d7876658770c078657183e69548759c2e907c0e`; the existing local `origin/master` ref is `e13d17210971a6d816695bc72ddb0a6946ffc29f`; the local comparison is `master...origin/master [ahead 2]`. This is not a live-remote parity claim.
+- `git ls-remote origin HEAD refs/heads/master` currently returns `3e35863233af76729a4d8004bd5a595fb4b5d419` for both references. No fetch, rebase, or push was run; ancestry and parity against that live head remain unestablished.
+- The working tree contains exactly the six previously observed modified tracked Web Companion files (`manifest.webmanifest` plus five PNGs) and nine untracked icon/favicon assets. No staged changes or unmerged entries were present.
+- `git diff --check` and `git diff --cached --check` pass. `.git/index.lock`, `.git/HEAD.lock`, `.git/MERGE_HEAD`, `.git/REBASE_HEAD`, and `.git/CHERRY_PICK_HEAD` are absent.
+
 ## Verification
 
 - `python -X utf8 -m pytest -q`: **14 passed**.
