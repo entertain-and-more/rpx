@@ -6,6 +6,10 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 ## [Unreleased]
 
 ### Fixed
+- Store-Screenshots verwenden jetzt native Qt-Glyphen mit
+  `Qt.WA_DontShowOnScreen` statt des fehlerhaften offscreen-Renderers. Ein
+  Selbsttest blockiert Tofu-Ausgaben; Statusleisten-Überlagerungen und helle
+  Label-Hintergründe im Capture-Pfad sind beseitigt.
 - Der `source-smoke`-Job installiert auf Linux jetzt die Qt-Systembibliotheken
   (`libegl1`, `libgl1`, `libxkbcommon-x11-0`, `libdbus-1-3`) und läuft mit
   `QT_QPA_PLATFORM=offscreen`. Der PySide6-Import scheiterte dort an

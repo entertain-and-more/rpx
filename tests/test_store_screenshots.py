@@ -1,15 +1,36 @@
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
 
 from PySide6.QtGui import QImage
+from PySide6.QtWidgets import QApplication
 
-from generate_store_screenshots import SCREENSHOT_FILES, SUMMARY_FILE, generate_store_screenshots
+from generate_store_screenshots import (
+    SCREENSHOT_FILES,
+    SUMMARY_FILE,
+    _assert_store_font_rendering,
+    generate_store_screenshots,
+)
 
 
 class StoreScreenshotGenerationTests(unittest.TestCase):
+    def test_generator_source_uses_native_glyph_rendering(self):
+        source = (Path(__file__).parents[1] / "generate_store_screenshots.py").read_text(encoding="utf-8")
+        self.assertIn("WA_DontShowOnScreen", source)
+        self.assertNotIn('setdefault("QT_QPA_PLATFORM", "offscreen")', source)
+
+    def test_offscreen_qt_is_rejected_before_screenshots_are_written(self):
+        app = QApplication.instance()
+        if app is None or app.platformName() != "offscreen":
+            self.skipTest("kein offscreen-Qt-Kontext")
+        with self.assertRaises(RuntimeError):
+            _assert_store_font_rendering(app)
+
     def test_generator_writes_all_expected_pngs_and_summary(self):
+        if os.environ.get("QT_QPA_PLATFORM") == "offscreen":
+            self.skipTest("native Font-Renderings sind unter offscreen nicht prüfbar")
         with tempfile.TemporaryDirectory(prefix="rpx-store-test-") as tmpdir:
             output_dir = Path(tmpdir)
 

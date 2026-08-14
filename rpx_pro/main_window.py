@@ -1145,6 +1145,9 @@ class RPXProMainWindow(QMainWindow):
                 background-color: #16213e;
                 color: #aaa;
             }
+            QLabel {
+                background-color: transparent;
+            }
             QMenuBar {
                 background-color: #16213e;
                 color: #fff;

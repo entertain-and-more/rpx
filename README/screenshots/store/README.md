@@ -18,6 +18,11 @@ schreibt folgende Dateien:
 - `ai-prompts.png`
 - `summary.json`
 
+Er rendert mit der nativen Qt-Plattform und `Qt.WA_DontShowOnScreen`: Die
+Fenster bleiben unsichtbar, die Schriftglyphen werden aber vor dem Schreiben
+der Store-Assets geprüft. Bei offscreen-Qt oder einem Tofu-Verdacht bricht der
+Generator ab, statt unlesbare Bilder zu erzeugen.
+
 ## Zweck
 
 Die Bilder decken die Kernflächen für das Store-Listing ab:

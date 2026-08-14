@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 import importlib
 import json
 import math
@@ -13,7 +14,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ.setdefault("QT_SCALE_FACTOR", "1")
 
 PROJECT_ROOT = Path(__file__).resolve().parent
@@ -21,7 +21,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor, QFont, QImage, QPainter, QPen
+from PySide6.QtGui import QColor, QFont, QImage, QPainter, QPen, QPixmap
 from PySide6.QtWidgets import QApplication
 
 
@@ -65,6 +65,53 @@ def _process_events(app: QApplication, duration: float = 0.08) -> None:
     while time.monotonic() < deadline:
         app.processEvents()
         time.sleep(0.005)
+
+
+@contextlib.contextmanager
+def _native_qt_platform():
+    """Use native Qt rendering for Store assets while keeping windows invisible.
+
+    On Windows the offscreen plugin can render every glyph as the same missing
+    glyph box (Tofu). ``Qt.WA_DontShowOnScreen`` keeps the native window out of
+    view without sacrificing its font renderer.
+    """
+    previous = os.environ.get("QT_QPA_PLATFORM")
+    if previous == "offscreen" and QApplication.instance() is None:
+        del os.environ["QT_QPA_PLATFORM"]
+    try:
+        yield
+    finally:
+        if previous is not None:
+            os.environ["QT_QPA_PLATFORM"] = previous
+
+
+def _glyph_rendering_works(app: QApplication) -> bool:
+    """Detect a missing-glyph renderer before writing a Store screenshot set."""
+    font = app.font()
+    probes = ("A", "B", "g", "8", "M")
+
+    def render(char: str) -> bytes:
+        pixmap = QPixmap(48, 48)
+        pixmap.fill(Qt.white)
+        painter = QPainter(pixmap)
+        painter.setFont(font)
+        painter.setPen(Qt.black)
+        painter.drawText(pixmap.rect(), Qt.AlignCenter, char)
+        painter.end()
+        return bytes(pixmap.toImage().constBits())
+
+    rendered = [render(char) for char in probes]
+    blank = render(" ")
+    return len(set(rendered)) >= 3 and sum(image != blank for image in rendered) >= len(probes) - 1
+
+
+def _assert_store_font_rendering(app: QApplication) -> None:
+    if app.platformName() == "offscreen":
+        raise RuntimeError(
+            "Qt läuft unter offscreen; Store-Screenshots würden unlesbare Kästchen enthalten."
+        )
+    if not _glyph_rendering_works(app):
+        raise RuntimeError("Font-Rendering-Selbsttest fehlgeschlagen; Screenshot-Erzeugung abgebrochen.")
 
 
 def _configure_runtime_paths(constants: Any, runtime_root: Path) -> None:
@@ -432,6 +479,10 @@ def _seed_demo_state(app: QApplication, modules: RuntimeModules) -> DemoContext:
 
 
 def _save_widget(widget: Any, target: Path, app: QApplication) -> None:
+    widget.setAttribute(Qt.WA_DontShowOnScreen, True)
+    status_bar = getattr(widget, "statusBar", None)
+    if callable(status_bar):
+        status_bar().clearMessage()
     widget.show()
     widget.raise_()
     widget.activateWindow()
@@ -578,8 +629,10 @@ def generate_store_screenshots(output_dir: str | Path) -> dict[str, Any]:
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    app = QApplication.instance() or QApplication([])
+    with _native_qt_platform():
+        app = QApplication.instance() or QApplication([])
     app.setApplicationName("RPX Pro Store Screenshots")
+    _assert_store_font_rendering(app)
 
     with tempfile.TemporaryDirectory(prefix="rpx-store-shots-") as runtime:
         modules = _load_runtime_modules(Path(runtime))
