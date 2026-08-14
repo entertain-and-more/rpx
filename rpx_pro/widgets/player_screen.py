@@ -220,14 +220,19 @@ class PlayerScreen(QMainWindow):
         grid.setSpacing(8)
 
         tile_style = """
-            QFrame {{
+            QFrame {
                 background-color: #111;
                 border: 1px solid #333;
                 border-radius: 8px;
-            }}
-            QLabel {{
+            }
+            QScrollArea, QScrollArea::viewport {
+                background-color: #111;
+                border: none;
+            }
+            QLabel {
+                background-color: transparent;
                 color: #e0e0e0;
-            }}
+            }
         """
 
         # Sammle aktive Kacheln
@@ -244,11 +249,13 @@ class PlayerScreen(QMainWindow):
             chars_layout.addWidget(chars_header)
             self.tile_chars_list = QVBoxLayout()
             tile_chars_container = QWidget()
+            tile_chars_container.setStyleSheet("background-color: #111;")
             tile_chars_container.setLayout(self.tile_chars_list)
             tile_chars_scroll = QScrollArea()
             tile_chars_scroll.setWidget(tile_chars_container)
             tile_chars_scroll.setWidgetResizable(True)
-            tile_chars_scroll.setStyleSheet("QScrollArea { border: none; background: transparent; }")
+            tile_chars_scroll.setStyleSheet(
+                "QScrollArea, QScrollArea::viewport { border: none; background-color: #111; }")
             chars_layout.addWidget(tile_chars_scroll)
             active_tiles.append(chars_tile)
 
@@ -263,11 +270,13 @@ class PlayerScreen(QMainWindow):
             miss_layout.addWidget(miss_header)
             self.tile_missions_list = QVBoxLayout()
             tile_miss_container = QWidget()
+            tile_miss_container.setStyleSheet("background-color: #111;")
             tile_miss_container.setLayout(self.tile_missions_list)
             tile_miss_scroll = QScrollArea()
             tile_miss_scroll.setWidget(tile_miss_container)
             tile_miss_scroll.setWidgetResizable(True)
-            tile_miss_scroll.setStyleSheet("QScrollArea { border: none; background: transparent; }")
+            tile_miss_scroll.setStyleSheet(
+                "QScrollArea, QScrollArea::viewport { border: none; background-color: #111; }")
             miss_layout.addWidget(tile_miss_scroll)
             active_tiles.append(miss_tile)
 
