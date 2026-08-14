@@ -9,6 +9,21 @@ from generate_store_screenshots import SCREENSHOT_FILES, SUMMARY_FILE, generate_
 
 
 class StoreScreenshotGenerationTests(unittest.TestCase):
+    def test_generator_uses_native_text_rendering_for_store_captures(self):
+        source = Path(__file__).resolve().parents[1] / "generate_store_screenshots.py"
+        content = source.read_text(encoding="utf-8")
+
+        self.assertIn('os.environ.pop("QT_QPA_PLATFORM", None)', content)
+        self.assertIn("WA_DontShowOnScreen", content)
+
+        player_screen = Path(__file__).resolve().parents[1] / "rpx_pro" / "widgets" / "player_screen.py"
+        player_content = player_screen.read_text(encoding="utf-8")
+        self.assertNotIn("QFrame {{", player_content)
+        self.assertIn("QScrollArea::viewport", player_content)
+        self.assertIn('tile_chars_container.setStyleSheet("background-color: #111;")', player_content)
+        self.assertIn('tile_miss_container.setStyleSheet("background-color: #111;")', player_content)
+        self.assertIn("background-color: transparent", player_content)
+
     def test_generator_writes_all_expected_pngs_and_summary(self):
         with tempfile.TemporaryDirectory(prefix="rpx-store-test-") as tmpdir:
             output_dir = Path(tmpdir)
