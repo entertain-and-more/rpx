@@ -677,10 +677,7 @@ class DataManager:
     ) -> Tuple[Path, str]:
         bundle_path = archive_member or self._normalize_bundle_media_path(raw_value, media_kind)
         bundle_parts = [part for part in PurePosixPath(bundle_path).parts if part not in {".", ""}]
-        if bundle_parts[:1] == ["media"]:
-            relative_parts = bundle_parts[1:]
-        else:
-            relative_parts = bundle_parts
+        relative_parts = bundle_parts[1:] if bundle_parts[:1] == ["media"] else bundle_parts
         if not relative_parts:
             filename = Path(raw_value).name or f"{media_kind}-asset"
             relative_parts = [MEDIA_SUBDIRS.get(media_kind, "misc"), filename]

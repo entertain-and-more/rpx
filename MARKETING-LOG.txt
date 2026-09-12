@@ -1,0 +1,67 @@
+# MARKETING-LOG — RPX Pro (RolePlay Xtreme Professional Edition)
+
+## Metadata
+- **Repository**: `entertain-and-more/rpx`
+- **Canonical Path**: `C:\_Local_DEV\repos\rpx`
+- **Default Branch**: `master`
+- **Current Version**: `1.0.0` (App) / `1.0.0.0` (Store Package)
+- **License**: MIT
+- **Architecture**: Local-First PySide6 Desktop Application with zero network egress, headless JSON-RPC CLI API, and offline PWA Companion
+
+---
+
+## 1. Executive Summary & Value Proposition
+RPX Pro (RolePlay Xtreme Professional Edition) is a comprehensive, open-source, local-first control center for tabletop pen-and-paper RPG sessions (TTRPG). Built with Python 3.10+ and PySide6 (Qt6), it unifies campaign world management, multi-map navigation, second-monitor player screen mirroring, audio/soundboard atmospheres, light effects, combat mechanics, and structured AI prompt generation into a single offline desktop application.
+
+Key Value Proposition:
+- **100% Offline & Local-First**: All campaign files, maps, characters, audio assets, and configurations remain strictly on local disk in `rpx_pro_data/`. Zero third-party telemetry, zero cloud lock-in.
+- **Dual-Display Player Screen**: Dedicated second-monitor output for players showcasing interactive maps, interior/exterior location views, character party status, mission logs, and ambient light/weather overlays.
+- **LLM & Agent Ready**: Headless JSON-RPC CLI (`python -m rpx_pro.app --cli`) over `stdin`/`stdout` allowing autonomous AI agents (Claude, GPT, Gemini, local models) to inspect state and automate campaigns safely.
+- **Portable Campaign Bundles (`rpx-campaign-bundle-v1`)**: Zero-loss ZIP export format enabling offline viewing on tablets and phones via the static PWA companion (`web_companion/`).
+
+---
+
+## 2. Target Personas & Audiences
+
+### Persona 1: Tabletop RPG Game Masters (GMs / DMs)
+- **Need**: An all-in-one local session manager running offline during live games with fast map switching, atmospheric audio, and a dedicated player-facing screen.
+- **Value Prop**: Seamless multi-monitor orchestration without subscription fees or server downtimes.
+
+### Persona 2: Privacy-Conscious & Offline-First Players
+- **Need**: Keeping creative campaign lore, homebrew rulesets, and personal character art completely private and local.
+- **Value Prop**: Strict zero-egress architecture; external AI integration is entirely opt-in with manual prompt export.
+
+### Persona 3: AI Tool Builders & Agent Developers
+- **Need**: A programmatic backend for LLM-driven dungeon masters, NPCs, and interactive story generation.
+- **Value Prop**: Standardized JSON-RPC CLI interface and typed Python API layer with zero external API dependencies.
+
+### Persona 4: Mobile Companion Users
+- **Need**: Viewing character sheets, session recaps, and quest logs on mobile devices without setting up servers.
+- **Value Prop**: Static Web PWA companion reading local `.zip` bundle exports with full offline restoration.
+
+---
+
+## 3. Discoverability & SEO Keywords
+- `tabletop-rpg`, `pen-and-paper`, `game-master-tools`, `pyside6`, `qt6`, `ttrpg`, `virtual-tabletop`, `local-first`, `offline-first`, `json-rpc`, `player-screen`, `campaign-manager`, `soundboard`, `pwa-companion`, `open-source`, `entertain-and-more`, `open-bricks`
+
+---
+
+## 4. Directory & Ecosystem Recommendations
+1. **Awesome TTRPG / Tabletop Tools**:
+   - Category: *Digital Game Master Tools & Software*.
+   - Pitch: *RPX Pro: Open-source PySide6 RPG control center with multi-monitor player screen, offline soundboard, and JSON-RPC CLI.*
+2. **Awesome Local-First**:
+   - Category: *Desktop Applications*.
+   - Pitch: *100% local campaign management with zero network egress and static PWA export bundle.*
+3. **PySide6 / Qt Awesome Showcases**:
+   - Category: *Production Desktop Applications*.
+   - Pitch: *Modular Qt6 desktop architecture with dataclass entity stores, signal routing, and headless CLI modes.*
+
+---
+
+## 5. Technical Hygiene & Verification Matrix (Pfad A)
+- **Pytest Test Suite**: 27 passing tests (Contract tests, source platform smoke, dice roller, campaign bundle, API context, release metadata, store screenshots).
+- **Web Companion PWA Test Suite**: 17 passing Node.js unit tests (`node --test web_companion/tests/*.mjs`).
+- **Linter & Formatting**: Ruff 0.5+ clean (0 errors, `line-length = 100`, `select = ["E", "F", "W", "B", "SIM", "C4"]`).
+- **CI/CD Guardrails**: GitHub Actions matrix across Ubuntu and macOS with concurrency cancellation (`cancel-in-progress: true`) and `timeout-minutes: 15`.
+- **Multi-Host Cloud Defense**: Hardened `.gitignore` with active pattern suppression for synchronization conflicts and canonical locks.

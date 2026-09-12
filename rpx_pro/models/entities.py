@@ -1,6 +1,5 @@
 """Entitaeten-Dataclasses: Waffen, Ruestungen, Charaktere, Items, etc."""
 
-import uuid
 from dataclasses import dataclass, field, asdict
 from typing import Dict, List, Optional, Any, Tuple
 
@@ -190,7 +189,7 @@ class Character:
         data = dict(data)
         inv = data.get('inventory', {})
         if isinstance(inv, list):
-            data['inventory'] = {item_id: 1 for item_id in inv}
+            data['inventory'] = dict.fromkeys(inv, 1)
         return cls(**_filter_dataclass_fields(cls, data))
 
 

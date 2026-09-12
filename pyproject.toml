@@ -9,6 +9,7 @@ description = "RolePlay Xtreme Professional Edition — Open source tabletop pen
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
+license-files = ["LICENSE"]
 authors = [
   {name = "Lukas Geiger", email = "lukasgeiger@users.noreply.github.com"}
 ]
@@ -37,6 +38,7 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Topic :: Games/Entertainment :: Board Games",
   "Topic :: Games/Entertainment :: Role-Playing"
 ]
@@ -50,9 +52,26 @@ Homepage = "https://github.com/entertain-and-more/rpx"
 Documentation = "https://github.com/entertain-and-more/rpx#readme"
 Repository = "https://github.com/entertain-and-more/rpx.git"
 Issues = "https://github.com/entertain-and-more/rpx/issues"
+Changelog = "https://github.com/entertain-and-more/rpx/blob/master/CHANGELOG.md"
+Security = "https://github.com/entertain-and-more/rpx/blob/master/SECURITY.md"
+"LLM Ready" = "https://raw.githubusercontent.com/entertain-and-more/rpx/master/llms.txt"
+"Marketing Log" = "https://github.com/entertain-and-more/rpx/blob/master/MARKETING-LOG.txt"
+"Parent Organization" = "https://github.com/entertain-and-more"
+"Umbrella Ecosystem" = "https://github.com/open-bricks"
 
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = "-ra -q"
 pythonpath = ["."]
 testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "SIM", "C4"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"generate_store_screenshots.py" = ["E402"]

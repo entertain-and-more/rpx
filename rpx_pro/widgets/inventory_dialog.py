@@ -2,12 +2,10 @@
 
 from functools import partial
 from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QHBoxLayout, QFormLayout,
-    QLabel, QTableWidget, QTableWidgetItem, QPushButton,
+    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QTableWidget, QTableWidgetItem, QPushButton,
     QComboBox, QSpinBox, QGroupBox, QDialogButtonBox,
     QMessageBox,
 )
-from PySide6.QtCore import Qt
 
 
 class CharacterInventoryDialog(QDialog):

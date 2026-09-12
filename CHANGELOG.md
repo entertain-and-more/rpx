@@ -5,6 +5,14 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Repository Hygiene & CI Hardening (Pfad A) - 2026-09-12
+- CI Workflow Hardening: Added concurrency cancellation (`cancel-in-progress: true`), job-level `timeout-minutes: 15` guardrails, Python 3.13 matrix extension, ruff lint step, full pytest run, and Web Companion PWA test job in `.github/workflows/tests.yml`.
+- PEP 621 Standard-Metadaten & Linter-Konfiguration: Standardized `pyproject.toml` with `license-files = ["LICENSE"]`, extended `[project.urls]` (`Changelog`, `Security`, `LLM Ready`, `Parent Organization`, `Umbrella Ecosystem`, `Marketing Log`), Python 3.13 classifier, and formal `[tool.ruff]` / `[tool.ruff.lint]` configuration (`line-length = 100`, rule sets `["E", "F", "W", "B", "SIM", "C4"]`).
+- Code Hygiene & Linter Cleanliness: Cleaned unused imports and resolved ruff issues across `rpx_pro/` and tools (100% clean across all rule sets).
+- Multi-Host Cloud-Sync & Gitignore Hardening: Hardened `.gitignore` against cloud synchronization conflicts (`* (kopie)*`, `* (Kopie)*`, `*conflicted copy*`, `*-WORKSTATION*`, `*-ASUS*`, `*.orig`, `*.rej`), canonical lock files (`LOCK`, `LOCK.*`, `uv.lock`, `.automation-lock`), and test/build caches (`.tox/`, `.turbo/`).
+- Contract Test Suite: Added automated contract tests in `tests/test_metadata_contract.py` validating CI timeouts, concurrency, PEP 621 URLs, gitignore patterns, and ruff configuration (27 passed total in Python test suite).
+- Discoverability & Marketing Audit: Created comprehensive `MARKETING-LOG.txt`, updated `llms.txt` (`Last-checked: 2026-09-12`), and synchronized Pytest badges (27 passed) across `README.md` and `README_de.md`.
+
 ### Fixed
 - Der `source-smoke`-Job installiert auf Linux jetzt die Qt-Systembibliotheken
   (`libegl1`, `libgl1`, `libxkbcommon-x11-0`, `libdbus-1-3`) und läuft mit

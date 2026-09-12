@@ -22,7 +22,7 @@ Privacy boundary: RPX Pro has no automatic data collection or transmission. It
 keeps campaign data local; prompts for an external AI tool are copied or shown
 locally and leave the device only when the user chooses to use that tool.
 
-[![Pytest](https://img.shields.io/badge/Pytest-15%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest](https://img.shields.io/badge/Pytest-27%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![Web Companion](https://img.shields.io/badge/Web%20Companion-17%20passed-brightgreen.svg)](web_companion/)
 [![PySide6](https://img.shields.io/badge/GUI-PySide6%20%2F%20Qt6-blue.svg)](https://www.qt.io/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)

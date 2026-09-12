@@ -1,4 +1,4 @@
-## Last-checked: 2026-08-03
+## Last-checked: 2026-09-12
 
 # rpx
 
@@ -17,7 +17,7 @@ session manager, or an LLM-controllable campaign backend that does not require a
 
 - `python RPX_Pro_1.py` — launch the desktop application
 - `python -m rpx_pro.app --cli` — start in JSON-RPC CLI mode for LLM control
-- `pytest` — run Python unit & integration test suite (14 passed)
+- `pytest` — run Python unit & integration test suite (27 passed)
 - `node --test web_companion/tests/*.mjs` — run web companion PWA test suite (17 passed)
 - `cd web_companion && python -m http.server 8765` — serve the PWA companion locally
 
@@ -61,4 +61,5 @@ RPX Pro Web PWA companion offline campaign bundle
 - `rpx_pro/cli.py`: JSON-RPC CLI entry point
 - `web_companion/`: static PWA companion for bundle format
 - `EXPORTFORMAT.md`: `rpx-campaign-bundle-v1` bundle specification
+- `MARKETING-LOG.txt`: marketing strategy, personas, and SEO discoverability
 - `CHANGELOG.md`: version history

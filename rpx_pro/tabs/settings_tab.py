@@ -4,8 +4,7 @@ import logging
 
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QFormLayout,
-    QLabel, QLineEdit, QComboBox, QPushButton,
-    QGroupBox, QCheckBox, QSpinBox, QDoubleSpinBox,
+    QLineEdit, QGroupBox, QCheckBox, QSpinBox, QDoubleSpinBox,
 )
 from PySide6.QtCore import Signal
 

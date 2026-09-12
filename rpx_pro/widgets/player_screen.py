@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional
 
 from PySide6.QtCore import Qt, QTimer
-from PySide6.QtGui import QPixmap, QFont
+from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QGridLayout,
     QLabel, QStackedWidget, QScrollArea, QFrame,
@@ -769,9 +769,8 @@ class PlayerScreen(QMainWindow):
     def update_inventory(self, inventory_data: dict):
         """Aktualisiert Inventar-Daten fuer die Inventar-Ansicht."""
         self._inventory_data = inventory_data
-        if self._mode == PlayerScreenMode.TILES and self._enabled_views.get("inventory", False):
-            if hasattr(self, "tile_inventory_text"):
-                self._refresh_inventory_display()
+        if self._mode == PlayerScreenMode.TILES and self._enabled_views.get("inventory", False) and hasattr(self, "tile_inventory_text"):
+            self._refresh_inventory_display()
 
     def _refresh_inventory_display(self):
         """Aktualisiert die Inventar-Kachel mit den aktuellen Daten."""

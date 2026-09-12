@@ -24,7 +24,7 @@ externen KI-Anbieter werden lokal
 kopiert oder angezeigt und verlassen das Gerät nur, wenn die nutzende Person
 dieses Tool ausdrücklich verwendet.
 
-[![Pytest](https://img.shields.io/badge/Pytest-15%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest](https://img.shields.io/badge/Pytest-27%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![Web Companion](https://img.shields.io/badge/Web%20Companion-17%20passed-brightgreen.svg)](web_companion/)
 [![PySide6](https://img.shields.io/badge/GUI-PySide6%20%2F%20Qt6-blue.svg)](https://www.qt.io/)
 [![License](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)

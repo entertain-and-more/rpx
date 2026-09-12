@@ -4,8 +4,7 @@ import random
 import logging
 
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QFormLayout,
-    QLabel, QComboBox, QPushButton, QGroupBox,
+    QWidget, QVBoxLayout, QHBoxLayout, QLabel, QComboBox, QPushButton, QGroupBox,
     QListWidget, QSpinBox, QMessageBox, QInputDialog,
 )
 from PySide6.QtCore import Qt, Signal

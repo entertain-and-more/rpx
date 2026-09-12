@@ -94,14 +94,14 @@ AUDIO_BACKEND = None
 
 HAS_SOUND_EFFECT = False
 try:
-    from PySide6.QtMultimedia import QSoundEffect
+    from PySide6.QtMultimedia import QSoundEffect  # noqa: F401
     HAS_SOUND_EFFECT = True
 except ImportError:
     pass
 
 _HAS_QMEDIAPLAYER = False
 try:
-    from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
+    from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput  # noqa: F401
     _HAS_QMEDIAPLAYER = True
 except ImportError:
     pass
@@ -116,7 +116,7 @@ except ImportError:
 _HAS_WINSOUND = False
 if sys.platform == 'win32':
     try:
-        import winsound
+        import winsound  # noqa: F401
         _HAS_WINSOUND = True
     except ImportError:
         pass

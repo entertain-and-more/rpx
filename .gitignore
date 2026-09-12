@@ -1,4 +1,4 @@
-﻿# Python
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -106,5 +106,28 @@ web_companion_FINAL_*/
 # Wenn Pages künftig aus docs/ bedient wird, diesen Eintrag entfernen.
 docs/
 
-# Interne Multi-Agenten-Koordination (LOCK-System)
+# Interne Multi-Agenten-Koordination & Lock-System
 LOCK*.txt
+LOCK
+LOCK.*
+*.lock
+uv.lock
+!package-lock.json
+.automation-lock
+
+# Multi-Host Synchronisations-Konflikte
+* (kopie)*
+* (Kopie)*
+* (copy)*
+* (Copy)*
+*conflicted copy*
+*-WORKSTATION*
+*-WORKSTATION-LG*
+*-ASUS*
+*-ASUS-GEI*
+*.orig
+*.rej
+
+# Zusätzliche Test- & Build-Caches
+.tox/
+.turbo/
