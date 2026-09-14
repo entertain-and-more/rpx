@@ -1,10 +1,21 @@
 THIRD-PARTY LICENSES
 ====================
 
-PySide6
-License: LGPL-3.0
-URL: https://pypi.org/project/PySide6/
+Comprehensive compliance, dependency matrix, and invariant audit:
+See THIRD_PARTY_LICENSES.md
 
-pygame
-License: LGPL-2.1
-URL: https://pypi.org/project/pygame/
+Core Runtime:
+- Python Standard Library (PSFL-2.0)
+  URL: https://docs.python.org/3/license.html
+
+- PySide6 (LGPL-3.0, dynamic linking)
+  URL: https://pypi.org/project/PySide6/
+
+- pygame (LGPL-2.1, dynamic linking)
+  URL: https://pypi.org/project/pygame/
+
+Development & Tooling:
+- pytest (MIT)
+- ruff (MIT / Apache-2.0)
+- setuptools (MIT)
+- PyInstaller (GPLv2 with Bootloader Exception)

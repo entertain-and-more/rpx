@@ -1,4 +1,4 @@
-## Last-checked: 2026-09-12
+## Last-checked: 2026-09-14
 
 # rpx
 
@@ -7,18 +7,19 @@
 Canonical repository: https://github.com/entertain-and-more/rpx
 
 A professional, offline-capable, open-source control center for tabletop pen & paper RPG sessions.
-Built with Python + PySide6. Features a world system, soundboard, light effects, combat engine,
-AI prompt generator, JSON-RPC CLI/API, and a static PWA companion for bundle viewing.
+Built with Python + PySide6 (Qt6). Features a multi-map world system, soundboard, light effects, combat engine,
+AI prompt generator across 7 specialized roles, JSON-RPC CLI/API for autonomous agents, and a static PWA companion for campaign bundle viewing.
 
 Use this repository when looking for local-first game-master tooling, a PySide6 tabletop RPG
-session manager, or an LLM-controllable campaign backend that does not require a hosted VTT.
+session manager, or an LLM-controllable campaign backend that operates strictly offline with zero network egress.
 
 ## Tools & Verification
 
-- `python RPX_Pro_1.py` — launch the desktop application
-- `python -m rpx_pro.app --cli` — start in JSON-RPC CLI mode for LLM control
-- `pytest` — run Python unit & integration test suite (27 passed)
+- `python RPX_Pro_1.py` — launch the desktop application (or `START.bat` on Windows)
+- `python -m rpx_pro.app --cli` — start in JSON-RPC CLI mode for LLM / autonomous agent control via stdin/stdout
+- `pytest` — run Python unit & contract test suite (32 passed | 100% green)
 - `node --test web_companion/tests/*.mjs` — run web companion PWA test suite (17 passed)
+- `python _scripts/verify_release_metadata.py` — verify strict release and privacy metadata contract
 - `cd web_companion && python -m http.server 8765` — serve the PWA companion locally
 
 ## Install
@@ -30,13 +31,25 @@ python RPX_Pro_1.py
 
 Requires Python 3.10+, PySide6 (Qt6). `pygame` is optional (audio fallback).
 
-## Audience
+## Target Personas
 
-- Tabletop RPG game masters looking for a desktop companion with AI integration
-- Developers building LLM-driven RPG tools who want a JSON-RPC CLI backend
-- Python/PySide6 developers studying modular Qt app architecture
-- AI assistants that need to interface with the RPX Pro API programmatically
-- Local-first software users who want campaign data, maps, notes, media, and exports to remain on disk
+- `[PERSONA-01]` Tabletop RPG Game Masters (GMs / DMs) needing an all-in-one local control desk with second-monitor player screen
+- `[PERSONA-02]` Privacy-Conscious Players & Homebrew Lore Creators demanding 100% offline local storage (`rpx_pro_data/`)
+- `[PERSONA-03]` Autonomous AI Agent Developers & LLM Tool Builders requiring a headless JSON-RPC CLI backend over stdin/stdout
+- `[PERSONA-04]` Mobile Session Companions & Tablet Users inspecting character status via static offline PWA bundles
+
+## Governance & Runtime Invariants
+
+- `INV-LOCAL-01`: 100% Offline & Local-First Zero-Egress (`rpx_pro_data/`)
+- `INV-USER-02`: Unprivileged User-Mode & Non-Elevation (`RunAsInvoker`)
+- `INV-DUAL-03`: Dual-Screen State Isolation & Player Screen Mirroring
+- `INV-RPC-04`: Headless JSON-RPC CLI Interface (`rpx_pro.cli`)
+- `INV-BUNDLE-05`: Deterministic Campaign Bundle Export (`rpx-campaign-bundle-v1`)
+- `INV-PWA-06`: Zero-Cloud Client-Side PWA Companion (`web_companion/`)
+- `INV-COPYLEFT-07`: Permissive Licensing (MIT) & PySide6 Dynamic Linking (LGPLv3 §4)
+- `INV-LLM-08`: Privacy-Guarded AI Prompt Generation across 7 specialized roles
+- `INV-ECO-09`: Modular Sibling Ecosystem Interoperability (`entertain-and-more`, `open-bricks`)
+- `INV-SLA-10`: Contractual Security SLA (48h / 5d triage) & Multi-Platform CI (Win/macOS/Linux)
 
 ## Search Phrases
 
@@ -51,15 +64,19 @@ rpx-campaign-bundle-v1 campaign export format
 AI storytelling prompt tool for tabletop roleplaying games
 entertain-and-more rpx github
 RPX Pro Web PWA companion offline campaign bundle
+open-bricks tabletop roleplaying workstation
 ```
 
 ## Important Files
 
-- `README.md`: full documentation (English primary)
-- `README_de.md`: full documentation (German secondary)
-- `rpx_pro/api.py`: programmatic Python API
-- `rpx_pro/cli.py`: JSON-RPC CLI entry point
-- `web_companion/`: static PWA companion for bundle format
+- `README.md`: full English documentation with 18-point quick navigation, comparative matrix, and diagrams
+- `README_de.md`: full German documentation with 100% anchor and section parity
+- `THIRD_PARTY_LICENSES.md`: comprehensive third-party license audit, LGPL-3.0 dynamic linking notice, and invariant compliance
+- `THIRD_PARTY_LICENSES.txt`: compact third-party license reference
+- `MARKETING-LOG.txt`: marketing strategy, personas, SEO discoverability, and 10-dimension comparative matrix
+- `rpx_pro/api.py`: programmatic Python API dataclass contract
+- `rpx_pro/cli.py`: JSON-RPC CLI entry point over stdin/stdout
+- `web_companion/`: static PWA companion for offline bundle format
 - `EXPORTFORMAT.md`: `rpx-campaign-bundle-v1` bundle specification
-- `MARKETING-LOG.txt`: marketing strategy, personas, and SEO discoverability
-- `CHANGELOG.md`: version history
+- `CHANGELOG.md`: version history and release logs
+- `SECURITY.md`: vulnerability disclosure policy and 48h SLA

@@ -5,6 +5,15 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Marketing, Discoverability, Visual Architecture & License Governance (Pfad B) - 2026-09-14
+- Bilingual Quick Navigation & Anchor Parity: Implemented 18-point numbered quick navigation in both `README.md` and `README_de.md` with 100% mutual anchor parity and direct jump targets.
+- Target Personas & High-Intent SEO Queries: Formulated 4 target personas (`[PERSONA-01]` to `[PERSONA-04]`) with detailed pain points, value propositions, and curated English and German high-intent search queries.
+- 10-Dimension Comparative Matrix vs. 4 Alternatives: Mapped RPX Pro against Roll20, Foundry VTT, Fantasy Grounds, and Ad-Hoc Pen & Paper across 10 core architectural dimensions tied directly to formal governance invariants.
+- 10 Governance & Runtime Invariants (`INV-LOCAL-01` to `INV-SLA-10`): Codified strict guarantees spanning 100% offline zero-egress, unprivileged `RunAsInvoker` execution, dual-screen isolation, headless JSON-RPC CLI, deterministic campaign bundles, static PWA companion, LGPL-3.0 dynamic linking, private AI prompts, sibling ecosystem synergy, and contractual security SLA.
+- Visual Architecture & Session Lifecycle: Added dual Mermaid diagrams: system architecture flowchart and end-to-end game master session lifecycle sequence diagram with automated numbering.
+- Third-Party License Audit & PEP 621 Alignment: Created `THIRD_PARTY_LICENSES.md` auditing PySide6 (LGPL-3.0 dynamic linking under LGPLv3 §4), pygame (LGPL-2.1), Python standard library (PSFL-2.0), and dev tooling, updated `pyproject.toml` URLs with "Third-Party Licenses", and refreshed `THIRD_PARTY_LICENSES.txt`.
+- Contract Test Suite Expansion: Expanded `tests/test_metadata_contract.py` with 5 automated contract tests validating bilingual navigation parity, persona consistency, comparative matrix integrity, license documentation, and PEP 621 URLs.
+
 ### Repository Hygiene & CI Hardening (Pfad A) - 2026-09-12
 - CI Workflow Hardening: Added concurrency cancellation (`cancel-in-progress: true`), job-level `timeout-minutes: 15` guardrails, Python 3.13 matrix extension, ruff lint step, full pytest run, and Web Companion PWA test job in `.github/workflows/tests.yml`.
 - PEP 621 Standard-Metadaten & Linter-Konfiguration: Standardized `pyproject.toml` with `license-files = ["LICENSE"]`, extended `[project.urls]` (`Changelog`, `Security`, `LLM Ready`, `Parent Organization`, `Umbrella Ecosystem`, `Marketing Log`), Python 3.13 classifier, and formal `[tool.ruff]` / `[tool.ruff.lint]` configuration (`line-length = 100`, rule sets `["E", "F", "W", "B", "SIM", "C4"]`).
