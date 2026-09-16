@@ -77,7 +77,7 @@ Speichern und laden Sie beliebig viele Sessions. Missionen verfolgen, Runden ste
 - Generator: `python generate_store_screenshots.py`
 
 ### Schlüsselwörter
-Pen and Paper, Rollenspiel, D&D, Dungeons and Dragons, DSA, Das Schwarze Auge, RPG, Spielleiter, Game Master, Dungeon Master, Soundboard, Virtual Tabletop, VTT, Charakterbogen, Würfelsystem, Kampfsystem, KI, AI, Weltenbau
+Pen and Paper, Rollenspiel, Spielleiter, Soundboard, Virtueller Spieltisch, Charakterbogen, Würfelsystem
 
 ### Kategorie
 Entertainment / Gaming
@@ -161,7 +161,7 @@ Save and load unlimited sessions. Track missions, manage turns, automatically lo
 - Generator: `python generate_store_screenshots.py`
 
 ### Keywords
-Pen and Paper, Role Playing Game, D&D, Dungeons and Dragons, DSA, The Dark Eye, RPG, Game Master, Dungeon Master, Soundboard, Virtual Tabletop, VTT, Character Sheet, Dice System, Combat System, AI, World Building
+Pen and Paper, Role Playing Game, Game Master, Soundboard, Virtual Tabletop, Character Sheet, Dice Roller
 
 ### Category
 Entertainment / Gaming

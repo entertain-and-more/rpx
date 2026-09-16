@@ -5,6 +5,9 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Windows Store search terms - 2026-09-16
+- Replaced third-party product titles in the German and English Store search terms with seven relevant phrases per language, each within the submission API's 30-character limit.
+
 ### Marketing, Discoverability, Visual Architecture & License Governance (Pfad B) - 2026-09-14
 - Bilingual Quick Navigation & Anchor Parity: Implemented 18-point numbered quick navigation in both `README.md` and `README_de.md` with 100% mutual anchor parity and direct jump targets.
 - Target Personas & High-Intent SEO Queries: Formulated 4 target personas (`[PERSONA-01]` to `[PERSONA-04]`) with detailed pain points, value propositions, and curated English and German high-intent search queries.
