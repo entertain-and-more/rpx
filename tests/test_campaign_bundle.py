@@ -9,6 +9,8 @@ from rpx_pro.api import RPXProAPI
 from rpx_pro.managers import data_manager as dm_module
 from rpx_pro.managers.data_manager import DataManager
 from rpx_pro.models.entities import Character, GameMap
+from rpx_pro.models.enums import MessageRole
+from rpx_pro.models.session import ChatMessage
 from rpx_pro.models.world import Location
 
 
@@ -182,6 +184,61 @@ class CampaignBundleExportTests(unittest.TestCase):
                 for entry in manifest["media"]
             )
         )
+
+    def test_bundle_round_trip_preserves_user_content_verbatim(self):
+        dm, world, session = self._build_sample_state()
+        world.settings.description = "Eigene Lore: Ätherwald – nicht übersetzen"
+        world.locations["loc-1"].description = "Der Spielleitertext enthält Ä, Ö, Ü und ß."
+        session.chat_history.append(
+            ChatMessage(
+                role=MessageRole.PLAYER,
+                author="Spieler",
+                content="Freie Kampagnennotiz: Das Siegel bleibt im Originaltext.",
+            )
+        )
+        dm.save_world(world)
+        dm.save_session(session)
+        bundle_path = self.exports_dir / "campaign-content-boundary.zip"
+
+        try:
+            dm.export_campaign_bundle(bundle_path, include_media="none")
+            with ZipFile(bundle_path) as archive:
+                exported_world = json.loads(archive.read(f"worlds/{world.id}.json"))
+                exported_session = json.loads(archive.read(f"sessions/{session.id}.json"))
+
+            self.assertEqual(
+                exported_world["settings"]["description"],
+                "Eigene Lore: Ätherwald – nicht übersetzen",
+            )
+            self.assertEqual(
+                exported_session["chat_history"][-1]["content"],
+                "Freie Kampagnennotiz: Das Siegel bleibt im Originaltext.",
+            )
+
+            result = dm.import_campaign_bundle(bundle_path, conflict_strategy="rename")
+            imported_world_id = next(
+                item["id"] for item in result["worlds"] if item["action"] == "renamed"
+            )
+            imported_session_id = next(
+                item["id"] for item in result["sessions"] if item["action"] == "renamed"
+            )
+            imported_world = dm.worlds[imported_world_id]
+            imported_session = dm.sessions[imported_session_id]
+
+            self.assertEqual(
+                imported_world.settings.description,
+                "Eigene Lore: Ätherwald – nicht übersetzen",
+            )
+            self.assertEqual(
+                imported_world.locations["loc-1"].description,
+                "Der Spielleitertext enthält Ä, Ö, Ü und ß.",
+            )
+            self.assertEqual(
+                imported_session.chat_history[-1].content,
+                "Freie Kampagnennotiz: Das Siegel bleibt im Originaltext.",
+            )
+        finally:
+            dm.close()
 
     def test_api_export_campaign_bundle_can_embed_media_files(self):
         dm, world, session = self._build_sample_state()

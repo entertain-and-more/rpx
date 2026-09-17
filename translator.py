@@ -127,10 +127,14 @@ class TranslationSystem:
         if key in self.translations:
             entry = self._with_language_slots(self.translations[key])
             self.translations[key] = entry
-            translated = entry.get(self.current_lang, key)
-            if self.current_lang == "es" and not translated:
-                return SPANISH_UI_TRANSLATIONS.get(entry.get("de", key), translated)
-            return translated
+            translated = entry.get(self.current_lang, "")
+            if translated:
+                return translated
+            if self.current_lang == "es":
+                curated = SPANISH_UI_TRANSLATIONS.get(entry.get("de", key))
+                if curated:
+                    return curated
+            return entry.get("en") or entry.get("de") or key
 
         if self._is_german(key):
             self.translations[key] = self._with_language_slots({"de": key})

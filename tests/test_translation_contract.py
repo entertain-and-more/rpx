@@ -16,7 +16,7 @@ def test_legacy_catalog_is_normalized_for_all_language_slots(tmp_path):
     assert SUPPORTED_LANGUAGES == LANGUAGE_SLOTS
     assert translator.get_language() == "es"
     assert set(translator.translations["Speichern"]) >= set(LANGUAGE_SLOTS)
-    assert translator.translate_ui("Speichern") == ""
+    assert translator.translate_ui("Speichern") == "Save"
     assert translator.translate_content("Eigene Kampagnenregel") == "Eigene Kampagnenregel"
 
     assert translator.set_language("zh-Hans") is True
@@ -29,6 +29,9 @@ def test_curated_spanish_ui_translation_does_not_translate_content(tmp_path):
 
     assert translator.translate_ui("Welt speichern") == "Guardar mundo"
     assert translator.translate_content("Lore: Elfenwald") == "Lore: Elfenwald"
+
+    assert translator.set_language("ja") is True
+    assert translator.translate_ui("Welt speichern") == "Save world"
 
 
 def test_scanner_persists_reserved_language_slots(tmp_path):

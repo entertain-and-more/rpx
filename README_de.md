@@ -82,6 +82,36 @@ Orts- und Lore-Texte sind nutzergeführt und werden nicht automatisch übersetzt
 Das ist im Code durch `TranslationSystem.translate_ui(key)` und den unveränderten
 `TranslationSystem.translate_content(text)`-Pfad getrennt.
 
+#### Zusatzsprachen: Kuratierungs- und Stop/Go-Matrix
+
+Die Sprachreihenfolge folgt dem RPX-Usecase und nicht einer pauschalen
+Vollübersetzung:
+
+| Reihenfolge | Slot | Zielgruppe und UI-Scope | Go-Gate | Entscheidung |
+|---|---|---|---|---|
+| Basis | `de`, `en` | Spielleitung und internationale Entwickler; fester Desktop-UI-Katalog | Katalog-Parität, UTF-8-Readback und Fallback-Test | Aktiv |
+| 1 | `es` | Spanischsprachige Spielleitungen und Spieler; feste UI-Aktionen und Statusmeldungen | Kuratierte Schlüssel, UTF-8-Readback, keine abgeschnittenen UI-Texte; `tests/test_translation_contract.py` | Erste Zusatzsprache, schrittweise |
+| 2 | `zh-Hans` | Chinesischsprachige Desktop-Nutzer bei belegtem Bedarf; nur feste UI | Belegter Bedarf plus UTF-8-, Schrift-/Glyphen- und Layout-Smoke mit langen Labels | Reserviert |
+| 3 | `ja` | Japanischsprachige Desktop-Nutzer bei belegtem Bedarf; nur feste UI | Belegter Bedarf plus UTF-8-, Schrift-/Glyphen- und Layout-Smoke mit langen Labels | Reserviert |
+| 4 | `ru` | Russischsprachige Desktop-Nutzer bei belegtem Bedarf; nur feste UI | Belegter Bedarf plus UTF-8-, Schrift-/Glyphen- und Layout-Smoke mit langen Labels | Reserviert |
+
+Ein UI-Schlüssel ist ein stabiler fester Katalogeintrag (für den Legacy-Katalog
+in der Regel der deutsche Ausgangstext) und wird über `translate_ui(key)` gelesen.
+Der Fallback ist deterministisch: aktueller Slot, bei Spanisch die kuratierte
+UI-Tabelle, dann Englisch, Deutsch und zuletzt der Schlüssel selbst. Freie
+Regelwerks-, Kampagnen-, Charakter-, Orts-, Lore- und Chat-Inhalte laufen über
+`translate_content(text)` unverändert durch. Bundle-Export und -Import bewahren
+diese Inhalte byte-/textgetreu; nur technisch erforderliche Medienpfade werden
+für das portable Bundle normalisiert.
+
+Stop-Gates sind fehlende Katalog-Parität, nicht lesbares UTF-8, fehlende
+Glyphen, abgeschnittene oder überlappende Labels, eine automatische Übersetzung
+freier Inhalte oder ein veränderter Bundle-Inhalt. Bei einem Stop bleibt der
+Sprachslot reserviert und es gibt keine Massenübersetzung. Ein Go erfordert den
+vollständigen Schlüssel-Smoke, den Daten-Grenztest und für mobile Nutzung den
+separaten Android-/iOS-PWA-Praxisnachweis; statische Node- oder Python-Tests
+allein zählen dort nicht als Geräte-Smoke.
+
 Die Software basiert auf einem kompromisslosen Local-First-Architekturprinzip: Jede Kampagnenwelt, jedes Kartenbild, jeder Soundeffekt, jeder Charakterbogen und jedes Transaktionsprotokoll wird ausschließlich auf dem lokalen Dateisystem unter `rpx_pro_data/` gespeichert. Es ist keine Registrierung erforderlich, kein externer Server wird kontaktiert und keine Kampagnennotizen verlassen das Gerät ohne ausdrücklichen Exportbefehl.
 
 ![RPX Pro Hauptfenster](README/screenshots/main.png)
