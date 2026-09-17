@@ -159,6 +159,27 @@ class RPXProMainWindow(QMainWindow):
         self.settings_tab.status_message.connect(self.status_bar_msg)
         self.tabs.addTab(self.settings_tab, "Einstellungen")
 
+        # Die kompakte Reiterleiste bleibt sichtbar textbasiert. Zusätzliche
+        # Kontext-Hinweise helfen bei der Orientierung ohne das Layout weiter
+        # zu verdichten und stehen auch assistiven Technologien zur Verfügung.
+        self.tabs.setAccessibleName("Hauptnavigation")
+        self.tabs.setAccessibleDescription(
+            "Reiter zur Steuerung von Chat, Welt, Figuren, Kampf, Medien und Einstellungen."
+        )
+        for index, hint in enumerate((
+            "Chatverlauf und Nachrichten für die aktuelle Spielsitzung",
+            "Karten, Spieler-Bildschirm und visuelle Effekte",
+            "Welten, Orte und Karten verwalten",
+            "Charaktere anlegen und verwalten",
+            "Kampf, Würfe und Zugreihenfolge steuern",
+            "Missionen planen und verfolgen",
+            "Inventar und Gegenstände verwalten",
+            "Sounds und Atmosphäre steuern",
+            "KI-Prompts für die Spielleitung erzeugen",
+            "Sitzungs- und Simulationseinstellungen anpassen",
+        )):
+            self.tabs.setTabToolTip(index, hint)
+
         main_layout.addWidget(self.tabs, stretch=1)
 
         # Rechte Seite: Rundensteuerung

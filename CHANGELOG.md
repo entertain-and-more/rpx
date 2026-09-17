@@ -5,6 +5,11 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Accessibility - 2026-09-17
+- Die kompakte Hauptnavigation erklärt nun jeden Reiter per Tooltip und
+  Accessible Name/Description. Dadurch bleiben die zehn textbasierten Reiter
+  platzsparend, sind aber für Tastatur- und Screenreader-Nutzung besser einordenbar.
+
 ### Windows Store search terms - 2026-09-16
 - Replaced third-party product titles in the German and English Store search terms with seven relevant phrases per language, each within the submission API's 30-character limit.
 
