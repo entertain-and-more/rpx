@@ -72,6 +72,16 @@ Datenschutzgrenze: Es gibt keine automatische Datenerhebung oder Übertragung. K
 
 RPX Pro (RolePlay Xtreme Professional Edition) ist ein umfassendes Open-Source-Desktop-Kontrollzentrum für Spielleiter (Game Masters / DMs) von Pen & Paper Tabletop-Rollenspielen. Entwickelt mit Python 3.10+ und PySide6 (Qt6), beendet RPX Pro das Chaos unzähliger Browser-Tabs, PDF-Regelwerke, Cloud-Abonnements und externer Soundboard-Tools während der Spielsitzung.
 
+### Desktop-UI-Sprachvertrag
+
+Der Desktop-Übersetzer arbeitet ausschließlich mit festen UI-Schlüsseln. Die
+Sprachslots sind `de`, `en`, `es`, `zh-Hans`, `ja` und `ru`. Spanisch (`es`) ist
+die erste kuratierte Zusatzsprache; die CJK-Slots bleiben bis zu UTF-8-,
+Schrift- und Layout-Smokes reserviert. Regelwerk-, Kampagnen-, Charakter-,
+Orts- und Lore-Texte sind nutzergeführt und werden nicht automatisch übersetzt.
+Das ist im Code durch `TranslationSystem.translate_ui(key)` und den unveränderten
+`TranslationSystem.translate_content(text)`-Pfad getrennt.
+
 Die Software basiert auf einem kompromisslosen Local-First-Architekturprinzip: Jede Kampagnenwelt, jedes Kartenbild, jeder Soundeffekt, jeder Charakterbogen und jedes Transaktionsprotokoll wird ausschließlich auf dem lokalen Dateisystem unter `rpx_pro_data/` gespeichert. Es ist keine Registrierung erforderlich, kein externer Server wird kontaktiert und keine Kampagnennotizen verlassen das Gerät ohne ausdrücklichen Exportbefehl.
 
 ![RPX Pro Hauptfenster](README/screenshots/main.png)
