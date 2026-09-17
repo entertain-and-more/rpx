@@ -968,6 +968,10 @@ class RPXProMainWindow(QMainWindow):
         self.sim_timer = QTimer(self)
         self.sim_timer.timeout.connect(self._simulation_tick)
         self.sim_timer.start(60_000)
+        self._simulation_dirty = False
+        self._simulation_save_timer = QTimer(self)
+        self._simulation_save_timer.setSingleShot(True)
+        self._simulation_save_timer.timeout.connect(self._flush_simulation_save)
 
     def _simulation_tick(self):
         session = self.data_manager.current_session
@@ -1056,9 +1060,24 @@ class RPXProMainWindow(QMainWindow):
                 changed = True
 
         if changed:
-            self.data_manager.save_session(session)
-            if world.settings.simulate_time:
-                self.data_manager.save_world(world)
+            self._simulation_dirty = True
+            if not self._simulation_save_timer.isActive():
+                self._simulation_save_timer.start(100)
+
+    def _flush_simulation_save(self):
+        """Erstellt Snapshots fuer die serielle Hintergrundpersistenz."""
+        if not self._simulation_dirty:
+            return
+        session = self.data_manager.current_session
+        world = self.data_manager.current_world
+        if not session or not world:
+            return
+
+        session_queued = self.data_manager.save_session_async(session)
+        world_queued = True
+        if world.settings.simulate_time:
+            world_queued = self.data_manager.save_world_async(world)
+        self._simulation_dirty = not (session_queued and world_queued)
 
     # ================================================================
     # Theme
@@ -1179,6 +1198,10 @@ class RPXProMainWindow(QMainWindow):
     def closeEvent(self, event):
         if hasattr(self, 'sim_timer'):
             self.sim_timer.stop()
+        if hasattr(self, '_simulation_save_timer'):
+            self._simulation_save_timer.stop()
+            self._flush_simulation_save()
+        self.data_manager.flush_async_saves()
         with contextlib.suppress(RuntimeError, TypeError):
             self.light_manager.effect_started.disconnect(self._mirror_effect_to_player)
         if self.player_screen:
@@ -1194,6 +1217,7 @@ class RPXProMainWindow(QMainWindow):
         if self.data_manager.current_session:
             self.data_manager.config["last_session_id"] = self.data_manager.current_session.id
         self.data_manager.save_config()
+        self.data_manager.close()
         if AUDIO_BACKEND == "pygame" and _HAS_PYGAME:
             try:
                 import pygame

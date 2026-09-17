@@ -1,8 +1,12 @@
 """DataManager: Zentralisierte Datenverwaltung fuer alle Entitaeten."""
 
+import contextlib
+import copy
 import json
-import time
 import logging
+import os
+import tempfile
+import time
 from pathlib import Path, PurePosixPath
 from zipfile import ZIP_DEFLATED, ZipFile
 from typing import Dict, Optional, Any, Iterable, List, Tuple
@@ -14,6 +18,7 @@ from rpx_pro.constants import (
 )
 from rpx_pro.models.world import World, WorldSettings
 from rpx_pro.models.session import Session
+from rpx_pro.managers.async_persistence import AsyncPersistenceQueue
 
 logger = logging.getLogger("RPX")
 
@@ -72,6 +77,7 @@ class DataManager:
         self.current_world: Optional[World] = None
         self.current_session: Optional[Session] = None
         self.config: Dict[str, Any] = dict(self.DEFAULT_CONFIG)
+        self._async_saves = AsyncPersistenceQueue(self._write_snapshot)
         self.load_config()
         self._load_all()
 
@@ -131,6 +137,7 @@ class DataManager:
     def save_world(self, world: World) -> bool:
         """Speichert eine Welt"""
         try:
+            self.flush_async_saves()
             path = WORLDS_DIR / f"{world.id}.json"
             with open(path, 'w', encoding='utf-8') as f:
                 json.dump(world.to_dict(), f, ensure_ascii=False, indent=2)
@@ -144,6 +151,7 @@ class DataManager:
     def save_session(self, session: Session) -> bool:
         """Speichert eine Session"""
         try:
+            self.flush_async_saves()
             session.last_modified = time.time()
             path = SESSIONS_DIR / f"{session.id}.json"
             with open(path, 'w', encoding='utf-8') as f:
@@ -154,6 +162,61 @@ class DataManager:
         except Exception as e:
             logger.error(f"Fehler beim Speichern der Session: {e}")
             return False
+
+    def save_world_async(self, world: World) -> bool:
+        """Uebergibt einen isolierten Welt-Snapshot an die Hintergrundpersistenz."""
+        try:
+            payload = copy.deepcopy(world.to_dict())
+            return self._async_saves.submit("world", world.id, payload)
+        except Exception as e:
+            logger.error(f"Fehler beim Erstellen des Welt-Snapshots: {e}")
+            return False
+
+    def save_session_async(self, session: Session) -> bool:
+        """Uebergibt einen isolierten Session-Snapshot an die Hintergrundpersistenz."""
+        try:
+            session.last_modified = time.time()
+            payload = copy.deepcopy(session.to_dict())
+            return self._async_saves.submit("session", session.id, payload)
+        except Exception as e:
+            logger.error(f"Fehler beim Erstellen des Session-Snapshots: {e}")
+            return False
+
+    @staticmethod
+    def _write_snapshot(kind: str, object_id: str, payload: Dict[str, Any]) -> None:
+        """Schreibt einen Snapshot atomar, ohne Model-Objekte zu beruehren."""
+        if kind == "world":
+            directory = WORLDS_DIR
+        elif kind == "session":
+            directory = SESSIONS_DIR
+        else:
+            raise ValueError(f"Unbekannter Snapshot-Typ: {kind}")
+
+        directory.mkdir(parents=True, exist_ok=True)
+        target = directory / f"{object_id}.json"
+        fd, temporary_name = tempfile.mkstemp(
+            prefix=f".{object_id}.",
+            suffix=".tmp",
+            dir=directory,
+        )
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                json.dump(payload, handle, ensure_ascii=False, indent=2)
+                handle.flush()
+                os.fsync(handle.fileno())
+            os.replace(temporary_name, target)
+        except Exception:
+            with contextlib.suppress(OSError):
+                os.unlink(temporary_name)
+            raise
+
+    def flush_async_saves(self) -> None:
+        """Synchronisiert ausstehende Simulation-Snapshots vor einem Direkt-Save."""
+        self._async_saves.flush()
+
+    def close(self) -> None:
+        """Beendet die Hintergrundpersistenz nach vollstaendigem Flush."""
+        self._async_saves.close()
 
     def create_world(self, name: str, genre: str = "Fantasy") -> World:
         """Erstellt eine neue Welt"""

@@ -13,6 +13,7 @@ import os
 import sys
 
 TRANSLATION_FILE = "locales/translations.json"
+LANGUAGE_SLOTS = ("de", "en", "es", "zh-Hans", "ja", "ru")
 
 STRING_PATTERNS = [
     re.compile(r'text\s*=\s*"([^"]+)"'),
@@ -28,6 +29,14 @@ GERMAN_HINTS = [
     "import", "einstellungen", "abbrechen", "hilfe", "bearbeiten",
     "oeffnen", "schliessen", "start", "aktualisieren",
 ]
+
+
+def with_language_slots(entry):
+    """Preserve legacy catalogs while reserving all supported language slots."""
+    normalized = dict(entry) if isinstance(entry, dict) else {}
+    for language in LANGUAGE_SLOTS:
+        normalized.setdefault(language, "")
+    return normalized
 
 
 def is_german(text):
@@ -63,7 +72,11 @@ def manage_translations(source_dir="."):
 
     if os.path.exists(trans_file):
         with open(trans_file, "r", encoding="utf-8") as f:
-            translations = json.load(f)
+            loaded = json.load(f)
+        translations = {
+            key: with_language_slots(value)
+            for key, value in loaded.items()
+        }
     else:
         translations = {}
 
@@ -72,8 +85,13 @@ def manage_translations(source_dir="."):
     added = []
     for s in sorted(found):
         if s not in translations:
-            translations[s] = {"de": s, "en": ""}
+            translations[s] = with_language_slots({"de": s})
             added.append(s)
+
+    translations = {
+        key: with_language_slots(value)
+        for key, value in translations.items()
+    }
 
     os.makedirs(os.path.dirname(trans_file), exist_ok=True)
     with open(trans_file, "w", encoding="utf-8") as f:
