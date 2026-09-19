@@ -5,6 +5,31 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Accessibility - 2026-09-17
+- Die kompakte Hauptnavigation erklärt nun jeden Reiter per Tooltip und
+  Accessible Name/Description. Dadurch bleiben die zehn textbasierten Reiter
+  platzsparend, sind aber für Tastatur- und Screenreader-Nutzung besser einordenbar.
+
+### Windows Store search terms - 2026-09-16
+- Replaced third-party product titles in the German and English Store search terms with seven relevant phrases per language, each within the submission API's 30-character limit.
+
+### Marketing, Discoverability, Visual Architecture & License Governance (Pfad B) - 2026-09-14
+- Bilingual Quick Navigation & Anchor Parity: Implemented 18-point numbered quick navigation in both `README.md` and `README_de.md` with 100% mutual anchor parity and direct jump targets.
+- Target Personas & High-Intent SEO Queries: Formulated 4 target personas (`[PERSONA-01]` to `[PERSONA-04]`) with detailed pain points, value propositions, and curated English and German high-intent search queries.
+- 10-Dimension Comparative Matrix vs. 4 Alternatives: Mapped RPX Pro against Roll20, Foundry VTT, Fantasy Grounds, and Ad-Hoc Pen & Paper across 10 core architectural dimensions tied directly to formal governance invariants.
+- 10 Governance & Runtime Invariants (`INV-LOCAL-01` to `INV-SLA-10`): Codified strict guarantees spanning 100% offline zero-egress, unprivileged `RunAsInvoker` execution, dual-screen isolation, headless JSON-RPC CLI, deterministic campaign bundles, static PWA companion, LGPL-3.0 dynamic linking, private AI prompts, sibling ecosystem synergy, and contractual security SLA.
+- Visual Architecture & Session Lifecycle: Added dual Mermaid diagrams: system architecture flowchart and end-to-end game master session lifecycle sequence diagram with automated numbering.
+- Third-Party License Audit & PEP 621 Alignment: Created `THIRD_PARTY_LICENSES.md` auditing PySide6 (LGPL-3.0 dynamic linking under LGPLv3 §4), pygame (LGPL-2.1), Python standard library (PSFL-2.0), and dev tooling, updated `pyproject.toml` URLs with "Third-Party Licenses", and refreshed `THIRD_PARTY_LICENSES.txt`.
+- Contract Test Suite Expansion: Expanded `tests/test_metadata_contract.py` with 5 automated contract tests validating bilingual navigation parity, persona consistency, comparative matrix integrity, license documentation, and PEP 621 URLs.
+
+### Repository Hygiene & CI Hardening (Pfad A) - 2026-09-12
+- CI Workflow Hardening: Added concurrency cancellation (`cancel-in-progress: true`), job-level `timeout-minutes: 15` guardrails, Python 3.13 matrix extension, ruff lint step, full pytest run, and Web Companion PWA test job in `.github/workflows/tests.yml`.
+- PEP 621 Standard-Metadaten & Linter-Konfiguration: Standardized `pyproject.toml` with `license-files = ["LICENSE"]`, extended `[project.urls]` (`Changelog`, `Security`, `LLM Ready`, `Parent Organization`, `Umbrella Ecosystem`, `Marketing Log`), Python 3.13 classifier, and formal `[tool.ruff]` / `[tool.ruff.lint]` configuration (`line-length = 100`, rule sets `["E", "F", "W", "B", "SIM", "C4"]`).
+- Code Hygiene & Linter Cleanliness: Cleaned unused imports and resolved ruff issues across `rpx_pro/` and tools (100% clean across all rule sets).
+- Multi-Host Cloud-Sync & Gitignore Hardening: Hardened `.gitignore` against cloud synchronization conflicts (`* (kopie)*`, `* (Kopie)*`, `*conflicted copy*`, `*-WORKSTATION*`, `*-ASUS*`, `*.orig`, `*.rej`), canonical lock files (`LOCK`, `LOCK.*`, `uv.lock`, `.automation-lock`), and test/build caches (`.tox/`, `.turbo/`).
+- Contract Test Suite: Added automated contract tests in `tests/test_metadata_contract.py` validating CI timeouts, concurrency, PEP 621 URLs, gitignore patterns, and ruff configuration (27 passed total in Python test suite).
+- Discoverability & Marketing Audit: Created comprehensive `MARKETING-LOG.txt`, updated `llms.txt` (`Last-checked: 2026-09-12`), and synchronized Pytest badges (27 passed) across `README.md` and `README_de.md`.
+
 ### Fixed
 - Store-Screenshots verwenden jetzt native Qt-Glyphen mit
   `Qt.WA_DontShowOnScreen` statt des fehlerhaften offscreen-Renderers. Ein
@@ -19,10 +44,14 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 - Defined the macOS/Linux source smoke in `SOURCE_SMOKE_TEST.md`, added
   `tests/test_source_platform_smoke.py`, and wired a GitHub Actions
   `source-smoke` matrix for `ubuntu-latest` and `macos-latest`.
+- Aligned release metadata across the privacy policy, store package,
+  AppxManifest, README files, and store listing. The application remains
+  explicitly **Unreleased** pending legal/store approval; no release is
+  implied by this documentation check.
 
 ### Marketing & Discoverability
 - Synchronized Shields.io badges in `README.md` and `README_de.md` with `entertain-and-more` organization and `open-bricks` ecosystem badges.
-- Verified test suite status across Python Pytest (14 passed) and Node.js Web Companion PWA tests (17 passed, 31 total).
+- Verified test suite status across Python Pytest (15 passed) and Node.js Web Companion PWA tests (17 passed, 32 total).
 - Updated `llms.txt` header to `Last-checked: 2026-08-03` with updated test verification notes.
 
 ## [1.0.1] - 2026-07-25

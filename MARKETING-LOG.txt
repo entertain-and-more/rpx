@@ -1,0 +1,135 @@
+# MARKETING-LOG — RPX Pro (RolePlay Xtreme Professional Edition)
+
+## Metadata
+- **Repository**: `entertain-and-more/rpx`
+- **Canonical Path**: `C:\_Local_DEV\repos\rpx`
+- **Default Branch**: `master`
+- **Current Version**: `1.0.0` (App) / `1.0.0.0` (Store Package)
+- **License**: MIT
+- **Architecture**: Local-First PySide6 Desktop Application with zero network egress, headless JSON-RPC CLI API, and offline PWA Companion
+- **Last Updated**: 2026-09-14 (Pfad B — Marketing, Discoverability & Visual Architecture)
+
+---
+
+## 1. Executive Summary & Value Proposition
+RPX Pro (RolePlay Xtreme Professional Edition) is a comprehensive, open-source, local-first control center for tabletop pen-and-paper RPG sessions (TTRPG). Built with Python 3.10+ and PySide6 (Qt6), it unifies campaign world management, multi-map navigation, second-monitor player screen mirroring, audio/soundboard atmospheres, light effects, combat mechanics, and structured AI prompt generation into a single offline desktop application.
+
+Key Value Proposition:
+- **100% Offline & Local-First**: All campaign files, maps, characters, audio assets, and configurations remain strictly on local disk in `rpx_pro_data/`. Zero third-party telemetry, zero cloud lock-in.
+- **Dual-Display Player Screen**: Dedicated second-monitor output for players showcasing interactive maps, interior/exterior location views, character party status, mission logs, and ambient light/weather overlays.
+- **LLM & Agent Ready**: Headless JSON-RPC CLI (`python -m rpx_pro.app --cli`) over `stdin`/`stdout` allowing autonomous AI agents (Claude, GPT, Gemini, local models) to inspect state and automate campaigns safely.
+- **Portable Campaign Bundles (`rpx-campaign-bundle-v1`)**: Zero-loss ZIP export format enabling offline viewing on tablets and phones via the static PWA companion (`web_companion/`).
+
+---
+
+## 2. Target Personas & Audiences
+
+### [PERSONA-01] Tabletop RPG Game Masters (GMs / DMs)
+- **Target Profile**: Tabletop Game Masters orchestrating in-person or hybrid RPG campaigns (D&D 5e, DSA, Pathfinder, Call of Cthulhu, or homebrew).
+- **Pain Points**: Complex subscription-based VTTs requiring constant internet; managing multiple disparate apps for music, dice, character sheets, and maps; lack of a simple player-facing second screen.
+- **Value Proposition**: All-in-one local session manager running offline during live games with fast map switching, atmospheric audio, and a dedicated player-facing screen.
+- **Key Workflows**: Launch `python RPX_Pro_1.py`, drag-and-drop sound effects, project player screen to second monitor/TV, trigger combat rounds and environmental lighting effects.
+
+### [PERSONA-02] Privacy-Conscious Players & Homebrew Lore Creators
+- **Target Profile**: Worldbuilders, authors, and tabletop groups who prioritize absolute data privacy, local data sovereignty, and offline resilience.
+- **Pain Points**: Vendor lock-in, data harvesting, server downtime during game nights, risk of losing campaign lore if a hosted VTT service shuts down.
+- **Value Proposition**: Strict 100% offline, zero-network-egress design. All worlds, characters, NPC dialogues, and custom rulesets reside entirely on local disk in `rpx_pro_data/`. Transparent MIT open-source license.
+- **Key Workflows**: Design custom JSON rulesets, manage characters and inventories locally, export portable `rpx-campaign-bundle-v1` ZIP files for independent offline archiving.
+
+### [PERSONA-03] Autonomous AI Agent Engineers & LLM Tool Builders
+- **Target Profile**: Developers and AI researchers building agentic RPG assistants, automated dungeon masters, NPC dialog simulators, or campaign automation bots.
+- **Pain Points**: Desktop game software lacks programmatic headless APIs; graphical interfaces cannot be scripted or tested headlessly by AI agents without heavy GUI automation.
+- **Value Proposition**: Standardized JSON-RPC CLI protocol over `stdin`/`stdout` (`python -m rpx_pro.app --cli`). Exposes typed API methods (`create_world`, `roll_dice`, `create_character`, `export_campaign_bundle`, etc.) for seamless agentic integration.
+- **Key Workflows**: Run headless CLI sub-process, issue JSON-RPC method calls, ingest campaign state, and generate contextual story prompts across 7 AI roles with zero GUI overhead.
+
+### [PERSONA-04] Mobile Session Companions & Tablet Users
+- **Target Profile**: In-person players and travelling GMs who want to reference campaign notes, character statuses, and quest logs on iPads, Android tablets, or phones at the gaming table.
+- **Pain Points**: Running full desktop VTTs on mobile devices is clunky and battery-draining; cloud mobile apps require accounts, sync servers, or internet at remote cabin sessions.
+- **Value Proposition**: Zero-cloud static PWA companion (`web_companion/`). Loads local `rpx-campaign-bundle-v1` ZIP bundles with 100% client-side JavaScript, caching the shell in Service Worker for offline mobile restarts.
+- **Key Workflows**: Export campaign ZIP from RPX Pro, open PWA on tablet, drag-and-drop bundle, view live party health, active missions, and world maps completely offline.
+
+---
+
+## 3. Discoverability & SEO Keywords
+
+### High-Intent English Search Queries
+- `open source tabletop RPG control center python pyside6`
+- `offline game master tools with second monitor player screen`
+- `local-first virtual tabletop companion zero network egress`
+- `json-rpc cli tabletop rpg campaign manager for ai agents`
+- `rpx-campaign-bundle-v1 portable campaign format pwa`
+- `pyside6 qt6 roleplay xtreme pro ttrpg session manager`
+- `dnd 5e dsa generic fantasy offline session manager`
+- `multi-backend soundboard and dynamic light effects tabletop rpg`
+
+### High-Intent German Search Queries
+- `Open Source Pen and Paper Spielleiter Kontrollzentrum Python PySide6`
+- `Offline Virtual Tabletop Werkzeuge mit Zweitmonitor Spielerbildschirm`
+- `Lokales Kampagnenverwaltungsprogramm ohne Cloud-Zwang und Telemetrie`
+- `JSON-RPC CLI Pen and Paper Schnittstelle für KI Agenten und LLM`
+- `rpx-campaign-bundle-v1 Kampagnen-Export PWA Begleit-App`
+- `PySide6 Qt6 Pen and Paper Spielrunden-Manager`
+- `D&D 5e DSA Generisches Fantasy Offline Spielleiter Software`
+- `Multi-Backend Soundboard und Lichteffekte für Rollenspielrunden`
+
+---
+
+## 4. Directory & Ecosystem Recommendations
+1. **Awesome TTRPG / Tabletop Tools**:
+   - Category: *Digital Game Master Tools & Software*.
+   - Pitch: *RPX Pro: Open-source PySide6 RPG control center with multi-monitor player screen, offline soundboard, and JSON-RPC CLI.*
+2. **Awesome Local-First**:
+   - Category: *Desktop Applications*.
+   - Pitch: *100% local campaign management with zero network egress and static PWA export bundle.*
+3. **PySide6 / Qt Awesome Showcases**:
+   - Category: *Production Desktop Applications*.
+   - Pitch: *Modular Qt6 desktop architecture with dataclass entity stores, signal routing, and headless CLI modes.*
+
+---
+
+## 5. Technical Hygiene & Verification Matrix (Pfad A)
+- **Pytest Test Suite**: 27 passing tests (Contract tests, source platform smoke, dice roller, campaign bundle, API context, release metadata, store screenshots).
+- **Web Companion PWA Test Suite**: 17 passing Node.js unit tests (`node --test web_companion/tests/*.mjs`).
+- **Linter & Formatting**: Ruff 0.5+ clean (0 errors, `line-length = 100`, `select = ["E", "F", "W", "B", "SIM", "C4"]`).
+- **CI/CD Guardrails**: GitHub Actions matrix across Ubuntu, macOS, and Windows with concurrency cancellation (`cancel-in-progress: true`) and `timeout-minutes: 15`.
+- **Multi-Host Cloud Defense**: Hardened `.gitignore` with active pattern suppression for synchronization conflicts and canonical locks.
+
+---
+
+## 6. Discoverability, Comparative Matrix & Visual Architecture (Pfad B — Stand 2026-09-14)
+
+### 10-Dimension Comparative Matrix vs. 4 Alternatives
+
+| Technical Dimension | Governance Invariant | RPX Pro | Roll20 (Cloud SaaS VTT) | Foundry VTT (Self-Hosted Node.js) | Fantasy Grounds (Commercial Desktop) | Ad-Hoc Pen & Paper / Tools (Paper, Obsidian, Syrinscape) |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **1. Offline-First & Zero Egress** | `INV-LOCAL-01` | **100% Offline (Local disk in `rpx_pro_data/`, zero telemetry)** | None (Mandatory cloud connection & remote asset hosting) | Partial (Requires local web server daemon & port forwarding) | Partial (Desktop app with mandatory cloud license checks) | High (Physical paper or offline markdown notes) |
+| **2. Unprivileged Execution** | `INV-USER-02` | **Strict RunAsInvoker (Zero root/admin privilege required)** | Browser sandbox | Node.js daemon (potential port bind & firewall prompts) | Windows installer with admin privilege requests | Manual file edits |
+| **3. Dual-Screen Player Display** | `INV-DUAL-03` | **Native Second Monitor (Kiosk/Tiles/Rotation with GM isolation)** | None (Requires second browser tab logged in as player) | None (Requires second browser window logged in as player) | Partial (Second instance connected over localhost) | None (Manual cardboard DM screen) |
+| **4. Headless JSON-RPC for AI** | `INV-RPC-04` | **Built-in stdin/stdout JSON-RPC (`python -m rpx_pro.app --cli`)** | None (Closed web interface, API behind subscription) | Partial (JavaScript macros / third-party community modules) | None (Proprietary Lua engine without external CLI) | None (Purely manual) |
+| **5. Deterministic Campaign Bundles** | `INV-BUNDLE-05` | **Standardized `rpx-campaign-bundle-v1` ZIP Specification** | None (Cloud-locked campaigns, no raw bundle export) | Partial (Complex world folders with database files) | Proprietary `.mod` / `.xml` campaign archives | Unstructured loose folders of docs and images |
+| **6. Static Offline PWA Companion** | `INV-PWA-06` | **Zero-Cloud PWA (`web_companion/`) with Service Worker** | Closed mobile app requiring cloud account | None (Mobile browser access requires running server) | None (Desktop only) | Third-party note apps / PDF readers |
+| **7. License & Pricing Model** | `INV-COPYLEFT-07` | **100% Free & Open Source (MIT License, zero subscriptions)** | Freemium with recurring monthly subscriptions ($5–$10/mo) | Commercial one-time purchase ($50 license fee) | Commercial software ($39–$149 + ruleset purchases) | Variable (physical books and stationery) |
+| **8. Privacy-Guarded AI Integration** | `INV-LLM-08` | **7 Structured AI Roles with Zero Automatic Transmission** | None / Closed cloud AI betas | Third-party API plugins (external API key required) | None | Manual copy-paste to web LLMs |
+| **9. Atmospheric Audio & Lights** | `INV-ECO-09` | **Integrated Soundboard (Qt/pygame) + Lightning/Strobe/Day-Night FX** | Basic web Jukebox (storage limited) | Module-based ambient audio playlists | Sound links via external Syrinscape integration | External Bluetooth speakers / separate apps |
+| **10. Security SLA & Multi-OS CI** | `INV-SLA-10` | **48h SLA / 5d Triage + GitHub Actions CI (Ubuntu/macOS/Windows)** | SaaS platform customer ticket queue | Community Discord / vendor support | Proprietary vendor support forum | None (unmaintained personal tools) |
+
+### 10 Governance & Runtime Invariants
+1. **INV-LOCAL-01 (100% Offline & Local-First Zero-Egress):** All campaign data, maps, audio, characters, and configs remain strictly on local disk in `rpx_pro_data/`. Zero telemetry, zero analytics, zero external network requests.
+2. **INV-USER-02 (Unprivileged User-Mode & Non-Elevation):** Operates under strict `RunAsInvoker` security without requiring administrator privileges or root access.
+3. **INV-DUAL-03 (Dual-Screen State Isolation & Mirroring):** Strict isolation between the GM control dashboard and the player screen (second monitor). Hidden GM notes, monster stats, and secret locations never leak to the player view without explicit action.
+4. **INV-RPC-04 (Headless JSON-RPC CLI Interface):** Zero-dependency JSON-RPC interface via `stdin`/`stdout` (`python -m rpx_pro.app --cli`) enabling programmatic AI agent interaction, unit testing, and automation without opening the GUI.
+5. **INV-BUNDLE-05 (Deterministic Campaign Bundle Export):** `rpx-campaign-bundle-v1` ZIP specification with checksums and manifest validation, enabling lossless cross-platform exchange between desktop and mobile companions.
+6. **INV-PWA-06 (Zero-Cloud Client-Side PWA Companion):** Static PWA web companion running completely client-side in the browser via Service Worker; restores bundles from cache offline without internet access.
+7. **INV-COPYLEFT-07 (Permissive Licensing & Dynamic Linking):** Core code under MIT; PySide6 (LGPL-3.0) and pygame (LGPL-2.1) dynamically linked under LGPLv3 §4; zero copyleft contamination for user campaigns.
+8. **INV-LLM-08 (Privacy-Guarded AI Prompt Generation):** AI prompt generator formats structured prompts locally across 7 specialized RPG roles; prompts are copied to clipboard or read via CLI; zero automated data transmission to cloud AI endpoints.
+9. **INV-ECO-09 (Modular Sibling Ecosystem Interoperability):** Full alignment with `entertain-and-more` and `open-bricks` ecosystem (e.g. KlangpultLight sound staging, shared JSON data interchange).
+10. **INV-SLA-10 (Contractual Security SLA & Multi-Platform CI):** Formal commitment to 48-hour response / 5-day triage SLA, validated by automated GitHub Actions CI matrices across Ubuntu, Windows, and macOS on Python 3.10, 3.11, 3.12, and 3.13.
+
+### Third-Party License Audit & Governance Notice
+Comprehensive SPDX license audit completed in `THIRD_PARTY_LICENSES.md` on 2026-09-14:
+- PySide6: LGPL-3.0 dynamic linking (§ 4 LGPLv3 compliant).
+- pygame: LGPL-2.1 dynamic linking.
+- Python Standard Library: PSFL-2.0.
+- Web Companion: Vanilla JS / HTML5 / CSS3 (Zero npm runtime dependencies).
+- QA Tooling: pytest (MIT), ruff (MIT/Apache-2.0), setuptools (MIT), PyInstaller (GPL-2.0 with Bootloader Exception).
+- PEP 621 URLs in `pyproject.toml` expanded with `Third-Party Licenses`.

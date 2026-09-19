@@ -4,6 +4,8 @@
   "publisher_display": "Geiger",
   "identity_name": "Geiger.RPXPro",
   "version": "1.0.0.0",
+  "release_status": "Unreleased",
+  "privacy_last_reviewed": "2026-08-10",
   "description": "Professionelles Rollenspiel-Kontrollzentrum für Pen-and-Paper RPGs (DSA, DnD). Welten-System, Soundboard, Lichteffekte, Kampfsystem, 2. Monitor.",
   "executable": "RPXPro.exe",
   "capabilities": "internetClient,runFullTrust",

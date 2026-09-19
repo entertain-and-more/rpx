@@ -2,18 +2,17 @@
 
 import logging
 from pathlib import Path
-from typing import Optional
 
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QFormLayout,
     QLabel, QLineEdit, QTextEdit, QComboBox, QPushButton,
     QGroupBox, QTreeWidget, QTreeWidgetItem, QCheckBox,
     QMessageBox, QInputDialog, QFileDialog, QDialog,
-    QDialogButtonBox, QTableWidget, QTableWidgetItem, QSlider,
+    QDialogButtonBox, QTableWidget, QTableWidgetItem,
 )
 from PySide6.QtCore import Qt, Signal
 
-from rpx_pro.constants import generate_short_id, IMAGES_DIR, MAPS_DIR
+from rpx_pro.constants import generate_short_id, IMAGES_DIR
 from rpx_pro.models.world import Location
 from rpx_pro.models.entities import GameMap
 from rpx_pro.widgets.map_widget import MapWidget

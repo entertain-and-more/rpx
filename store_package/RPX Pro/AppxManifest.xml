@@ -4,6 +4,7 @@
          xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
          IgnorableNamespaces="uap rescap">
 
+  <!-- Release status: Unreleased; application version 1.0.0; privacy: https://github.com/entertain-and-more/rpx/blob/master/PRIVACY_POLICY.md -->
   <Identity Name="Geiger.RPXPro"
             Publisher="CN=52596601-BAB4-4F3F-B182-E8F3F273B202"
             Version="1.0.0.0" />
@@ -11,7 +12,7 @@
   <Properties>
     <DisplayName>RPX Pro</DisplayName>
     <PublisherDisplayName>Geiger</PublisherDisplayName>
-    <Description>Professionelles Rollenspiel-Kontrollzentrum fuer Pen-and-Paper (D&D, DSA). Welten-System, Soundboard, Lichteffekte, Kampfsystem, 2. Monitor.</Description>
+    <Description>Professionelles Rollenspiel-Kontrollzentrum fuer Pen-and-Paper (D&amp;D, DSA). Welten-System, Soundboard, Lichteffekte, Kampfsystem, 2. Monitor.</Description>
     <Logo>icons\icon_50x50.png</Logo>
   </Properties>
 
@@ -29,7 +30,7 @@
                  Executable="dist/RPX_Pro/RPX_Pro.exe"
                  EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements DisplayName="RPX Pro"
-                          Description="Professionelles Rollenspiel-Kontrollzentrum fuer Pen-and-Paper (D&D, DSA). Welten-System, Soundboard, Lichteffekte, Kampfsystem, 2. Monitor."
+                          Description="Professionelles Rollenspiel-Kontrollzentrum fuer Pen-and-Paper (D&amp;D, DSA). Welten-System, Soundboard, Lichteffekte, Kampfsystem, 2. Monitor."
                           Square150x150Logo="icons\icon_150x150.png"
                           Square44x44Logo="icons\icon_44x44.png"
                           BackgroundColor="transparent">

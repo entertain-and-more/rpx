@@ -1,29 +1,27 @@
 """RPXProMainWindow: Schlanker Orchestrator fuer alle Tabs und Manager."""
 
+import contextlib
 import random
 import logging
-from pathlib import Path
 from typing import Optional, Dict, Any
 
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QHBoxLayout, QVBoxLayout,
     QTabWidget, QStatusBar, QToolBar, QLabel, QPushButton,
-    QListWidget, QSpinBox, QCheckBox, QComboBox,
-    QMessageBox, QInputDialog, QFileDialog, QApplication,
+    QListWidget, QMessageBox, QInputDialog, QFileDialog, QApplication,
 )
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtCore import QTimer
 from PySide6.QtGui import QAction, QKeySequence
 
 from rpx_pro.constants import (
-    APP_TITLE, VERSION, MUSIC_DIR, IMAGES_DIR,
+    APP_TITLE, VERSION, IMAGES_DIR,
     AUDIO_BACKEND, _HAS_PYGAME,
 )
 from rpx_pro.models.enums import (
-    MessageRole, MissionStatus, TriggerType, PlayerScreenMode,
-    TimeOfDay, PlayerEvent,
+    MessageRole, MissionStatus, TriggerType, TimeOfDay, PlayerEvent,
 )
 from rpx_pro.models.session import ChatMessage
-from rpx_pro.models.entities import Character, Trigger
+from rpx_pro.models.entities import Trigger
 from rpx_pro.managers.data_manager import DataManager
 from rpx_pro.managers.audio_manager import AudioManager
 from rpx_pro.managers.light_manager import LightEffectManager
@@ -160,6 +158,27 @@ class RPXProMainWindow(QMainWindow):
         self.settings_tab.round_mode_changed.connect(self._on_round_mode_changed)
         self.settings_tab.status_message.connect(self.status_bar_msg)
         self.tabs.addTab(self.settings_tab, "Einstellungen")
+
+        # Die kompakte Reiterleiste bleibt sichtbar textbasiert. Zusätzliche
+        # Kontext-Hinweise helfen bei der Orientierung ohne das Layout weiter
+        # zu verdichten und stehen auch assistiven Technologien zur Verfügung.
+        self.tabs.setAccessibleName("Hauptnavigation")
+        self.tabs.setAccessibleDescription(
+            "Reiter zur Steuerung von Chat, Welt, Figuren, Kampf, Medien und Einstellungen."
+        )
+        for index, hint in enumerate((
+            "Chatverlauf und Nachrichten für die aktuelle Spielsitzung",
+            "Karten, Spieler-Bildschirm und visuelle Effekte",
+            "Welten, Orte und Karten verwalten",
+            "Charaktere anlegen und verwalten",
+            "Kampf, Würfe und Zugreihenfolge steuern",
+            "Missionen planen und verfolgen",
+            "Inventar und Gegenstände verwalten",
+            "Sounds und Atmosphäre steuern",
+            "KI-Prompts für die Spielleitung erzeugen",
+            "Sitzungs- und Simulationseinstellungen anpassen",
+        )):
+            self.tabs.setTabToolTip(index, hint)
 
         main_layout.addWidget(self.tabs, stretch=1)
 
@@ -534,9 +553,10 @@ class RPXProMainWindow(QMainWindow):
             loc = world.locations[location_id]
             session.current_location_id = location_id
             for trigger in loc.triggers:
-                if trigger.trigger_type == TriggerType.ON_EVERY_ENTER:
-                    self._fire_trigger(trigger)
-                elif trigger.trigger_type == TriggerType.ON_FIRST_ENTER and loc.first_visit:
+                if (
+                    trigger.trigger_type == TriggerType.ON_EVERY_ENTER
+                    or (trigger.trigger_type == TriggerType.ON_FIRST_ENTER and loc.first_visit)
+                ):
                     self._fire_trigger(trigger)
             loc.first_visit = False
             loc.visited = True
@@ -561,9 +581,10 @@ class RPXProMainWindow(QMainWindow):
         if world and location_id in world.locations:
             loc = world.locations[location_id]
             for trigger in loc.triggers:
-                if trigger.trigger_type == TriggerType.ON_EVERY_LEAVE:
-                    self._fire_trigger(trigger)
-                elif trigger.trigger_type == TriggerType.ON_FIRST_LEAVE and loc.first_visit:
+                if (
+                    trigger.trigger_type == TriggerType.ON_EVERY_LEAVE
+                    or (trigger.trigger_type == TriggerType.ON_FIRST_LEAVE and loc.first_visit)
+                ):
                     self._fire_trigger(trigger)
             self.audio_manager.stop_music()
             if session:
@@ -650,7 +671,7 @@ class RPXProMainWindow(QMainWindow):
                 char = self._find_char_by_name(char_name)
                 if char and world:
                     item = None
-                    for iid, it in world.typical_items.items():
+                    for it in world.typical_items.values():
                         if it.name.lower() == item_name.lower():
                             item = it
                             break
@@ -742,10 +763,8 @@ class RPXProMainWindow(QMainWindow):
 
     def _toggle_player_screen(self):
         if self.player_screen and self.player_screen.isVisible():
-            try:
+            with contextlib.suppress(RuntimeError, TypeError):
                 self.light_manager.effect_started.disconnect(self._mirror_effect_to_player)
-            except (RuntimeError, TypeError):
-                pass
             self.player_screen.close()
             self.player_screen = None
             self.ps_open_action.setText("Spieler-Bildschirm öffnen")
@@ -754,10 +773,8 @@ class RPXProMainWindow(QMainWindow):
             return
 
         self.player_screen = PlayerScreen(self)
-        try:
+        with contextlib.suppress(RuntimeError, TypeError):
             self.light_manager.effect_started.disconnect(self._mirror_effect_to_player)
-        except (RuntimeError, TypeError):
-            pass
         self.light_manager.effect_started.connect(self._mirror_effect_to_player)
 
         screens = QApplication.screens()
@@ -961,9 +978,8 @@ class RPXProMainWindow(QMainWindow):
             self.player_screen.set_enabled_views({view_id: enabled})
 
     def _on_effect_triggered(self, effect_name: str):
-        if self.player_screen and self.player_screen.isVisible():
-            if self.views_tab.mirror_effects_check.isChecked():
-                self.player_screen.trigger_effect(effect_name)
+        if self.player_screen and self.player_screen.isVisible() and self.views_tab.mirror_effects_check.isChecked():
+            self.player_screen.trigger_effect(effect_name)
 
     # ================================================================
     # Simulation
@@ -973,6 +989,10 @@ class RPXProMainWindow(QMainWindow):
         self.sim_timer = QTimer(self)
         self.sim_timer.timeout.connect(self._simulation_tick)
         self.sim_timer.start(60_000)
+        self._simulation_dirty = False
+        self._simulation_save_timer = QTimer(self)
+        self._simulation_save_timer.setSingleShot(True)
+        self._simulation_save_timer.timeout.connect(self._flush_simulation_save)
 
     def _simulation_tick(self):
         session = self.data_manager.current_session
@@ -1004,22 +1024,26 @@ class RPXProMainWindow(QMainWindow):
                 if char.hunger != old_hunger or char.thirst != old_thirst:
                     changed = True
 
-        if world.settings.simulate_disasters:
-            if random.random() < world.settings.disaster_probability * game_hours_per_tick:
-                disaster = random.choice([
-                    "Erdbeben", "Überschwemmung", "Vulkanausbruch",
-                    "Tornado", "Dürre", "Meteoritenschauer",
-                    "Magischer Sturm", "Seuche", "Heuschreckenschwarm"
-                ])
-                msg = ChatMessage(role=MessageRole.NARRATOR, author="Erzähler",
-                    content=f"NATURKATASTROPHE: {disaster}! Die Gruppe muss reagieren!")
-                self.chat_widget.add_message(msg)
-                session.chat_history.append(msg)
-                self.light_manager.flash_strobe(flashes=3, interval_ms=200)
-                if self.player_screen and self.player_screen.isVisible() \
-                        and self.views_tab.mirror_effects_check.isChecked():
-                    self.player_screen.trigger_effect("strobe")
-                changed = True
+        if world.settings.simulate_disasters and (
+            random.random() < world.settings.disaster_probability * game_hours_per_tick
+        ):
+            disaster = random.choice([
+                "Erdbeben", "Überschwemmung", "Vulkanausbruch",
+                "Tornado", "Dürre", "Meteoritenschauer",
+                "Magischer Sturm", "Seuche", "Heuschreckenschwarm"
+            ])
+            msg = ChatMessage(role=MessageRole.NARRATOR, author="Erzähler",
+                content=f"NATURKATASTROPHE: {disaster}! Die Gruppe muss reagieren!")
+            self.chat_widget.add_message(msg)
+            session.chat_history.append(msg)
+            self.light_manager.flash_strobe(flashes=3, interval_ms=200)
+            if (
+                self.player_screen
+                and self.player_screen.isVisible()
+                and self.views_tab.mirror_effects_check.isChecked()
+            ):
+                self.player_screen.trigger_effect("strobe")
+            changed = True
 
         if world.settings.simulate_time:
             world.settings.current_time += game_hours_per_tick
@@ -1057,9 +1081,24 @@ class RPXProMainWindow(QMainWindow):
                 changed = True
 
         if changed:
-            self.data_manager.save_session(session)
-            if world.settings.simulate_time:
-                self.data_manager.save_world(world)
+            self._simulation_dirty = True
+            if not self._simulation_save_timer.isActive():
+                self._simulation_save_timer.start(100)
+
+    def _flush_simulation_save(self):
+        """Erstellt Snapshots fuer die serielle Hintergrundpersistenz."""
+        if not self._simulation_dirty:
+            return
+        session = self.data_manager.current_session
+        world = self.data_manager.current_world
+        if not session or not world:
+            return
+
+        session_queued = self.data_manager.save_session_async(session)
+        world_queued = True
+        if world.settings.simulate_time:
+            world_queued = self.data_manager.save_world_async(world)
+        self._simulation_dirty = not (session_queued and world_queued)
 
     # ================================================================
     # Theme
@@ -1183,10 +1222,12 @@ class RPXProMainWindow(QMainWindow):
     def closeEvent(self, event):
         if hasattr(self, 'sim_timer'):
             self.sim_timer.stop()
-        try:
+        if hasattr(self, '_simulation_save_timer'):
+            self._simulation_save_timer.stop()
+            self._flush_simulation_save()
+        self.data_manager.flush_async_saves()
+        with contextlib.suppress(RuntimeError, TypeError):
             self.light_manager.effect_started.disconnect(self._mirror_effect_to_player)
-        except (RuntimeError, TypeError):
-            pass
         if self.player_screen:
             self.player_screen.close()
         if self.data_manager.current_session:
@@ -1200,6 +1241,7 @@ class RPXProMainWindow(QMainWindow):
         if self.data_manager.current_session:
             self.data_manager.config["last_session_id"] = self.data_manager.current_session.id
         self.data_manager.save_config()
+        self.data_manager.close()
         if AUDIO_BACKEND == "pygame" and _HAS_PYGAME:
             try:
                 import pygame

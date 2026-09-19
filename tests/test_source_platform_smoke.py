@@ -56,6 +56,16 @@ class SourcePlatformSmokeDefinitionTests(unittest.TestCase):
         self.assertIn("QFileDialog.getOpenFileName", inspect.getsource(ViewsTab._load_image_for_ps))
         self.assertIn("QFileDialog.getOpenFileName", inspect.getsource(main_window.RPXProMainWindow._ps_load_image))
 
+    def test_main_tab_navigation_exposes_accessible_context(self):
+        from rpx_pro import main_window
+
+        setup_source = inspect.getsource(main_window.RPXProMainWindow._setup_ui)
+
+        self.assertIn('setAccessibleName("Hauptnavigation")', setup_source)
+        self.assertIn("setAccessibleDescription(", setup_source)
+        self.assertIn("setTabToolTip(index, hint)", setup_source)
+        self.assertIn("Kampf, Würfe und Zugreihenfolge steuern", setup_source)
+
     def test_core_source_files_compile_for_source_distribution(self):
         for relative_path in (
             "RPX_Pro_1.py",

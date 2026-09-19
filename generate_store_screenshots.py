@@ -14,6 +14,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+# Store screenshots need Qt's native text renderer.  The offscreen backend is
+# appropriate for headless tests, but renders missing-glyph boxes on Windows.
+os.environ.pop("QT_QPA_PLATFORM", None)
 os.environ.setdefault("QT_SCALE_FACTOR", "1")
 
 PROJECT_ROOT = Path(__file__).resolve().parent
@@ -479,7 +482,10 @@ def _seed_demo_state(app: QApplication, modules: RuntimeModules) -> DemoContext:
 
 
 def _save_widget(widget: Any, target: Path, app: QApplication) -> None:
-    widget.setAttribute(Qt.WA_DontShowOnScreen, True)
+    # Keep the capture native without flashing a visible window to the user.
+    dont_show = getattr(getattr(Qt, "WidgetAttribute", Qt), "WA_DontShowOnScreen", getattr(Qt, "WA_DontShowOnScreen", None))
+    if dont_show is not None:
+        widget.setAttribute(dont_show, True)
     status_bar = getattr(widget, "statusBar", None)
     if callable(status_bar):
         status_bar().clearMessage()

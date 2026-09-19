@@ -19,6 +19,29 @@ from pathlib import Path
 from typing import Dict, List, Set
 
 
+LANGUAGE_SLOTS = ("de", "en", "es", "zh-Hans", "ja", "ru")
+SUPPORTED_LANGUAGES = LANGUAGE_SLOTS
+
+# Curated UI copy is deliberately small and explicit. Rulebook, campaign and
+# character text must never be translated implicitly.
+SPANISH_UI_TRANSLATIONS = {
+    "Abbrechen": "Cancelar",
+    "Abschließen": "Completar",
+    "Bearbeiten": "Editar",
+    "Fehler beim Laden": "Error al cargar",
+    "Filter anwenden": "Aplicar filtro",
+    "Filter entfernen": "Quitar filtro",
+    "Keine Ansichten aktiviert": "No hay vistas activadas",
+    "Lautstärke:": "Volumen:",
+    "Löschen": "Eliminar",
+    "Regelwerk importieren": "Importar reglamento",
+    "Schließen": "Cerrar",
+    "Welt speichern": "Guardar mundo",
+    "Welteinstellungen": "Configuración del mundo",
+    "Würfeln": "Tirar dados",
+}
+
+
 class TranslationSystem:
     """Multi-Language Support System v1.0"""
 
@@ -27,10 +50,10 @@ class TranslationSystem:
         Initialisiert Translation-System.
 
         Args:
-            default_lang: Standard-Sprache ('de' oder 'en')
+            default_lang: Standard-Sprache aus ``LANGUAGE_SLOTS``
             app_dir: Verzeichnis der Anwendung (default: aktuelles Verzeichnis)
         """
-        self.current_lang = default_lang
+        self.current_lang = default_lang if default_lang in LANGUAGE_SLOTS else "de"
 
         if app_dir is None:
             app_dir = Path.cwd()
@@ -62,14 +85,32 @@ class TranslationSystem:
         if self.translations_file.exists():
             try:
                 with open(self.translations_file, 'r', encoding='utf-8') as f:
-                    self.translations = json.load(f)
+                    loaded = json.load(f)
+                if not isinstance(loaded, dict):
+                    raise ValueError("Translations must be a JSON object")
+                self.translations = {
+                    key: self._with_language_slots(value)
+                    for key, value in loaded.items()
+                }
             except Exception:
                 self.translations = {}
         else:
             self.translations = {}
 
+    @staticmethod
+    def _with_language_slots(entry: dict) -> dict:
+        """Hält alte DE/EN-Kataloge mit allen geplanten Slots kompatibel."""
+        normalized = dict(entry) if isinstance(entry, dict) else {}
+        for language in LANGUAGE_SLOTS:
+            normalized.setdefault(language, "")
+        return normalized
+
     def _save_translations(self):
         self.translations_file.parent.mkdir(parents=True, exist_ok=True)
+        self.translations = {
+            key: self._with_language_slots(value)
+            for key, value in self.translations.items()
+        }
         with open(self.translations_file, 'w', encoding='utf-8') as f:
             json.dump(self.translations, f, indent=2, ensure_ascii=False)
 
@@ -84,24 +125,50 @@ class TranslationSystem:
             Uebersetzter Text oder Key als Fallback
         """
         if key in self.translations:
-            return self.translations[key].get(self.current_lang, key)
+            entry = self._with_language_slots(self.translations[key])
+            self.translations[key] = entry
+            translated = entry.get(self.current_lang, "")
+            if translated:
+                return translated
+            if self.current_lang == "es":
+                curated = SPANISH_UI_TRANSLATIONS.get(entry.get("de", key))
+                if curated:
+                    return curated
+            return entry.get("en") or entry.get("de") or key
 
         if self._is_german(key):
-            self.translations[key] = {"de": key, "en": ""}
+            self.translations[key] = self._with_language_slots({"de": key})
             self._save_translations()
 
         return key
 
     def set_language(self, lang: str):
-        if lang in ['de', 'en']:
+        if lang in LANGUAGE_SLOTS:
             self.current_lang = lang
+            return True
+        return False
 
     def get_language(self) -> str:
         return self.current_lang
 
-    def add_translation(self, key: str, de: str, en: str):
-        self.translations[key] = {"de": de, "en": en}
+    def add_translation(self, key: str, de: str, en: str, **additional):
+        """Fügt UI-Text hinzu; Kampagneninhalt bleibt außerhalb dieses Katalogs."""
+        unknown = set(additional) - set(LANGUAGE_SLOTS)
+        if unknown:
+            raise ValueError(f"Unsupported language slots: {sorted(unknown)}")
+        self.translations[key] = self._with_language_slots(
+            {"de": de, "en": en, **additional}
+        )
         self._save_translations()
+
+    def translate_ui(self, key: str) -> str:
+        """Übersetzt ausschließlich einen festen UI-Schlüssel."""
+        return self.t(key)
+
+    @staticmethod
+    def translate_content(text: str) -> str:
+        """Gibt nutzergeführten Regelwerk-/Kampagneninhalt unverändert zurück."""
+        return text
 
     def scan_and_update(self, project_dir: Path = None) -> Dict:
         """Scannt Projekt-Dateien nach deutschen Strings und aktualisiert translations.json."""
@@ -113,7 +180,7 @@ class TranslationSystem:
         added = []
         for string in sorted(found_strings):
             if string not in self.translations:
-                self.translations[string] = {"de": string, "en": ""}
+                self.translations[string] = self._with_language_slots({"de": string})
                 added.append(string)
 
         if added:
@@ -149,8 +216,13 @@ class TranslationSystem:
         text_lower = text.lower()
         return any(hint in text_lower for hint in self.german_hints)
 
-    def get_missing_translations(self) -> List[str]:
-        return [k for k, v in self.translations.items() if not v.get("en")]
+    def get_missing_translations(self, language: str = "en") -> List[str]:
+        if language not in LANGUAGE_SLOTS:
+            raise ValueError(f"Unsupported language slot: {language}")
+        return [
+            key for key, value in self.translations.items()
+            if not self._with_language_slots(value).get(language)
+        ]
 
 
 if __name__ == "__main__":

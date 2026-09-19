@@ -1,25 +1,25 @@
 {
-  "generated_at": "2026-08-14T08:16:05Z",
+  "generated_at": "2026-09-19T19:35:08Z",
   "files": [
     {
       "name": "main-window.png",
-      "path": "C:\\_Local_DEV\\repos\\rpx\\README\\screenshots\\store\\main-window.png"
+      "path": "C:\\_Local_DEV\\worktrees\\rpx-reconciliation\\README\\screenshots\\store\\main-window.png"
     },
     {
       "name": "world-map.png",
-      "path": "C:\\_Local_DEV\\repos\\rpx\\README\\screenshots\\store\\world-map.png"
+      "path": "C:\\_Local_DEV\\worktrees\\rpx-reconciliation\\README\\screenshots\\store\\world-map.png"
     },
     {
       "name": "soundboard.png",
-      "path": "C:\\_Local_DEV\\repos\\rpx\\README\\screenshots\\store\\soundboard.png"
+      "path": "C:\\_Local_DEV\\worktrees\\rpx-reconciliation\\README\\screenshots\\store\\soundboard.png"
     },
     {
       "name": "ai-prompts.png",
-      "path": "C:\\_Local_DEV\\repos\\rpx\\README\\screenshots\\store\\ai-prompts.png"
+      "path": "C:\\_Local_DEV\\worktrees\\rpx-reconciliation\\README\\screenshots\\store\\ai-prompts.png"
     },
     {
       "name": "player-screen.png",
-      "path": "C:\\_Local_DEV\\repos\\rpx\\README\\screenshots\\store\\player-screen.png"
+      "path": "C:\\_Local_DEV\\worktrees\\rpx-reconciliation\\README\\screenshots\\store\\player-screen.png"
     }
   ]
 }

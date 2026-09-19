@@ -6,7 +6,7 @@ from typing import Optional
 from rpx_pro.models.enums import MissionStatus
 from rpx_pro.models.entities import Character
 from rpx_pro.models.world import Location
-from rpx_pro.models.session import Session, ChatMessage
+from rpx_pro.models.session import Session
 from rpx_pro.models.world import World
 
 

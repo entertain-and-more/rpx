@@ -8,7 +8,7 @@ from PySide6.QtWidgets import (
     QLabel, QTabWidget, QComboBox, QPushButton,
     QGroupBox, QCheckBox, QSpinBox, QSlider,
     QTableWidget, QTableWidgetItem, QApplication,
-    QMessageBox, QFileDialog,
+    QFileDialog,
 )
 from PySide6.QtCore import Qt, Signal
 

@@ -2,7 +2,7 @@
 
 import logging
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 
 import rpx_pro.constants as _const
 from rpx_pro.constants import (

@@ -1,12 +1,10 @@
 """RulesetImporter + RulesetImportDialog: Regelwerk-Import-System."""
 
 import json
-import logging
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional
 
 from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QLabel, QComboBox, QPushButton,
-    QGroupBox, QCheckBox, QDialogButtonBox, QFileDialog, QMessageBox,
+    QDialog, QVBoxLayout, QLabel, QComboBox, QGroupBox, QCheckBox, QDialogButtonBox, QFileDialog, QMessageBox,
 )
 
 from rpx_pro.constants import RULESETS_DIR, logger

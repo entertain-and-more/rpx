@@ -3,7 +3,7 @@
 import sys
 
 from rpx_pro.constants import (
-    APP_TITLE, VERSION, ensure_directories, setup_logging, _init_audio_backend,
+    APP_TITLE, ensure_directories, setup_logging, _init_audio_backend,
 )
 
 
@@ -16,7 +16,6 @@ def main():
     # PySide6 importieren (erst nach Logging-Setup)
     from PySide6.QtWidgets import QApplication
     from PySide6.QtGui import QPalette, QColor
-    from PySide6.QtCore import Qt
 
     app = QApplication(sys.argv)
     app.setApplicationName(APP_TITLE)
