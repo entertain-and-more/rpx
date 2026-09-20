@@ -39,6 +39,12 @@ class AsyncPersistenceQueue:
             self._start_next_locked()
             return True
 
+    def discard(self, kind: str, object_id: str) -> bool:
+        """Entfernt einen anstehenden Snapshot aus der Queue, falls noch nicht an Worker uebergeben."""
+        key = (kind, object_id)
+        with self._condition:
+            return self._pending.pop(key, None) is not None
+
     def _start_next_locked(self) -> None:
         if self._closed or self._future is not None or not self._pending:
             return

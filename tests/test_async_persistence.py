@@ -38,6 +38,33 @@ def test_queue_coalesces_pending_snapshots_per_resource():
     ]
 
 
+def test_queue_discard_removes_pending_item():
+    started = threading.Event()
+    release = threading.Event()
+    writes = []
+
+    def writer(kind, object_id, payload):
+        started.set()
+        assert release.wait(timeout=2)
+        writes.append((kind, object_id, payload["version"]))
+
+    queue = AsyncPersistenceQueue(writer)
+    try:
+        assert queue.submit("world", "w1", {"version": 1}) is True
+        assert started.wait(timeout=2)
+        assert queue.submit("session", "s1", {"version": 2}) is True
+        assert queue.discard("session", "s1") is True
+        assert queue.discard("session", "s1") is False
+        release.set()
+        queue.flush()
+    finally:
+        queue.close()
+
+    assert writes == [
+        ("world", "w1", 1),
+    ]
+
+
 def test_queue_submit_does_not_wait_for_writer():
     release = threading.Event()
 

@@ -95,10 +95,15 @@ class DataManager:
     def save_config(self):
         """Speichert die Konfigurationsdatei"""
         try:
+            CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
             if self.current_world:
                 self.config["last_world_id"] = self.current_world.id
+            else:
+                self.config["last_world_id"] = None
             if self.current_session:
                 self.config["last_session_id"] = self.current_session.id
+            else:
+                self.config["last_session_id"] = None
             with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
                 json.dump(self.config, f, ensure_ascii=False, indent=2)
             logger.info("Konfiguration gespeichert")
@@ -135,12 +140,10 @@ class DataManager:
                 logger.error(f"Fehler beim Laden von {path}: {e}")
 
     def save_world(self, world: World) -> bool:
-        """Speichert eine Welt"""
+        """Speichert eine Welt atomar"""
         try:
             self.flush_async_saves()
-            path = WORLDS_DIR / f"{world.id}.json"
-            with open(path, 'w', encoding='utf-8') as f:
-                json.dump(world.to_dict(), f, ensure_ascii=False, indent=2)
+            self._write_snapshot("world", world.id, world.to_dict())
             self.worlds[world.id] = world
             logger.info(f"Welt gespeichert: {world.settings.name}")
             return True
@@ -149,13 +152,11 @@ class DataManager:
             return False
 
     def save_session(self, session: Session) -> bool:
-        """Speichert eine Session"""
+        """Speichert eine Session atomar"""
         try:
             self.flush_async_saves()
             session.last_modified = time.time()
-            path = SESSIONS_DIR / f"{session.id}.json"
-            with open(path, 'w', encoding='utf-8') as f:
-                json.dump(session.to_dict(), f, ensure_ascii=False, indent=2)
+            self._write_snapshot("session", session.id, session.to_dict())
             self.sessions[session.id] = session
             logger.info(f"Session gespeichert: {session.name}")
             return True
@@ -236,18 +237,42 @@ class DataManager:
         self.save_session(session)
         return session
 
+    @staticmethod
+    def _create_unique_backup(source: Path, prefix: str, object_id: str) -> Path:
+        """Erstellt ein Backup mit eindeutigem Zeitstempel ohne Ueberschreibkonflikt."""
+        BACKUPS_DIR.mkdir(parents=True, exist_ok=True)
+        timestamp = int(time.time())
+        target = BACKUPS_DIR / f"{prefix}_{object_id}_{timestamp}.json"
+        counter = 2
+        while target.exists():
+            target = BACKUPS_DIR / f"{prefix}_{object_id}_{timestamp}_{counter}.json"
+            counter += 1
+        os.replace(source, target)
+        return target
+
     def delete_world(self, world_id: str) -> bool:
-        """Loescht eine Welt (mit Backup)"""
+        """Loescht eine Welt und alle zugehoerigen Sessions (mit Backup)"""
         if world_id not in self.worlds:
             return False
         try:
+            self._async_saves.discard("world", world_id)
+            for session in list(self.sessions.values()):
+                if session.world_id == world_id:
+                    self._async_saves.discard("session", session.id)
+            self.flush_async_saves()
+
+            # Kaskadierend alle Sessions dieser Welt loeschen
+            for session_id in [sid for sid, s in list(self.sessions.items()) if s.world_id == world_id]:
+                self.delete_session(session_id)
+
             path = WORLDS_DIR / f"{world_id}.json"
-            backup_path = BACKUPS_DIR / f"world_{world_id}_{int(time.time())}.json"
             if path.exists():
-                path.rename(backup_path)
+                self._create_unique_backup(path, "world", world_id)
             del self.worlds[world_id]
             if self.current_world and self.current_world.id == world_id:
                 self.current_world = None
+            if self.config.get("last_world_id") == world_id:
+                self.config["last_world_id"] = None
             return True
         except Exception as e:
             logger.error(f"Fehler beim Loeschen: {e}")
@@ -258,13 +283,17 @@ class DataManager:
         if session_id not in self.sessions:
             return False
         try:
+            self._async_saves.discard("session", session_id)
+            self.flush_async_saves()
+
             path = SESSIONS_DIR / f"{session_id}.json"
-            backup_path = BACKUPS_DIR / f"session_{session_id}_{int(time.time())}.json"
             if path.exists():
-                path.rename(backup_path)
+                self._create_unique_backup(path, "session", session_id)
             del self.sessions[session_id]
             if self.current_session and self.current_session.id == session_id:
                 self.current_session = None
+            if self.config.get("last_session_id") == session_id:
+                self.config["last_session_id"] = None
             return True
         except Exception as e:
             logger.error(f"Fehler beim Loeschen: {e}")
@@ -520,7 +549,10 @@ class DataManager:
             ]
             return sorted(sessions, key=lambda session: session.id)
 
-        return sorted(self.sessions.values(), key=lambda session: session.id)
+        return sorted(
+            [session for session in self.sessions.values() if session.world_id in self.worlds],
+            key=lambda session: session.id,
+        )
 
     def _select_worlds(
         self,
