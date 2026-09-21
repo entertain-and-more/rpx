@@ -110,6 +110,10 @@ docs/
 LOCK*.txt
 LOCK
 LOCK.*
+LOCK.user.*
+LOCK.until.*
+LOCK.condition.*
+LOCK.permissions.json
 *.lock
 uv.lock
 !package-lock.json
@@ -123,11 +127,16 @@ uv.lock
 *conflicted copy*
 *-WORKSTATION*
 *-WORKSTATION-LG*
+*-LAPTOP*
 *-ASUS*
 *-ASUS-GEI*
+*-Mac Studio*
+*-MacBook*
 *.orig
 *.rej
 
 # Zusätzliche Test- & Build-Caches
+.hypothesis/
+.nyc_output/
 .tox/
 .turbo/

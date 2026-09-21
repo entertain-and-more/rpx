@@ -65,6 +65,7 @@ minversion = "7.0"
 addopts = "-ra -q"
 pythonpath = ["."]
 testpaths = ["tests"]
+norecursedirs = [".git", ".pytest_cache", "__pycache__", "build", "dist", ".venv"]
 
 [tool.ruff]
 line-length = 100

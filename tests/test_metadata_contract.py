@@ -18,6 +18,8 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertTrue(tests_workflow.exists(), "tests.yml workflow must exist")
         content = tests_workflow.read_text(encoding="utf-8")
 
+        self.assertIn("actions/checkout@v4", content)
+        self.assertIn("actions/setup-python@v5", content)
         self.assertIn("concurrency:", content)
         self.assertIn("cancel-in-progress: true", content)
         self.assertIn("timeout-minutes: 15", content)
@@ -31,6 +33,17 @@ class RepositoryContractTests(unittest.TestCase):
 
         self.assertIn("actions/stale", content)
         self.assertIn("stale-issue-label", content)
+        self.assertIn("timeout-minutes: 10", content)
+
+    def test_welcome_workflow_present_and_configured(self):
+        welcome_workflow = ROOT / ".github" / "workflows" / "welcome.yml"
+        self.assertTrue(welcome_workflow.exists(), "welcome.yml workflow must exist")
+        content = welcome_workflow.read_text(encoding="utf-8")
+
+        self.assertIn("actions/first-interaction@v3", content)
+        self.assertIn("timeout-minutes: 5", content)
+        self.assertIn("concurrency:", content)
+        self.assertIn("cancel-in-progress: true", content)
 
     def test_pyproject_pep621_compliance(self):
         pyproject_path = ROOT / "pyproject.toml"
@@ -72,6 +85,9 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("select", lint)
         self.assertIn("ignore", lint)
 
+        pytest_config = data.get("tool", {}).get("pytest", {}).get("ini_options", {})
+        self.assertIn("norecursedirs", pytest_config)
+
     def test_gitignore_cloud_sync_and_lock_defense(self):
         gitignore_path = ROOT / ".gitignore"
         self.assertTrue(gitignore_path.exists(), ".gitignore must exist")
@@ -82,9 +98,18 @@ class RepositoryContractTests(unittest.TestCase):
             "* (Kopie)*",
             "*conflicted copy*",
             "*-WORKSTATION*",
+            "*-WORKSTATION-LG*",
+            "*-LAPTOP*",
             "*-ASUS*",
+            "*-ASUS-GEI*",
+            "*-Mac Studio*",
+            "*-MacBook*",
             "LOCK",
             "LOCK.*",
+            "LOCK.user.*",
+            "LOCK.until.*",
+            "LOCK.condition.*",
+            "LOCK.permissions.json",
             "uv.lock",
             "!package-lock.json",
             ".automation-lock",
@@ -179,10 +204,16 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertTrue(llms_path.exists(), "llms.txt must exist")
         content = llms_path.read_text(encoding="utf-8")
 
-        self.assertTrue(content.startswith("## Last-checked: 2026-09-14"), "llms.txt must have current date")
+        self.assertTrue(content.startswith("## Last-checked: 2026-09-21"), "llms.txt must have current date")
         self.assertIn("[PERSONA-01]", content)
         self.assertIn("INV-LOCAL-01", content)
         self.assertIn("THIRD_PARTY_LICENSES.md", content)
+
+    def test_changelog_recent_pfad_a_entry(self):
+        changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+        self.assertIn("## [Unreleased]", changelog)
+        self.assertIn("Pfad A", changelog)
+        self.assertIn("2026-09-21", changelog)
 
 
 if __name__ == "__main__":

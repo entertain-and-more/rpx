@@ -7,7 +7,7 @@
 [![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/entertain-and-more/rpx/releases)
 [![Store Paket](https://img.shields.io/badge/Store%20Paket-1.0.0.0-informational.svg)](store_package.json)
 [![Status](https://img.shields.io/badge/Status-unver%C3%B6ffentlicht-yellow.svg)](SECURITY.md)
-[![Pytest](https://img.shields.io/badge/Pytest-32%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
+[![Pytest](https://img.shields.io/badge/Pytest-48%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
 [![Web Companion](https://img.shields.io/badge/Web%20Companion-17%20passed-brightgreen.svg)](web_companion/)
 [![GUI](https://img.shields.io/badge/GUI-PySide6%20%2F%20Qt6-blue.svg)](https://www.qt.io/)
 [![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)

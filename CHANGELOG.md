@@ -5,6 +5,14 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Repository Hygiene, CI Matrix & Multi-Host Hardening (Pfad A) - 2026-09-21
+- Linter & Code Hygiene: Resolved 6 unused imports in `tests/test_data_manager_persistence.py` (`json`, `tempfile`, `pathlib.Path`, `World`, `WorldSettings`, `Session`), achieving 100% clean `ruff check .` across the entire repository.
+- CI Workflow Modernization & Guardrails: Fixed GitHub Actions versions in `.github/workflows/tests.yml` to official stable releases (`actions/checkout@v4`, `actions/setup-python@v5`, `actions/setup-node@v4`), hardened `.github/workflows/stale.yml` with `timeout-minutes: 10`, and upgraded `.github/workflows/welcome.yml` to `actions/first-interaction@v3` with `timeout-minutes: 5` and concurrency cancellation.
+- Multi-Host Cloud-Sync & Canonical Lock Defense: Hardened `.gitignore` with comprehensive multi-host conflict patterns (`*-WORKSTATION-LG*`, `*-LAPTOP*`, `*-ASUS-GEI*`, `*-Mac Studio*`, `*-MacBook*`), canonical lock protections (`LOCK.user.*`, `LOCK.until.*`, `LOCK.condition.*`, `LOCK.permissions.json`), and test cache entries (`.hypothesis/`, `.nyc_output/`).
+- Tooling & Packaging Hardening: Added `norecursedirs` to `pyproject.toml` `[tool.pytest.ini_options]` for isolated test execution, strictly preserving version freeze discipline (`version = 1.0.0` unchanged).
+- Automated Contract Test Suite Expansion: Expanded `tests/test_metadata_contract.py` with contract tests verifying CI timeouts, action versions, stale/welcome guardrails, multi-host lock protections, and changelog/metadata recency.
+- Documentation & Context Parity: Synchronized `llms.txt` (`Last-checked: 2026-09-21`), updated Pytest badges (48 passed) across `README.md` and `README_de.md`, and registered Pfad A audit in `MARKETING-LOG.txt`.
+
 ### Accessibility - 2026-09-17
 - Die kompakte Hauptnavigation erklärt nun jeden Reiter per Tooltip und
   Accessible Name/Description. Dadurch bleiben die zehn textbasierten Reiter

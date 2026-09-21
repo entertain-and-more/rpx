@@ -7,7 +7,7 @@
 - **Current Version**: `1.0.0` (App) / `1.0.0.0` (Store Package)
 - **License**: MIT
 - **Architecture**: Local-First PySide6 Desktop Application with zero network egress, headless JSON-RPC CLI API, and offline PWA Companion
-- **Last Updated**: 2026-09-14 (Pfad B — Marketing, Discoverability & Visual Architecture)
+- **Last Updated**: 2026-09-21 (Pfad A — Repository Hygiene, CI Matrix & Multi-Host Hardening)
 
 ---
 
@@ -133,3 +133,13 @@ Comprehensive SPDX license audit completed in `THIRD_PARTY_LICENSES.md` on 2026-
 - Web Companion: Vanilla JS / HTML5 / CSS3 (Zero npm runtime dependencies).
 - QA Tooling: pytest (MIT), ruff (MIT/Apache-2.0), setuptools (MIT), PyInstaller (GPL-2.0 with Bootloader Exception).
 - PEP 621 URLs in `pyproject.toml` expanded with `Third-Party Licenses`.
+
+---
+
+## 6. Repository Hygiene & CI Matrix Audit (Pfad A) — 2026-09-21
+- **Code & Linter Hygiene**: Resolved 6 unused imports in `tests/test_data_manager_persistence.py`, establishing 100% clean `ruff check .` with zero linter errors across all configured rule sets (`E`, `F`, `W`, `B`, `SIM`, `C4`).
+- **CI Workflow Guardrails**: Standardized GitHub Actions action versions in `.github/workflows/tests.yml` to official stable releases (`actions/checkout@v4`, `actions/setup-python@v5`, `actions/setup-node@v4`), hardened `.github/workflows/stale.yml` with `timeout-minutes: 10`, and upgraded `.github/workflows/welcome.yml` to `actions/first-interaction@v3` with `timeout-minutes: 5` and concurrency control.
+- **Multi-Host Cloud-Sync & Canonical Lock Defense**: Hardened `.gitignore` against multi-host conflict files (`*-WORKSTATION-LG*`, `*-LAPTOP*`, `*-ASUS-GEI*`, `*-Mac Studio*`, `*-MacBook*`) and canonical lock-system protections (`LOCK.user.*`, `LOCK.until.*`, `LOCK.condition.*`, `LOCK.permissions.json`, `.hypothesis/`, `.nyc_output/`).
+- **Tooling & Test Isolation**: Added `norecursedirs` to `pyproject.toml` `[tool.pytest.ini_options]` while keeping project version `1.0.0` frozen per release discipline T-20260920-167562623.
+- **Contract Test Suite Expansion**: Expanded `tests/test_metadata_contract.py` with new contract tests verifying workflow action versions, timeout guardrails, multi-host lock protections, and changelog/metadata recency.
+- **Metadata Alignment**: Updated `llms.txt` (`Last-checked: 2026-09-21`), synchronized test badges across `README.md` and `README_de.md`, and documented release notes under `## [Unreleased]`.
