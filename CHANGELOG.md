@@ -5,6 +5,19 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### CLI/LLM Game Master Interface & High-End Expansion (TW-RPG-08 / U2) - 2026-09-23
+- Programmatic Game Master API (`RPXProAPI`):
+  - **Soundboard & Audio Management**: Added `list_sounds`, `play_sound`, `list_music`, `play_music`, `stop_music`, and `set_volume` with multi-format audio discovery (`.mp3`, `.wav`, `.ogg`).
+  - **Turn-Based Combat & Initiative Engine**: Added `start_combat` (with optional dexterity-based initiative ordering), `get_combat_state`, `next_turn` (with automatic round wrapping), `end_combat`, and `execute_attack` (supporting weapon accuracy thresholds, strength/dexterity skill bonuses, critical multipliers, armor reduction, character HP tracking, defeat detection, and automatic chat history logging).
+  - **Worlds, Locations & Environment**: Added `get_world` (detailed world metadata), `create_location`, `list_locations`, `set_location`, `set_environment` (`WeatherType`, `TimeOfDay`), and `get_session_state` (comprehensive LLM context snapshot).
+- Headless & CLI Execution (`rpx_pro.cli` & `rpx_pro.app`):
+  - Added CLI dispatch for all new methods over JSON-RPC.
+  - Added standalone headless runner supporting `--command '<JSON>'` and `--interactive` streaming stdin/stdout for headless agent execution.
+  - Wired `audio_manager`, `dice_roller`, and `light_manager` through to `RPXProAPI` in GUI CLI mode.
+- Test Coverage & Quality Gates:
+  - Added comprehensive automated test suite `tests/test_api_cli_extended.py` covering audio, combat mechanics, world/location lifecycle, environment updates, and CLI JSON-RPC dispatch (total 57 passing tests).
+  - 100% clean `ruff check` and `compileall`.
+
 ### Repository Hygiene, CI Matrix & Multi-Host Hardening (Pfad A) - 2026-09-21
 - Linter & Code Hygiene: Resolved 6 unused imports in `tests/test_data_manager_persistence.py` (`json`, `tempfile`, `pathlib.Path`, `World`, `WorldSettings`, `Session`), achieving 100% clean `ruff check .` across the entire repository.
 - CI Workflow Modernization & Guardrails: Fixed GitHub Actions versions in `.github/workflows/tests.yml` to official stable releases (`actions/checkout@v4`, `actions/setup-python@v5`, `actions/setup-node@v4`), hardened `.github/workflows/stale.yml` with `timeout-minutes: 10`, and upgraded `.github/workflows/welcome.yml` to `actions/first-interaction@v3` with `timeout-minutes: 5` and concurrency cancellation.

@@ -13,6 +13,7 @@ from dataclasses import fields as dataclass_fields
 APP_TITLE = "RPX Pro"
 VERSION = "1.0.0"
 SCHEMA_VERSION = "1.0"
+DEFAULT_UNARMED_CRIT_THRESHOLD = 20
 
 # ============================================================================
 # VERZEICHNISSTRUKTUR (PyInstaller-kompatibel)

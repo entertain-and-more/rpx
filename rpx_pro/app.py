@@ -53,7 +53,12 @@ def main():
     if cli_mode:
         from rpx_pro.api import RPXProAPI
         from rpx_pro.cli import CLIInterface
-        api = RPXProAPI(window.data_manager)
+        api = RPXProAPI(
+            data_manager=window.data_manager,
+            audio_manager=window.audio_manager,
+            dice_roller=window.dice_roller,
+            light_manager=window.light_manager,
+        )
         cli = CLIInterface(api)
         cli.start()
 
