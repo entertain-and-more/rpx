@@ -5,6 +5,25 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Tier-2 Multi-Language Expansion & Spanish Pen-&-Paper Localization (TW-RPG-10 / TW-RPG-11) - 2026-09-25
+- Multi-Language Architecture & Policy P-006 Tier-2 Expansion:
+  - Curated Spanish (s) Translation: Full curated Spanish localization for 100% of UI elements (171 catalog keys) covering Tabletop RPG terminology (Director de juego, Tirar dados, Control de rondas, Misiones, Inventario, Hechizos, Combate, etc.).
+  - Preserved 6-Language Slot Contract: All 171 UI entries structured with complete 6-slot schemas (de, n, s, zh-Hans, ja, 
+u).
+  - Strict UI vs. Content Separation (TW-RPG-11): Static UI text is localized through 	ranslate_ui() / 	(), while dynamic campaign content, character sheets, lore, notes, chat, and imported rulesets remain strictly untranslated and user-governed (	ranslate_content(text) -> text).
+- Encoding Hardening & Mojibake Resolution:
+  - Completely resolved legacy Mojibake and double-encoded UTF-8 artifacts in locales/translations.json, guaranteeing pure UTF-8 encoding across all dictionary keys and values.
+  - Hardened 	ranslator.py and manage_translations.py to prevent encoding regressions.
+  - Added CLI validation gate: python manage_translations.py --check for automated slot and translation completeness verification.
+- GUI Integration & Runtime Controls:
+  - Added dedicated Language Menu Sprache in the main window menu bar with instant switching between German, English, and Spanish.
+  - Integrated Sprache / Language / Idioma settings card with synchronized QComboBox into SettingsTab.
+  - Added assistive status bar feedback on language changes.
+- Automated Test Suite & Quality Gates:
+  - Expanded 	ests/test_translation_contract.py with 6 automated contract tests covering catalog normalization, Spanish TTRPG terms, content preservation, and 100% catalog integrity.
+  - Added 	ests/test_i18n_ui_integration.py for Qt signal and combobox UI integration.
+  - Full pytest suite expanded to 62 passed, 1 skipped, 2 subtests (100% green).
+
 ### CLI/LLM Game Master Interface & High-End Expansion (TW-RPG-08 / U2) - 2026-09-23
 - Programmatic Game Master API (`RPXProAPI`):
   - **Soundboard & Audio Management**: Added `list_sounds`, `play_sound`, `list_music`, `play_music`, `stop_music`, and `set_volume` with multi-format audio discovery (`.mp3`, `.wav`, `.ogg`).

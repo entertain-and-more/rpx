@@ -5,11 +5,12 @@ Findet deutsche Strings in .py-Dateien und pflegt locales/translations.json.
 
 Verwendung:
     python manage_translations.py [--dir PROJEKTVERZEICHNIS]
+    python manage_translations.py --check [PROJEKTVERZEICHNIS]
 """
 
 import json
-import re
 import os
+import re
 import sys
 
 TRANSLATION_FILE = "locales/translations.json"
@@ -115,6 +116,64 @@ def manage_translations(source_dir="."):
     print(f"\n[i] Gesamt: {len(translations)} Strings in {trans_file}")
 
 
+def check_translations(source_dir=".") -> bool:
+    """Validiert die Übersetzungsdatei auf vollständige de, en, es Werte und Slot-Struktur."""
+    trans_file = os.path.join(source_dir, TRANSLATION_FILE)
+    if not os.path.exists(trans_file):
+        print(f"[FAIL] Übersetzungsdatei nicht gefunden: {trans_file}")
+        return False
+
+    with open(trans_file, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    if not isinstance(data, dict) or not data:
+        print("[FAIL] Übersetzungsdatei ist leer oder ungültig")
+        return False
+
+    missing_slots = []
+    missing_de = []
+    missing_en = []
+    missing_es = []
+    mojibake = []
+
+    for k, v in data.items():
+        if not isinstance(v, dict):
+            missing_slots.append(k)
+            continue
+        for slot in LANGUAGE_SLOTS:
+            if slot not in v:
+                missing_slots.append(f"{k}:{slot}")
+        if not v.get("de"):
+            missing_de.append(k)
+        if not v.get("en"):
+            missing_en.append(k)
+        if not v.get("es"):
+            missing_es.append(k)
+        if any(c in k for c in ["\ufffd", "Ã", "âž•", "ðŸ"]):
+            mojibake.append(k)
+
+    if missing_slots or missing_de or missing_en or missing_es or mojibake:
+        if missing_slots:
+            print(f"[FAIL] {len(missing_slots)} Einträge mit fehlenden Sprach-Slots")
+        if missing_de:
+            print(f"[FAIL] {len(missing_de)} Einträge ohne deutsche Übersetzung")
+        if missing_en:
+            print(f"[FAIL] {len(missing_en)} Einträge ohne englische Übersetzung")
+        if missing_es:
+            print(f"[FAIL] {len(missing_es)} Einträge ohne spanische Übersetzung")
+        if mojibake:
+            print(f"[FAIL] {len(mojibake)} Einträge mit Mojibake-Artefakten")
+        return False
+
+    print(f"[PASS] Alle {len(data)} UI-Schlüssel besitzen vollständige de-, en- und es-Übersetzungen.")
+    return True
+
+
 if __name__ == "__main__":
-    target = sys.argv[1] if len(sys.argv) > 1 else "."
+    args = sys.argv[1:]
+    if "--check" in args:
+        target = next((a for a in args if a != "--check"), ".")
+        ok = check_translations(target)
+        sys.exit(0 if ok else 1)
+    target = args[0] if args else "."
     manage_translations(target)

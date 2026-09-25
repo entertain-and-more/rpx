@@ -39,6 +39,7 @@ from rpx_pro.tabs.inventory_tab import InventoryTab
 from rpx_pro.tabs.views_tab import ViewsTab
 from rpx_pro.tabs.immersion_tab import ImmersionTab
 from rpx_pro.tabs.settings_tab import SettingsTab
+from translator import get_translator
 
 logger = logging.getLogger("RPX")
 
@@ -55,6 +56,7 @@ class RPXProMainWindow(QMainWindow):
         self.dice_roller = DiceRoller()
         self.light_manager = LightEffectManager()
         self.player_screen: Optional[PlayerScreen] = None
+        self.translator = get_translator()
 
         # ViewsTab hat die mirror-Checkboxen
 
@@ -157,6 +159,7 @@ class RPXProMainWindow(QMainWindow):
         self.settings_tab = SettingsTab(self.data_manager)
         self.settings_tab.round_mode_changed.connect(self._on_round_mode_changed)
         self.settings_tab.status_message.connect(self.status_bar_msg)
+        self.settings_tab.language_changed.connect(self._on_settings_language_changed)
         self.tabs.addTab(self.settings_tab, "Einstellungen")
 
         # Die kompakte Reiterleiste bleibt sichtbar textbasiert. Zusätzliche
@@ -278,11 +281,33 @@ class RPXProMainWindow(QMainWindow):
         ps_image_action.triggered.connect(self._ps_load_image)
         ps_menu.addAction(ps_image_action)
 
+        # Sprache / Language Menu
+        lang_menu = menubar.addMenu("Sprache")
+        self.lang_action_de = QAction("Deutsch (de)", self)
+        self.lang_action_de.triggered.connect(lambda: self._set_ui_language("de"))
+        lang_menu.addAction(self.lang_action_de)
+
+        self.lang_action_en = QAction("English (en)", self)
+        self.lang_action_en.triggered.connect(lambda: self._set_ui_language("en"))
+        lang_menu.addAction(self.lang_action_en)
+
+        self.lang_action_es = QAction("Español (es)", self)
+        self.lang_action_es.triggered.connect(lambda: self._set_ui_language("es"))
+        lang_menu.addAction(self.lang_action_es)
+
         # Hilfe
         help_menu = menubar.addMenu("Hilfe")
         about_action = QAction("Über", self)
         about_action.triggered.connect(self._show_about)
         help_menu.addAction(about_action)
+
+    def _set_ui_language(self, lang: str):
+        if self.translator.set_language(lang):
+            self.settings_tab.set_language_selection(lang)
+            self.status_bar_msg(f"Sprache gewechselt zu {lang}")
+
+    def _on_settings_language_changed(self, lang: str):
+        self.status_bar_msg(f"Sprache gewechselt zu {lang}")
 
     def _setup_toolbar(self):
         toolbar = QToolBar("Haupt-Toolbar")

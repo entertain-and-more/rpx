@@ -1,29 +1,54 @@
-"""SettingsTab: Session- und Welt-Einstellungen."""
+"""SettingsTab: Session-, Welt- und Spracheinstellungen."""
 
 import logging
 
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QFormLayout,
     QLineEdit, QGroupBox, QCheckBox, QSpinBox, QDoubleSpinBox,
+    QComboBox,
 )
 from PySide6.QtCore import Signal
+
+from translator import get_translator, t
 
 logger = logging.getLogger("RPX")
 
 
 class SettingsTab(QWidget):
-    """Einstellungen: Session- und Welt-Einstellungen."""
+    """Einstellungen: Session-, Welt- und Spracheinstellungen."""
 
     round_mode_changed = Signal(bool)
+    language_changed = Signal(str)
     status_message = Signal(str)
 
     def __init__(self, data_manager):
         super().__init__()
         self.data_manager = data_manager
+        self.translator = get_translator()
         self._setup_ui()
 
     def _setup_ui(self):
         layout = QVBoxLayout(self)
+
+        # Spracheinstellungen (Tier-2 i18n Expansion)
+        lang_group = QGroupBox(t("Einstellungen") + " - Sprache / Language / Idioma")
+        lang_layout = QFormLayout(lang_group)
+
+        self.language_combo = QComboBox()
+        self.language_combo.addItem("Deutsch (de)", "de")
+        self.language_combo.addItem("English (en)", "en")
+        self.language_combo.addItem("Español (es)", "es")
+
+        # Setze aktuelle Sprache
+        current = self.translator.get_language()
+        for idx in range(self.language_combo.count()):
+            if self.language_combo.itemData(idx) == current:
+                self.language_combo.setCurrentIndex(idx)
+                break
+
+        self.language_combo.currentIndexChanged.connect(self._on_language_changed)
+        lang_layout.addRow("Oberflächensprache:", self.language_combo)
+        layout.addWidget(lang_group)
 
         # Session-Einstellungen
         session_group = QGroupBox("Session-Einstellungen")
@@ -78,6 +103,15 @@ class SettingsTab(QWidget):
 
     # --- Public ---
 
+    def set_language_selection(self, lang: str):
+        """Aktualisiert die ComboBox-Auswahl ohne erneute Signal-Schleife."""
+        for idx in range(self.language_combo.count()):
+            if self.language_combo.itemData(idx) == lang:
+                self.language_combo.blockSignals(True)
+                self.language_combo.setCurrentIndex(idx)
+                self.language_combo.blockSignals(False)
+                break
+
     def load_from_session(self):
         """Laedt Session-/Welt-Einstellungen."""
         session = self.data_manager.current_session
@@ -106,6 +140,13 @@ class SettingsTab(QWidget):
         world.settings.simulate_disasters = self.disasters_check.isChecked()
 
     # --- Private ---
+
+    def _on_language_changed(self, index: int):
+        lang = self.language_combo.itemData(index)
+        if lang:
+            self.translator.set_language(lang)
+            self.language_changed.emit(lang)
+            self.status_message.emit(f"Sprache gewechselt zu {lang}")
 
     def _on_round_mode_changed(self, state):
         is_round_based = self.round_based_check.isChecked()

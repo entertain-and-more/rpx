@@ -1,250 +1,1370 @@
 {
+  "+ Charakter erstellen": {
+    "de": "+ Charakter erstellen",
+    "en": "+ Create Character",
+    "es": "+ Crear personaje",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "+ Karte": {
+    "de": "+ Karte",
+    "en": "+ Map",
+    "es": "+ Mapa",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "+ Mission hinzufügen": {
+    "de": "+ Mission hinzufügen",
+    "en": "+ Add Quest",
+    "es": "+ Añadir misión",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "+ Neue Welt": {
+    "de": "+ Neue Welt",
+    "en": "+ New World",
+    "es": "+ Nuevo mundo",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "+ Ort hinzufügen": {
+    "de": "+ Ort hinzufügen",
+    "en": "+ Add Location",
+    "es": "+ Añadir lugar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "+ Waffe hinzufügen": {
+    "de": "+ Waffe hinzufügen",
+    "en": "+ Add Weapon",
+    "es": "+ Añadir arma",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "+ Zauber hinzufügen": {
+    "de": "+ Zauber hinzufügen",
+    "en": "+ Add Spell",
+    "es": "+ Añadir hechizo",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
   "Abbrechen": {
     "de": "Abbrechen",
-    "en": "Cancel"
+    "en": "Cancel",
+    "es": "Cancelar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Ablegen": {
+    "de": "Ablegen",
+    "en": "Drop",
+    "es": "Soltar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
   "Abschliessen": {
+    "de": "Abschliessen",
+    "en": "Complete",
+    "es": "Completar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Abschließen": {
     "de": "Abschließen",
-    "en": "Complete"
+    "en": "Complete",
+    "es": "Completar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Abspielen": {
+    "de": "Abspielen",
+    "en": "Play",
+    "es": "Reproducir",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Aktionen: 0/Unbegrenzt": {
+    "de": "Aktionen: 0/Unbegrenzt",
+    "en": "Actions: 0/Unlimited",
+    "es": "Acciones: 0/Ilimitadas",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Aktive Missionen": {
+    "de": "Aktive Missionen",
+    "en": "Active Quests",
+    "es": "Misiones activas",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Aktive Welt:": {
+    "de": "Aktive Welt:",
+    "en": "Active World:",
+    "es": "Mundo activo:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Aktuell: -": {
+    "de": "Aktuell: -",
+    "en": "Current: -",
+    "es": "Actual: -",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Ambiente": {
+    "de": "Ambiente",
+    "en": "Ambience",
+    "es": "Ambiente",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "An Charakter geben...": {
+    "de": "An Charakter geben...",
+    "en": "Give to Character...",
+    "es": "Dar a personaje...",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Angreifer:": {
+    "de": "Angreifer:",
+    "en": "Attacker:",
+    "es": "Atacante:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Angriff würfeln!": {
+    "de": "Angriff würfeln!",
+    "en": "Roll Attack!",
+    "es": "¡Tirar ataque!",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Ansichten": {
+    "de": "Ansichten",
+    "en": "Views",
+    "es": "Vistas",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Anzahl:": {
+    "de": "Anzahl:",
+    "en": "Quantity:",
+    "es": "Cantidad:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
   "Bearbeiten": {
     "de": "Bearbeiten",
-    "en": "Edit"
+    "en": "Edit",
+    "es": "Editar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Betreten": {
+    "de": "Betreten",
+    "en": "Enter",
+    "es": "Entrar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Bild": {
+    "de": "Bild",
+    "en": "Image",
+    "es": "Imagen",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
   "Bild laden...": {
     "de": "Bild laden...",
-    "en": "Loading image..."
+    "en": "Load Image...",
+    "es": "Cargar imagen...",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "Bitte auswÃ¤hlen:": {
+  "Bitte Regelwerk auswählen": {
+    "de": "Bitte Regelwerk auswählen",
+    "en": "Please select ruleset",
+    "es": "Por favor seleccione reglamento",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Bitte auswählen:": {
     "de": "Bitte auswählen:",
-    "en": "Please select:"
+    "en": "Please select:",
+    "es": "Por favor seleccione:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Blitz": {
+    "de": "Blitz",
+    "en": "Lightning",
+    "es": "Rayo",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Charakter:": {
+    "de": "Charakter:",
+    "en": "Character:",
+    "es": "Personaje:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Charaktere": {
+    "de": "Charaktere",
+    "en": "Characters",
+    "es": "Personajes",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Charaktername": {
+    "de": "Charaktername",
+    "en": "Character Name",
+    "es": "Nombre del personaje",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Chat": {
+    "de": "Chat",
+    "en": "Chat",
+    "es": "Chat",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Details anzeigen": {
+    "de": "Details anzeigen",
+    "en": "Show Details",
+    "es": "Mostrar detalles",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Einstellungen": {
+    "de": "Einstellungen",
+    "en": "Settings",
+    "es": "Configuración",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Element löschen": {
+    "de": "Element löschen",
+    "en": "Delete Element",
+    "es": "Eliminar elemento",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Entfernen": {
+    "de": "Entfernen",
+    "en": "Remove",
+    "es": "Quitar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Ergebnis: -": {
+    "de": "Ergebnis: -",
+    "en": "Result: -",
+    "es": "Resultado: -",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
   "Fehler beim Laden": {
     "de": "Fehler beim Laden",
-    "en": "Error Loading"
+    "en": "Error Loading",
+    "es": "Error al cargar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
   "Filter anwenden": {
     "de": "Filter anwenden",
-    "en": "Apply Filter"
+    "en": "Apply Filter",
+    "es": "Aplicar filtro",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
   "Filter entfernen": {
     "de": "Filter entfernen",
-    "en": "Remove Filter"
+    "en": "Remove Filter",
+    "es": "Quitar filtro",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "KI-AuftrÃ¤ge & Rollen": {
+  "Fähigkeiten definieren": {
+    "de": "Fähigkeiten definieren",
+    "en": "Define Abilities",
+    "es": "Definir habilidades",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Fähigkeiten definieren...": {
+    "de": "Fähigkeiten definieren...",
+    "en": "Define Abilities...",
+    "es": "Definir habilidades...",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Generieren": {
+    "de": "Generieren",
+    "en": "Generate",
+    "es": "Generar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Generierter Prompt:": {
+    "de": "Generierter Prompt:",
+    "en": "Generated Prompt:",
+    "es": "Prompt generado:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Gesamtgewicht: 0.0": {
+    "de": "Gesamtgewicht: 0.0",
+    "en": "Total Weight: 0.0",
+    "es": "Peso total: 0.0",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Gescheitert": {
+    "de": "Gescheitert",
+    "en": "Failed",
+    "es": "Fallido",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Gold:": {
+    "de": "Gold:",
+    "en": "Gold:",
+    "es": "Oro:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Gold: 0": {
+    "de": "Gold: 0",
+    "en": "Gold: 0",
+    "es": "Oro: 0",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "HP": {
+    "de": "HP",
+    "en": "HP",
+    "es": "PV",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Haupt-Toolbar": {
+    "de": "Haupt-Toolbar",
+    "en": "Main Toolbar",
+    "es": "Barra de herramientas principal",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Heilen": {
+    "de": "Heilen",
+    "en": "Heal",
+    "es": "Curar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Helden": {
+    "de": "Helden",
+    "en": "Heroes",
+    "es": "Héroes",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Hilfe": {
+    "de": "Hilfe",
+    "en": "Help",
+    "es": "Ayuda",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Hintergrund...": {
+    "de": "Hintergrund...",
+    "en": "Background...",
+    "es": "Fondo...",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Hinzufügen": {
+    "de": "Hinzufügen",
+    "en": "Add",
+    "es": "Añadir",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "In Zwischenablage": {
+    "de": "In Zwischenablage",
+    "en": "To Clipboard",
+    "es": "Al portapapeles",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Info/Preisliste": {
+    "de": "Info/Preisliste",
+    "en": "Info/Price List",
+    "es": "Información/Lista de precios",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Inventar": {
+    "de": "Inventar",
+    "en": "Inventory",
+    "es": "Inventario",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Inventaransicht": {
+    "de": "Inventaransicht",
+    "en": "Inventory View",
+    "es": "Vista de inventario",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Item hier platzieren...": {
+    "de": "Item hier platzieren...",
+    "en": "Place item here...",
+    "es": "Colocar objeto aquí...",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "KI-Aufträge & Rollen": {
     "de": "KI-Aufträge & Rollen",
-    "en": "AI Tasks & Roles"
+    "en": "AI Tasks & Roles",
+    "es": "Tareas y roles de IA",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "KI-Promptgenerator": {
+    "de": "KI-Promptgenerator",
+    "en": "AI Prompt Generator",
+    "es": "Generador de prompts de IA",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "KI-Prompts": {
+    "de": "KI-Prompts",
+    "en": "AI Prompts",
+    "es": "Prompts de IA",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Kacheln": {
+    "de": "Kacheln",
+    "en": "Tiles",
+    "es": "Casillas",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Kampf": {
+    "de": "Kampf",
+    "en": "Combat",
+    "es": "Combate",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Karte": {
+    "de": "Karte",
+    "en": "Map",
+    "es": "Mapa",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Karte:": {
+    "de": "Karte:",
+    "en": "Map:",
+    "es": "Mapa:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Kein Bild": {
+    "de": "Kein Bild",
+    "en": "No Image",
+    "es": "Sin imagen",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Kein Bild verfügbar": {
+    "de": "Kein Bild verfügbar",
+    "en": "No Image Available",
+    "es": "Sin imagen disponible",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Kein Hintergrund": {
+    "de": "Kein Hintergrund",
+    "en": "No Background",
+    "es": "Sin fondo",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Kein Ort ausgewählt": {
+    "de": "Kein Ort ausgewählt",
+    "en": "No Location Selected",
+    "es": "Ningún lugar seleccionado",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
   "Keine Ansichten aktiviert": {
     "de": "Keine Ansichten aktiviert",
-    "en": "No Views Enabled"
+    "en": "No Views Enabled",
+    "es": "No hay vistas activadas",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "LautstÃ¤rke:": {
+  "Keine Karte hinterlegt": {
+    "de": "Keine Karte hinterlegt",
+    "en": "No Map Available",
+    "es": "Sin mapa disponible",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Keine aktiven Missionen": {
+    "de": "Keine aktiven Missionen",
+    "en": "No Active Quests",
+    "es": "No hay misiones activas",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Lautstärke:": {
     "de": "Lautstärke:",
-    "en": "Volume:"
+    "en": "Volume:",
+    "es": "Volumen:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "LÃ¶schen": {
+  "Letzte Session wiederhergestellt: {session.name}": {
+    "de": "Letzte Session wiederhergestellt: {session.name}",
+    "en": "Restored last session: {session.name}",
+    "es": "Última sesión restaurada: {session.name}",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Löschen": {
     "de": "Löschen",
-    "en": "Delete"
+    "en": "Delete",
+    "es": "Eliminar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "MP": {
+    "de": "MP",
+    "en": "MP",
+    "es": "PM",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Mana abziehen": {
+    "de": "Mana abziehen",
+    "en": "Deduct Mana",
+    "es": "Deducir maná",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Mana auffüllen": {
+    "de": "Mana auffüllen",
+    "en": "Replenish Mana",
+    "es": "Rellenar maná",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Missionen": {
+    "de": "Missionen",
+    "en": "Quests",
+    "es": "Misiones",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Monitor:": {
+    "de": "Monitor:",
+    "en": "Monitor:",
+    "es": "Monitor:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "NPC hier platzieren...": {
+    "de": "NPC hier platzieren...",
+    "en": "Place NPC here...",
+    "es": "Colocar PNJ aquí...",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Nacht-Modus": {
+    "de": "Nacht-Modus",
+    "en": "Night Mode",
+    "es": "Modo noche",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Name:": {
+    "de": "Name:",
+    "en": "Name:",
+    "es": "Nombre:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Nächste Runde": {
+    "de": "Nächste Runde",
+    "en": "Next Round",
+    "es": "Siguiente ronda",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Ort:": {
+    "de": "Ort:",
+    "en": "Location:",
+    "es": "Lugar:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Ort: -": {
+    "de": "Ort: -",
+    "en": "Location: -",
+    "es": "Lugar: -",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Ortsansicht": {
+    "de": "Ortsansicht",
+    "en": "Location View",
+    "es": "Vista de lugar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "RPX": {
+    "de": "RPX",
+    "en": "RPX",
+    "es": "RPX",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
   "RPX - Spieler-Ansicht": {
     "de": "RPX - Spieler-Ansicht",
-    "en": "RPX - Player View"
+    "en": "RPX - Player View",
+    "es": "RPX - Vista del jugador",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "Regel hinzufÃ¼gen": {
+  "Rasse | Beruf": {
+    "de": "Rasse | Beruf",
+    "en": "Race | Class",
+    "es": "Raza | Clase",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Regel hinzufügen": {
     "de": "Regel hinzufügen",
-    "en": "Add Rule"
+    "en": "Add Rule",
+    "es": "Añadir regla",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "Regel lÃ¶schen": {
+  "Regel löschen": {
     "de": "Regel löschen",
-    "en": "Delete Rule"
+    "en": "Delete Rule",
+    "es": "Eliminar regla",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
   "Regelwerk importieren": {
     "de": "Regelwerk importieren",
-    "en": "Import Ruleset"
+    "en": "Import Ruleset",
+    "es": "Importar reglamento",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Rolle:": {
+    "de": "Rolle:",
+    "en": "Role:",
+    "es": "Rol:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Rotation": {
+    "de": "Rotation",
+    "en": "Rotation",
+    "es": "Rotación",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Runde: -": {
+    "de": "Runde: -",
+    "en": "Round: -",
+    "es": "Ronda: -",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Runde: 1": {
+    "de": "Runde: 1",
+    "en": "Round: 1",
+    "es": "Ronda: 1",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Rundensteuerung": {
+    "de": "Rundensteuerung",
+    "en": "Round Controls",
+    "es": "Control de rondas",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Schaden": {
+    "de": "Schaden",
+    "en": "Damage",
+    "es": "Daño",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
   "Schliessen": {
+    "de": "Schliessen",
+    "en": "Close",
+    "es": "Cerrar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Schließen": {
     "de": "Schließen",
-    "en": "Close"
+    "en": "Close",
+    "es": "Cerrar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "SchlieÃŸen": {
-    "de": "Schließen",
-    "en": "Close"
+  "Schwarzbild": {
+    "de": "Schwarzbild",
+    "en": "Black Screen",
+    "es": "Pantalla negra",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "Spieler-Bildschirm Ã¶ffnen": {
-    "de": "Spieler-Bildschirm öffnen",
-    "en": "Open Player Screen"
+  "Seiten:": {
+    "de": "Seiten:",
+    "en": "Sides:",
+    "es": "Caras:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "Spieler-Bildschirm schlieÃŸen": {
+  "Senden": {
+    "de": "Senden",
+    "en": "Send",
+    "es": "Enviar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Sound entfernen": {
+    "de": "Sound entfernen",
+    "en": "Remove Sound",
+    "es": "Quitar sonido",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Sound hinzufügen": {
+    "de": "Sound hinzufügen",
+    "en": "Add Sound",
+    "es": "Añadir sonido",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Soundboard": {
+    "de": "Soundboard",
+    "en": "Soundboard",
+    "es": "Tabla de sonidos",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Speichern": {
+    "de": "Speichern",
+    "en": "Save",
+    "es": "Guardar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Spieler-Bildschirm": {
+    "de": "Spieler-Bildschirm",
+    "en": "Player Screen",
+    "es": "Pantalla del jugador",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Spieler-Bildschirm schließen": {
     "de": "Spieler-Bildschirm schließen",
-    "en": "Close Player Screen"
+    "en": "Close Player Screen",
+    "es": "Cerrar pantalla del jugador",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Spieler-Bildschirm öffnen": {
+    "de": "Spieler-Bildschirm öffnen",
+    "en": "Open Player Screen",
+    "es": "Abrir pantalla del jugador",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Spieler: -": {
+    "de": "Spieler: -",
+    "en": "Player: -",
+    "es": "Jugador: -",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
   "Spielstart-Prompt": {
     "de": "Spielstart-Prompt",
-    "en": "Game Start Prompt"
+    "en": "Game Start Prompt",
+    "es": "Prompt de inicio de partida",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "VÃ¶lker": {
+  "Spielverlauf": {
+    "de": "Spielverlauf",
+    "en": "Game Log",
+    "es": "Registro de juego",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Stopp": {
+    "de": "Stopp",
+    "en": "Stop",
+    "es": "Detener",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Stroboskop": {
+    "de": "Stroboskop",
+    "en": "Strobe",
+    "es": "Estroboscopio",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Tag-Modus": {
+    "de": "Tag-Modus",
+    "en": "Day Mode",
+    "es": "Modo día",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Typ:": {
+    "de": "Typ:",
+    "en": "Type:",
+    "es": "Tipo:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Umbenennen": {
+    "de": "Umbenennen",
+    "en": "Rename",
+    "es": "Renombrar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Update-Prompt": {
+    "de": "Update-Prompt",
+    "en": "Update Prompt",
+    "es": "Actualizar prompt",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Verlassen": {
+    "de": "Verlassen",
+    "en": "Leave",
+    "es": "Salir",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Verteidiger:": {
+    "de": "Verteidiger:",
+    "en": "Defender:",
+    "es": "Defensor:",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Völker": {
     "de": "Völker",
-    "en": "Races"
+    "en": "Races",
+    "es": "Razas",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Waffe erstellen": {
+    "de": "Waffe erstellen",
+    "en": "Create Weapon",
+    "es": "Crear arma",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Waffe erstellen...": {
+    "de": "Waffe erstellen...",
+    "en": "Create Weapon...",
+    "es": "Crear arma...",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Welt": {
+    "de": "Welt",
+    "en": "World",
+    "es": "Mundo",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
   "Welt speichern": {
     "de": "Welt speichern",
-    "en": "Save World"
+    "en": "Save World",
+    "es": "Guardar mundo",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
   "Welteinstellungen": {
     "de": "Welteinstellungen",
-    "en": "World Settings"
+    "en": "World Settings",
+    "es": "Configuración del mundo",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "WÃ¼rfel": {
+  "Würfel": {
     "de": "Würfel",
-    "en": "Dice"
+    "en": "Dice",
+    "es": "Dados",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "WÃ¼rfeln": {
+  "Würfeln": {
     "de": "Würfeln",
-    "en": "Roll Dice"
+    "en": "Roll Dice",
+    "es": "Tirar dados",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "â–¶ AusfÃ¼hren â†’ Spielverlauf": {
+  "Würfeln!": {
+    "de": "Würfeln!",
+    "en": "Roll Dice!",
+    "es": "¡Tirar dados!",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Zeile löschen": {
+    "de": "Zeile löschen",
+    "en": "Delete Line",
+    "es": "Eliminar línea",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "Zug beenden": {
+    "de": "Zug beenden",
+    "en": "End Turn",
+    "es": "Terminar turno",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
+  },
+  "▶ Ausführen → Spielverlauf": {
     "de": "▶ Ausführen → Spielverlauf",
-    "en": "▶ Execute → Game History"
+    "en": "▶ Execute → Game Log",
+    "es": "▶ Ejecutar → Registro de juego",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "â–¶ NÃ¤chster Zug": {
+  "▶ Nächster Zug": {
     "de": "▶ Nächster Zug",
-    "en": "▶ Next Turn"
+    "en": "▶ Next Turn",
+    "es": "▶ Siguiente turno",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "â–¶ Start (Loop)": {
+  "▶ Start (Loop)": {
     "de": "▶ Start (Loop)",
-    "en": "▶ Start (Loop)"
+    "en": "▶ Start (Loop)",
+    "es": "▶ Iniciar (bucle)",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "âœ… AbschlieÃŸen": {
+  "✅ Abschließen": {
     "de": "✅ Abschließen",
-    "en": "✅ Complete"
+    "en": "✅ Complete",
+    "es": "✅ Completar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "âœ Bearbeiten": {
-    "de": "✏ Bearbeiten",
-    "en": "✏ Edit"
-  },
-  "âœï¸ Bearbeiten": {
+  "✏️ Bearbeiten": {
     "de": "✏️ Bearbeiten",
-    "en": "✏️ Edit"
+    "en": "✏️ Edit",
+    "es": "✏️ Editar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "âœ“ AbschlieÃŸen": {
+  "✓ Abschließen": {
     "de": "✓ Abschließen",
-    "en": "✓ Complete"
+    "en": "✓ Complete",
+    "es": "✓ Completar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "âœ– Filter lÃ¶schen": {
+  "✖ Filter löschen": {
     "de": "✖ Filter löschen",
-    "en": "✖ Clear Filter"
+    "en": "✖ Clear Filter",
+    "es": "✖ Borrar filtro",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "âŒ Abbrechen": {
+  "❌ Abbrechen": {
     "de": "❌ Abbrechen",
-    "en": "❌ Cancel"
+    "en": "❌ Cancel",
+    "es": "❌ Cancelar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "âž• HinzufÃ¼gen": {
+  "➕ Hinzufügen": {
     "de": "➕ Hinzufügen",
-    "en": "➕ Add"
+    "en": "➕ Add",
+    "es": "➕ Añadir",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "âž• Mission hinzufÃ¼gen": {
+  "➕ Mission hinzufügen": {
     "de": "➕ Mission hinzufügen",
-    "en": "➕ Add Mission"
+    "en": "➕ Add Quest",
+    "es": "➕ Añadir misión",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "âž• Ort hinzufÃ¼gen": {
+  "➕ Ort hinzufügen": {
     "de": "➕ Ort hinzufügen",
-    "en": "➕ Add Location"
+    "en": "➕ Add Location",
+    "es": "➕ Añadir lugar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "âž• Sound hinzufÃ¼gen": {
+  "➕ Sound hinzufügen": {
     "de": "➕ Sound hinzufügen",
-    "en": "➕ Add Sound"
+    "en": "➕ Add Sound",
+    "es": "➕ Añadir sonido",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "âž• Waffe hinzufÃ¼gen": {
+  "➕ Waffe hinzufügen": {
     "de": "➕ Waffe hinzufügen",
-    "en": "➕ Add Weapon"
+    "en": "➕ Add Weapon",
+    "es": "➕ Añadir arma",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "âž• Zauber hinzufÃ¼gen": {
+  "➕ Zauber hinzufügen": {
     "de": "➕ Zauber hinzufügen",
-    "en": "➕ Add Spell"
+    "en": "➕ Add Spell",
+    "es": "➕ Añadir hechizo",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸŽ¨ Farbfilter wÃ¤hlen": {
+  "🎨 Farbfilter wählen": {
     "de": "🎨 Farbfilter wählen",
-    "en": "🎨 Select Color Filter"
+    "en": "🎨 Select Color Filter",
+    "es": "🎨 Elegir filtro de color",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸŽ¬ Start-Prompt generieren": {
+  "🎬 Start-Prompt generieren": {
     "de": "🎬 Start-Prompt generieren",
-    "en": "🎬 Generate Start Prompt"
+    "en": "🎬 Generate Start Prompt",
+    "es": "🎬 Generar prompt de inicio",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸŽ² Regeln & WÃ¼rfel": {
+  "🎲 Regeln & Würfel": {
     "de": "🎲 Regeln & Würfel",
-    "en": "🎲 Rules & Dice"
+    "en": "🎲 Rules & Dice",
+    "es": "🎲 Reglas y dados",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸŽ² WÃ¼rfeln!": {
+  "🎲 Würfeln!": {
     "de": "🎲 Würfeln!",
-    "en": "🎲 Roll Dice!"
+    "en": "🎲 Roll Dice!",
+    "es": "🎲 ¡Tirar dados!",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸž AuÃŸen": {
+  "🏞 Außen": {
     "de": "🏞 Außen",
-    "en": "🏞 Outdoors"
+    "en": "🏞 Outdoors",
+    "es": "🏞 Exterior",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸžï¸\\nKein Bild verfÃ¼gbar": {
-    "de": "🏞️\\nKein Bild verfügbar",
-    "en": "🏞️\\nNo Image Available"
+  "🏞️\nKein Bild verfügbar": {
+    "de": "🏞️\nKein Bild verfügbar",
+    "en": "🏞️\nNo Image Available",
+    "es": "🏞️\nSin imagen disponible",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸžï¸\\nKein Ort ausgewÃ¤hlt": {
-    "de": "🏞️\\nKein Ort ausgewählt",
-    "en": "🏞️\\nNo Location Selected"
+  "🏞️\nKein Ort ausgewählt": {
+    "de": "🏞️\nKein Ort ausgewählt",
+    "en": "🏞️\nNo Location Selected",
+    "es": "🏞️\nNingún lugar seleccionado",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸ’¾ Chat exportieren": {
+  "💾 Chat exportieren": {
     "de": "💾 Chat exportieren",
-    "en": "💾 Export Chat"
+    "en": "💾 Export Chat",
+    "es": "💾 Exportar chat",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸ’¾ Speichern": {
+  "💾 Speichern": {
     "de": "💾 Speichern",
-    "en": "💾 Save"
+    "en": "💾 Save",
+    "es": "💾 Guardar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸ’¾ Welt speichern": {
+  "💾 Welt speichern": {
     "de": "💾 Welt speichern",
-    "en": "💾 Save World"
+    "en": "💾 Save World",
+    "es": "💾 Guardar mundo",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸ“Š Details anzeigen": {
+  "📊 Details anzeigen": {
     "de": "📊 Details anzeigen",
-    "en": "📊 Show Details"
+    "en": "📊 Show Details",
+    "es": "📊 Mostrar detalles",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸ“‹ Spielstart â†’ Clipboard": {
+  "📋 Spielstart → Clipboard": {
     "de": "📋 Spielstart → Clipboard",
-    "en": "📋 Game Start → Clipboard"
+    "en": "📋 Game Start → Clipboard",
+    "es": "📋 Inicio de partida → Portapapeles",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸ“¥ Zu Session hinzufÃ¼gen": {
+  "📥 Zu Session hinzufügen": {
     "de": "📥 Zu Session hinzufügen",
-    "en": "📥 Add to Session"
+    "en": "📥 Add to Session",
+    "es": "📥 Añadir a sesión",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸ”„ Runde zurÃ¼cksetzen": {
+  "🔄 Runde zurücksetzen": {
     "de": "🔄 Runde zurücksetzen",
-    "en": "🔄 Reset Round"
+    "en": "🔄 Reset Round",
+    "es": "🔄 Reiniciar ronda",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸ”² Effekte lÃ¶schen": {
+  "🔲 Effekte löschen": {
     "de": "🔲 Effekte löschen",
-    "en": "🔲 Clear Effects"
+    "en": "🔲 Clear Effects",
+    "es": "🔲 Borrar efectos",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸ”´ Rot-Filter": {
+  "🔴 Rot-Filter": {
     "de": "🔴 Rot-Filter",
-    "en": "🔴 Red Filter"
+    "en": "🔴 Red Filter",
+    "es": "🔴 Filtro rojo",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸ”µ Blau-Filter": {
+  "🔵 Blau-Filter": {
     "de": "🔵 Blau-Filter",
-    "en": "🔵 Blue Filter"
+    "en": "🔵 Blue Filter",
+    "es": "🔴 Filtro azul",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸ—‘ LÃ¶schen": {
+  "🗑 Löschen": {
     "de": "🗑 Löschen",
-    "en": "🗑 Delete"
+    "en": "🗑 Delete",
+    "es": "🗑 Eliminar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸ—‘ï¸ LÃ¶schen": {
+  "🗑️ Löschen": {
     "de": "🗑️ Löschen",
-    "en": "🗑️ Delete"
+    "en": "🗑️ Delete",
+    "es": "🗑️ Eliminar",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸ—º Weltkarte laden": {
+  "🗺 Weltkarte laden": {
     "de": "🗺 Weltkarte laden",
-    "en": "🗺 Load World Map"
+    "en": "🗺 Load World Map",
+    "es": "🗺 Cargar mapa mundial",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   },
-  "ðŸš€ Spielstart-Prompt": {
+  "🚀 Spielstart-Prompt": {
     "de": "🚀 Spielstart-Prompt",
-    "en": "🚀 Game Start Prompt"
+    "en": "🚀 Game Start Prompt",
+    "es": "🚀 Prompt de inicio de partida",
+    "zh-Hans": "",
+    "ja": "",
+    "ru": ""
   }
 }
