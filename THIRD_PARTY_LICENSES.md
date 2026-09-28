@@ -1,8 +1,9 @@
-# Third-Party Licenses & Transparency Notice
+# Third-Party Licenses & Transparency Notice (Level 1 SBOM)
 
 > **Project:** `entertain-and-more/rpx` (RPX Pro — RolePlay Xtreme Professional Edition)<br>
-> **Audited:** 2026-09-14<br>
+> **Audited:** 2026-09-28<br>
 > **Repository License:** [MIT License](LICENSE)<br>
+> **Canonical Notice:** [NOTICE](NOTICE)<br>
 > **Architecture & Privacy:** 100% Local-First, Zero-Egress by default, Unprivileged User-Mode (`RunAsInvoker`)
 
 ---
@@ -29,6 +30,23 @@ Furthermore, RPX Pro affirms the ten governance and runtime invariants:
 8. **INV-LLM-08 (Privacy-Guarded AI Prompt Generation):** AI prompt generator formats structured prompts locally across 7 specialized RPG roles; prompts are copied to clipboard or read via CLI; zero automated data transmission to cloud AI endpoints.
 9. **INV-ECO-09 (Modular Sibling Ecosystem Interoperability):** Full alignment with `entertain-and-more` and `open-bricks` ecosystem (e.g. KlangpultLight sound staging, shared JSON data interchange).
 10. **INV-SLA-10 (Contractual Security SLA & Multi-Platform CI):** Formal commitment to 48-hour response / 5-day triage SLA, validated by automated GitHub Actions CI matrices across Ubuntu, Windows, and macOS on Python 3.10, 3.11, 3.12, and 3.13.
+
+---
+
+## Level 1 SBOM Invariant Cross-Reference Matrix
+
+| Invariant Code | Core Requirement | Implementation Mechanism | License / Dependency Impact | Compliance Status |
+|:---|:---|:---|:---|:---:|
+| `INV-LOCAL-01` | 100% Offline & Local-First Zero-Egress | Local disk storage `rpx_pro_data/`, Python stdlib SQLite, 0 outbound requests | Zero external telemetry or cloud dependencies | **PASS (100% Offline)** |
+| `INV-USER-02` | Unprivileged User-Mode & Non-Elevation | Operates under standard OS user token (`RunAsInvoker`) | Zero root or administrator elevation requirements | **PASS (User-Mode)** |
+| `INV-DUAL-03` | Dual-Screen State Isolation & Mirroring | Independent QMainWindow displays, selective viewport synchronization | Strict GM secrecy, zero leak to player view | **PASS (Isolated)** |
+| `INV-RPC-04` | Headless JSON-RPC CLI Interface | Zero-dependency JSON-RPC protocol via standard I/O (`rpx_pro.cli`) | Python stdlib JSON, headless agent automation | **PASS (Headless)** |
+| `INV-BUNDLE-05` | Deterministic Campaign Bundle Export | Standardized `rpx-campaign-bundle-v1` ZIP archives with manifest | Pure Python zipfile, lossless interchange | **PASS (Standardized)** |
+| `INV-PWA-06` | Zero-Cloud Client-Side PWA Companion | Static PWA web companion reading ZIP bundles offline (`web_companion/`) | Vanilla JS / Service Worker, zero cloud egress | **PASS (Client-Side)** |
+| `INV-COPYLEFT-07` | Permissive Licensing & Dynamic Linking | Core MIT license, PySide6 / pygame dynamic linking under LGPLv3 §4 | Zero copyleft contamination for campaign data | **PASS (Permissive)** |
+| `INV-LLM-08` | Privacy-Guarded AI Prompt Generation | 7 specialized local RPG prompt templates, clipboard & CLI export | Zero automatic egress to cloud LLM providers | **PASS (Local Prompt)** |
+| `INV-ECO-09` | Sibling Ecosystem Interoperability | Seamless synergy with KlangpultLight, open-bricks, and entertain-and-more | Standard JSON data schemas and open protocols | **PASS (Interoperable)** |
+| `INV-SLA-10` | 48h Response SLA & Multi-Platform CI | Formal vulnerability response SLA in `SECURITY.md`, 3-OS CI matrix | Contractual security governance & verified CI | **PASS (Contractual)** |
 
 ---
 

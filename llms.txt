@@ -1,4 +1,4 @@
-## Last-checked: 2026-09-21
+## Last-checked: 2026-09-28
 
 # rpx
 
@@ -17,7 +17,7 @@ session manager, or an LLM-controllable campaign backend that operates strictly 
 
 - `python RPX_Pro_1.py` — launch the desktop application (or `START.bat` on Windows)
 - `python -m rpx_pro.app --cli` — start in JSON-RPC CLI mode for LLM / autonomous agent control via stdin/stdout
-- `pytest` — run Python unit & contract test suite (48 passed, 1 skipped | 100% green)
+- `pytest` — run Python unit & contract test suite (65 passed, 1 skipped | 100% green)
 - `node --test web_companion/tests/*.mjs` — run web companion PWA test suite (17 passed)
 - `python _scripts/verify_release_metadata.py` — verify strict release and privacy metadata contract
 - `cd web_companion && python -m http.server 8765` — serve the PWA companion locally
@@ -69,9 +69,10 @@ open-bricks tabletop roleplaying workstation
 
 ## Important Files
 
-- `README.md`: full English documentation with 18-point quick navigation, comparative matrix, and diagrams
-- `README_de.md`: full German documentation with 100% anchor and section parity
-- `THIRD_PARTY_LICENSES.md`: comprehensive third-party license audit, LGPL-3.0 dynamic linking notice, and invariant compliance
+- `NOTICE`: canonical root copyright and attribution notice for Lukas Geiger, entertain-and-more, and open-bricks
+- `README.md`: full English documentation with 18-point quick navigation (sec-01..sec-18), comparative matrix, and diagrams
+- `README_de.md`: full German documentation with 100% reciprocal anchor and section parity
+- `THIRD_PARTY_LICENSES.md`: Level 1 SBOM invariant cross-reference matrix, LGPL-3.0 dynamic linking notice, and invariant compliance
 - `THIRD_PARTY_LICENSES.txt`: compact third-party license reference
 - `MARKETING-LOG.txt`: marketing strategy, personas, SEO discoverability, and 10-dimension comparative matrix
 - `rpx_pro/api.py`: programmatic Python API dataclass contract
@@ -79,4 +80,4 @@ open-bricks tabletop roleplaying workstation
 - `web_companion/`: static PWA companion for offline bundle format
 - `EXPORTFORMAT.md`: `rpx-campaign-bundle-v1` bundle specification
 - `CHANGELOG.md`: version history and release logs
-- `SECURITY.md`: vulnerability disclosure policy and 48h SLA
+- `SECURITY.md`: vulnerability disclosure policy, 48h SLA, and § 521 BGB statutory notice

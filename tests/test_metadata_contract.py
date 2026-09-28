@@ -56,7 +56,11 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertEqual(project.get("name"), "rpx-pro")
         self.assertEqual(project.get("version"), "1.0.0")
         self.assertIn("license-files", project)
-        self.assertEqual(project["license-files"], ["LICENSE"])
+        self.assertEqual(
+            project["license-files"],
+            ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md", "THIRD_PARTY_LICENSES.txt"],
+        )
+        self.assertEqual(len(project.get("keywords", [])), 20)
 
         classifiers = project.get("classifiers", [])
         self.assertIn("Programming Language :: Python :: 3.13", classifiers)
@@ -69,6 +73,7 @@ class RepositoryContractTests(unittest.TestCase):
             "Issues",
             "Changelog",
             "Security",
+            "Notice",
             "LLM Ready",
             "Marketing Log",
             "Third-Party Licenses",
@@ -126,6 +131,12 @@ class RepositoryContractTests(unittest.TestCase):
             de_match = re.search(rf"^##\s+{i}\.\s+", readme_de, re.MULTILINE)
             self.assertIsNotNone(en_match, f"README.md missing section ## {i}.")
             self.assertIsNotNone(de_match, f"README_de.md missing section ## {i}.")
+
+            sec_id = f"sec-{i:02d}"
+            self.assertIn(f'id="{sec_id}"', readme_en, f"README.md missing anchor {sec_id}")
+            self.assertIn(f'id="{sec_id}"', readme_de, f"README_de.md missing anchor {sec_id}")
+            self.assertIn(f"(#{sec_id})", readme_en, f"README.md quick navigation missing target #{sec_id}")
+            self.assertIn(f"(#{sec_id})", readme_de, f"README_de.md quick navigation missing target #{sec_id}")
 
         shared_anchors = [
             "target-personas--discoverability",
@@ -204,16 +215,66 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertTrue(llms_path.exists(), "llms.txt must exist")
         content = llms_path.read_text(encoding="utf-8")
 
-        self.assertTrue(content.startswith("## Last-checked: 2026-09-21"), "llms.txt must have current date")
+        self.assertTrue(content.startswith("## Last-checked: 2026-09-28"), "llms.txt must have current date")
         self.assertIn("[PERSONA-01]", content)
         self.assertIn("INV-LOCAL-01", content)
         self.assertIn("THIRD_PARTY_LICENSES.md", content)
+        self.assertIn("NOTICE", content)
 
-    def test_changelog_recent_pfad_a_entry(self):
+    def test_changelog_recent_pfad_b_entry(self):
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         self.assertIn("## [Unreleased]", changelog)
-        self.assertIn("Pfad A", changelog)
-        self.assertIn("2026-09-21", changelog)
+        self.assertIn("Pfad B", changelog)
+        self.assertIn("2026-09-28", changelog)
+
+    def test_canonical_root_notice(self):
+        notice_path = ROOT / "NOTICE"
+        self.assertTrue(notice_path.exists(), "Root NOTICE file must exist")
+        content = notice_path.read_text(encoding="utf-8")
+        self.assertIn("RPX Pro", content)
+        self.assertIn("Lukas Geiger", content)
+        self.assertIn("entertain-and-more", content)
+        self.assertIn("open-bricks", content)
+        self.assertIn("MIT License", content)
+
+    def test_level_1_sbom_matrix_and_compliance(self):
+        licenses_md = ROOT / "THIRD_PARTY_LICENSES.md"
+        content_md = licenses_md.read_text(encoding="utf-8")
+        self.assertIn("Audited", content_md)
+        self.assertIn("2026-09-28", content_md)
+        self.assertIn("Canonical Notice", content_md)
+        self.assertIn("[NOTICE](NOTICE)", content_md)
+        self.assertIn("Level 1 SBOM Invariant Cross-Reference Matrix", content_md)
+        invariants = [
+            "INV-LOCAL-01",
+            "INV-USER-02",
+            "INV-DUAL-03",
+            "INV-RPC-04",
+            "INV-BUNDLE-05",
+            "INV-PWA-06",
+            "INV-COPYLEFT-07",
+            "INV-LLM-08",
+            "INV-ECO-09",
+            "INV-SLA-10",
+        ]
+        for inv in invariants:
+            self.assertIn(inv, content_md)
+
+    def test_statutory_disclaimer_and_security_sla(self):
+        readme_en = (ROOT / "README.md").read_text(encoding="utf-8")
+        readme_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
+        security_md = (ROOT / "SECURITY.md").read_text(encoding="utf-8")
+        marketing_log = (ROOT / "MARKETING-LOG.txt").read_text(encoding="utf-8")
+
+        for doc, name in [
+            (readme_en, "README.md"),
+            (readme_de, "README_de.md"),
+            (security_md, "SECURITY.md"),
+            (marketing_log, "MARKETING-LOG.txt"),
+        ]:
+            self.assertIn("521", doc, f"{name} missing § 521 BGB disclaimer")
+            self.assertIn("48", doc, f"{name} missing 48-hour SLA")
+            self.assertIn("open-bricks.org", doc, f"{name} missing security reporting channel")
 
 
 if __name__ == "__main__":

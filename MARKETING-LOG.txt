@@ -7,7 +7,7 @@
 - **Current Version**: `1.0.0` (App) / `1.0.0.0` (Store Package)
 - **License**: MIT
 - **Architecture**: Local-First PySide6 Desktop Application with zero network egress, headless JSON-RPC CLI API, and offline PWA Companion
-- **Last Updated**: 2026-09-21 (Pfad A — Repository Hygiene, CI Matrix & Multi-Host Hardening)
+- **Last Updated**: 2026-09-28 (Pfad B — Discoverability, 18-Point Bilingual Navigation & Level 1 SBOM Governance)
 
 ---
 
@@ -143,3 +143,13 @@ Comprehensive SPDX license audit completed in `THIRD_PARTY_LICENSES.md` on 2026-
 - **Tooling & Test Isolation**: Added `norecursedirs` to `pyproject.toml` `[tool.pytest.ini_options]` while keeping project version `1.0.0` frozen per release discipline T-20260920-167562623.
 - **Contract Test Suite Expansion**: Expanded `tests/test_metadata_contract.py` with new contract tests verifying workflow action versions, timeout guardrails, multi-host lock protections, and changelog/metadata recency.
 - **Metadata Alignment**: Updated `llms.txt` (`Last-checked: 2026-09-21`), synchronized test badges across `README.md` and `README_de.md`, and documented release notes under `## [Unreleased]`.
+
+---
+
+## 7. Discoverability, 18-Point Bilingual Navigation & Level 1 SBOM Audit (Pfad B) — 2026-09-28
+- **18-Point Bilingual Navigation Parity**: Implemented reciprocal dual HTML anchors `<a id="sec-01"></a>` through `<a id="sec-18"></a>` across all 18 primary documentation sections in both `README.md` and `README_de.md`, harmonizing table-of-contents links with `#sec-01` .. `#sec-18` while preserving existing legacy anchors.
+- **Canonical Root `NOTICE`**: Established canonical root `NOTICE` attribution file declaring copyright and attribution for Lukas Geiger, `entertain-and-more`, and `open-bricks` ecosystem under MIT license.
+- **PEP 621 Keywords Saturation & Topic Alignment**: Saturated `pyproject.toml` keywords with 20 topics matching remote GitHub topics (`ai-integration`, `campaign-manager`, `desktop-app`, `game-master`, `json-rpc`, `local-first`, `offline-first`, `pen-and-paper`, `pwa-companion`, `pyside6`, `python`, `roleplay-xtreme`, `rpg`, `rpg-tools`, `rpx-pro`, `soundboard`, `tabletop`, `ttrpg`, `virtual-tabletop`, `zero-egress`), added `Notice` to `[project.urls]`, and expanded `license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md", "THIRD_PARTY_LICENSES.txt"]`.
+- **Level 1 SBOM Invariant Cross-Reference Matrix**: Audited in `THIRD_PARTY_LICENSES.md` as of 2026-09-28, incorporating a formal cross-reference table mapping `INV-LOCAL-01` to `INV-SLA-10`, certified unprivileged `RunAsInvoker` execution (`INV-USER-02`), LGPL-3.0 dynamic linking compliance under LGPLv3 §4, and zero copyleft contamination for campaign data.
+- **Statutory Liability Disclaimer & Binding 48h Security SLA**: Integrated German statutory disclaimer under § 521 BGB (Gefälligkeitsrecht) and 48-Hour Acknowledgment / 5-Business-Day Triage Security Response SLA table in Section 18 of `README.md`, `README_de.md`, and `SECURITY.md` (reporting channels: `security@open-bricks.org`, `security@ellmos.ai`, `support@lukasgeiger.com`, GitHub Security Advisory).
+- **Contract Test Suite Expansion**: Expanded `tests/test_metadata_contract.py` to validate canonical `NOTICE`, dual reciprocal HTML anchors `sec-01` .. `sec-18`, 20 PEP 621 keywords, Level 1 SBOM recency, and § 521 BGB / 48h SLA integrity.

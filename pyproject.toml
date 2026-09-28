@@ -9,23 +9,36 @@ description = "RolePlay Xtreme Professional Edition — Open source tabletop pen
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
-license-files = ["LICENSE"]
+license-files = [
+  "LICENSE",
+  "NOTICE",
+  "THIRD_PARTY_LICENSES.md",
+  "THIRD_PARTY_LICENSES.txt",
+]
 authors = [
   {name = "Lukas Geiger", email = "lukasgeiger@users.noreply.github.com"}
 ]
 keywords = [
-  "rpg",
-  "tabletop",
-  "pen-and-paper",
+  "ai-integration",
+  "campaign-manager",
+  "desktop-app",
   "game-master",
+  "json-rpc",
+  "local-first",
+  "offline-first",
+  "pen-and-paper",
+  "pwa-companion",
   "pyside6",
   "python",
-  "offline-first",
-  "vtt",
-  "json-rpc",
+  "roleplay-xtreme",
+  "rpg",
+  "rpg-tools",
+  "rpx-pro",
+  "soundboard",
+  "tabletop",
   "ttrpg",
-  "campaign-manager",
-  "pwa-companion"
+  "virtual-tabletop",
+  "zero-egress",
 ]
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -54,6 +67,7 @@ Repository = "https://github.com/entertain-and-more/rpx.git"
 Issues = "https://github.com/entertain-and-more/rpx/issues"
 Changelog = "https://github.com/entertain-and-more/rpx/blob/master/CHANGELOG.md"
 Security = "https://github.com/entertain-and-more/rpx/blob/master/SECURITY.md"
+Notice = "https://github.com/entertain-and-more/rpx/blob/master/NOTICE"
 "LLM Ready" = "https://raw.githubusercontent.com/entertain-and-more/rpx/master/llms.txt"
 "Marketing Log" = "https://github.com/entertain-and-more/rpx/blob/master/MARKETING-LOG.txt"
 "Third-Party Licenses" = "https://github.com/entertain-and-more/rpx/blob/master/THIRD_PARTY_LICENSES.md"
@@ -65,7 +79,7 @@ minversion = "7.0"
 addopts = "-ra -q"
 pythonpath = ["."]
 testpaths = ["tests"]
-norecursedirs = [".git", ".pytest_cache", "__pycache__", "build", "dist", ".venv"]
+norecursedirs = [".git", ".pytest_cache", ".pytest_temp", ".pytest_tmp*", "__pycache__", "build", "dist", ".venv", ".hypothesis"]
 
 [tool.ruff]
 line-length = 100

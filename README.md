@@ -7,15 +7,17 @@
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/entertain-and-more/rpx/releases)
 [![Store Package](https://img.shields.io/badge/store%20package-1.0.0.0-informational.svg)](store_package.json)
 [![Status](https://img.shields.io/badge/status-unreleased-yellow.svg)](SECURITY.md)
-[![Pytest](https://img.shields.io/badge/pytest-48%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
+[![Pytest](https://img.shields.io/badge/pytest-65%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
 [![Web Companion](https://img.shields.io/badge/web%20companion-17%20passed-brightgreen.svg)](web_companion/)
 [![GUI](https://img.shields.io/badge/GUI-PySide6%20%2F%20Qt6-blue.svg)](https://www.qt.io/)
 [![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/entertain-and-more/rpx)
-[![Privacy](https://img.shields.io/badge/privacy-100%25%20Local--First%20%7C%20Zero--Egress-success.svg)](#16-third-party-licenses--governance)
+[![Privacy](https://img.shields.io/badge/privacy-100%25%20Local--First%20%7C%20Zero--Egress-success.svg)](#sec-16)
 [![Security](https://img.shields.io/badge/security-RunAsInvoker%20%7C%20Non--Elevation-informational.svg)](SECURITY.md)
 [![Security SLA](https://img.shields.io/badge/security%20SLA-48h%20%2F%205d-blue.svg)](SECURITY.md)
-[![Third-Party Audited](https://img.shields.io/badge/third--party-audited%20%7C%20LGPL%20Dynamic-success.svg)](THIRD_PARTY_LICENSES.md)
+[![Third-Party Audited](https://img.shields.io/badge/third--party-audited%20%7C%20Level%201%20SBOM-success.svg)](THIRD_PARTY_LICENSES.md)
+[![Attribution](https://img.shields.io/badge/attribution-NOTICE-blue.svg)](NOTICE)
+[![Verified](https://img.shields.io/badge/verified-2026--09--28-blue.svg)](MARKETING-LOG.txt)
 [![Marketing Log](https://img.shields.io/badge/marketing%20log-active-blueviolet.svg)](MARKETING-LOG.txt)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![LLM Ready](https://img.shields.io/badge/llms.txt-ready-purple.svg)](llms.txt)
@@ -46,27 +48,28 @@ Privacy boundary: RPX Pro has no automatic data collection or transmission. It k
 
 ## Quick Navigation
 
-1. [Overview](#1-overview)
-2. [Key Features](#2-key-features)
-3. [Target Personas & Discoverability](#3-target-personas--discoverability)
-4. [Comparative Matrix vs. Alternatives](#4-comparative-matrix-vs-alternatives)
-5. [Governance & Runtime Invariants](#5-governance--runtime-invariants)
-6. [Visual Architecture](#6-visual-architecture)
-7. [Session Lifecycle & Workflow](#7-session-lifecycle--workflow)
-8. [Player Screen (Dual Monitor)](#8-player-screen-dual-monitor)
-9. [CLI & API for LLM Integration](#9-cli--api-for-llm-integration)
-10. [Web Companion PWA](#10-web-companion-pwa)
-11. [Simulation & Game Mechanics](#11-simulation--game-mechanics)
-12. [Ruleset System & Templates](#12-ruleset-system--templates)
-13. [Installation & Quickstart](#13-installation--quickstart)
-14. [Development & Test Suite](#14-development--test-suite)
-15. [Sibling Ecosystem Matrix](#15-sibling-ecosystem-matrix)
-16. [Third-Party Licenses & Governance](#16-third-party-licenses--governance)
-17. [Security & Release Metadata](#17-security--release-metadata)
-18. [License & Liability](#18-license--liability)
+1. [Overview](#sec-01)
+2. [Key Features](#sec-02)
+3. [Target Personas & Discoverability](#sec-03)
+4. [Comparative Matrix vs. Alternatives](#sec-04)
+5. [Governance & Runtime Invariants](#sec-05)
+6. [Visual Architecture](#sec-06)
+7. [Session Lifecycle & Workflow](#sec-07)
+8. [Player Screen (Dual Monitor)](#sec-08)
+9. [CLI & API for LLM Integration](#sec-09)
+10. [Web Companion PWA](#sec-10)
+11. [Simulation & Game Mechanics](#sec-11)
+12. [Ruleset System & Templates](#sec-12)
+13. [Installation & Quickstart](#sec-13)
+14. [Development & Test Suite](#sec-14)
+15. [Sibling Ecosystem Matrix](#sec-15)
+16. [Third-Party Licenses & Governance](#sec-16)
+17. [Security & Release Metadata](#sec-17)
+18. [License & Liability](#sec-18)
 
 ---
 
+<a id="sec-01"></a>
 <a id="1-overview"></a>
 ## 1. Overview
 
@@ -78,6 +81,7 @@ The software operates on an uncompromising local-first architectural principle: 
 
 ---
 
+<a id="sec-02"></a>
 <a id="2-key-features"></a>
 ## 2. Key Features
 
@@ -98,6 +102,7 @@ The software operates on an uncompromising local-first architectural principle: 
 
 ---
 
+<a id="sec-03"></a>
 <a id="3-target-personas--discoverability"></a>
 <a id="target-personas--discoverability"></a>
 ## 3. Target Personas & Discoverability
@@ -125,6 +130,7 @@ To facilitate technical discoverability across developer directories, package ma
 
 ---
 
+<a id="sec-04"></a>
 <a id="4-comparative-matrix-vs-alternatives"></a>
 <a id="comparative-matrix-vs-alternatives"></a>
 ## 4. Comparative Matrix vs. Alternatives
@@ -146,6 +152,7 @@ The following matrix compares RPX Pro against common virtual tabletop solutions 
 
 ---
 
+<a id="sec-05"></a>
 <a id="5-governance--runtime-invariants"></a>
 <a id="governance--runtime-invariants"></a>
 ## 5. Governance & Runtime Invariants
@@ -167,6 +174,7 @@ RPX Pro enforces ten formal governance and runtime invariants across its archite
 
 ---
 
+<a id="sec-06"></a>
 <a id="6-visual-architecture"></a>
 <a id="visual-architecture"></a>
 ## 6. Visual Architecture
@@ -224,6 +232,7 @@ flowchart TD
 
 ---
 
+<a id="sec-07"></a>
 <a id="7-session-lifecycle--workflow"></a>
 ## 7. Session Lifecycle & Workflow
 
@@ -266,6 +275,7 @@ sequenceDiagram
 
 ---
 
+<a id="sec-08"></a>
 <a id="8-player-screen-dual-monitor"></a>
 ## 8. Player Screen (Dual Monitor)
 
@@ -281,6 +291,7 @@ The Player Screen is a dedicated, secondary monitor display designed to face the
 
 ---
 
+<a id="sec-09"></a>
 <a id="9-cli--api-for-llm-integration"></a>
 ## 9. CLI & API for LLM Integration
 
@@ -306,6 +317,7 @@ python -m rpx_pro.app --cli
 
 ---
 
+<a id="sec-10"></a>
 <a id="10-web-companion-pwa"></a>
 ## 10. Web Companion PWA
 
@@ -323,6 +335,7 @@ python -m http.server 8765
 
 ---
 
+<a id="sec-11"></a>
 <a id="11-simulation--game-mechanics"></a>
 ## 11. Simulation & Game Mechanics
 
@@ -332,6 +345,7 @@ python -m http.server 8765
 
 ---
 
+<a id="sec-12"></a>
 <a id="12-ruleset-system--templates"></a>
 ## 12. Ruleset System & Templates
 
@@ -344,6 +358,7 @@ Custom rulesets can be authored in JSON and imported via `File > Import Ruleset`
 
 ---
 
+<a id="sec-13"></a>
 <a id="13-installation--quickstart"></a>
 ## 13. Installation & Quickstart
 
@@ -373,6 +388,7 @@ On Windows, simply double-click `START.bat`.
 
 ---
 
+<a id="sec-14"></a>
 <a id="14-development--test-suite"></a>
 ## 14. Development & Test Suite
 
@@ -396,6 +412,7 @@ python -m compileall -q RPX_Pro_1.py rpx_pro tests
 
 ---
 
+<a id="sec-15"></a>
 <a id="15-sibling-ecosystem-matrix"></a>
 <a id="sibling-ecosystem-matrix"></a>
 ## 15. Sibling Ecosystem Matrix
@@ -415,6 +432,7 @@ RPX Pro functions as the entertainment and tabletop workstation anchor within th
 
 ---
 
+<a id="sec-16"></a>
 <a id="16-third-party-licenses--governance"></a>
 <a id="third-party-licenses--governance"></a>
 ## 16. Third-Party Licenses & Governance
@@ -424,10 +442,12 @@ RPX Pro is committed to total licensing transparency:
 - **PySide6 (Qt6)**: LGPL-3.0 via official dynamic linking in full compliance with **LGPLv3 Section 4**. No modifications to Qt source libraries.
 - **pygame**: LGPL-2.1 dynamic audio fallback.
 - **Python Standard Library**: PSFL-2.0.
-- **Full License Inventory**: See [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) and [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt).
+- **Canonical Notice**: [NOTICE](NOTICE).
+- **Full License Inventory & Level 1 SBOM**: See [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) and [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt).
 
 ---
 
+<a id="sec-17"></a>
 <a id="17-security--release-metadata"></a>
 <a id="security--release-metadata"></a>
 ## 17. Security & Release Metadata
@@ -438,12 +458,34 @@ RPX Pro is committed to total licensing transparency:
 
 ---
 
+<a id="sec-18"></a>
 <a id="18-license--liability"></a>
 <a id="license--liability"></a>
 ## 18. License & Liability
 
-MIT License — see [LICENSE](LICENSE).
+### Open-Source License & Attribution
+RPX Pro is free and open-source software licensed under the **[MIT License](LICENSE)**.
+Canonical copyright notice and project attribution: See **[NOTICE](NOTICE)**.
 
-This project is an unpaid open-source donation. Liability is limited to intent and gross negligence (§ 521 German Civil Code). Use at your own risk. No warranty, no maintenance guarantee, no fitness-for-purpose assumed. The MIT License disclaimer also applies.
+```
+RPX Pro (RolePlay Xtreme Professional Edition)
+Copyright (c) 2026 Lukas Geiger
+Developed as part of the entertain-and-more gaming organization (https://github.com/entertain-and-more)
+and the open-bricks open-source software ecosystem (https://github.com/open-bricks).
+```
 
-Dieses Projekt ist eine **unentgeltliche Open-Source-Schenkung** im Sinne der §§ 516 ff. BGB. Die Haftung des Urhebers ist gemäß **§ 521 BGB** auf **Vorsatz und grobe Fahrlässigkeit** beschränkt. Ergänzend gilt der Haftungsausschluss der MIT-Lizenz.
+### Statutory Disclaimer (§ 521 BGB Gefälligkeitsrecht)
+This project is an unpaid, voluntary open-source contribution provided free of charge ("unentgeltliche Schenkung"). Under statutory German law (§ 521 BGB), the author's liability is strictly limited to intentional misconduct and gross negligence. Use at your own risk. No warranty, maintenance guarantee, or fitness for a particular purpose is assumed. The MIT License terms also apply.
+
+> **Gesetzlicher Haftungsausschluss (§ 521 BGB):**
+> Dieses Projekt ist eine unentgeltliche Open-Source-Schenkung im Sinne der §§ 516 ff. BGB. Die Haftung des Autors ist gemäß **§ 521 BGB** auf **Vorsatz und grobe Fahrlässigkeit** beschränkt. Ergänzend gilt der Haftungsausschluss der MIT-Lizenz.
+
+### Binding 48-Hour Security Response SLA
+We commit to a structured and responsible security vulnerability management process:
+
+| SLA Commitment | Response Target | Description |
+|---|---|---|
+| **Initial Acknowledgment** | **≤ 48 hours** | Formal receipt confirmation of security report |
+| **Technical Triage** | **≤ 5 business days** | Severity scoring, reproducibility check, and remediation plan |
+| **Progress Updates** | **Every 7 business days** | Continuous transparent status communication until patch release |
+| **Reporting Channels** | Confidential | `security@open-bricks.org`, `security@ellmos.ai`, `support@lukasgeiger.com`, or GitHub Private Security Advisory |

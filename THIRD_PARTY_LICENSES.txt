@@ -3,6 +3,8 @@ THIRD-PARTY LICENSES
 
 Comprehensive compliance, dependency matrix, and invariant audit:
 See THIRD_PARTY_LICENSES.md
+Canonical attribution notice:
+See NOTICE
 
 Core Runtime:
 - Python Standard Library (PSFL-2.0)

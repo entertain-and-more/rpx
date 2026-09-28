@@ -5,6 +5,26 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Discoverability, 18-Point Bilingual Navigation & Level 1 SBOM Governance (Pfad B) - 2026-09-28
+- **Bilingual 18-Point Quick Navigation Parity & Anchor Alignment**:
+  - Implemented reciprocal dual HTML anchors `<a id="sec-01"></a>` through `<a id="sec-18"></a>` across all 18 primary documentation sections in both `README.md` and `README_de.md`.
+  - Harmonized table of contents links to standardized `#sec-01` .. `#sec-18` targets, ensuring 1:1 cross-language navigation parity while preserving existing legacy anchors.
+- **Canonical Root NOTICE & Attribution**:
+  - Established canonical root `NOTICE` attribution file declaring Lukas Geiger, `entertain-and-more`, and `open-bricks` ecosystem under MIT license.
+  - Linked `NOTICE` in `pyproject.toml` `license-files` whitelist and `[project.urls]`, `llms.txt`, and synchronized documentation badges.
+- **PEP 621 Keywords Saturation & Topic Alignment**:
+  - Saturated `pyproject.toml` keywords to 20 topics matching remote GitHub topics: `ai-integration`, `campaign-manager`, `desktop-app`, `game-master`, `json-rpc`, `local-first`, `offline-first`, `pen-and-paper`, `pwa-companion`, `pyside6`, `python`, `roleplay-xtreme`, `rpg`, `rpg-tools`, `rpx-pro`, `soundboard`, `tabletop`, `ttrpg`, `virtual-tabletop`, `zero-egress`.
+  - Enhanced pytest configuration `norecursedirs` with `.pytest_temp`, `.pytest_tmp*`, `.hypothesis`.
+  - Strictly preserved version freeze discipline (`version = 1.0.0` unchanged).
+- **Level 1 SBOM Invariant Cross-Reference Matrix**:
+  - Re-audited `THIRD_PARTY_LICENSES.md` as of 2026-09-28 with formal Level 1 SBOM Invariant Cross-Reference Matrix mapping all 10 governance invariants (`INV-LOCAL-01` to `INV-SLA-10`).
+  - Formally certified unprivileged execution (`RunAsInvoker`), LGPL-3.0 dynamic linking compliance (LGPLv3 §4), and zero copyleft contamination for campaign data.
+- **Statutory Liability Disclaimer & Binding 48h Security SLA**:
+  - Integrated German statutory disclaimer under § 521 BGB (Gefälligkeitsrecht) into Section 18 of `README.md` and `README_de.md`, and updated `SECURITY.md`.
+  - Formalized binding 48-Hour Acknowledgment and 5-Business-Day Triage Security Response SLA table in Section 18 and `SECURITY.md`.
+- **Quality Gates & Contract Test Expansion**:
+  - Expanded `tests/test_metadata_contract.py` with contract tests verifying canonical `NOTICE`, dual reciprocal HTML anchors `sec-01` .. `sec-18`, 20 PEP 621 keywords, Level 1 SBOM recency, and § 521 BGB / 48h SLA integrity.
+
 ### Tier-2 Multi-Language Expansion & Spanish Pen-&-Paper Localization (TW-RPG-10 / TW-RPG-11) - 2026-09-25
 - Multi-Language Architecture & Policy P-006 Tier-2 Expansion:
   - Curated Spanish (s) Translation: Full curated Spanish localization for 100% of UI elements (171 catalog keys) covering Tabletop RPG terminology (Director de juego, Tirar dados, Control de rondas, Misiones, Inventario, Hechizos, Combate, etc.).

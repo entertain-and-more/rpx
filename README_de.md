@@ -7,15 +7,17 @@
 [![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/entertain-and-more/rpx/releases)
 [![Store Paket](https://img.shields.io/badge/Store%20Paket-1.0.0.0-informational.svg)](store_package.json)
 [![Status](https://img.shields.io/badge/Status-unver%C3%B6ffentlicht-yellow.svg)](SECURITY.md)
-[![Pytest](https://img.shields.io/badge/Pytest-48%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
+[![Pytest](https://img.shields.io/badge/Pytest-65%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
 [![Web Companion](https://img.shields.io/badge/Web%20Companion-17%20passed-brightgreen.svg)](web_companion/)
 [![GUI](https://img.shields.io/badge/GUI-PySide6%20%2F%20Qt6-blue.svg)](https://www.qt.io/)
 [![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
 [![Plattform](https://img.shields.io/badge/Plattform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/entertain-and-more/rpx)
-[![Datenschutz](https://img.shields.io/badge/Datenschutz-100%25%20Local--First%20%7C%20Zero--Egress-success.svg)](#16-drittanbieter-lizenzen--governance)
+[![Datenschutz](https://img.shields.io/badge/Datenschutz-100%25%20Local--First%20%7C%20Zero--Egress-success.svg)](#sec-16)
 [![Sicherheit](https://img.shields.io/badge/Sicherheit-RunAsInvoker%20%7C%20Keine%20Elevation-informational.svg)](SECURITY.md)
 [![Sicherheits-SLA](https://img.shields.io/badge/Sicherheits--SLA-48h%20%2F%205d-blue.svg)](SECURITY.md)
-[![Drittanbieter Geprueft](https://img.shields.io/badge/Drittanbieter-gepr%C3%BCft%20%7C%20LGPL%20dynamisch-success.svg)](THIRD_PARTY_LICENSES.md)
+[![Drittanbieter Geprueft](https://img.shields.io/badge/Drittanbieter-gepr%C3%BCft%20%7C%20Level%201%20SBOM-success.svg)](THIRD_PARTY_LICENSES.md)
+[![Attribution](https://img.shields.io/badge/Attribution-NOTICE-blue.svg)](NOTICE)
+[![Geprüft](https://img.shields.io/badge/gepr%C3%BCft-2026--09--28-blue.svg)](MARKETING-LOG.txt)
 [![Marketing Log](https://img.shields.io/badge/Marketing%20Log-aktiv-blueviolet.svg)](MARKETING-LOG.txt)
 [![Code-Stil: ruff](https://img.shields.io/badge/Code--Stil-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![LLM Bereit](https://img.shields.io/badge/llms.txt-bereit-purple.svg)](llms.txt)
@@ -46,27 +48,29 @@ Datenschutzgrenze: Es gibt keine automatische Datenerhebung oder Übertragung. K
 
 ## Schnellnavigation
 
-1. [Übersicht](#1-übersicht)
-2. [Hauptfunktionen](#2-hauptfunktionen)
-3. [Zielgruppen & Auffindbarkeit](#3-zielgruppen--auffindbarkeit)
-4. [Vergleichsmatrix gegenüber Alternativen](#4-vergleichsmatrix-gegenüber-alternativen)
-5. [Governance- & Laufzeit-Invarianten](#5-governance--laufzeit-invarianten)
-6. [Visuelle Architektur](#6-visuelle-architektur)
-7. [Session-Lebenszyklus & Workflow](#7-session-lebenszyklus--workflow)
-8. [Spieler-Bildschirm (Zweitmonitor)](#8-spieler-bildschirm-zweitmonitor)
-9. [CLI & API für LLM-Integration](#9-cli--api-für-llm-integration)
-10. [Web-Companion PWA](#10-web-companion-pwa)
-11. [Simulation & Spielmechaniken](#11-simulation--spielmechaniken)
-12. [Regelwerk-System & Vorlagen](#12-regelwerk-system--vorlagen)
-13. [Installation & Schnellstart](#13-installation--schnellstart)
-14. [Entwicklung & Test-Suite](#14-entwicklung--test-suite)
-15. [Geschwister-Ökosystem-Matrix](#15-geschwister-ökosystem-matrix)
-16. [Drittanbieter-Lizenzen & Governance](#16-drittanbieter-lizenzen--governance)
-17. [Sicherheit & Release-Metadaten](#17-sicherheit--release-metadaten)
-18. [Lizenz & Haftung](#18-lizenz--haftung)
+1. [Übersicht](#sec-01)
+2. [Hauptfunktionen](#sec-02)
+3. [Zielgruppen & Auffindbarkeit](#sec-03)
+4. [Vergleichsmatrix gegenüber Alternativen](#sec-04)
+5. [Governance- & Laufzeit-Invarianten](#sec-05)
+6. [Visuelle Architektur](#sec-06)
+7. [Session-Lebenszyklus & Workflow](#sec-07)
+8. [Spieler-Bildschirm (Zweitmonitor)](#sec-08)
+9. [CLI & API für LLM-Integration](#sec-09)
+10. [Web-Companion PWA](#sec-10)
+11. [Simulation & Spielmechaniken](#sec-11)
+12. [Regelwerk-System & Vorlagen](#sec-12)
+13. [Installation & Schnellstart](#sec-13)
+14. [Entwicklung & Test-Suite](#sec-14)
+15. [Geschwister-Ökosystem-Matrix](#sec-15)
+16. [Drittanbieter-Lizenzen & Governance](#sec-16)
+17. [Sicherheit & Release-Metadaten](#sec-17)
+18. [Lizenz & Haftung](#sec-18)
 
 ---
 
+<a id="sec-01"></a>
+<a id="1-uebersicht"></a>
 <a id="1-übersicht"></a>
 ## 1. Übersicht
 
@@ -118,6 +122,7 @@ Die Software basiert auf einem kompromisslosen Local-First-Architekturprinzip: J
 
 ---
 
+<a id="sec-02"></a>
 <a id="2-hauptfunktionen"></a>
 ## 2. Hauptfunktionen
 
@@ -138,6 +143,7 @@ Die Software basiert auf einem kompromisslosen Local-First-Architekturprinzip: J
 
 ---
 
+<a id="sec-03"></a>
 <a id="3-zielgruppen--auffindbarkeit"></a>
 <a id="zielgruppen--auffindbarkeit"></a>
 <a id="target-personas--discoverability"></a>
@@ -166,6 +172,7 @@ Zur Auffindbarkeit in Entwickler-Verzeichnissen, Paketmanagern und Suchmaschinen
 
 ---
 
+<a id="sec-04"></a>
 <a id="4-vergleichsmatrix-gegenüber-alternativen"></a>
 <a id="vergleichsmatrix-gegenüber-alternativen"></a>
 <a id="comparative-matrix-vs-alternatives"></a>
@@ -188,6 +195,7 @@ Die folgende Matrix vergleicht RPX Pro mit gängigen Virtual-Tabletop-Lösungen 
 
 ---
 
+<a id="sec-05"></a>
 <a id="5-governance--laufzeit-invarianten"></a>
 <a id="governance--laufzeit-invarianten"></a>
 <a id="governance--runtime-invariants"></a>
@@ -210,6 +218,7 @@ RPX Pro erzwingt zehn verbindliche Architektur- und Laufzeit-Invarianten:
 
 ---
 
+<a id="sec-06"></a>
 <a id="6-visuelle-architektur"></a>
 <a id="visuelle-architektur"></a>
 <a id="visual-architecture"></a>
@@ -268,6 +277,7 @@ flowchart TD
 
 ---
 
+<a id="sec-07"></a>
 <a id="7-session-lebenszyklus--workflow"></a>
 ## 7. Session-Lebenszyklus & Workflow
 
@@ -310,6 +320,7 @@ sequenceDiagram
 
 ---
 
+<a id="sec-08"></a>
 <a id="8-spieler-bildschirm-zweitmonitor"></a>
 ## 8. Spieler-Bildschirm (Zweitmonitor)
 
@@ -325,6 +336,7 @@ Der Spieler-Bildschirm ist eine separate Ansicht, die für die Spielenden am Tis
 
 ---
 
+<a id="sec-09"></a>
 <a id="9-cli--api-für-llm-integration"></a>
 ## 9. CLI & API für LLM-Integration
 
@@ -350,6 +362,7 @@ python -m rpx_pro.app --cli
 
 ---
 
+<a id="sec-10"></a>
 <a id="10-web-companion-pwa"></a>
 ## 10. Web-Companion PWA
 
@@ -367,6 +380,7 @@ python -m http.server 8765
 
 ---
 
+<a id="sec-11"></a>
 <a id="11-simulation--spielmechaniken"></a>
 ## 11. Simulation & Spielmechaniken
 
@@ -376,6 +390,7 @@ python -m http.server 8765
 
 ---
 
+<a id="sec-12"></a>
 <a id="12-regelwerk-system--vorlagen"></a>
 ## 12. Regelwerk-System & Vorlagen
 
@@ -388,6 +403,7 @@ Eigene Regelwerke können als JSON formatiert über `Datei > Regelwerk importier
 
 ---
 
+<a id="sec-13"></a>
 <a id="13-installation--schnellstart"></a>
 ## 13. Installation & Schnellstart
 
@@ -417,6 +433,7 @@ Unter Windows: `START.bat` doppelklicken.
 
 ---
 
+<a id="sec-14"></a>
 <a id="14-entwicklung--test-suite"></a>
 ## 14. Entwicklung & Test-Suite
 
@@ -440,6 +457,7 @@ python -m compileall -q RPX_Pro_1.py rpx_pro tests
 
 ---
 
+<a id="sec-15"></a>
 <a id="15-geschwister-ökosystem-matrix"></a>
 <a id="geschwister-ökosystem-matrix"></a>
 <a id="sibling-ecosystem-matrix"></a>
@@ -460,6 +478,7 @@ RPX Pro bildet das Unterhaltungs- und Spielleiter-Zentrum im `entertain-and-more
 
 ---
 
+<a id="sec-16"></a>
 <a id="16-drittanbieter-lizenzen--governance"></a>
 <a id="drittanbieter-lizenzen--governance"></a>
 <a id="third-party-licenses--governance"></a>
@@ -470,10 +489,12 @@ RPX Pro setzt auf vollständige Lizenztransparenz:
 - **PySide6 (Qt6)**: LGPL-3.0 über offizielle dynamische Verlinkung in voller Übereinstimmung mit **LGPLv3 Abschnitt 4**. Keine Modifikation der Qt-Bibliotheken.
 - **pygame**: LGPL-2.1 dynamischer Audio-Fallback.
 - **Python Standardbibliothek**: PSFL-2.0.
-- **Ausführliches Lizenzinventar**: Siehe [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) und [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt).
+- **Kanonischer Urheberrechtshinweis**: [NOTICE](NOTICE).
+- **Ausführliches Lizenzinventar & Level 1 SBOM**: Siehe [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) und [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt).
 
 ---
 
+<a id="sec-17"></a>
 <a id="17-sicherheit--release-metadaten"></a>
 <a id="sicherheit--release-metadaten"></a>
 <a id="security--release-metadata"></a>
@@ -485,11 +506,32 @@ RPX Pro setzt auf vollständige Lizenztransparenz:
 
 ---
 
+<a id="sec-18"></a>
 <a id="18-lizenz--haftung"></a>
 <a id="lizenz--haftung"></a>
 <a id="license--liability"></a>
 ## 18. Lizenz & Haftung
 
-MIT License — siehe [LICENSE](LICENSE).
+### Open-Source-Lizenz & Urheberrechtshinweis
+RPX Pro ist freie Open-Source-Software unter der **[MIT License](LICENSE)**.
+Kanonischer Urheberrechts- und Attributionshinweis: Siehe **[NOTICE](NOTICE)**.
 
-Dieses Projekt ist eine **unentgeltliche Open-Source-Schenkung** im Sinne der §§ 516 ff. BGB. Die Haftung des Urhebers ist gemäß **§ 521 BGB** auf **Vorsatz und grobe Fahrlässigkeit** beschränkt. Ergänzend gilt der Haftungsausschluss der MIT-Lizenz.
+```
+RPX Pro (RolePlay Xtreme Professional Edition)
+Copyright (c) 2026 Lukas Geiger
+Entwickelt im Rahmen der entertain-and-more Gaming-Organisation (https://github.com/entertain-and-more)
+und des open-bricks Open-Source-Software-Ökosystems (https://github.com/open-bricks).
+```
+
+### Gesetzlicher Haftungsausschluss (§ 521 BGB Gefälligkeitsrecht)
+Dieses Projekt ist eine **unentgeltliche Open-Source-Schenkung** im Sinne der §§ 516 ff. BGB. Die Haftung des Urhebers ist gemäß **§ 521 BGB** auf **Vorsatz und grobe Fahrlässigkeit** beschränkt. Die Nutzung erfolgt auf eigenes Risiko. Es wird keine Gewährleistung, Wartungszusage oder Eignung für einen bestimmten Zweck übernommen. Ergänzend gilt der Haftungsausschluss der MIT-Lizenz.
+
+### Verbindliche 48-Stunden-Sicherheits-Reaktions-SLA
+Wir verpflichten uns zu einem strukturierten und verlässlichen Prozess für Sicherheitsmeldungen:
+
+| SLA-Zusage | Reaktionsziel | Beschreibung |
+|---|---|---|
+| **Eingangsbestätigung** | **≤ 48 Stunden** | Formelle Empfangsbestätigung des Sicherheitsberichts |
+| **Technische Triage** | **≤ 5 Werktage** | Schweregrad-Einstufung, Reproduzierbarkeit und Behebungsplan |
+| **Statusberichte** | **Alle 7 Werktage** | Fortlaufende transparente Kommunikation bis zur Veröffentlichung des Patches |
+| **Meldekanäle** | Vertraulich | `security@open-bricks.org`, `security@ellmos.ai`, `support@lukasgeiger.com` oder GitHub Security Advisory |
