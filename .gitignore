@@ -94,10 +94,13 @@ _private/
 *.msix
 *.appx
 # ---- Interne Steuerungsdateien ----
+BEFUNDE.md
 DECISIONS.md
 PORTIERUNGSPLAN.md
 TODO.md
 DONE.md
+TASKPLAN_STATUS_*.md
+_after-care/
 
 # ---- Entwicklungs-Artefakte / Build-Snapshots ----
 web_companion_FINAL_*/

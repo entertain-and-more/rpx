@@ -5,6 +5,13 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Repository Hygiene & Internal File Exclusion (T-20260926-434768981) - 2026-09-28
+- **Internal File Untracking**:
+  - Untracked internal maintainer findings log `BEFUNDE.md` from git tracking while preserving local developer workspace file.
+  - Hardened `.gitignore` to explicitly exclude `BEFUNDE.md`, `TASKPLAN_STATUS_*.md`, and `_after-care/`.
+- **Contract Test Verification**:
+  - Added `test_gitignore_internal_file_hygiene` to `tests/test_metadata_contract.py` enforcing `.gitignore` coverage for internal management artifacts.
+
 ### Discoverability, 18-Point Bilingual Navigation & Level 1 SBOM Governance (Pfad B) - 2026-09-28
 - **Bilingual 18-Point Quick Navigation Parity & Anchor Alignment**:
   - Implemented reciprocal dual HTML anchors `<a id="sec-01"></a>` through `<a id="sec-18"></a>` across all 18 primary documentation sections in both `README.md` and `README_de.md`.
