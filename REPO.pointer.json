@@ -1,0 +1,25 @@
+{
+  "schema": "ellmos-repo-pointer-v1",
+  "repo_id": "entertain-and-more/rpx",
+  "profile": "plan-d-code",
+  "remote": "https://github.com/entertain-and-more/rpx.git",
+  "default_branch": "master",
+  "local_locator": {
+    "slot_manifest": ".SYNC/{slot}/repos.json",
+    "repo_name": "rpx",
+    "windows_default": "C:\\_Local_DEV\\repos\\rpx"
+  },
+  "onedrive_mirror": {
+    "mode": "tracked-files-no-git",
+    "relative_root": ".",
+    "source_commit": "1b30c7e1cfe758a1091f68b83264a8a70e899abb",
+    "generated_at": "2026-09-29T18:12:00+02:00",
+    "delete_policy": "no-delete",
+    "migration_state": "active-mirrored"
+  },
+  "authority": {
+    "git": "local-checkout-plus-github",
+    "planning": "onedrive",
+    "mirror": "derived-read-surface"
+  }
+}

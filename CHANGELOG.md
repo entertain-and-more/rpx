@@ -5,6 +5,25 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Windows Store Readiness & Packaging Staging - 2026-09-29
+- **Packaging Manifest & Desktop Bridge Hardening**:
+  - Enhanced `store_package/RPX Pro/AppxManifest.xml` with `ProcessorArchitecture="x64"`, `TargetDeviceFamily Windows.Desktop` (10.0.17763.0 to 10.0.26100.0), `<Logo>icons\\StoreLogo.png</Logo>`, and declared restricted capability `<rescap:Capability Name="runFullTrust"/>`.
+  - Enriched `store_package.json` with `store_id: TBD`, `execution_alias: rpx.exe`, `logo: icons/StoreLogo.png`, and `languages: ["de-DE", "en-US", "es-ES"]`.
+- **Packaging Staging (`releases/windowsstore/`)**:
+  - Established dedicated release staging structure including `BUILD.md`, `WACK_PROTOCOL.md`, `store_settings.json`, `store_listing_de.md`, and `store_listing_en.md`.
+  - Harmonized Microsoft Partner Center Policy 10.1.3 search terms to exactly 7 trademark-free keywords per language (DE: `pen and paper, rollenspiel, spielleiter, soundboard, virtueller spieltisch, charakterbogen, wuerfelsystem`; EN: `pen and paper, role playing game, game master, soundboard, virtual tabletop, character sheet, dice roller`).
+  - Staged verified 1600x960 high-resolution presentation screenshots (`01-main-window.png` to `05-ai-prompts.png`).
+- **Store Tile Assets & Icons**:
+  - Populated all canonical tile assets in dual naming convention (`StoreLogo.png` 50x50, `Square44x44Logo.png`, `Square50x50Logo.png`, `Square150x150Logo.png`, `Wide310x150Logo.png`, `Square310x310Logo.png`).
+- **Tooling & Preflight Automation**:
+  - Implemented `scripts/run_windows_wack.py` with automatic Windows SDK detection, admin check, dry-run, and XML/JSON report generator.
+  - Implemented 9-point store readiness auditor `scripts/check_store_readiness.py` reporting 0 findings (PASS).
+  - Generated hermetic WACK preflight report `releases/windowsstore/test_reports/wack_preflight_20260929.xml` and `.json` (6 PASS, 0 FAIL).
+  - Added contract tests in `tests/test_store_readiness.py` validating packaging, tile assets, manifest, and WACK preflight integrity.
+- **Plan-D Anchor & Governance Documentation**:
+  - Created canonical `REPO.pointer.json` (`ellmos-repo-pointer-v1`) linking to `entertain-and-more/rpx`.
+  - Created bilingual `SUPPORT.md` and comprehensive `WINDOWS_STORE_PREP.md`.
+
 ### Security & Resilience Hardening: Campaign Bundle Zip-Slip Prevention & Persistence Isolation - 2026-09-29
 - **Zip-Slip & Path Traversal Prevention in Campaign Bundles**:
   - Hardened `DataManager._prepare_import_media_target`, `_normalize_bundle_media_path`, `_build_bundle_media_path` and `_bundle_media_candidates` to strictly forbid directory traversal components (`..`), absolute anchors, and drive specifications, ensuring all extracted media files resolve strictly inside `MEDIA_DIR`.

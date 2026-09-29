@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<REPORT FAILED="0" PASSED="6" WARNING="0" OverallResult="PASS" Title="Windows App Certification Kit Preflight">
+  <REQUIREMENTS>
+    <REQUIREMENT Id="1" Name="AppxManifestValidation" Result="PASS" Title="App manifest compliance" />
+    <REQUIREMENT Id="2" Name="TileAssetsPresence" Result="PASS" Title="Tile and icon assets compliance" />
+    <REQUIREMENT Id="3" Name="FullTrustCapability" Result="PASS" Title="Desktop bridge full trust compliance" />
+    <REQUIREMENT Id="4" Name="BinaryIntegrity" Result="PASS" Title="Executable and library structure" />
+    <REQUIREMENT Id="5" Name="PlatformSecurity" Result="PASS" Title="DEP and ASLR security features" />
+    <REQUIREMENT Id="6" Name="CrashHangResilience" Result="PASS" Title="Crash and application launch resilience" />
+  </REQUIREMENTS>
+  <TARGET PackagePath="C:\_Local_DEV\repos\rpx\releases\windowsstore\RPX Pro.msix" Timestamp="2026-09-29T18:14:08.335331" />
+</REPORT>

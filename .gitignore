@@ -59,7 +59,10 @@ AUFGABEN.txt
 # Archiv (alte Entwicklungshistorie)
 Archiv/
 ultimate_rpg_project/
-releases/
+releases/*
+!releases/windowsstore/
+releases/windowsstore/*.msix
+releases/windowsstore/test_reports/*.log
 rpx_light_data/
 _WARTUNG/
 
