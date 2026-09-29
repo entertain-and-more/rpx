@@ -5,6 +5,21 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Security & Resilience Hardening: Campaign Bundle Zip-Slip Prevention & Persistence Isolation - 2026-09-29
+- **Zip-Slip & Path Traversal Prevention in Campaign Bundles**:
+  - Hardened `DataManager._prepare_import_media_target`, `_normalize_bundle_media_path`, `_build_bundle_media_path` and `_bundle_media_candidates` to strictly forbid directory traversal components (`..`), absolute anchors, and drive specifications, ensuring all extracted media files resolve strictly inside `MEDIA_DIR`.
+  - Added strict validation to `import_campaign_bundle` for entity IDs (`world_id`, `session_id`), preventing directory traversal via malicious identifiers.
+  - Hardened `_resolve_ruleset_target` to require `.json` extension, reject path traversal, and verify JSON payload validity before disk extraction.
+- **Archive Integrity & Error Handling**:
+  - `_load_bundle_manifest` and `_load_bundle_json` now defensively check archive membership and catch decode/syntax errors, raising descriptive `ValueError` rather than unhandled `KeyError` or `JSONDecodeError`.
+- **Atomic Config Persistence & Cascading Cleanup**:
+  - `save_config` now writes atomically via temporary file and `os.replace` to prevent config corruption during unexpected termination, and preserves active world/session pointers during headless invocations.
+  - `delete_world` and `delete_session` now persist pointer resets (`last_world_id`, `last_session_id`) to disk via `save_config`.
+  - `_write_snapshot` and `_create_unique_backup` validate `object_id` against directory traversal characters.
+- **Automated Regression Test Suite**:
+  - Added 7 dedicated security and resilience regression tests in `tests/test_campaign_bundle_security_and_resilience.py`.
+  - Pytest test suite expanded to 72 passed, 1 skipped (100% green).
+
 ### Discoverability, 18-Point Bilingual Navigation & Level 1 SBOM Governance (Pfad B) - 2026-09-28
 - **Bilingual 18-Point Quick Navigation Parity & Anchor Alignment**:
   - Implemented reciprocal dual HTML anchors `<a id="sec-01"></a>` through `<a id="sec-18"></a>` across all 18 primary documentation sections in both `README.md` and `README_de.md`.

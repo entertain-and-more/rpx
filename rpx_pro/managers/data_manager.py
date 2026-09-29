@@ -87,25 +87,43 @@ class DataManager:
             try:
                 with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
                     saved = json.load(f)
-                self.config.update(saved)
-                logger.info("Konfiguration geladen")
+                if isinstance(saved, dict):
+                    self.config.update(saved)
+                    logger.info("Konfiguration geladen")
+                else:
+                    logger.warning("Konfiguration enthaelt kein JSON-Objekt")
             except Exception as e:
                 logger.error(f"Fehler beim Laden der Konfiguration: {e}")
 
     def save_config(self):
-        """Speichert die Konfigurationsdatei"""
+        """Speichert die Konfigurationsdatei atomar"""
         try:
             CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
             if self.current_world:
                 self.config["last_world_id"] = self.current_world.id
-            else:
+            elif self.config.get("last_world_id") and self.config["last_world_id"] not in self.worlds:
                 self.config["last_world_id"] = None
+
             if self.current_session:
                 self.config["last_session_id"] = self.current_session.id
-            else:
+            elif self.config.get("last_session_id") and self.config["last_session_id"] not in self.sessions:
                 self.config["last_session_id"] = None
-            with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
-                json.dump(self.config, f, ensure_ascii=False, indent=2)
+
+            fd, temporary_name = tempfile.mkstemp(
+                prefix=".config.",
+                suffix=".tmp",
+                dir=CONFIG_FILE.parent,
+            )
+            try:
+                with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                    json.dump(self.config, handle, ensure_ascii=False, indent=2)
+                    handle.flush()
+                    os.fsync(handle.fileno())
+                os.replace(temporary_name, CONFIG_FILE)
+            except Exception:
+                with contextlib.suppress(OSError):
+                    os.unlink(temporary_name)
+                raise
             logger.info("Konfiguration gespeichert")
         except Exception as e:
             logger.error(f"Fehler beim Speichern der Konfiguration: {e}")
@@ -193,8 +211,16 @@ class DataManager:
         else:
             raise ValueError(f"Unbekannter Snapshot-Typ: {kind}")
 
+        if not object_id or ".." in object_id or "/" in object_id or "\\" in object_id:
+            raise ValueError(f"Ungueltige Objekt-ID fuer Persistenz: {object_id}")
+
         directory.mkdir(parents=True, exist_ok=True)
-        target = directory / f"{object_id}.json"
+        target = (directory / f"{object_id}.json").resolve()
+        try:
+            target.relative_to(directory.resolve())
+        except ValueError as exc:
+            raise ValueError(f"Objekt-ID '{object_id}' verlaesst das Persistenzverzeichnis") from exc
+
         fd, temporary_name = tempfile.mkstemp(
             prefix=f".{object_id}.",
             suffix=".tmp",
@@ -240,13 +266,19 @@ class DataManager:
     @staticmethod
     def _create_unique_backup(source: Path, prefix: str, object_id: str) -> Path:
         """Erstellt ein Backup mit eindeutigem Zeitstempel ohne Ueberschreibkonflikt."""
+        if not object_id or ".." in object_id or "/" in object_id or "\\" in object_id:
+            raise ValueError(f"Ungueltige Objekt-ID fuer Backup: {object_id}")
         BACKUPS_DIR.mkdir(parents=True, exist_ok=True)
         timestamp = int(time.time())
-        target = BACKUPS_DIR / f"{prefix}_{object_id}_{timestamp}.json"
+        target = (BACKUPS_DIR / f"{prefix}_{object_id}_{timestamp}.json").resolve()
         counter = 2
         while target.exists():
-            target = BACKUPS_DIR / f"{prefix}_{object_id}_{timestamp}_{counter}.json"
+            target = (BACKUPS_DIR / f"{prefix}_{object_id}_{timestamp}_{counter}.json").resolve()
             counter += 1
+        try:
+            target.relative_to(BACKUPS_DIR.resolve())
+        except ValueError as exc:
+            raise ValueError("Backup-Pfad verlaesst das Backup-Verzeichnis") from exc
         os.replace(source, target)
         return target
 
@@ -273,6 +305,7 @@ class DataManager:
                 self.current_world = None
             if self.config.get("last_world_id") == world_id:
                 self.config["last_world_id"] = None
+                self.save_config()
             return True
         except Exception as e:
             logger.error(f"Fehler beim Loeschen: {e}")
@@ -294,6 +327,7 @@ class DataManager:
                 self.current_session = None
             if self.config.get("last_session_id") == session_id:
                 self.config["last_session_id"] = None
+                self.save_config()
             return True
         except Exception as e:
             logger.error(f"Fehler beim Loeschen: {e}")
@@ -424,8 +458,8 @@ class DataManager:
             for entry in manifest.get("worlds", []):
                 payload = self._load_bundle_json(archive, entry.get("file"), "Welt")
                 original_id = str(payload.get("id") or entry.get("id") or "")
-                if not original_id:
-                    raise ValueError("Welt im Bundle ohne ID gefunden")
+                if not original_id or ".." in original_id or "/" in original_id or "\\" in original_id:
+                    raise ValueError(f"Welt im Bundle mit ungueltiger oder unsicherer ID: {original_id}")
 
                 target_id, action = self._resolve_entity_conflict(
                     original_id,
@@ -455,8 +489,8 @@ class DataManager:
             for entry in manifest.get("sessions", []):
                 payload = self._load_bundle_json(archive, entry.get("file"), "Session")
                 original_id = str(payload.get("id") or entry.get("id") or "")
-                if not original_id:
-                    raise ValueError("Session im Bundle ohne ID gefunden")
+                if not original_id or ".." in original_id or "/" in original_id or "\\" in original_id:
+                    raise ValueError(f"Session im Bundle mit ungueltiger oder unsicherer ID: {original_id}")
 
                 original_world_id = str(payload.get("world_id") or entry.get("world_id") or "")
                 mapped_world_id = world_id_map.get(original_world_id, original_world_id)
@@ -493,13 +527,21 @@ class DataManager:
                 bundle_path = str(entry.get("file") or "")
                 if not bundle_path:
                     raise ValueError("Regelwerk-Eintrag ohne Dateipfad gefunden")
+                if bundle_path not in names:
+                    raise ValueError(f"Regelwerk-Datei '{bundle_path}' nicht im Bundle-Archiv gefunden")
                 target_path, action = self._resolve_ruleset_target(bundle_path, conflict_strategy)
                 if action == "skipped":
                     imported_rulesets.append({"file": target_path.name, "action": action})
                     continue
 
+                content_bytes = archive.read(bundle_path)
+                try:
+                    json.loads(content_bytes.decode("utf-8"))
+                except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+                    raise ValueError(f"Regelwerk '{bundle_path}' enthaelt kein valides JSON: {exc}") from exc
+
                 target_path.parent.mkdir(parents=True, exist_ok=True)
-                target_path.write_bytes(archive.read(bundle_path))
+                target_path.write_bytes(content_bytes)
                 imported_rulesets.append({"file": target_path.name, "action": action})
 
         logger.info(
@@ -588,15 +630,27 @@ class DataManager:
     def _load_bundle_manifest(self, archive: ZipFile) -> Dict[str, Any]:
         if "manifest.json" not in archive.namelist():
             raise ValueError("Campaign-Bundle ohne manifest.json")
-        manifest = json.loads(archive.read("manifest.json").decode("utf-8"))
-        if manifest.get("format") != "rpx-campaign-bundle-v1":
+        try:
+            manifest = json.loads(archive.read("manifest.json").decode("utf-8"))
+        except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+            raise ValueError(f"manifest.json im Campaign-Bundle enthaelt kein valides JSON: {exc}") from exc
+        if not isinstance(manifest, dict) or manifest.get("format") != "rpx-campaign-bundle-v1":
             raise ValueError("Unbekanntes Campaign-Bundle-Format")
         return manifest
 
     def _load_bundle_json(self, archive: ZipFile, bundle_path: Any, label: str) -> Dict[str, Any]:
         if not bundle_path:
             raise ValueError(f"{label}-Eintrag ohne Dateipfad gefunden")
-        return json.loads(archive.read(str(bundle_path)).decode("utf-8"))
+        bundle_path_str = str(bundle_path)
+        if bundle_path_str not in archive.namelist():
+            raise ValueError(f"{label}-Datei '{bundle_path_str}' nicht im Bundle-Archiv gefunden")
+        try:
+            payload = json.loads(archive.read(bundle_path_str).decode("utf-8"))
+        except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+            raise ValueError(f"{label}-Datei '{bundle_path_str}' enthaelt kein valides JSON: {exc}") from exc
+        if not isinstance(payload, dict):
+            raise ValueError(f"{label}-Datei '{bundle_path_str}' enthaelt kein JSON-Objekt")
+        return payload
 
     def _rewrite_media_paths(
         self,
@@ -743,7 +797,7 @@ class DataManager:
             if legacy not in candidates:
                 candidates.append(legacy)
 
-        raw_parts = [part for part in PurePosixPath(normalized).parts if part not in {".", ""}]
+        raw_parts = [part for part in PurePosixPath(normalized).parts if part not in {".", "..", ""}]
         if raw_parts[:1] in (["images"], ["maps"], ["music"], ["sounds"]):
             media_prefixed = PurePosixPath("media", *raw_parts).as_posix()
             if media_prefixed not in candidates:
@@ -753,13 +807,13 @@ class DataManager:
     def _normalize_bundle_media_path(self, raw_value: str, media_kind: str) -> str:
         normalized = raw_value.replace("\\", "/").strip()
         raw_path = PurePosixPath(normalized)
-        parts = [part for part in raw_path.parts if part not in {".", ""}]
+        parts = [part for part in raw_path.parts if part not in {".", "..", ""}]
         if parts and parts[0] == "media":
             return PurePosixPath(*parts).as_posix()
         if parts and parts[0] in {"images", "sounds", "music", "maps"}:
             return PurePosixPath("media", *parts).as_posix()
 
-        filename = raw_path.name or f"{media_kind}-asset"
+        filename = raw_path.name if raw_path.name and raw_path.name not in {".", ".."} else f"{media_kind}-asset"
         category = MEDIA_SUBDIRS.get(media_kind, "misc")
         return PurePosixPath("media", category, filename).as_posix()
 
@@ -771,13 +825,23 @@ class DataManager:
         conflict_strategy: str,
     ) -> Tuple[Path, str]:
         bundle_path = archive_member or self._normalize_bundle_media_path(raw_value, media_kind)
-        bundle_parts = [part for part in PurePosixPath(bundle_path).parts if part not in {".", ""}]
+        normalized_posix = bundle_path.replace("\\", "/").strip()
+        pure_path = PurePosixPath(normalized_posix)
+        if any(part == ".." for part in pure_path.parts) or pure_path.is_absolute() or (pure_path.parts and ":" in pure_path.parts[0]):
+            raise ValueError(f"Pfad-Traversal im Bundle erkannt: {bundle_path}")
+
+        bundle_parts = [part for part in pure_path.parts if part not in {".", "..", ""}]
         relative_parts = bundle_parts[1:] if bundle_parts[:1] == ["media"] else bundle_parts
         if not relative_parts:
-            filename = Path(raw_value).name or f"{media_kind}-asset"
+            filename = Path(raw_value).name if Path(raw_value).name not in {".", "..", ""} else f"{media_kind}-asset"
             relative_parts = [MEDIA_SUBDIRS.get(media_kind, "misc"), filename]
 
-        target_path = MEDIA_DIR / Path(*relative_parts)
+        target_path = (MEDIA_DIR / Path(*relative_parts)).resolve()
+        try:
+            target_path.relative_to(MEDIA_DIR.resolve())
+        except ValueError as exc:
+            raise ValueError(f"Pfad-Traversal im Bundle erkannt: {bundle_path}") from exc
+
         if not target_path.exists():
             return target_path, "created"
         if conflict_strategy == "replace":
@@ -809,7 +873,14 @@ class DataManager:
         bundle_path: str,
         conflict_strategy: str,
     ) -> Tuple[Path, str]:
-        target = RULESETS_DIR / Path(bundle_path).name
+        filename = Path(bundle_path).name
+        if not filename or not filename.endswith(".json") or ".." in bundle_path:
+            raise ValueError(f"Ungueltiger oder unsicherer Regelwerk-Dateiname: {bundle_path}")
+        target = (RULESETS_DIR / filename).resolve()
+        try:
+            target.relative_to(RULESETS_DIR.resolve())
+        except ValueError as exc:
+            raise ValueError(f"Regelwerk-Pfad verlaesst Regelwerk-Verzeichnis: {bundle_path}") from exc
         if not target.exists():
             return target, "created"
         if conflict_strategy == "replace":
@@ -858,14 +929,13 @@ class DataManager:
             except ValueError:
                 pass
 
-        raw_path = PurePosixPath(raw_value)
-        parts = [part for part in raw_path.parts if part not in {".", ""}]
+        raw_path = PurePosixPath(raw_value.replace("\\", "/").strip())
+        parts = [part for part in raw_path.parts if part not in {".", "..", ""}]
         if parts and parts[0] == "media":
-            normalized = PurePosixPath(*parts)
-            return normalized.as_posix()
+            return PurePosixPath(*parts).as_posix()
         if parts and parts[0] in {"images", "sounds", "music", "maps"}:
             return PurePosixPath("media", *parts).as_posix()
 
-        filename = raw_path.name or f"{media_kind}-asset"
+        filename = raw_path.name if raw_path.name and raw_path.name not in {".", ".."} else f"{media_kind}-asset"
         category = MEDIA_SUBDIRS.get(media_kind, "misc")
         return PurePosixPath("media", category, filename).as_posix()
