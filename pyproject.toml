@@ -71,12 +71,15 @@ Notice = "https://github.com/entertain-and-more/rpx/blob/master/NOTICE"
 "LLM Ready" = "https://raw.githubusercontent.com/entertain-and-more/rpx/master/llms.txt"
 "Marketing Log" = "https://github.com/entertain-and-more/rpx/blob/master/MARKETING-LOG.txt"
 "Third-Party Licenses" = "https://github.com/entertain-and-more/rpx/blob/master/THIRD_PARTY_LICENSES.md"
+"Level 1 SBOM" = "https://github.com/entertain-and-more/rpx/blob/master/THIRD_PARTY_LICENSES.md"
+"Plain-Text License" = "https://raw.githubusercontent.com/entertain-and-more/rpx/master/LICENSE"
+"Third-Party Licenses (Text)" = "https://raw.githubusercontent.com/entertain-and-more/rpx/master/THIRD_PARTY_LICENSES.txt"
 "Parent Organization" = "https://github.com/entertain-and-more"
 "Umbrella Ecosystem" = "https://github.com/open-bricks"
 
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "-ra -q"
+addopts = "-ra -q --basetemp=.pytest_temp"
 pythonpath = ["."]
 testpaths = ["tests"]
 norecursedirs = [".git", ".pytest_cache", ".pytest_temp", ".pytest_tmp*", "__pycache__", "build", "dist", ".venv", ".hypothesis"]
@@ -84,6 +87,7 @@ norecursedirs = [".git", ".pytest_cache", ".pytest_temp", ".pytest_tmp*", "__pyc
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+exclude = [".git", ".pytest_cache", ".pytest_temp", ".pytest_tmp*", "__pycache__", "build", "dist", ".venv"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "B", "SIM", "C4"]

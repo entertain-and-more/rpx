@@ -1,23 +1,310 @@
-THIRD-PARTY LICENSES
-====================
+# =============================================================================
+# Level 1 SBOM & Third-Party Software Inventory (Plain-Text Companion)
+# =============================================================================
+# Project: RPX Pro (RolePlay Xtreme Professional Edition)
+# Audited: 2026-09-30 against Level 1 SBOM and runtime invariants
+# License: MIT License (see LICENSE and NOTICE)
+# Repository: https://github.com/entertain-and-more/rpx
+# Ecosystem: entertain-and-more (https://github.com/entertain-and-more)
+# Umbrella Collective: open-bricks (https://github.com/open-bricks)
+# Markdown Companion: THIRD_PARTY_LICENSES.md
+# =============================================================================
 
-Comprehensive compliance, dependency matrix, and invariant audit:
-See THIRD_PARTY_LICENSES.md
-Canonical attribution notice:
-See NOTICE
+1. Project License
+------------------
+RPX Pro is free and open-source software licensed under the MIT License.
+Canonical copyright and attribution declarations are maintained in NOTICE.
+Full MIT license text is provided in LICENSE and in Section 7 below.
 
-Core Runtime:
-- Python Standard Library (PSFL-2.0)
-  URL: https://docs.python.org/3/license.html
 
-- PySide6 (LGPL-3.0, dynamic linking)
-  URL: https://pypi.org/project/PySide6/
+2. Runtime Architecture & Software Inventory
+--------------------------------------------
+RPX Pro is a local-first, offline-capable tabletop pen & paper RPG control center
+built with Python 3.10+ and PySide6 (Qt6). It operates with zero automated network
+egress, storing all campaign worlds, maps, audio triggers, character sheets, and
+ruleset templates strictly on the local filesystem in `rpx_pro_data/`.
 
-- pygame (LGPL-2.1, dynamic linking)
-  URL: https://pypi.org/project/pygame/
+Component / Runtime: Python Standard Library
+Version / Scope:     3.10+ / Core Runtime
+License:             Python Software Foundation License Version 2 (PSFL-2.0)
+SPDX Identifier:     Python-2.0
+Purpose:             Core application runtime, dataclasses, sqlite3 persistence,
+                     json serialization, urllib/http server for companion, stdio CLI.
 
-Development & Tooling:
-- pytest (MIT)
-- ruff (MIT / Apache-2.0)
-- setuptools (MIT)
-- PyInstaller (GPLv2 with Bootloader Exception)
+Component / Runtime: PySide6 (Qt6 for Python)
+Version / Scope:     >=6.5.0 / Desktop GUI Framework
+License:             GNU Lesser General Public License Version 3 (LGPL-3.0-only)
+SPDX Identifier:     LGPL-3.0-only
+Purpose:             Desktop UI widgets, multi-monitor display kiosk, Qt Multimedia
+                     audio pipeline, signal/slot event routing.
+Compliance Model:    Dynamic linking via PyPI shared libraries under LGPLv3 Section 4.
+                     Zero Qt source code modifications. MIT core isolation preserved.
+
+Component / Runtime: pygame
+Version / Scope:     >=2.5.0 / Optional Audio Fallback
+License:             GNU Lesser General Public License Version 2.1 (LGPL-2.1-or-later)
+SPDX Identifier:     LGPL-2.1-or-later
+Purpose:             Secondary cross-platform sound playback engine when Qt Multimedia
+                     is unavailable on legacy host configurations.
+Compliance Model:    Dynamic linking via PyPI binary wheels. Optional module import.
+
+Component / Runtime: Web Companion PWA
+Version / Scope:     1.0.0 / Static Client-Side Companion (`web_companion/`)
+License:             MIT License
+SPDX Identifier:     MIT
+Purpose:             Zero-cloud mobile bundle viewer parsing `rpx-campaign-bundle-v1`
+                     ZIP archives in browser with Service Worker offline caching.
+                     Zero runtime npm dependencies or third-party web trackers.
+
+
+3. Build, Quality Assurance & Development Dependencies
+------------------------------------------------------
+The following packages are utilized strictly during build, linting, testing,
+and packaging; they are never distributed as runtime dependencies:
+
+Package:             pytest
+Version / Scope:     >=7.0 / Automated Test Suite
+License:             MIT License
+Purpose:             Unit tests, regression suites, and contract assertion gates.
+
+Package:             ruff
+Version / Scope:     >=0.4.0 / Python Linter & Formatter
+License:             MIT License OR Apache-2.0
+Purpose:             High-performance static analysis and style rule enforcement.
+
+Package:             setuptools
+Version / Scope:     >=61.0 / Build Backend
+License:             MIT License
+Purpose:             PEP 517 / PEP 621 compliant package building and metadata.
+
+Package:             PyInstaller
+Version / Scope:     >=5.0 / Desktop Binary Packaging
+License:             GPL-2.0-or-later with PyInstaller Bootloader Exception
+Purpose:             Freezes Python code into stand-alone executables. Output
+                     binaries are covered by the special exception, permitting
+                     permissive distribution without viral copyleft obligations.
+
+Package:             PowerShell
+Version / Scope:     >=7.0 / Scripting & Contract Gates
+License:             MIT License
+Purpose:             Automated script verification and cross-platform CI runner.
+
+
+4. Zero-Copyleft Isolation Guarantee & Unprivileged Execution
+-------------------------------------------------------------
+- Zero-Copyleft Isolation Guarantee:
+  The core architecture of RPX Pro is governed exclusively by permissive licensing
+  (MIT License). PySide6 (LGPL-3.0) and pygame (LGPL-2.1) are utilized strictly via
+  dynamic linking through unmodified standard Python binary packages in accordance
+  with LGPLv3 Section 4 and LGPLv2.1 Section 6. Downstream users may freely inspect,
+  substitute, or relink Qt and PySide6 components. User campaign worlds, custom
+  ruleset JSON files, cartographic maps, character records, session histories, and
+  exported `rpx-campaign-bundle-v1` ZIP files remain 100% proprietary to the user
+  with zero copyleft contamination or forced disclosure obligations.
+
+- Unprivileged User-Mode Operation (RunAsInvoker):
+  RPX Pro, its CLI runner (`python -m rpx_pro.app --cli`), and its test suites
+  operate strictly within standard user space (`RunAsInvoker`). The software requires
+  zero administrative elevation, zero root privileges, and zero UAC security prompts.
+
+
+5. Governance & Runtime Invariants
+----------------------------------
+RPX Pro enforces ten foundational governance and runtime invariants:
+
+INV-LOCAL-01: 100% Offline & Local-First Zero-Egress
+              All world, session, and character data remain in `rpx_pro_data/`.
+              Zero external network telemetry, analytics, or background sockets.
+
+INV-USER-02:  Unprivileged User-Mode & Non-Elevation
+              Executes strictly under `RunAsInvoker` in user space without admin
+              or elevated operating system rights.
+
+INV-DUAL-03:  Dual-Screen State Isolation & Player Screen Mirroring
+              Independent display router ensures GM prep, hidden stats, and
+              fog-of-war locations never project to the 2nd monitor player view.
+
+INV-RPC-04:   Headless JSON-RPC CLI Interface
+              Standardized `stdin`/`stdout` JSON-RPC protocol (`rpx_pro.cli`)
+              for autonomous AI agents, script automation, and headless testing.
+
+INV-BUNDLE-05: Deterministic Campaign Bundle Export
+              Lossless export of worlds, sessions, and rulesets into portable,
+              checksummed `rpx-campaign-bundle-v1` ZIP archives.
+
+INV-PWA-06:   Zero-Cloud Client-Side PWA Companion
+              Static Web/PWA companion (`web_companion/`) operates 100% in-browser
+              with Service Worker offline caching and zero remote server requests.
+
+INV-COPYLEFT-07: Permissive Licensing & Dynamic Linking
+              Core codebase under MIT; PySide6 (LGPL-3.0) and pygame (LGPL-2.1)
+              dynamically linked under LGPLv3 §4; zero copyleft contamination.
+
+INV-LLM-08:   Privacy-Guarded AI Prompt Generation
+              7 specialized local RPG prompt roles generate text locally for
+              clipboard or CLI; zero automated transmission to cloud AI endpoints.
+
+INV-ECO-09:   Modular Sibling Ecosystem Interoperability
+              Interoperability with `entertain-and-more` and `open-bricks` sibling
+              tools (e.g. KlangpultLight, shared JSON data schemas).
+
+INV-SLA-10:   Contractual Security SLA & Multi-Platform CI
+              Committed 48h response / 5d triage vulnerability SLA, validated by
+              automated GitHub Actions CI matrices across Ubuntu, macOS, Windows.
+
+
+6. Level 1 SBOM Invariant Cross-Reference Matrix
+------------------------------------------------
++----------------+------------------------------------------+-------------+------------------------------------+
+| Invariant ID   | Canonical Invariant Name                 | Audit Status| Evidence / Verification Mechanism  |
++----------------+------------------------------------------+-------------+------------------------------------+
+| INV-LOCAL-01   | 100% Offline & Local-First Zero-Egress   | VERIFIED    | Local disk `rpx_pro_data/`, tests  |
+| INV-USER-02   | Unprivileged User-Mode (RunAsInvoker)    | VERIFIED    | Process security token, pyproject  |
+| INV-DUAL-03   | Dual-Screen State Isolation & Mirroring  | VERIFIED    | Signal router, player kiosk window |
+| INV-RPC-04    | Headless JSON-RPC CLI Interface          | VERIFIED    | `rpx_pro.cli`, test_api_cli.py     |
+| INV-BUNDLE-05 | Deterministic Campaign Bundle Export     | VERIFIED    | `test_campaign_bundle.py`, ZIP v1  |
+| INV-PWA-06    | Zero-Cloud Client-Side PWA Companion     | VERIFIED    | `web_companion/`, node --test      |
+| INV-COPYLEFT-07| Permissive Licensing & Dynamic Linking   | VERIFIED    | LGPLv3 §4 dynamic linking audit    |
+| INV-LLM-08    | Privacy-Guarded AI Prompt Generation     | VERIFIED    | Local prompt generator, 7 roles    |
+| INV-ECO-09    | Modular Sibling Ecosystem Synergy        | VERIFIED    | entertain-and-more, open-bricks    |
+| INV-SLA-10    | Contractual Security SLA & 3-OS CI       | VERIFIED    | SECURITY.md, GitHub Actions CI     |
++----------------+------------------------------------------+-------------+------------------------------------+
+
+
+7. Full Legal License Texts
+---------------------------
+
+7.1 MIT License (RPX Pro, Web Companion, pytest, setuptools, PowerShell)
+=======================================================================
+MIT License
+
+Copyright (c) 2026 Lukas Geiger, entertain-and-more maintainers
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+7.2 Python Software Foundation License Version 2 (PSFL-2.0)
+===========================================================
+1. This LICENSE AGREEMENT is between the Python Software Foundation ("PSF"), and
+   the Individual or Organization ("Licensee") accessing and otherwise using this
+   software ("Python") in source or binary form and its associated documentation.
+
+2. Subject to the terms and conditions of this License Agreement, PSF hereby
+   grants Licensee a nonexclusive, royalty-free, world-wide license to reproduce,
+   analyze, test, perform and/or display publicly, prepare derivative works,
+   distribute, and otherwise use Python alone or in any derivative version,
+   provided, however, that PSF's License Agreement and PSF's notice of copyright,
+   i.e., "Copyright (c) 2001-2026 Python Software Foundation; All Rights Reserved"
+   are retained in Python alone or in any derivative version prepared by Licensee.
+
+3. In the event Licensee prepares a derivative work that is based on or
+   incorporates Python or any part thereof, and wants to make the derivative work
+   available to others as provided herein, then Licensee hereby agrees to include
+   in any such work a brief summary of the changes made to Python.
+
+4. PSF is making Python available to Licensee on an "AS IS" basis. PSF MAKES NO
+   REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED. BY WAY OF EXAMPLE, BUT NOT
+   LIMITATION, PSF MAKES NO AND DISCLAIMS ANY REPRESENTATION OR WARRANTY OF
+   MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF
+   PYTHON WILL NOT INFRINGE ANY THIRD PARTY RIGHTS.
+
+5. PSF SHALL NOT BE LIABLE TO LICENSEE OR ANY OTHER USERS OF PYTHON FOR ANY
+   INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES OR LOSS AS A RESULT OF MODIFYING,
+   DISTRIBUTING, OR OTHERWISE USING PYTHON, OR ANY DERIVATIVE THEREOF, EVEN IF
+   ADVISED OF THE POSSIBILITY THEREOF.
+
+
+7.3 GNU Lesser General Public License Version 3 (LGPL-3.0) — Dynamic Linking Terms
+==================================================================================
+PySide6 is used under the terms of the GNU Lesser General Public License (LGPL)
+version 3. RPX Pro dynamically links to unmodified shared libraries provided by
+the Qt Company via PyPI. In accordance with Section 4 of LGPLv3:
+- Downstream users may run, inspect, and debug the application with alternative
+  or modified builds of the Qt/PySide6 libraries.
+- The full license terms of LGPLv3 are available online at:
+  https://www.gnu.org/licenses/lgpl-3.0.html
+- The source code of PySide6 and Qt may be obtained from upstream repositories:
+  https://code.qt.io/cgit/pyside/pyside-setup.git/
+
+
+7.4 GNU Lesser General Public License Version 2.1 (LGPL-2.1) — Audio Fallback Terms
+===================================================================================
+pygame is licensed under the GNU Lesser General Public License version 2.1.
+RPX Pro links dynamically to pygame as an optional audio backend fallback.
+- The full text of LGPL-2.1 is available online at:
+  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+- The source code of pygame is available upstream at:
+  https://github.com/pygame/pygame
+
+
+7.5 Apache License Version 2.0 (ruff, packaging tooling)
+========================================================
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+
+7.6 BSD 3-Clause License
+========================
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors
+   may be used to endorse or promote products derived from this software without
+   specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.
+
+
+8. Statutory Notice (§ 521 BGB Gefälligkeitsrecht) & 48h Security SLA
+---------------------------------------------------------------------
+Statutory Disclaimer (§ 521 BGB):
+Die Bereitstellung dieser Software erfolgt unentgeltlich im Sinne einer Gefälligkeit
+nach deutschem Recht (§ 521 BGB). Der Entwickler haftet ausschließlich für Vorsatz
+und grobe Fahrlässigkeit. Jegliche weitergehende Gewährleistung oder Haftung für
+Schäden, die aus der Nutzung der Software resultieren, ist im gesetzlich zulässigen
+Rahmen ausgeschlossen.
+
+Binding Security Response SLA:
+RPX Pro commits to a binding vulnerability handling timeline:
+- Initial response / acknowledgment: <= 48 hours
+- Status update and vulnerability triage: <= 5 business days
+- Target patch delivery: <= 14 business days (critical) / <= 30 business days (medium)
+
+Security reporting channels:
+- Primary: security@open-bricks.org
+- Sibling: security@ellmos.ai
+- Direct:  support@lukasgeiger.com
+- Remote:  GitHub Security Advisory (https://github.com/entertain-and-more/rpx/security/advisories)

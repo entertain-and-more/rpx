@@ -7,7 +7,7 @@
 [![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/entertain-and-more/rpx/releases)
 [![Store Paket](https://img.shields.io/badge/Store%20Paket-1.0.0.0-informational.svg)](store_package.json)
 [![Status](https://img.shields.io/badge/Status-unver%C3%B6ffentlicht-yellow.svg)](SECURITY.md)
-[![Pytest](https://img.shields.io/badge/Pytest-65%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
+[![Pytest](https://img.shields.io/badge/Pytest-78%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
 [![Web Companion](https://img.shields.io/badge/Web%20Companion-17%20passed-brightgreen.svg)](web_companion/)
 [![GUI](https://img.shields.io/badge/GUI-PySide6%20%2F%20Qt6-blue.svg)](https://www.qt.io/)
 [![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
@@ -15,9 +15,9 @@
 [![Datenschutz](https://img.shields.io/badge/Datenschutz-100%25%20Local--First%20%7C%20Zero--Egress-success.svg)](#sec-16)
 [![Sicherheit](https://img.shields.io/badge/Sicherheit-RunAsInvoker%20%7C%20Keine%20Elevation-informational.svg)](SECURITY.md)
 [![Sicherheits-SLA](https://img.shields.io/badge/Sicherheits--SLA-48h%20%2F%205d-blue.svg)](SECURITY.md)
-[![Drittanbieter Geprueft](https://img.shields.io/badge/Drittanbieter-gepr%C3%BCft%20%7C%20Level%201%20SBOM-success.svg)](THIRD_PARTY_LICENSES.md)
+[![Drittanbieter Geprueft](https://img.shields.io/badge/Drittanbieter-gepr%C3%BCft%20%7C%20Level%201%20SBOM%20(Text)-success.svg)](THIRD_PARTY_LICENSES.txt)
 [![Attribution](https://img.shields.io/badge/Attribution-NOTICE-blue.svg)](NOTICE)
-[![Geprüft](https://img.shields.io/badge/gepr%C3%BCft-2026--09--28-blue.svg)](MARKETING-LOG.txt)
+[![Geprüft](https://img.shields.io/badge/gepr%C3%BCft-2026--09--30-blue.svg)](MARKETING-LOG.txt)
 [![Marketing Log](https://img.shields.io/badge/Marketing%20Log-aktiv-blueviolet.svg)](MARKETING-LOG.txt)
 [![Code-Stil: ruff](https://img.shields.io/badge/Code--Stil-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![LLM Bereit](https://img.shields.io/badge/llms.txt-bereit-purple.svg)](llms.txt)
@@ -223,6 +223,50 @@ RPX Pro erzwingt zehn verbindliche Architektur- und Laufzeit-Invarianten:
 <a id="visuelle-architektur"></a>
 <a id="visual-architecture"></a>
 ## 6. Visuelle Architektur
+
+### Vier-Sichten Systemtopologie-Projektion
+
+```text
++---------------------------------------------------------------------------------------------------+
+|               SICHT 1: CLIENT-LAUFZEITEN, BEDIENOBERFLÄCHEN & AUTOMATIONSSCHNITTSTELLEN           |
+|  - Desktop PySide6 / Qt6 Arbeitsbereich (SL-Kontrollzentrum, Chat, Kampf, Karten, Soundboard)     |
+|  - Headless JSON-RPC CLI-Runner (`python -m rpx_pro.app --cli`) via Stdio für autonome KI-Agenten |
+|  - Zweitmonitor-Projektions-Kiosk für Spieler (Nebel des Krieges, Ambiente, verdeckte SL-Notizen) |
+|  - Zero-Cloud Mobile Web-Begleit-PWA (`web_companion/`) mit Service-Worker Offline-Speicherung   |
++---------------------------------------------------------------------------------------------------+
+                                                  |
+                                                  v
++---------------------------------------------------------------------------------------------------+
+|               SICHT 2: RPX PRO KERN-ENGINE & ORCHESTRIERUNGS-PIPELINE                              |
+|  - RPXProAPI Vertragsschicht: Thread-sicherer Zustands-Dispatcher & Ereignis-Bus                  |
+|  - Multi-Backend Audio-Engine (Qt Multimedia -> pygame -> winsound Graceful Degradation)         |
+|  - Dynamische Licht- & Atmosphären-Steuerung (Prozedurale Blitze, Strobe, Tag-/Nacht-Verlauf)     |
+|  - Deterministische Würfel-Engine (Polyedrisch W4..W100, Explodierende Würfel, Kritische Treffer) |
+|  - Regelwerk-Vorlagen-Engine (D&D 5e SRD 5.1, DSA 5, Generic Fantasy & anpassbare JSON-Regeln)   |
+|  - Datenschutzbewusster KI-Prompt-Orchestrator (7 spezialisierte Rollen, lokaler Puffer)          |
++---------------------------------------------------------------------------------------------------+
+                                                  |
+                                                  v
++---------------------------------------------------------------------------------------------------+
+|               SICHT 3: RUNTIME-PERSISTENZ, KAMPAGNEN-BUNDLES & LOKALER SPEICHER                   |
+|  - Lokale Kampagnenspeicherung (`rpx_pro_data/`) in strukturierten JSON-Daten-Schemata            |
+|  - Standardisierter portabler Bundle-Export: `rpx-campaign-bundle-v1` ZIP-Archiv mit Prüfsummen   |
+|  - Audio-Ressourcen & Multi-Resolution Kartografie-Kachel-Cache (`assets/`, `audio/`, `maps/`)   |
+|  - Sitzungsjournal-WAL & Audit-Protokoll (Helden-Trajektorien, Rundenverlauf, Chat-Historie)      |
++---------------------------------------------------------------------------------------------------+
+                                                  |
+                                                  v
++---------------------------------------------------------------------------------------------------+
+|               SICHT 4: AIR-GAP SCHUTZPERIMETER, RUNASINVOKER & GOVERNANCE                         |
+|  - 100% Offline-First Architektur & Zero-Egress (`INV-LOCAL-01`): Keine ausgehenden Sockets       |
+|  - Unprivilegiertes Sicherheitsmodell (`INV-USER-02`): Striktes `RunAsInvoker`, keine Admin-Rechte|
+|  - Permissive Lizenzierung & LGPL Dynamic-Linking Isolation (`INV-COPYLEFT-07`): MIT-Schutzgrenze|
+|  - Verifizierte Governance- & Laufzeit-Invarianten (`INV-LOCAL-01` bis `INV-SLA-10`) Einhaltung   |
+|  - Gesetzlicher Haftungsausschluss gem. § 521 BGB & verbindliches 48h Sicherheits-SLA             |
++---------------------------------------------------------------------------------------------------+
+```
+
+### Komponentenfluss & Signal-Orchestrierung
 
 ```mermaid
 flowchart TD

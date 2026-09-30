@@ -7,7 +7,7 @@
 - **Current Version**: `1.0.0` (App) / `1.0.0.0` (Store Package)
 - **License**: MIT
 - **Architecture**: Local-First PySide6 Desktop Application with zero network egress, headless JSON-RPC CLI API, and offline PWA Companion
-- **Last Updated**: 2026-09-28 (Pfad B — Discoverability, 18-Point Bilingual Navigation & Level 1 SBOM Governance)
+- **Last Updated**: 2026-09-30 (Pfad B — ASCII 4-View Topology Projection, Level 1 SBOM Plain-Text Companion & Invariant Verification)
 
 ---
 
@@ -153,3 +153,23 @@ Comprehensive SPDX license audit completed in `THIRD_PARTY_LICENSES.md` on 2026-
 - **Level 1 SBOM Invariant Cross-Reference Matrix**: Audited in `THIRD_PARTY_LICENSES.md` as of 2026-09-28, incorporating a formal cross-reference table mapping `INV-LOCAL-01` to `INV-SLA-10`, certified unprivileged `RunAsInvoker` execution (`INV-USER-02`), LGPL-3.0 dynamic linking compliance under LGPLv3 §4, and zero copyleft contamination for campaign data.
 - **Statutory Liability Disclaimer & Binding 48h Security SLA**: Integrated German statutory disclaimer under § 521 BGB (Gefälligkeitsrecht) and 48-Hour Acknowledgment / 5-Business-Day Triage Security Response SLA table in Section 18 of `README.md`, `README_de.md`, and `SECURITY.md` (reporting channels: `security@open-bricks.org`, `security@ellmos.ai`, `support@lukasgeiger.com`, GitHub Security Advisory).
 - **Contract Test Suite Expansion**: Expanded `tests/test_metadata_contract.py` to validate canonical `NOTICE`, dual reciprocal HTML anchors `sec-01` .. `sec-18`, 20 PEP 621 keywords, Level 1 SBOM recency, and § 521 BGB / 48h SLA integrity.
+
+---
+
+## 8. Discoverability, ASCII 4-View Topology Projection & Plain-Text Level 1 SBOM Companion Audit (Pfad B) — 2026-09-30
+- **ASCII Four-View Architectural Topology Projection**:
+  - Implemented complete bilingual ASCII Four-View Topology projection in Section 6 of `README.md` and `README_de.md` (`VIEW 1: CLIENT RUNTIMES, USER INTERFACES & AUTOMATION ENTRY POINTS`, `VIEW 2: RPX PRO SOVEREIGN CORE ENGINE & ORCHESTRATION PIPELINE`, `VIEW 3: RUNTIME PERSISTENCE, CAMPAIGN BUNDLES & LOCAL VAULT`, `VIEW 4: AIR-GAP DEFENSE PERIMETER, RUNASINVOKER & GOVERNANCE`; German `SICHT 1..SICHT 4`).
+- **Plain-Text Level 1 SBOM Companion (`THIRD_PARTY_LICENSES.txt`)**:
+  - Completely expanded canonical plain-text companion file with comprehensive dependency catalog, Level 1 SBOM Invariant Cross-Reference Matrix mapping all 10 governance and runtime invariants (`INV-LOCAL-01` through `INV-SLA-10`, all 10 VERIFIED), unprivileged `RunAsInvoker` non-elevation certification, Zero-Copyleft isolation guarantee, full license texts (MIT, LGPL-3.0 dynamic linking terms, LGPL-2.1 dynamic linking terms, PSFL-2.0, Apache-2.0, BSD-3-Clause), statutory disclaimer (§ 521 BGB Gefälligkeitsrecht), and binding 48h Security Response SLA.
+- **Level 1 SBOM in `THIRD_PARTY_LICENSES.md` & Canonical `NOTICE`**:
+  - Re-audited `THIRD_PARTY_LICENSES.md` Stand 2026-09-30 with formal reciprocal linkage to `THIRD_PARTY_LICENSES.txt`.
+  - Updated `NOTICE` to explicitly cite `THIRD_PARTY_LICENSES.txt`.
+- **PEP 621 Metadata Expansion (`pyproject.toml`)**:
+  - Added `Level 1 SBOM`, `Plain-Text License`, and `Third-Party Licenses (Text)` to `[project.urls]`.
+  - Added `--basetemp=.pytest_temp` to pytest `addopts` for isolated build runs.
+  - Retained version `1.0.0` frozen per release discipline T-20260920-167562623.
+- **Context Index (`llms.txt`)**:
+  - Updated `llms.txt` header to `## Last-checked: 2026-09-30` with Level 1 SBOM companion references.
+- **Documentation Badges & Contract Tests**:
+  - Synchronized Shields.io badges in `README.md` and `README_de.md` (`Verified-2026--09--30`, `Level 1 SBOM: Plain Text`).
+  - Added 4 new contract tests to `tests/test_metadata_contract.py` validating ASCII 4-view topology projection, plain-text Level 1 SBOM invariant matrix and license texts, extended project URLs, and recency verification (all 82 tests passing, 100% green).

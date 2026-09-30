@@ -1,4 +1,4 @@
-## Last-checked: 2026-09-28
+## Last-checked: 2026-09-30
 
 # rpx
 
@@ -17,7 +17,7 @@ session manager, or an LLM-controllable campaign backend that operates strictly 
 
 - `python RPX_Pro_1.py` — launch the desktop application (or `START.bat` on Windows)
 - `python -m rpx_pro.app --cli` — start in JSON-RPC CLI mode for LLM / autonomous agent control via stdin/stdout
-- `pytest` — run Python unit & contract test suite (65 passed, 1 skipped | 100% green)
+- `pytest` — run Python unit & contract test suite (78+ passed, 1 skipped | 100% green)
 - `node --test web_companion/tests/*.mjs` — run web companion PWA test suite (17 passed)
 - `python _scripts/verify_release_metadata.py` — verify strict release and privacy metadata contract
 - `cd web_companion && python -m http.server 8765` — serve the PWA companion locally
@@ -73,7 +73,7 @@ open-bricks tabletop roleplaying workstation
 - `README.md`: full English documentation with 18-point quick navigation (sec-01..sec-18), comparative matrix, and diagrams
 - `README_de.md`: full German documentation with 100% reciprocal anchor and section parity
 - `THIRD_PARTY_LICENSES.md`: Level 1 SBOM invariant cross-reference matrix, LGPL-3.0 dynamic linking notice, and invariant compliance
-- `THIRD_PARTY_LICENSES.txt`: compact third-party license reference
+- `THIRD_PARTY_LICENSES.txt`: Level 1 SBOM plain-text companion with Invariant Cross-Reference Matrix (INV-LOCAL-01..INV-SLA-10), full license texts, and unprivileged RunAsInvoker non-elevation certification
 - `MARKETING-LOG.txt`: marketing strategy, personas, SEO discoverability, and 10-dimension comparative matrix
 - `rpx_pro/api.py`: programmatic Python API dataclass contract
 - `rpx_pro/cli.py`: JSON-RPC CLI entry point over stdin/stdout

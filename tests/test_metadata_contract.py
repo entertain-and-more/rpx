@@ -77,6 +77,9 @@ class RepositoryContractTests(unittest.TestCase):
             "LLM Ready",
             "Marketing Log",
             "Third-Party Licenses",
+            "Level 1 SBOM",
+            "Plain-Text License",
+            "Third-Party Licenses (Text)",
             "Parent Organization",
             "Umbrella Ecosystem",
         ]
@@ -92,6 +95,7 @@ class RepositoryContractTests(unittest.TestCase):
 
         pytest_config = data.get("tool", {}).get("pytest", {}).get("ini_options", {})
         self.assertIn("norecursedirs", pytest_config)
+        self.assertIn("--basetemp=.pytest_temp", pytest_config.get("addopts", ""))
 
     def test_gitignore_cloud_sync_and_lock_defense(self):
         gitignore_path = ROOT / ".gitignore"
@@ -215,17 +219,18 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertTrue(llms_path.exists(), "llms.txt must exist")
         content = llms_path.read_text(encoding="utf-8")
 
-        self.assertTrue(content.startswith("## Last-checked: 2026-09-28"), "llms.txt must have current date")
+        self.assertTrue(content.startswith("## Last-checked: 2026-09-30"), "llms.txt must have current date")
         self.assertIn("[PERSONA-01]", content)
         self.assertIn("INV-LOCAL-01", content)
         self.assertIn("THIRD_PARTY_LICENSES.md", content)
+        self.assertIn("THIRD_PARTY_LICENSES.txt", content)
         self.assertIn("NOTICE", content)
 
     def test_changelog_recent_pfad_b_entry(self):
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         self.assertIn("## [Unreleased]", changelog)
         self.assertIn("Pfad B", changelog)
-        self.assertIn("2026-09-28", changelog)
+        self.assertIn("2026-09-30", changelog)
 
     def test_canonical_root_notice(self):
         notice_path = ROOT / "NOTICE"
@@ -236,14 +241,16 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("entertain-and-more", content)
         self.assertIn("open-bricks", content)
         self.assertIn("MIT License", content)
+        self.assertIn("THIRD_PARTY_LICENSES.txt", content)
 
     def test_level_1_sbom_matrix_and_compliance(self):
         licenses_md = ROOT / "THIRD_PARTY_LICENSES.md"
         content_md = licenses_md.read_text(encoding="utf-8")
         self.assertIn("Audited", content_md)
-        self.assertIn("2026-09-28", content_md)
+        self.assertIn("2026-09-30", content_md)
         self.assertIn("Canonical Notice", content_md)
         self.assertIn("[NOTICE](NOTICE)", content_md)
+        self.assertIn("THIRD_PARTY_LICENSES.txt", content_md)
         self.assertIn("Level 1 SBOM Invariant Cross-Reference Matrix", content_md)
         invariants = [
             "INV-LOCAL-01",
@@ -259,6 +266,64 @@ class RepositoryContractTests(unittest.TestCase):
         ]
         for inv in invariants:
             self.assertIn(inv, content_md)
+
+    def test_ascii_four_view_architectural_topology_projection(self):
+        readme_en = (ROOT / "README.md").read_text(encoding="utf-8")
+        readme_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
+
+        en_views = [
+            "VIEW 1: CLIENT RUNTIMES, USER INTERFACES & AUTOMATION ENTRY POINTS",
+            "VIEW 2: RPX PRO SOVEREIGN CORE ENGINE & ORCHESTRATION PIPELINE",
+            "VIEW 3: RUNTIME PERSISTENCE, CAMPAIGN BUNDLES & LOCAL VAULT",
+            "VIEW 4: AIR-GAP DEFENSE PERIMETER, RUNASINVOKER & GOVERNANCE",
+        ]
+        for view in en_views:
+            self.assertIn(view, readme_en, f"README.md missing ASCII topology view: {view}")
+
+        de_views = [
+            "SICHT 1: CLIENT-LAUFZEITEN, BEDIENOBERFLÄCHEN & AUTOMATIONSSCHNITTSTELLEN",
+            "SICHT 2: RPX PRO KERN-ENGINE & ORCHESTRIERUNGS-PIPELINE",
+            "SICHT 3: RUNTIME-PERSISTENZ, KAMPAGNEN-BUNDLES & LOKALER SPEICHER",
+            "SICHT 4: AIR-GAP SCHUTZPERIMETER, RUNASINVOKER & GOVERNANCE",
+        ]
+        for view in de_views:
+            self.assertIn(view, readme_de, f"README_de.md missing ASCII topology view: {view}")
+
+    def test_level_1_sbom_plain_text_companion_invariants(self):
+        licenses_txt = ROOT / "THIRD_PARTY_LICENSES.txt"
+        self.assertTrue(licenses_txt.exists(), "THIRD_PARTY_LICENSES.txt must exist")
+        content = licenses_txt.read_text(encoding="utf-8")
+
+        invariants = [
+            "INV-LOCAL-01",
+            "INV-USER-02",
+            "INV-DUAL-03",
+            "INV-RPC-04",
+            "INV-BUNDLE-05",
+            "INV-PWA-06",
+            "INV-COPYLEFT-07",
+            "INV-LLM-08",
+            "INV-ECO-09",
+            "INV-SLA-10",
+        ]
+        for inv in invariants:
+            self.assertIn(inv, content, f"THIRD_PARTY_LICENSES.txt missing {inv}")
+
+        self.assertIn("RunAsInvoker", content)
+        self.assertIn("Zero-Copyleft", content)
+        self.assertIn("521", content)
+        self.assertIn("48", content)
+        self.assertIn("MIT License", content)
+        self.assertIn("Python Software Foundation License", content)
+        self.assertIn("LGPL-3.0", content)
+        self.assertIn("LGPL-2.1", content)
+
+    def test_marketing_log_recency_and_pfad_b(self):
+        marketing_log = (ROOT / "MARKETING-LOG.txt").read_text(encoding="utf-8")
+        self.assertIn("2026-09-30", marketing_log)
+        self.assertIn("Pfad B", marketing_log)
+        self.assertIn("ASCII Four-View Architectural Topology Projection", marketing_log)
+        self.assertIn("Plain-Text Level 1 SBOM Companion", marketing_log)
 
     def test_statutory_disclaimer_and_security_sla(self):
         readme_en = (ROOT / "README.md").read_text(encoding="utf-8")
