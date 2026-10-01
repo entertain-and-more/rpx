@@ -5,6 +5,25 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Bugsweep & Headless API/CLI Resilience Hardening - 2026-10-02
+- **CLI JSON-RPC Request Validation & Thread Stability (`rpx_pro/cli.py`)**:
+  - `CLIInterface.execute_command` now strictly validates incoming requests as dictionaries; non-dict payloads (strings, arrays, numbers, null) return clean JSON-RPC errors rather than raising unhandled `AttributeError: 'str' object has no attribute 'get'`.
+  - In `CLIWorker._read_loop`, non-dict JSON lines are caught and reported without breaking out of the loop, preventing permanent termination of the background stdin listener thread.
+  - Hardened `_dispatch` against `params: null` (None) and added support for JSON-RPC 2.0 array/positional parameters (`*params`), preventing `TypeError: argument after ** must be a mapping`. Zero-argument method wrappers (`list_worlds`, `list_locations`, `list_sessions`, etc.) now safely accept both positional and keyword arguments.
+  - Headless CLI `--command` argument parser now strips surrounding shell quotes cleanly.
+- **Character & Inventory Data Integrity (`rpx_pro/api.py`)**:
+  - In `damage_character`, negative amounts (`amount < 0`) are defensively rejected with an error, preventing uncapped healing exploits where character HP could exceed `max_health`.
+  - In `heal_character`, negative amounts (`amount < 0`) are defensively rejected, preventing unintended HP reductions.
+  - In `give_item`, removing items (`count < 0`) is clamped so inventory counts cannot become negative, and items reaching count 0 are cleanly purged from the character's inventory dictionary.
+- **Combat Logic & Skill Definition Resilience (`rpx_pro/api.py`)**:
+  - In `execute_attack`, defeated characters (`health <= 0`) are guarded: dead attackers cannot execute attacks, and dead defenders cannot be repeatedly targeted.
+  - In `execute_attack`, skill bonus evaluation defensively verifies `isinstance(skill_def, dict)` and `isinstance(affects, (dict, list, set, tuple))`, preventing unhandled `AttributeError` crashes when worlds contain non-dict skill definitions.
+- **Audio & Dice Fallback Resilience (`rpx_pro/api.py`)**:
+  - In `play_sound` and `play_music`, empty or whitespace paths are rejected immediately, and target path resolution enforces `.is_file()`, preventing empty string inputs from resolving to the parent directory (`SOUNDS_DIR` / `MUSIC_DIR`) and attempting directory audio playback.
+  - In `roll_dice`, fallback execution when `dice_roller` is `None` enforces `count = max(1, int(count))` and `sides = max(1, int(sides))`, preventing unhandled `ValueError` crashes on zero or negative dice sides.
+- **Automated Regression Test Suite**:
+  - Added 9 hermetic regression tests in `tests/test_bugsweep_api_and_cli_resilience_20261002.py` (all 9 passed; full suite 90 passed, 1 skipped).
+
 ### Discoverability, ASCII 4-View Topology Projection & Plain-Text Level 1 SBOM Companion (Pfad B) - 2026-09-30
 - **ASCII Four-View Architectural Topology Projection**:
   - Implemented comprehensive bilingual ASCII Four-View Topology projection in Section 6 of `README.md` and `README_de.md` (`VIEW 1: CLIENT RUNTIMES, USER INTERFACES & AUTOMATION ENTRY POINTS`, `VIEW 2: RPX PRO SOVEREIGN CORE ENGINE & ORCHESTRATION PIPELINE`, `VIEW 3: RUNTIME PERSISTENCE, CAMPAIGN BUNDLES & LOCAL VAULT`, `VIEW 4: AIR-GAP DEFENSE PERIMETER, RUNASINVOKER & GOVERNANCE`; German `SICHT 1..SICHT 4`).

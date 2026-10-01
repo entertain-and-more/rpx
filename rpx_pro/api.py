@@ -260,6 +260,8 @@ class RPXProAPI:
         session = self.dm.current_session
         if not session or char_id not in session.characters:
             return {"error": "Charakter nicht gefunden"}
+        if amount < 0:
+            return {"error": "Heilungsbetrag darf nicht negativ sein"}
         char = session.characters[char_id]
         old_hp = char.health
         char.health = min(char.max_health, char.health + amount)
@@ -270,6 +272,8 @@ class RPXProAPI:
         session = self.dm.current_session
         if not session or char_id not in session.characters:
             return {"error": "Charakter nicht gefunden"}
+        if amount < 0:
+            return {"error": "Schadensbetrag darf nicht negativ sein"}
         char = session.characters[char_id]
         old_hp = char.health
         char.health = max(0, char.health - amount)
@@ -295,9 +299,16 @@ class RPXProAPI:
         if not session or char_id not in session.characters:
             return {"error": "Charakter nicht gefunden"}
         char = session.characters[char_id]
-        char.inventory[item_id] = char.inventory.get(item_id, 0) + count
+        new_count = char.inventory.get(item_id, 0) + count
+        if new_count <= 0:
+            if item_id in char.inventory:
+                del char.inventory[item_id]
+            final_count = 0
+        else:
+            char.inventory[item_id] = new_count
+            final_count = new_count
         self.dm.save_session(session)
-        return {"character": char.name, "item_id": item_id, "count": char.inventory[item_id]}
+        return {"character": char.name, "item_id": item_id, "count": final_count}
 
     # --- Kampf & Runden / Turn Order ---
 
@@ -421,6 +432,10 @@ class RPXProAPI:
             return {"error": f"Verteidiger {defender_id} nicht gefunden"}
         if attacker_id == defender_id:
             return {"error": "Angreifer und Verteidiger muessen verschieden sein"}
+        if attacker.health <= 0:
+            return {"error": f"Angreifer {attacker.name} ist bereits besiegt"}
+        if defender.health <= 0:
+            return {"error": f"Verteidiger {defender.name} ist bereits besiegt"}
 
         # Waffe bestimmen
         chosen_weapon_id = weapon_id or attacker.equipped_weapon
@@ -435,11 +450,14 @@ class RPXProAPI:
 
         # Skill-Bonus
         skill_bonus = 0
-        if world.skill_definitions:
+        if world.skill_definitions and isinstance(world.skill_definitions, dict):
             for skill_name, skill_def in world.skill_definitions.items():
-                affects = skill_def.get("affects", {})
-                if "strength" in affects or "dexterity" in affects:
-                    skill_bonus += attacker.skills.get(skill_name, 0)
+                if isinstance(skill_def, dict):
+                    affects = skill_def.get("affects", {})
+                    if isinstance(affects, (dict, list, set, tuple)) and (
+                        "strength" in affects or "dexterity" in affects
+                    ):
+                        skill_bonus += attacker.skills.get(skill_name, 0)
 
         effective_roll = hit_roll + skill_bonus
         is_hit = effective_roll >= hit_threshold
@@ -531,27 +549,39 @@ class RPXProAPI:
 
     def play_sound(self, sound_name_or_path: str, volume: Optional[float] = None) -> dict:
         """Spielt einen Soundeffekt ab (ueber AudioManager)."""
-        target_path = Path(sound_name_or_path)
-        if not target_path.exists():
-            candidate = SOUNDS_DIR / sound_name_or_path
-            if candidate.exists():
+        clean_name = str(sound_name_or_path or "").strip()
+        if not clean_name:
+            return {
+                "sound": sound_name_or_path,
+                "resolved_path": None,
+                "exists": False,
+                "played": False,
+                "volume": volume,
+            }
+
+        target_path = Path(clean_name)
+        if not target_path.is_file():
+            candidate = SOUNDS_DIR / clean_name
+            if candidate.is_file():
                 target_path = candidate
             else:
+                target_path = None
                 for ext in [".wav", ".mp3", ".ogg"]:
-                    cand_ext = SOUNDS_DIR / f"{sound_name_or_path}{ext}"
-                    if cand_ext.exists():
+                    cand_ext = SOUNDS_DIR / f"{clean_name}{ext}"
+                    if cand_ext.is_file():
                         target_path = cand_ext
                         break
 
+        is_valid_file = target_path is not None and target_path.is_file()
         played = False
-        if self.audio_manager:
+        if is_valid_file and self.audio_manager:
             self.audio_manager.play_sound(str(target_path), volume=volume)
             played = True
 
         return {
             "sound": sound_name_or_path,
-            "resolved_path": str(target_path) if target_path.exists() else None,
-            "exists": target_path.exists(),
+            "resolved_path": str(target_path) if is_valid_file else None,
+            "exists": is_valid_file,
             "played": played,
             "volume": volume,
         }
@@ -572,27 +602,39 @@ class RPXProAPI:
 
     def play_music(self, music_name_or_path: str, loop: bool = True) -> dict:
         """Spielt Hintergrundmusik ab."""
-        target_path = Path(music_name_or_path)
-        if not target_path.exists():
-            candidate = MUSIC_DIR / music_name_or_path
-            if candidate.exists():
+        clean_name = str(music_name_or_path or "").strip()
+        if not clean_name:
+            return {
+                "track": music_name_or_path,
+                "resolved_path": None,
+                "exists": False,
+                "playing": False,
+                "loop": loop,
+            }
+
+        target_path = Path(clean_name)
+        if not target_path.is_file():
+            candidate = MUSIC_DIR / clean_name
+            if candidate.is_file():
                 target_path = candidate
             else:
+                target_path = None
                 for ext in [".mp3", ".ogg", ".wav"]:
-                    cand_ext = MUSIC_DIR / f"{music_name_or_path}{ext}"
-                    if cand_ext.exists():
+                    cand_ext = MUSIC_DIR / f"{clean_name}{ext}"
+                    if cand_ext.is_file():
                         target_path = cand_ext
                         break
 
+        is_valid_file = target_path is not None and target_path.is_file()
         played = False
-        if self.audio_manager:
+        if is_valid_file and self.audio_manager:
             self.audio_manager.play_music(str(target_path), loop=loop)
             played = True
 
         return {
             "track": music_name_or_path,
-            "resolved_path": str(target_path) if target_path.exists() else None,
-            "exists": target_path.exists(),
+            "resolved_path": str(target_path) if is_valid_file else None,
+            "exists": is_valid_file,
             "playing": played,
             "loop": loop,
         }
@@ -647,6 +689,8 @@ class RPXProAPI:
     # --- Wuerfel ---
 
     def roll_dice(self, count: int = 1, sides: int = 20) -> dict:
+        count = max(1, int(count)) if count is not None else 1
+        sides = max(1, int(sides)) if sides is not None else 20
         if self.dice_roller:
             return self.dice_roller.roll(dice_count=count, dice_sides=sides)
         rolls = [random.randint(1, sides) for _ in range(count)]
