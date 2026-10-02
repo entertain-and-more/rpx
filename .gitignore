@@ -35,6 +35,8 @@ Desktop.ini
 htmlcov/
 TEST.txt
 TESTS.txt
+pytest_out.txt
+pytest*.txt
 
 # User Data (Struktur bleibt, Inhalte sind nutzerspezifisch)
 rpx_pro_data/worlds/*.json
@@ -73,12 +75,15 @@ _WARTUNG/
 .env.*
 !.env.example
 secrets/
+secrets.*
 credentials*.json
 token*.json
 *.key
 *.pem
 *.p12
 *.pfx
+*.cer
+*.crt
 *.db
 *.sqlite
 *.sqlite3
@@ -130,6 +135,8 @@ uv.lock
 * (copy)*
 * (Copy)*
 *conflicted copy*
+*-conflict-*
+*.conflict
 *-WORKSTATION*
 *-WORKSTATION-LG*
 *-LAPTOP*

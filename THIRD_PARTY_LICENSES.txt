@@ -17,77 +17,104 @@ Canonical copyright and attribution declarations are maintained in NOTICE.
 Full MIT license text is provided in LICENSE and in Section 7 below.
 
 
-2. Runtime Architecture & Software Inventory
---------------------------------------------
+2. Runtime Architecture & Software Inventory (Canonical 5-Field Schema)
+---------------------------------------------------------------------
 RPX Pro is a local-first, offline-capable tabletop pen & paper RPG control center
 built with Python 3.10+ and PySide6 (Qt6). It operates with zero automated network
 egress, storing all campaign worlds, maps, audio triggers, character sheets, and
 ruleset templates strictly on the local filesystem in `rpx_pro_data/`.
+All runtime components follow the canonical 5-field schema:
+(Package:, License:, SPDX:, URL:, Notice:).
 
-Component / Runtime: Python Standard Library
-Version / Scope:     3.10+ / Core Runtime
-License:             Python Software Foundation License Version 2 (PSFL-2.0)
-SPDX Identifier:     Python-2.0
-Purpose:             Core application runtime, dataclasses, sqlite3 persistence,
-                     json serialization, urllib/http server for companion, stdio CLI.
+Package: python-stdlib
+License: Python Software Foundation License Version 2 (PSFL-2.0)
+SPDX: Python-2.0
+URL: https://docs.python.org/3/license.html
+Notice: Core runtime modules (dataclasses, sqlite3, json, pathlib, os, sys, re, urllib, http.server, threading) are provided directly by the Python Standard Library. Zero external runtime supply-chain attack surface.
 
-Component / Runtime: PySide6 (Qt6 for Python)
-Version / Scope:     >=6.5.0 / Desktop GUI Framework
-License:             GNU Lesser General Public License Version 3 (LGPL-3.0-only)
-SPDX Identifier:     LGPL-3.0-only
-Purpose:             Desktop UI widgets, multi-monitor display kiosk, Qt Multimedia
-                     audio pipeline, signal/slot event routing.
-Compliance Model:    Dynamic linking via PyPI shared libraries under LGPLv3 Section 4.
-                     Zero Qt source code modifications. MIT core isolation preserved.
+Package: PySide6
+License: GNU Lesser General Public License Version 3 (LGPL-3.0-only)
+SPDX: LGPL-3.0-only
+URL: https://code.qt.io/cgit/pyside/pyside-setup.git/
+Notice: Desktop UI widgets, multi-monitor display kiosk, Qt Multimedia audio pipeline, signal/slot event routing. Dynamic linking via PyPI shared libraries under LGPLv3 Section 4. Zero Qt source code modifications. MIT core isolation preserved.
 
-Component / Runtime: pygame
-Version / Scope:     >=2.5.0 / Optional Audio Fallback
-License:             GNU Lesser General Public License Version 2.1 (LGPL-2.1-or-later)
-SPDX Identifier:     LGPL-2.1-or-later
-Purpose:             Secondary cross-platform sound playback engine when Qt Multimedia
-                     is unavailable on legacy host configurations.
-Compliance Model:    Dynamic linking via PyPI binary wheels. Optional module import.
+Package: pygame
+License: GNU Lesser General Public License Version 2.1 (LGPL-2.1-or-later)
+SPDX: LGPL-2.1-or-later
+URL: https://github.com/pygame/pygame
+Notice: Secondary cross-platform sound playback engine when Qt Multimedia is unavailable on legacy host configurations. Dynamic linking via PyPI binary wheels under LGPLv2.1 Section 6. Optional module import.
 
-Component / Runtime: Web Companion PWA
-Version / Scope:     1.0.0 / Static Client-Side Companion (`web_companion/`)
-License:             MIT License
-SPDX Identifier:     MIT
-Purpose:             Zero-cloud mobile bundle viewer parsing `rpx-campaign-bundle-v1`
-                     ZIP archives in browser with Service Worker offline caching.
-                     Zero runtime npm dependencies or third-party web trackers.
+Package: web-companion
+License: MIT License
+SPDX: MIT
+URL: https://github.com/entertain-and-more/rpx/tree/master/web_companion
+Notice: Static client-side companion (`web_companion/`) parsing rpx-campaign-bundle-v1 ZIP archives in browser with Service Worker offline caching. Zero runtime npm dependencies or third-party web trackers.
 
 
-3. Build, Quality Assurance & Development Dependencies
-------------------------------------------------------
+3. Build, Quality Assurance & Development Dependencies (Canonical 5-Field Schema)
+--------------------------------------------------------------------------------
 The following packages are utilized strictly during build, linting, testing,
 and packaging; they are never distributed as runtime dependencies:
 
-Package:             pytest
-Version / Scope:     >=7.0 / Automated Test Suite
-License:             MIT License
-Purpose:             Unit tests, regression suites, and contract assertion gates.
+Package: pytest
+License: MIT License
+SPDX: MIT
+URL: https://github.com/pytest-dev/pytest
+Notice: Automated testing framework and assertions. Floor hardened to pytest>=9.1.1 to mitigate CVE-2025-7117 / GHSA-6w46-j5rx-g56g. Used exclusively during development and testing; not bundled into runtime deliverables.
 
-Package:             ruff
-Version / Scope:     >=0.4.0 / Python Linter & Formatter
-License:             MIT License OR Apache-2.0
-Purpose:             High-performance static analysis and style rule enforcement.
+Package: pluggy
+License: MIT License
+SPDX: MIT
+URL: https://github.com/pytest-dev/pluggy
+Notice: Plugin management mechanism utilized by pytest for test hook dispatching. Development-only dependency.
 
-Package:             setuptools
-Version / Scope:     >=61.0 / Build Backend
-License:             MIT License
-Purpose:             PEP 517 / PEP 621 compliant package building and metadata.
+Package: iniconfig
+License: MIT License
+SPDX: MIT
+URL: https://github.com/pytest-dev/iniconfig
+Notice: Lightweight INI and configuration file parser utilized by pytest. Development-only dependency.
 
-Package:             PyInstaller
-Version / Scope:     >=5.0 / Desktop Binary Packaging
-License:             GPL-2.0-or-later with PyInstaller Bootloader Exception
-Purpose:             Freezes Python code into stand-alone executables. Output
-                     binaries are covered by the special exception, permitting
-                     permissive distribution without viral copyleft obligations.
+Package: ruff
+License: MIT License OR Apache License 2.0
+SPDX: MIT OR Apache-2.0
+URL: https://github.com/astral-sh/ruff
+Notice: High-performance Python linter and code formatter. Floor hardened to ruff>=0.9.0. Development-only tool.
 
-Package:             PowerShell
-Version / Scope:     >=7.0 / Scripting & Contract Gates
-License:             MIT License
-Purpose:             Automated script verification and cross-platform CI runner.
+Package: pyinstaller
+License: GNU General Public License v2 with Special Exception
+SPDX: GPL-2.0-or-later WITH Bootloader-Exception
+URL: https://github.com/pyinstaller/pyinstaller
+Notice: Desktop binary packaging toolchain. Freezes Python code into stand-alone executables. The PyInstaller Bootloader Exception explicitly permits bundling MIT-licensed applications into standalone executables without viral copyleft obligations. Floor hardened to pyinstaller>=6.10.0.
+
+Package: pyinstaller-hooks-contrib
+License: Apache License 2.0 OR GPL-2.0-or-later
+SPDX: Apache-2.0 OR GPL-2.0-or-later
+URL: https://github.com/pyinstaller/pyinstaller-hooks-contrib
+Notice: Community-maintained hooks for PyInstaller builds. Build-only dependency.
+
+Package: altgraph
+License: MIT License
+SPDX: MIT
+URL: https://github.com/ronaldoussoren/altgraph
+Notice: Graph analysis and dependency resolution library utilized by PyInstaller. Floor hardened to altgraph>=0.17.4. Build-only dependency.
+
+Package: packaging
+License: Apache License 2.0 OR BSD 2-Clause License
+SPDX: Apache-2.0 OR BSD-2-Clause
+URL: https://github.com/pypa/packaging
+Notice: Core utilities for Python package version parsing and PEP specification handling. Floor hardened to packaging>=24.0. Build-only dependency.
+
+Package: setuptools
+License: MIT License
+SPDX: MIT
+URL: https://github.com/pypa/setuptools
+Notice: Standard build system backend specified in pyproject.toml [build-system]. Floor hardened to setuptools>=61.0. Build-only dependency.
+
+Package: PowerShell
+License: MIT License
+SPDX: MIT
+URL: https://github.com/PowerShell/PowerShell
+Notice: Cross-platform command-line shell and scripting language utilized in CI automation workflows.
 
 
 4. Zero-Copyleft Isolation Guarantee & Unprivileged Execution

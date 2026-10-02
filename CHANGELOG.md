@@ -5,6 +5,19 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Security & License Contract Audit - 2026-10-03
+- **Dependency Security Floors & CVE Protection (`pyproject.toml`, `requirements-dev.txt`)**:
+  - Hardened `pytest` version floor to `>=9.1.1` in `pyproject.toml` and new `requirements-dev.txt` to eliminate vulnerability CVE-2025-7117 / GHSA-6w46-j5rx-g56g.
+  - Hardened `[tool.pytest.ini_options]` `minversion` from `7.0` to `9.1.1`.
+  - Added structured `[project.optional-dependencies]` with explicit `dev` (`pytest>=9.1.1`, `ruff>=0.9.0`) and `build` (`pyinstaller>=6.10.0`, `pyinstaller-hooks-contrib>=2024.0`, `altgraph>=0.17.4`, `packaging>=24.0`, `setuptools>=61.0`) toolchain floors.
+  - Added maintainer contact email (`support@lukasgeiger.com`) and direct GitHub `Security Advisories` URL to `pyproject.toml`.
+- **Standardized 5-Field SBOM Software Inventory (`THIRD_PARTY_LICENSES.txt`)**:
+  - Upgraded component and toolchain entries to the standardized 5-field schema (`Package:`, `License:`, `SPDX:`, `URL:`, `Notice:`) covering 14 components (`python-stdlib`, `PySide6`, `pygame`, `web-companion`, `pytest`, `pluggy`, `iniconfig`, `ruff`, `pyinstaller`, `pyinstaller-hooks-contrib`, `altgraph`, `packaging`, `setuptools`, `PowerShell`).
+- **Repository Hygiene & `.gitignore` Hardening**:
+  - Added explicit patterns for secrets and certificates (`secrets.*`, `*.cer`, `*.crt`), test output logs (`pytest_out.txt`, `pytest*.txt`), and multi-device cloud synchronization conflicts (`*.conflict`, `*-conflict-*`).
+- **Automated Security & License Contract Test Suite (`tests/test_security_license_contract.py`)**:
+  - Implemented 8 hermetic automated contract tests verifying dependency vulnerability floors, pytest minversion, 5-field SBOM completeness, bilingual security reporting SLAs, gitignore hygiene, zero hardcoded user paths or plaintext secrets, license parity, and local-first zero-egress invariants (8/8 passed).
+
 ### Bugsweep & Headless API/CLI Resilience Hardening - 2026-10-02
 - **CLI JSON-RPC Request Validation & Thread Stability (`rpx_pro/cli.py`)**:
   - `CLIInterface.execute_command` now strictly validates incoming requests as dictionaries; non-dict payloads (strings, arrays, numbers, null) return clean JSON-RPC errors rather than raising unhandled `AttributeError: 'str' object has no attribute 'get'`.

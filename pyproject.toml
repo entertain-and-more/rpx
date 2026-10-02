@@ -18,6 +18,9 @@ license-files = [
 authors = [
   {name = "Lukas Geiger", email = "lukasgeiger@users.noreply.github.com"}
 ]
+maintainers = [
+  {name = "RPX Pro Support", email = "support@lukasgeiger.com"}
+]
 keywords = [
   "ai-integration",
   "campaign-manager",
@@ -60,6 +63,19 @@ dependencies = [
   "pygame>=2.5.0"
 ]
 
+[project.optional-dependencies]
+dev = [
+  "pytest>=9.1.1",
+  "ruff>=0.9.0"
+]
+build = [
+  "pyinstaller>=6.10.0",
+  "pyinstaller-hooks-contrib>=2024.0",
+  "altgraph>=0.17.4",
+  "packaging>=24.0",
+  "setuptools>=61.0"
+]
+
 [project.urls]
 Homepage = "https://github.com/entertain-and-more/rpx"
 Documentation = "https://github.com/entertain-and-more/rpx#readme"
@@ -67,6 +83,7 @@ Repository = "https://github.com/entertain-and-more/rpx.git"
 Issues = "https://github.com/entertain-and-more/rpx/issues"
 Changelog = "https://github.com/entertain-and-more/rpx/blob/master/CHANGELOG.md"
 Security = "https://github.com/entertain-and-more/rpx/blob/master/SECURITY.md"
+"Security Advisories" = "https://github.com/entertain-and-more/rpx/security/advisories/new"
 Notice = "https://github.com/entertain-and-more/rpx/blob/master/NOTICE"
 "LLM Ready" = "https://raw.githubusercontent.com/entertain-and-more/rpx/master/llms.txt"
 "Marketing Log" = "https://github.com/entertain-and-more/rpx/blob/master/MARKETING-LOG.txt"
@@ -78,7 +95,7 @@ Notice = "https://github.com/entertain-and-more/rpx/blob/master/NOTICE"
 "Umbrella Ecosystem" = "https://github.com/open-bricks"
 
 [tool.pytest.ini_options]
-minversion = "7.0"
+minversion = "9.1.1"
 addopts = "-ra -q --basetemp=.pytest_temp"
 pythonpath = ["."]
 testpaths = ["tests"]
