@@ -82,9 +82,30 @@ jobs:
           app = QApplication([])
           print(f"QApplication platform: {app.platformName()}")
           PY
-      - name: Run Python test suite
+      - name: Diagnose Python test order and Qt abort (Linux)
+        if: runner.os == 'Linux'
         env:
-          QT_DEBUG_PLUGINS: ${{ runner.os == 'Linux' && '1' || '' }}
+          QT_DEBUG_PLUGINS: "1"
+        run: |
+          set +e
+          python -m pytest --collect-only -vv
+          collect_rc=$?
+          echo "pytest collection exit status: $collect_rc"
+          python -m pytest -s tests/test_i18n_ui_integration.py
+          isolated_rc=$?
+          echo "isolated Qt test exit status: $isolated_rc"
+          python -m pytest -s
+          suite_rc=$?
+          echo "full Python suite exit status: $suite_rc"
+          if [ "$collect_rc" -ne 0 ]; then
+            exit "$collect_rc"
+          fi
+          if [ "$isolated_rc" -ne 0 ]; then
+            exit "$isolated_rc"
+          fi
+          exit "$suite_rc"
+      - name: Run Python test suite (non-Linux)
+        if: runner.os != 'Linux'
         run: |
           python -m pytest
 
