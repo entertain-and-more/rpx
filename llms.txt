@@ -1,4 +1,4 @@
-## Last-checked: 2026-09-30
+## Last-checked: 2026-10-04
 
 # rpx
 
@@ -17,7 +17,7 @@ session manager, or an LLM-controllable campaign backend that operates strictly 
 
 - `python RPX_Pro_1.py` — launch the desktop application (or `START.bat` on Windows)
 - `python -m rpx_pro.app --cli` — start in JSON-RPC CLI mode for LLM / autonomous agent control via stdin/stdout
-- `pytest` — run Python unit & contract test suite (78+ passed, 1 skipped | 100% green)
+- `pytest` — run Python unit & contract test suite (98+ passed, 1 skipped | 100% green)
 - `node --test web_companion/tests/*.mjs` — run web companion PWA test suite (17 passed)
 - `python _scripts/verify_release_metadata.py` — verify strict release and privacy metadata contract
 - `cd web_companion && python -m http.server 8765` — serve the PWA companion locally
@@ -69,6 +69,7 @@ open-bricks tabletop roleplaying workstation
 
 ## Important Files
 
+- `CONTRIBUTING.md`: bilingual contributing guidelines with 10 runtime invariants, Plan D workflow, and RunAsInvoker non-elevation
 - `NOTICE`: canonical root copyright and attribution notice for Lukas Geiger, entertain-and-more, and open-bricks
 - `README.md`: full English documentation with 18-point quick navigation (sec-01..sec-18), comparative matrix, and diagrams
 - `README_de.md`: full German documentation with 100% reciprocal anchor and section parity
@@ -81,3 +82,5 @@ open-bricks tabletop roleplaying workstation
 - `EXPORTFORMAT.md`: `rpx-campaign-bundle-v1` bundle specification
 - `CHANGELOG.md`: version history and release logs
 - `SECURITY.md`: vulnerability disclosure policy, 48h SLA, and § 521 BGB statutory notice
+- `.github/dependabot.yml`: automated weekly GitHub Actions dependency updates
+- `.github/workflows/`: CI test matrix, auto-assign, label-sync, stale, and welcome workflows

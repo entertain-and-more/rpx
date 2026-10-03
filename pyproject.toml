@@ -10,6 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
 license-files = [
+  "CONTRIBUTING.md",
   "LICENSE",
   "NOTICE",
   "THIRD_PARTY_LICENSES.md",
@@ -80,6 +81,7 @@ build = [
 Homepage = "https://github.com/entertain-and-more/rpx"
 Documentation = "https://github.com/entertain-and-more/rpx#readme"
 Repository = "https://github.com/entertain-and-more/rpx.git"
+Contributing = "https://github.com/entertain-and-more/rpx/blob/master/CONTRIBUTING.md"
 Issues = "https://github.com/entertain-and-more/rpx/issues"
 Changelog = "https://github.com/entertain-and-more/rpx/blob/master/CHANGELOG.md"
 Security = "https://github.com/entertain-and-more/rpx/blob/master/SECURITY.md"
@@ -99,12 +101,12 @@ minversion = "9.1.1"
 addopts = "-ra -q --basetemp=.pytest_temp"
 pythonpath = ["."]
 testpaths = ["tests"]
-norecursedirs = [".git", ".pytest_cache", ".pytest_temp", ".pytest_tmp*", "__pycache__", "build", "dist", ".venv", ".hypothesis"]
+norecursedirs = [".git", ".pytest_cache", ".pytest_temp", ".pytest_tmp*", "__pycache__", "build", "dist", ".venv", ".hypothesis", ".nyc_output", ".tox", ".turbo"]
 
 [tool.ruff]
 line-length = 100
 target-version = "py310"
-exclude = [".git", ".pytest_cache", ".pytest_temp", ".pytest_tmp*", "__pycache__", "build", "dist", ".venv"]
+exclude = [".git", ".pytest_cache", ".pytest_temp", ".pytest_tmp*", "__pycache__", "build", "dist", ".venv", ".nyc_output", ".tox", ".turbo"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "B", "SIM", "C4"]

@@ -1,8 +1,9 @@
 # Third-Party Licenses & Transparency Notice (Level 1 SBOM)
 
 > **Project:** `entertain-and-more/rpx` (RPX Pro — RolePlay Xtreme Professional Edition)<br>
-> **Audited:** 2026-09-30<br>
+> **Audited:** 2026-10-04<br>
 > **Repository License:** [MIT License](LICENSE)<br>
+> **Contributing Guidelines:** [CONTRIBUTING.md](CONTRIBUTING.md)<br>
 > **Canonical Notice:** [NOTICE](NOTICE)<br>
 > **Plain-Text Companion:** [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt)<br>
 > **Architecture & Privacy:** 100% Local-First, Zero-Egress by default, Unprivileged User-Mode (`RunAsInvoker`)

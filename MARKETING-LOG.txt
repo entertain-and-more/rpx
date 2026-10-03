@@ -7,7 +7,7 @@
 - **Current Version**: `1.0.0` (App) / `1.0.0.0` (Store Package)
 - **License**: MIT
 - **Architecture**: Local-First PySide6 Desktop Application with zero network egress, headless JSON-RPC CLI API, and offline PWA Companion
-- **Last Updated**: 2026-09-30 (Pfad B — ASCII 4-View Topology Projection, Level 1 SBOM Plain-Text Companion & Invariant Verification)
+- **Last Updated**: 2026-10-04 (Pfad A — Repository-Hygiene, bilingual CONTRIBUTING.md, CI Lifecycle Workflows, Lock Defense & Contract Test Expansion)
 
 ---
 
@@ -173,3 +173,24 @@ Comprehensive SPDX license audit completed in `THIRD_PARTY_LICENSES.md` on 2026-
 - **Documentation Badges & Contract Tests**:
   - Synchronized Shields.io badges in `README.md` and `README_de.md` (`Verified-2026--09--30`, `Level 1 SBOM: Plain Text`).
   - Added 4 new contract tests to `tests/test_metadata_contract.py` validating ASCII 4-view topology projection, plain-text Level 1 SBOM invariant matrix and license texts, extended project URLs, and recency verification (all 82 tests passing, 100% green).
+
+---
+
+## 9. Repository Hygiene & CI Lifecycle Hardening (Pfad A) — 2026-10-04
+- **Bilingual Contributing Guidelines & 10 Runtime Invariants**:
+  - Authored full bilingual (EN/DE) `CONTRIBUTING.md` guidelines incorporating all 10 governance and runtime invariants (`INV-LOCAL-01` to `INV-SLA-10`), unprivileged user-mode `RunAsInvoker` non-elevation mode (`INV-USER-02`), Plan D local development workflow (`C:\_Local_DEV\repos\rpx`), § 521 BGB statutory limitation of liability, and binding 48h Security Response SLA (`security@open-bricks.org`, `security@ellmos.ai`, `support@lukasgeiger.com`).
+- **CI Lifecycle Automation Workflows & Dependabot Guard**:
+  - Provisioned `.github/dependabot.yml` for automated weekly maintenance of GitHub Actions dependencies (Monday 06:00 Berlin time, limit 3 open PRs).
+  - Provisioned `.github/workflows/auto-assign.yml` with concurrency and 5m timeout controls.
+  - Provisioned `.github/workflows/label-sync.yml` and canonical `.github/labels.yml` with the 11 standard governance labels.
+- **Multi-Host Cloud-Sync, Lock & Desktop Defense**:
+  - Hardened `.gitignore` against Windows OS artifacts (`desktop.ini`, `ehthumbs.db`, `thumbs.db`), agent coordination artifacts (`TASKPLAN_*.md`, `*-TASKPLAN*`), multi-host conflict patterns (`*-IDEAPAD*`, `*-IDEAPAD-GEI*`, `*-IDEAPAD-GEI.*`), and canonical lock prefixes (`LOCK.dev.*`, `LOCK.antigravity.*`, `LOCK.bugsearch.*`).
+- **PEP 621 Metadata Standardization & License Whitelist**:
+  - Whitelisted `CONTRIBUTING.md` in `license-files` within `pyproject.toml`.
+  - Added canonical `Contributing` URL under `[project.urls]`.
+  - Hardened pytest `norecursedirs` and ruff `exclude` with `.nyc_output`, `.tox`, `.turbo`.
+  - Retained application version `1.0.0` strictly frozen per release discipline `T-20260920-167562623`.
+- **Level 1 SBOM Re-Audit Stand 2026-10-04**:
+  - Re-audited Level 1 SBOM Stand 2026-10-04 in `THIRD_PARTY_LICENSES.txt` and `THIRD_PARTY_LICENSES.md` with explicit reciprocal cross-reference to `CONTRIBUTING.md`.
+- **Contract Test Suite Expansion**:
+  - Expanded `tests/test_metadata_contract.py` with contract tests verifying bilingual `CONTRIBUTING.md` parity, 10 invariants, CI lifecycle workflows, PEP 621 Contributing metadata, Level 1 SBOM recency, and multi-host lock defenses.

@@ -45,6 +45,36 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("concurrency:", content)
         self.assertIn("cancel-in-progress: true", content)
 
+    def test_ci_lifecycle_and_dependabot_workflows(self):
+        dependabot = ROOT / ".github" / "dependabot.yml"
+        self.assertTrue(dependabot.exists(), ".github/dependabot.yml must exist")
+        dep_content = dependabot.read_text(encoding="utf-8")
+        self.assertIn("package-ecosystem: \"github-actions\"", dep_content)
+        self.assertIn("interval: \"weekly\"", dep_content)
+        self.assertIn("timezone: \"Europe/Berlin\"", dep_content)
+        self.assertIn("open-pull-requests-limit: 3", dep_content)
+
+        auto_assign = ROOT / ".github" / "workflows" / "auto-assign.yml"
+        self.assertTrue(auto_assign.exists(), "auto-assign.yml must exist")
+        aa_content = auto_assign.read_text(encoding="utf-8")
+        self.assertIn("actions/github-script@v7", aa_content)
+        self.assertIn("timeout-minutes: 5", aa_content)
+        self.assertIn("cancel-in-progress: true", aa_content)
+
+        label_sync = ROOT / ".github" / "workflows" / "label-sync.yml"
+        self.assertTrue(label_sync.exists(), "label-sync.yml must exist")
+        ls_content = label_sync.read_text(encoding="utf-8")
+        self.assertIn("EndBug/label-sync@v2", ls_content)
+        self.assertIn("config-file: .github/labels.yml", ls_content)
+        self.assertIn("timeout-minutes: 5", ls_content)
+
+        labels_yml = ROOT / ".github" / "labels.yml"
+        self.assertTrue(labels_yml.exists(), ".github/labels.yml must exist")
+        labels_content = labels_yml.read_text(encoding="utf-8")
+        self.assertIn("name: bug", labels_content)
+        self.assertIn("name: enhancement", labels_content)
+        self.assertIn("name: documentation", labels_content)
+
     def test_pyproject_pep621_compliance(self):
         pyproject_path = ROOT / "pyproject.toml"
         self.assertTrue(pyproject_path.exists(), "pyproject.toml must exist")
@@ -58,7 +88,7 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("license-files", project)
         self.assertEqual(
             project["license-files"],
-            ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md", "THIRD_PARTY_LICENSES.txt"],
+            ["CONTRIBUTING.md", "LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md", "THIRD_PARTY_LICENSES.txt"],
         )
         self.assertEqual(len(project.get("keywords", [])), 20)
 
@@ -70,6 +100,7 @@ class RepositoryContractTests(unittest.TestCase):
             "Homepage",
             "Documentation",
             "Repository",
+            "Contributing",
             "Issues",
             "Changelog",
             "Security",
@@ -95,6 +126,9 @@ class RepositoryContractTests(unittest.TestCase):
 
         pytest_config = data.get("tool", {}).get("pytest", {}).get("ini_options", {})
         self.assertIn("norecursedirs", pytest_config)
+        self.assertIn(".nyc_output", pytest_config.get("norecursedirs", []))
+        self.assertIn(".tox", pytest_config.get("norecursedirs", []))
+        self.assertIn(".turbo", pytest_config.get("norecursedirs", []))
         self.assertIn("--basetemp=.pytest_temp", pytest_config.get("addopts", ""))
 
     def test_gitignore_cloud_sync_and_lock_defense(self):
@@ -111,6 +145,9 @@ class RepositoryContractTests(unittest.TestCase):
             "*-LAPTOP*",
             "*-ASUS*",
             "*-ASUS-GEI*",
+            "*-IDEAPAD*",
+            "*-IDEAPAD-GEI*",
+            "*-IDEAPAD-GEI.*",
             "*-Mac Studio*",
             "*-MacBook*",
             "LOCK",
@@ -118,10 +155,18 @@ class RepositoryContractTests(unittest.TestCase):
             "LOCK.user.*",
             "LOCK.until.*",
             "LOCK.condition.*",
+            "LOCK.dev.*",
+            "LOCK.antigravity.*",
+            "LOCK.bugsearch.*",
             "LOCK.permissions.json",
             "uv.lock",
             "!package-lock.json",
             ".automation-lock",
+            "TASKPLAN_*.md",
+            "*-TASKPLAN*",
+            "ehthumbs.db",
+            "desktop.ini",
+            "thumbs.db",
         ]
         for pattern in expected_patterns:
             self.assertIn(pattern, content, f".gitignore missing pattern: {pattern}")
@@ -214,21 +259,55 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("THIRD_PARTY_LICENSES.md", content_txt)
         self.assertIn("PySide6", content_txt)
 
+    def test_contributing_bilingual_parity_and_invariants(self):
+        contrib_path = ROOT / "CONTRIBUTING.md"
+        self.assertTrue(contrib_path.exists(), "CONTRIBUTING.md must exist")
+        content = contrib_path.read_text(encoding="utf-8")
+
+        self.assertIn("# Contributing to RPX Pro", content)
+        self.assertIn("[English](#english)", content)
+        self.assertIn("[Deutsch](#deutsch)", content)
+
+        invariants = [
+            "INV-LOCAL-01",
+            "INV-USER-02",
+            "INV-DUAL-03",
+            "INV-RPC-04",
+            "INV-BUNDLE-05",
+            "INV-PWA-06",
+            "INV-COPYLEFT-07",
+            "INV-LLM-08",
+            "INV-ECO-09",
+            "INV-SLA-10",
+        ]
+        for inv in invariants:
+            self.assertIn(inv, content, f"CONTRIBUTING.md missing invariant {inv}")
+
+        self.assertIn("RunAsInvoker", content)
+        self.assertIn("Plan D", content)
+        self.assertIn("521", content)
+        self.assertIn("48h", content)
+        self.assertIn("T-20260920-167562623", content)
+        self.assertIn("1.0.0", content)
+
     def test_llms_txt_structure_and_parity(self):
         llms_path = ROOT / "llms.txt"
         self.assertTrue(llms_path.exists(), "llms.txt must exist")
         content = llms_path.read_text(encoding="utf-8")
 
-        self.assertTrue(content.startswith("## Last-checked: 2026-09-30"), "llms.txt must have current date")
+        self.assertTrue(content.startswith("## Last-checked: 2026-10-04"), "llms.txt must have current date")
         self.assertIn("[PERSONA-01]", content)
         self.assertIn("INV-LOCAL-01", content)
+        self.assertIn("CONTRIBUTING.md", content)
         self.assertIn("THIRD_PARTY_LICENSES.md", content)
         self.assertIn("THIRD_PARTY_LICENSES.txt", content)
         self.assertIn("NOTICE", content)
 
-    def test_changelog_recent_pfad_b_entry(self):
+    def test_changelog_recent_pfad_a_and_b_entries(self):
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         self.assertIn("## [Unreleased]", changelog)
+        self.assertIn("Pfad A", changelog)
+        self.assertIn("2026-10-04", changelog)
         self.assertIn("Pfad B", changelog)
         self.assertIn("2026-09-30", changelog)
 
@@ -247,7 +326,8 @@ class RepositoryContractTests(unittest.TestCase):
         licenses_md = ROOT / "THIRD_PARTY_LICENSES.md"
         content_md = licenses_md.read_text(encoding="utf-8")
         self.assertIn("Audited", content_md)
-        self.assertIn("2026-09-30", content_md)
+        self.assertIn("2026-10-04", content_md)
+        self.assertIn("CONTRIBUTING.md", content_md)
         self.assertIn("Canonical Notice", content_md)
         self.assertIn("[NOTICE](NOTICE)", content_md)
         self.assertIn("THIRD_PARTY_LICENSES.txt", content_md)
@@ -309,6 +389,8 @@ class RepositoryContractTests(unittest.TestCase):
         for inv in invariants:
             self.assertIn(inv, content, f"THIRD_PARTY_LICENSES.txt missing {inv}")
 
+        self.assertIn("2026-10-04", content)
+        self.assertIn("CONTRIBUTING.md", content)
         self.assertIn("RunAsInvoker", content)
         self.assertIn("Zero-Copyleft", content)
         self.assertIn("521", content)
@@ -318,8 +400,10 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("LGPL-3.0", content)
         self.assertIn("LGPL-2.1", content)
 
-    def test_marketing_log_recency_and_pfad_b(self):
+    def test_marketing_log_recency_and_pfad_a(self):
         marketing_log = (ROOT / "MARKETING-LOG.txt").read_text(encoding="utf-8")
+        self.assertIn("2026-10-04", marketing_log)
+        self.assertIn("Pfad A", marketing_log)
         self.assertIn("2026-09-30", marketing_log)
         self.assertIn("Pfad B", marketing_log)
         self.assertIn("ASCII Four-View Architectural Topology Projection", marketing_log)

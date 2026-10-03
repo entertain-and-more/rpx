@@ -19,7 +19,10 @@ venv/
 
 # OS
 Thumbs.db
+thumbs.db
 Desktop.ini
+desktop.ini
+ehthumbs.db
 .DS_Store
 
 # Logs
@@ -123,11 +126,16 @@ LOCK.*
 LOCK.user.*
 LOCK.until.*
 LOCK.condition.*
+LOCK.dev.*
+LOCK.antigravity.*
+LOCK.bugsearch.*
 LOCK.permissions.json
 *.lock
 uv.lock
 !package-lock.json
 .automation-lock
+TASKPLAN_*.md
+*-TASKPLAN*
 
 # Multi-Host Synchronisations-Konflikte
 * (kopie)*
@@ -142,6 +150,9 @@ uv.lock
 *-LAPTOP*
 *-ASUS*
 *-ASUS-GEI*
+*-IDEAPAD*
+*-IDEAPAD-GEI*
+*-IDEAPAD-GEI.*
 *-Mac Studio*
 *-MacBook*
 *.orig

@@ -2,19 +2,21 @@
 # Level 1 SBOM & Third-Party Software Inventory (Plain-Text Companion)
 # =============================================================================
 # Project: RPX Pro (RolePlay Xtreme Professional Edition)
-# Audited: 2026-09-30 against Level 1 SBOM and runtime invariants
+# Audited: 2026-10-04 against Level 1 SBOM and runtime invariants
 # License: MIT License (see LICENSE and NOTICE)
+# Contributing Guidelines: CONTRIBUTING.md (see Section 1 and CONTRIBUTING.md)
 # Repository: https://github.com/entertain-and-more/rpx
 # Ecosystem: entertain-and-more (https://github.com/entertain-and-more)
 # Umbrella Collective: open-bricks (https://github.com/open-bricks)
 # Markdown Companion: THIRD_PARTY_LICENSES.md
 # =============================================================================
 
-1. Project License
-------------------
+1. Project License & Development Governance
+--------------------------------------------
 RPX Pro is free and open-source software licensed under the MIT License.
 Canonical copyright and attribution declarations are maintained in NOTICE.
 Full MIT license text is provided in LICENSE and in Section 7 below.
+Bilingual contributor guidelines and invariants are defined in CONTRIBUTING.md.
 
 
 2. Runtime Architecture & Software Inventory (Canonical 5-Field Schema)

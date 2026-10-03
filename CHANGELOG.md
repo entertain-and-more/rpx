@@ -5,6 +5,25 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Repository Hygiene, CI Matrix Hardening & Invariant Governance (Pfad A) - 2026-10-04
+- **Bilingual Contributing Guidelines & Invariants (`CONTRIBUTING.md`)**:
+  - Implemented comprehensive bilingual (EN/DE) contributor guidelines specifying all 10 governance and runtime invariants (`INV-LOCAL-01` through `INV-SLA-10`), unprivileged user-mode `RunAsInvoker` non-elevation mode (`INV-USER-02`), Plan D local development workflow (`C:\_Local_DEV\repos\rpx`), § 521 BGB Gefälligkeitsrecht statutory limitation of liability, and binding 48h Security Response SLA (`security@open-bricks.org`, `security@ellmos.ai`, `support@lukasgeiger.com`).
+- **CI Lifecycle Automation Workflows & Dependabot Guard**:
+  - Provisioned `.github/dependabot.yml` for automated weekly updates of `github-actions` (Monday 06:00 Europe/Berlin, limit 3 open PRs).
+  - Provisioned `.github/workflows/auto-assign.yml` with concurrency and 5m timeout controls.
+  - Provisioned `.github/workflows/label-sync.yml` and canonical `.github/labels.yml` with standard 11 governance labels.
+- **Multi-Host Cloud-Sync, Lock & Desktop Defense (`.gitignore`)**:
+  - Hardened `.gitignore` against Windows OS artifacts (`desktop.ini`, `ehthumbs.db`, `thumbs.db`), agent coordination artifacts (`TASKPLAN_*.md`, `*-TASKPLAN*`), multi-host conflict patterns (`*-IDEAPAD*`, `*-IDEAPAD-GEI*`, `*-IDEAPAD-GEI.*`), and canonical lock prefixes (`LOCK.dev.*`, `LOCK.antigravity.*`, `LOCK.bugsearch.*`).
+- **PEP 621 Metadata Standardization & License Whitelist (`pyproject.toml`)**:
+  - Whitelisted `CONTRIBUTING.md` in `license-files`.
+  - Added canonical `Contributing` URL under `[project.urls]`.
+  - Hardened pytest `norecursedirs` and ruff `exclude` with `.nyc_output`, `.tox`, `.turbo`.
+  - Retained application version `1.0.0` strictly frozen per release discipline `T-20260920-167562623`.
+- **Level 1 SBOM Re-Audit Stand 2026-10-04 (`THIRD_PARTY_LICENSES.txt`, `THIRD_PARTY_LICENSES.md`)**:
+  - Re-audited Level 1 SBOM Stand 2026-10-04 with cross-reference to `CONTRIBUTING.md`, confirming 10 runtime invariants, zero-copyleft guarantee, and unprivileged execution.
+- **Contract Test Suite Expansion (`tests/test_metadata_contract.py`)**:
+  - Expanded automated contract test suite with tests validating bilingual `CONTRIBUTING.md` parity and invariants, CI lifecycle workflows, PEP 621 Contributing metadata, Level 1 SBOM recency, and multi-host lock defenses.
+
 ### Security & License Contract Audit - 2026-10-03
 - **Dependency Security Floors & CVE Protection (`pyproject.toml`, `requirements-dev.txt`)**:
   - Hardened `pytest` version floor to `>=9.1.1` in `pyproject.toml` and new `requirements-dev.txt` to eliminate vulnerability CVE-2025-7117 / GHSA-6w46-j5rx-g56g.
