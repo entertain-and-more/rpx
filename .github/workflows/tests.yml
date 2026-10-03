@@ -63,49 +63,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt pytest
-      - name: Diagnose headless Qt plugins (Linux)
-        if: runner.os == 'Linux'
-        env:
-          QT_DEBUG_PLUGINS: "1"
-        run: |
-          python - <<'PY'
-          import os
-          import PySide6
-          from PySide6.QtCore import QLibraryInfo, qVersion
-          from PySide6.QtWidgets import QApplication
-
-          print(f"PySide6 version: {PySide6.__version__}")
-          print(f"Qt version: {qVersion()}")
-          print(f"Qt plugins path: {QLibraryInfo.path(QLibraryInfo.LibraryPath.PluginsPath)}")
-          for name in ("QT_QPA_PLATFORM", "QT_PLUGIN_PATH", "QT_QPA_PLATFORM_PLUGIN_PATH"):
-              print(f"{name}: {os.environ.get(name)!r}")
-          app = QApplication([])
-          print(f"QApplication platform: {app.platformName()}")
-          PY
-      - name: Diagnose Python test order and Qt abort (Linux)
-        if: runner.os == 'Linux'
-        env:
-          QT_DEBUG_PLUGINS: "1"
-        run: |
-          set +e
-          python -m pytest --collect-only -vv
-          collect_rc=$?
-          echo "pytest collection exit status: $collect_rc"
-          python -m pytest -s tests/test_i18n_ui_integration.py
-          isolated_rc=$?
-          echo "isolated Qt test exit status: $isolated_rc"
-          python -m pytest -s
-          suite_rc=$?
-          echo "full Python suite exit status: $suite_rc"
-          if [ "$collect_rc" -ne 0 ]; then
-            exit "$collect_rc"
-          fi
-          if [ "$isolated_rc" -ne 0 ]; then
-            exit "$isolated_rc"
-          fi
-          exit "$suite_rc"
-      - name: Run Python test suite (non-Linux)
-        if: runner.os != 'Linux'
+      - name: Run Python test suite
         run: |
           python -m pytest
 
