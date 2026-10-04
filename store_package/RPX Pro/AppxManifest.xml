@@ -7,34 +7,36 @@
   <!-- Release status: Unreleased; application version 1.0.0; privacy: https://github.com/entertain-and-more/rpx/blob/master/PRIVACY_POLICY.md -->
   <Identity Name="Geiger.RPXPro"
             Publisher="CN=52596601-BAB4-4F3F-B182-E8F3F273B202"
-            Version="1.0.0.0" />
+            Version="1.0.0.0"
+            ProcessorArchitecture="x64" />
 
   <Properties>
     <DisplayName>RPX Pro</DisplayName>
     <PublisherDisplayName>Geiger</PublisherDisplayName>
     <Description>Professionelles Rollenspiel-Kontrollzentrum fuer Pen-and-Paper (D&amp;D, DSA). Welten-System, Soundboard, Lichteffekte, Kampfsystem, 2. Monitor.</Description>
-    <Logo>icons\icon_50x50.png</Logo>
+    <Logo>icons\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
   </Dependencies>
 
   <Capabilities>
     <Capability Name="internetClient"/>
-
+    <rescap:Capability Name="runFullTrust"/>
   </Capabilities>
 
   <Applications>
     <Application Id="RPXProApp"
-                 Executable="dist/RPX_Pro/RPX_Pro.exe"
+                 Executable="RPXPro.exe"
                  EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements DisplayName="RPX Pro"
                           Description="Professionelles Rollenspiel-Kontrollzentrum fuer Pen-and-Paper (D&amp;D, DSA). Welten-System, Soundboard, Lichteffekte, Kampfsystem, 2. Monitor."
-                          Square150x150Logo="icons\icon_150x150.png"
-                          Square44x44Logo="icons\icon_44x44.png"
+                          Square150x150Logo="icons\Square150x150Logo.png"
+                          Square44x44Logo="icons\Square44x44Logo.png"
                           BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="icons\icon_310x150.png" />
+        <uap:DefaultTile Wide310x150Logo="icons\Wide310x150Logo.png"
+                         Square310x310Logo="icons\Square310x310Logo.png" />
       </uap:VisualElements>
     </Application>
   </Applications>

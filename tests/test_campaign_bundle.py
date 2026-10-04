@@ -17,7 +17,7 @@ from rpx_pro.models.world import Location
 class CampaignBundleExportTests(unittest.TestCase):
     def setUp(self):
         self.tmpdir = tempfile.TemporaryDirectory()
-        base = Path(self.tmpdir.name)
+        base = Path(self.tmpdir.name).resolve()
         self.project_root = base / "rpx_pro_data"
         self.media_dir = self.project_root / "media"
         self.worlds_dir = self.project_root / "worlds"

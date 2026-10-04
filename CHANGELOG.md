@@ -12,6 +12,110 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 - **Contract Test Verification**:
   - Added `test_gitignore_internal_file_hygiene` to `tests/test_metadata_contract.py` enforcing `.gitignore` coverage for internal management artifacts.
 
+### Repository Hygiene, CI Matrix Hardening & Invariant Governance (Pfad A) - 2026-10-04
+- **Bilingual Contributing Guidelines & Invariants (`CONTRIBUTING.md`)**:
+  - Implemented comprehensive bilingual (EN/DE) contributor guidelines specifying all 10 governance and runtime invariants (`INV-LOCAL-01` through `INV-SLA-10`), unprivileged user-mode `RunAsInvoker` non-elevation mode (`INV-USER-02`), Plan D local development workflow (`C:\_Local_DEV\repos\rpx`), § 521 BGB Gefälligkeitsrecht statutory limitation of liability, and binding 48h Security Response SLA (`security@open-bricks.org`, `security@ellmos.ai`, `support@lukasgeiger.com`).
+- **CI Lifecycle Automation Workflows & Dependabot Guard**:
+  - Provisioned `.github/dependabot.yml` for automated weekly updates of `github-actions` (Monday 06:00 Europe/Berlin, limit 3 open PRs).
+  - Provisioned `.github/workflows/auto-assign.yml` with concurrency and 5m timeout controls.
+  - Provisioned `.github/workflows/label-sync.yml` and canonical `.github/labels.yml` with standard 11 governance labels.
+- **Multi-Host Cloud-Sync, Lock & Desktop Defense (`.gitignore`)**:
+  - Hardened `.gitignore` against Windows OS artifacts (`desktop.ini`, `ehthumbs.db`, `thumbs.db`), agent coordination artifacts (`TASKPLAN_*.md`, `*-TASKPLAN*`), multi-host conflict patterns (`*-IDEAPAD*`, `*-IDEAPAD-GEI*`, `*-IDEAPAD-GEI.*`), and canonical lock prefixes (`LOCK.dev.*`, `LOCK.antigravity.*`, `LOCK.bugsearch.*`).
+- **PEP 621 Metadata Standardization & License Whitelist (`pyproject.toml`)**:
+  - Whitelisted `CONTRIBUTING.md` in `license-files`.
+  - Added canonical `Contributing` URL under `[project.urls]`.
+  - Hardened pytest `norecursedirs` and ruff `exclude` with `.nyc_output`, `.tox`, `.turbo`.
+  - Retained application version `1.0.0` strictly frozen per release discipline `T-20260920-167562623`.
+- **Level 1 SBOM Re-Audit Stand 2026-10-04 (`THIRD_PARTY_LICENSES.txt`, `THIRD_PARTY_LICENSES.md`)**:
+  - Re-audited Level 1 SBOM Stand 2026-10-04 with cross-reference to `CONTRIBUTING.md`, confirming 10 runtime invariants, zero-copyleft guarantee, and unprivileged execution.
+- **Contract Test Suite Expansion (`tests/test_metadata_contract.py`)**:
+  - Expanded automated contract test suite with tests validating bilingual `CONTRIBUTING.md` parity and invariants, CI lifecycle workflows, PEP 621 Contributing metadata, Level 1 SBOM recency, and multi-host lock defenses.
+
+### Security & License Contract Audit - 2026-10-03
+- **Dependency Security Floors & CVE Protection (`pyproject.toml`, `requirements-dev.txt`)**:
+  - Hardened `pytest` version floor to `>=9.1.1` in `pyproject.toml` and new `requirements-dev.txt` to eliminate vulnerability CVE-2025-7117 / GHSA-6w46-j5rx-g56g.
+  - Hardened `[tool.pytest.ini_options]` `minversion` from `7.0` to `9.1.1`.
+  - Added structured `[project.optional-dependencies]` with explicit `dev` (`pytest>=9.1.1`, `ruff>=0.9.0`) and `build` (`pyinstaller>=6.10.0`, `pyinstaller-hooks-contrib>=2024.0`, `altgraph>=0.17.4`, `packaging>=24.0`, `setuptools>=61.0`) toolchain floors.
+  - Added maintainer contact email (`support@lukasgeiger.com`) and direct GitHub `Security Advisories` URL to `pyproject.toml`.
+- **Standardized 5-Field SBOM Software Inventory (`THIRD_PARTY_LICENSES.txt`)**:
+  - Upgraded component and toolchain entries to the standardized 5-field schema (`Package:`, `License:`, `SPDX:`, `URL:`, `Notice:`) covering 14 components (`python-stdlib`, `PySide6`, `pygame`, `web-companion`, `pytest`, `pluggy`, `iniconfig`, `ruff`, `pyinstaller`, `pyinstaller-hooks-contrib`, `altgraph`, `packaging`, `setuptools`, `PowerShell`).
+- **Repository Hygiene & `.gitignore` Hardening**:
+  - Added explicit patterns for secrets and certificates (`secrets.*`, `*.cer`, `*.crt`), test output logs (`pytest_out.txt`, `pytest*.txt`), and multi-device cloud synchronization conflicts (`*.conflict`, `*-conflict-*`).
+- **Automated Security & License Contract Test Suite (`tests/test_security_license_contract.py`)**:
+  - Implemented 8 hermetic automated contract tests verifying dependency vulnerability floors, pytest minversion, 5-field SBOM completeness, bilingual security reporting SLAs, gitignore hygiene, zero hardcoded user paths or plaintext secrets, license parity, and local-first zero-egress invariants (8/8 passed).
+
+### Bugsweep & Headless API/CLI Resilience Hardening - 2026-10-02
+- **CLI JSON-RPC Request Validation & Thread Stability (`rpx_pro/cli.py`)**:
+  - `CLIInterface.execute_command` now strictly validates incoming requests as dictionaries; non-dict payloads (strings, arrays, numbers, null) return clean JSON-RPC errors rather than raising unhandled `AttributeError: 'str' object has no attribute 'get'`.
+  - In `CLIWorker._read_loop`, non-dict JSON lines are caught and reported without breaking out of the loop, preventing permanent termination of the background stdin listener thread.
+  - Hardened `_dispatch` against `params: null` (None) and added support for JSON-RPC 2.0 array/positional parameters (`*params`), preventing `TypeError: argument after ** must be a mapping`. Zero-argument method wrappers (`list_worlds`, `list_locations`, `list_sessions`, etc.) now safely accept both positional and keyword arguments.
+  - Headless CLI `--command` argument parser now strips surrounding shell quotes cleanly.
+- **Character & Inventory Data Integrity (`rpx_pro/api.py`)**:
+  - In `damage_character`, negative amounts (`amount < 0`) are defensively rejected with an error, preventing uncapped healing exploits where character HP could exceed `max_health`.
+  - In `heal_character`, negative amounts (`amount < 0`) are defensively rejected, preventing unintended HP reductions.
+  - In `give_item`, removing items (`count < 0`) is clamped so inventory counts cannot become negative, and items reaching count 0 are cleanly purged from the character's inventory dictionary.
+- **Combat Logic & Skill Definition Resilience (`rpx_pro/api.py`)**:
+  - In `execute_attack`, defeated characters (`health <= 0`) are guarded: dead attackers cannot execute attacks, and dead defenders cannot be repeatedly targeted.
+  - In `execute_attack`, skill bonus evaluation defensively verifies `isinstance(skill_def, dict)` and `isinstance(affects, (dict, list, set, tuple))`, preventing unhandled `AttributeError` crashes when worlds contain non-dict skill definitions.
+- **Audio & Dice Fallback Resilience (`rpx_pro/api.py`)**:
+  - In `play_sound` and `play_music`, empty or whitespace paths are rejected immediately, and target path resolution enforces `.is_file()`, preventing empty string inputs from resolving to the parent directory (`SOUNDS_DIR` / `MUSIC_DIR`) and attempting directory audio playback.
+  - In `roll_dice`, fallback execution when `dice_roller` is `None` enforces `count = max(1, int(count))` and `sides = max(1, int(sides))`, preventing unhandled `ValueError` crashes on zero or negative dice sides.
+- **Automated Regression Test Suite**:
+  - Added 9 hermetic regression tests in `tests/test_bugsweep_api_and_cli_resilience_20261002.py` (all 9 passed; full suite 90 passed, 1 skipped).
+
+### Discoverability, ASCII 4-View Topology Projection & Plain-Text Level 1 SBOM Companion (Pfad B) - 2026-09-30
+- **ASCII Four-View Architectural Topology Projection**:
+  - Implemented comprehensive bilingual ASCII Four-View Topology projection in Section 6 of `README.md` and `README_de.md` (`VIEW 1: CLIENT RUNTIMES, USER INTERFACES & AUTOMATION ENTRY POINTS`, `VIEW 2: RPX PRO SOVEREIGN CORE ENGINE & ORCHESTRATION PIPELINE`, `VIEW 3: RUNTIME PERSISTENCE, CAMPAIGN BUNDLES & LOCAL VAULT`, `VIEW 4: AIR-GAP DEFENSE PERIMETER, RUNASINVOKER & GOVERNANCE`; German `SICHT 1..SICHT 4`).
+- **Plain-Text Level 1 SBOM Companion (`THIRD_PARTY_LICENSES.txt`)**:
+  - Completely expanded canonical plain-text companion file with comprehensive dependency catalog, Level 1 SBOM Invariant Cross-Reference Matrix mapping all 10 governance and runtime invariants (`INV-LOCAL-01` through `INV-SLA-10`, all VERIFIED), unprivileged `RunAsInvoker` non-elevation certification, Zero-Copyleft isolation guarantee, full license texts (MIT, LGPL-3.0 dynamic linking terms, LGPL-2.1 dynamic linking terms, PSFL-2.0, Apache-2.0, BSD-3-Clause), statutory disclaimer (§ 521 BGB Gefälligkeitsrecht), and binding 48h Security Response SLA.
+- **Level 1 SBOM in `THIRD_PARTY_LICENSES.md` & Canonical `NOTICE`**:
+  - Re-audited `THIRD_PARTY_LICENSES.md` Stand 2026-09-30 with formal reciprocal linkage to `THIRD_PARTY_LICENSES.txt`.
+  - Updated `NOTICE` to explicitly cite `THIRD_PARTY_LICENSES.txt`.
+- **PEP 621 Metadata Expansion (`pyproject.toml`)**:
+  - Added `Level 1 SBOM`, `Plain-Text License`, and `Third-Party Licenses (Text)` to `[project.urls]`.
+  - Added `--basetemp=.pytest_temp` to pytest `addopts` for isolated build runs.
+  - Retained version `1.0.0` frozen per release discipline T-20260920-167562623.
+- **Context Index & Marketing Log (`llms.txt`, `MARKETING-LOG.txt`)**:
+  - Updated `llms.txt` header to `## Last-checked: 2026-09-30` with Level 1 SBOM companion references.
+  - Appended Section 8 audit log in `MARKETING-LOG.txt` Stand 2026-09-30.
+- **Documentation Badges & Contract Tests**:
+  - Synchronized Shields.io badges in `README.md` and `README_de.md` (`Verified-2026--09--30`, `Level 1 SBOM: Plain Text`).
+  - Added 4 new contract tests to `tests/test_metadata_contract.py` validating ASCII 4-view topology projection, plain-text Level 1 SBOM invariant matrix and license texts, extended project URLs, and recency verification (all 82 tests passing, 100% green).
+
+### Windows Store Readiness & Packaging Staging - 2026-09-29
+- **Packaging Manifest & Desktop Bridge Hardening**:
+  - Enhanced `store_package/RPX Pro/AppxManifest.xml` with `ProcessorArchitecture="x64"`, `TargetDeviceFamily Windows.Desktop` (10.0.17763.0 to 10.0.26100.0), `<Logo>icons\\StoreLogo.png</Logo>`, and declared restricted capability `<rescap:Capability Name="runFullTrust"/>`.
+  - Enriched `store_package.json` with `store_id: TBD`, `execution_alias: rpx.exe`, `logo: icons/StoreLogo.png`, and `languages: ["de-DE", "en-US", "es-ES"]`.
+- **Packaging Staging (`releases/windowsstore/`)**:
+  - Established dedicated release staging structure including `BUILD.md`, `WACK_PROTOCOL.md`, `store_settings.json`, `store_listing_de.md`, and `store_listing_en.md`.
+  - Harmonized Microsoft Partner Center Policy 10.1.3 search terms to exactly 7 trademark-free keywords per language (DE: `pen and paper, rollenspiel, spielleiter, soundboard, virtueller spieltisch, charakterbogen, wuerfelsystem`; EN: `pen and paper, role playing game, game master, soundboard, virtual tabletop, character sheet, dice roller`).
+  - Staged verified 1600x960 high-resolution presentation screenshots (`01-main-window.png` to `05-ai-prompts.png`).
+- **Store Tile Assets & Icons**:
+  - Populated all canonical tile assets in dual naming convention (`StoreLogo.png` 50x50, `Square44x44Logo.png`, `Square50x50Logo.png`, `Square150x150Logo.png`, `Wide310x150Logo.png`, `Square310x310Logo.png`).
+- **Tooling & Preflight Automation**:
+  - Implemented `scripts/run_windows_wack.py` with automatic Windows SDK detection, admin check, dry-run, and XML/JSON report generator.
+  - Implemented 9-point store readiness auditor `scripts/check_store_readiness.py` reporting 0 findings (PASS).
+  - Generated hermetic WACK preflight report `releases/windowsstore/test_reports/wack_preflight_20260929.xml` and `.json` (6 PASS, 0 FAIL).
+  - Added contract tests in `tests/test_store_readiness.py` validating packaging, tile assets, manifest, and WACK preflight integrity.
+- **Plan-D Anchor & Governance Documentation**:
+  - Created canonical `REPO.pointer.json` (`ellmos-repo-pointer-v1`) linking to `entertain-and-more/rpx`.
+  - Created bilingual `SUPPORT.md` and comprehensive `WINDOWS_STORE_PREP.md`.
+
+### Security & Resilience Hardening: Campaign Bundle Zip-Slip Prevention & Persistence Isolation - 2026-09-29
+- **Zip-Slip & Path Traversal Prevention in Campaign Bundles**:
+  - Hardened `DataManager._prepare_import_media_target`, `_normalize_bundle_media_path`, `_build_bundle_media_path` and `_bundle_media_candidates` to strictly forbid directory traversal components (`..`), absolute anchors, and drive specifications, ensuring all extracted media files resolve strictly inside `MEDIA_DIR`.
+  - Added strict validation to `import_campaign_bundle` for entity IDs (`world_id`, `session_id`), preventing directory traversal via malicious identifiers.
+  - Hardened `_resolve_ruleset_target` to require `.json` extension, reject path traversal, and verify JSON payload validity before disk extraction.
+- **Archive Integrity & Error Handling**:
+  - `_load_bundle_manifest` and `_load_bundle_json` now defensively check archive membership and catch decode/syntax errors, raising descriptive `ValueError` rather than unhandled `KeyError` or `JSONDecodeError`.
+- **Atomic Config Persistence & Cascading Cleanup**:
+  - `save_config` now writes atomically via temporary file and `os.replace` to prevent config corruption during unexpected termination, and preserves active world/session pointers during headless invocations.
+  - `delete_world` and `delete_session` now persist pointer resets (`last_world_id`, `last_session_id`) to disk via `save_config`.
+  - `_write_snapshot` and `_create_unique_backup` validate `object_id` against directory traversal characters.
+- **Automated Regression Test Suite**:
+  - Added 7 dedicated security and resilience regression tests in `tests/test_campaign_bundle_security_and_resilience.py`.
+  - Pytest test suite expanded to 72 passed, 1 skipped (100% green).
+
 ### Discoverability, 18-Point Bilingual Navigation & Level 1 SBOM Governance (Pfad B) - 2026-09-28
 - **Bilingual 18-Point Quick Navigation Parity & Anchor Alignment**:
   - Implemented reciprocal dual HTML anchors `<a id="sec-01"></a>` through `<a id="sec-18"></a>` across all 18 primary documentation sections in both `README.md` and `README_de.md`.

@@ -49,6 +49,9 @@ class CLIWorker(QObject):
                     continue
                 try:
                     request = json.loads(line)
+                    if not isinstance(request, dict):
+                        self._send_error(None, "Invalid JSON-RPC request: must be a JSON object")
+                        continue
                     if self._callback:
                         self._callback(request)
                     else:
@@ -82,11 +85,19 @@ class CLIInterface:
     def stop(self):
         self.worker.stop()
 
-    def execute_command(self, request: dict) -> dict:
+    def execute_command(self, request: Any) -> dict:
         """Fuehrt ein JSON-RPC-Kommando synchron aus und gibt das Antwort-Dict zurueck."""
+        if not isinstance(request, dict):
+            return {"id": None, "error": "Invalid JSON-RPC request: must be a dict"}
+
         request_id = request.get("id")
-        method = request.get("method", "")
-        params = request.get("params", {})
+        method = request.get("method")
+        if not isinstance(method, str) or not method:
+            return {"id": request_id, "error": "Invalid or missing 'method' in request"}
+
+        params = request.get("params")
+        if params is None:
+            params = {}
 
         try:
             result = self._dispatch(method, params)
@@ -100,24 +111,24 @@ class CLIInterface:
         sys.stdout.write(json.dumps(response, ensure_ascii=False) + "\n")
         sys.stdout.flush()
 
-    def _dispatch(self, method: str, params: dict) -> Any:
+    def _dispatch(self, method: str, params: Any) -> Any:
         """Routet eine Methode an die API."""
         method_map = {
             # Welt
             "create_world": self.api.create_world,
-            "list_worlds": lambda **_: self.api.list_worlds(),
+            "list_worlds": lambda *_, **__: self.api.list_worlds(),
             "load_world": self.api.load_world,
             "get_world": self.api.get_world,
             # Orte & Umgebung
             "create_location": self.api.create_location,
-            "list_locations": lambda **_: self.api.list_locations(),
+            "list_locations": lambda *_, **__: self.api.list_locations(),
             "set_location": self.api.set_location,
             "set_environment": self.api.set_environment,
             # Session & Status
             "create_session": self.api.create_session,
-            "list_sessions": lambda **_: self.api.list_sessions(),
+            "list_sessions": lambda *_, **__: self.api.list_sessions(),
             "load_session": self.api.load_session,
-            "get_session_state": lambda **_: self.api.get_session_state(),
+            "get_session_state": lambda *_, **__: self.api.get_session_state(),
             # Charaktere & Inventar
             "create_character": self.api.create_character,
             "get_character": self.api.get_character,
@@ -126,17 +137,17 @@ class CLIInterface:
             "get_inventory": self.api.get_inventory,
             "give_item": self.api.give_item,
             # Kampf & Runden
-            "get_combat_state": lambda **_: self.api.get_combat_state(),
+            "get_combat_state": lambda *_, **__: self.api.get_combat_state(),
             "start_combat": self.api.start_combat,
-            "next_turn": lambda **_: self.api.next_turn(),
-            "end_combat": lambda **_: self.api.end_combat(),
+            "next_turn": lambda *_, **__: self.api.next_turn(),
+            "end_combat": lambda *_, **__: self.api.end_combat(),
             "execute_attack": self.api.execute_attack,
             # Soundboard & Audio
-            "list_sounds": lambda **_: self.api.list_sounds(),
+            "list_sounds": lambda *_, **__: self.api.list_sounds(),
             "play_sound": self.api.play_sound,
-            "list_music": lambda **_: self.api.list_music(),
+            "list_music": lambda *_, **__: self.api.list_music(),
             "play_music": self.api.play_music,
-            "stop_music": lambda **_: self.api.stop_music(),
+            "stop_music": lambda *_, **__: self.api.stop_music(),
             "set_volume": self.api.set_volume,
             # Chat
             "send_chat_message": self.api.send_chat_message,
@@ -147,8 +158,8 @@ class CLIInterface:
             "create_mission": self.api.create_mission,
             "complete_mission": self.api.complete_mission,
             # Prompts
-            "generate_start_prompt": lambda **_: self.api.generate_start_prompt(),
-            "generate_context_update": lambda **_: self.api.generate_context_update(),
+            "generate_start_prompt": lambda *_, **__: self.api.generate_start_prompt(),
+            "generate_context_update": lambda *_, **__: self.api.generate_context_update(),
             # Bundles
             "export_campaign_bundle": self.api.export_campaign_bundle,
             "import_campaign_bundle": self.api.import_campaign_bundle,
@@ -158,7 +169,12 @@ class CLIInterface:
             raise ValueError(f"Unknown method: {method}")
 
         func = method_map[method]
-        return func(**params)
+        if isinstance(params, dict):
+            return func(**params)
+        elif isinstance(params, (list, tuple)):
+            return func(*params)
+        else:
+            raise ValueError(f"Parameters must be a dict or list, got {type(params).__name__}")
 
 
 def main():
@@ -186,6 +202,8 @@ def main():
     if args.command:
         try:
             raw = args.command.strip()
+            if (raw.startswith("'") and raw.endswith("'")) or (raw.startswith('"') and raw.endswith('"')):
+                raw = raw[1:-1].strip()
             try:
                 req = json.loads(raw)
             except json.JSONDecodeError:

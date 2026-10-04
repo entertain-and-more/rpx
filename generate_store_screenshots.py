@@ -14,9 +14,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-# Store screenshots need Qt's native text renderer.  The offscreen backend is
-# appropriate for headless tests, but renders missing-glyph boxes on Windows.
-os.environ.pop("QT_QPA_PLATFORM", None)
 os.environ.setdefault("QT_SCALE_FACTOR", "1")
 
 PROJECT_ROOT = Path(__file__).resolve().parent
