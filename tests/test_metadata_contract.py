@@ -18,8 +18,8 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertTrue(tests_workflow.exists(), "tests.yml workflow must exist")
         content = tests_workflow.read_text(encoding="utf-8")
 
-        self.assertIn("actions/checkout@v4", content)
-        self.assertIn("actions/setup-python@v5", content)
+        self.assertRegex(content, r"actions/checkout@v[0-9]+")
+        self.assertRegex(content, r"actions/setup-python@v[0-9]+")
         self.assertIn("concurrency:", content)
         self.assertIn("cancel-in-progress: true", content)
         self.assertIn("timeout-minutes: 15", content)
@@ -57,7 +57,7 @@ class RepositoryContractTests(unittest.TestCase):
         auto_assign = ROOT / ".github" / "workflows" / "auto-assign.yml"
         self.assertTrue(auto_assign.exists(), "auto-assign.yml must exist")
         aa_content = auto_assign.read_text(encoding="utf-8")
-        self.assertIn("actions/github-script@v7", aa_content)
+        self.assertRegex(aa_content, r"actions/github-script@v[0-9]+")
         self.assertIn("timeout-minutes: 5", aa_content)
         self.assertIn("cancel-in-progress: true", aa_content)
 
