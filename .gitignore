@@ -166,3 +166,7 @@ TASKPLAN_*.md
 .nyc_output/
 .tox/
 .turbo/
+
+# ---- Interne Berichte / generierte Pfad-Artefakte (after-care 2026-10-04) ----
+_reports/
+README/screenshots/store/summary.json
