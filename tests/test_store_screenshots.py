@@ -1,5 +1,7 @@
 import json
 import os
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -20,7 +22,6 @@ class StoreScreenshotGenerationTests(unittest.TestCase):
         source = Path(__file__).resolve().parents[1] / "generate_store_screenshots.py"
         content = source.read_text(encoding="utf-8")
 
-        self.assertIn('os.environ.pop("QT_QPA_PLATFORM", None)', content)
         self.assertIn("WA_DontShowOnScreen", content)
         self.assertNotIn('setdefault("QT_QPA_PLATFORM", "offscreen")', content)
 
@@ -31,6 +32,24 @@ class StoreScreenshotGenerationTests(unittest.TestCase):
         self.assertIn('tile_chars_container.setStyleSheet("background-color: #111;")', player_content)
         self.assertIn('tile_miss_container.setStyleSheet("background-color: #111;")', player_content)
         self.assertIn("background-color: transparent", player_content)
+
+    def test_import_preserves_headless_qt_platform(self):
+        env = os.environ.copy()
+        env["QT_QPA_PLATFORM"] = "offscreen"
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import os; import generate_store_screenshots; "
+                "assert os.environ.get('QT_QPA_PLATFORM') == 'offscreen'",
+            ],
+            cwd=Path(__file__).resolve().parents[1],
+            env=env,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_offscreen_qt_is_rejected_before_screenshots_are_written(self):
         app = QApplication.instance()
