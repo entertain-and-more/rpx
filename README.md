@@ -2,14 +2,14 @@
 
 # RPX Pro — RolePlay Xtreme Professional Edition
 
-[English](README.md) | [Deutsch](README_de.md)
+[English](README.md) | [Deutsch](README_de.md) | [Español](README_es.md) | [简体中文](README_zh.md) | [日本語](README_ja.md) | [Русский](README_ru.md)
 
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/entertain-and-more/rpx/releases)
 [![Store Package](https://img.shields.io/badge/store%20package-1.0.0.0-informational.svg)](store_package.json)
 [![Status](https://img.shields.io/badge/status-unreleased-yellow.svg)](SECURITY.md)
-[![Pytest](https://img.shields.io/badge/pytest-100%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
+[![Pytest](https://img.shields.io/badge/pytest-102%20passed%20%7C%201%20skipped-brightgreen.svg)](tests/)
 [![Contributing](https://img.shields.io/badge/contributing-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![Web Companion](https://img.shields.io/badge/web%20companion-17%20passed-brightgreen.svg)](web_companion/)
+[![Web Companion](https://img.shields.io/badge/web%20companion-18%20passed-brightgreen.svg)](web_companion/)
 [![GUI](https://img.shields.io/badge/GUI-PySide6%20%2F%20Qt6-blue.svg)](https://www.qt.io/)
 [![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/entertain-and-more/rpx)
@@ -469,8 +469,7 @@ RPX Pro functions as the entertainment and tabletop workstation anchor within th
 | [`entertain-and-more/rpx`](https://github.com/entertain-and-more/rpx) | Tabletop RPG Session Control Center & GM Workstation | Primary application host |
 | [`entertain-and-more/KlangpultLight`](https://github.com/entertain-and-more/KlangpultLight) | Lightweight Soundboard & Staging Audio Companion | Specialized companion for standalone live sound effects |
 | [`file-bricks/SoftwareCenter`](https://github.com/file-bricks/SoftwareCenter) | Desktop Software & Portable Tool Launcher | One-click distribution and launch hub for RPX Pro |
-| [`file-bricks/file-commander`](https://github.com/file-bricks/file-commander) | Local-First File & Asset Management Suite | High-speed campaign asset and sound library organizer |
-| [`doc-bricks/FormularErstellen`](https://github.com/doc-bricks/FormularErstellen) | Offline Form & PDF Document Generator | Printable character sheet and handouts generator |
+| [`ellmos-ai/ellmos-filecommander-mcp`](https://github.com/ellmos-ai/ellmos-filecommander-mcp) | Local filesystem MCP server (safe delete, search, OCR, ZIP) | Campaign asset and sound library management for AI agents |
 | [`ellmos-ai/ellmos-homebase-mcp`](https://github.com/ellmos-ai/ellmos-homebase-mcp) | Local-First Memory & Campaign Knowledge MCP | AI agent campaign memory backend |
 | [`ellmos-ai/open-compute`](https://github.com/ellmos-ai/open-compute) | Desktop Automation & OS World Interaction Engine | Autonomous OS-level workflow orchestration |
 | [`open-bricks`](https://github.com/open-bricks) | Umbrella Ecosystem for Modular Local-First Tools | Global open-source architectural standards |

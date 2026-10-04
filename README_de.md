@@ -2,14 +2,14 @@
 
 # RPX Pro — RolePlay Xtreme Professional Edition
 
-[English](README.md) | [Deutsch](README_de.md)
+[English](README.md) | [Deutsch](README_de.md) | [Español](README_es.md) | [简体中文](README_zh.md) | [日本語](README_ja.md) | [Русский](README_ru.md)
 
 [![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/entertain-and-more/rpx/releases)
 [![Store Paket](https://img.shields.io/badge/Store%20Paket-1.0.0.0-informational.svg)](store_package.json)
 [![Status](https://img.shields.io/badge/Status-unver%C3%B6ffentlicht-yellow.svg)](SECURITY.md)
-[![Pytest](https://img.shields.io/badge/Pytest-100%20passed%20%7C%20100%25-brightgreen.svg)](tests/)
+[![Pytest](https://img.shields.io/badge/Pytest-102%20passed%20%7C%201%20skipped-brightgreen.svg)](tests/)
 [![Mitwirken](https://img.shields.io/badge/Mitwirken-Willkommen-brightgreen.svg)](CONTRIBUTING.md)
-[![Web Companion](https://img.shields.io/badge/Web%20Companion-17%20passed-brightgreen.svg)](web_companion/)
+[![Web Companion](https://img.shields.io/badge/Web%20Companion-18%20passed-brightgreen.svg)](web_companion/)
 [![GUI](https://img.shields.io/badge/GUI-PySide6%20%2F%20Qt6-blue.svg)](https://www.qt.io/)
 [![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
 [![Plattform](https://img.shields.io/badge/Plattform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/entertain-and-more/rpx)
@@ -515,8 +515,7 @@ RPX Pro bildet das Unterhaltungs- und Spielleiter-Zentrum im `entertain-and-more
 | [`entertain-and-more/rpx`](https://github.com/entertain-and-more/rpx) | Tabletop RPG Spielleiter-Kontrollzentrum & Workstation | Primäre Anwendungsbasis |
 | [`entertain-and-more/KlangpultLight`](https://github.com/entertain-and-more/KlangpultLight) | Leichtgewichtiges Soundboard & Audio-Begleiter | Spezialisierter Begleiter für Live-Soundeffekte |
 | [`file-bricks/SoftwareCenter`](https://github.com/file-bricks/SoftwareCenter) | Desktop Software- und Tool-Hub | Zentrale Plattform zur Ausführung von RPX Pro |
-| [`file-bricks/file-commander`](https://github.com/file-bricks/file-commander) | Dateimanager mit Batch- und Multi-Device-Fokus | Verwaltung von Karten, Soundbibliotheken und Assets |
-| [`doc-bricks/FormularErstellen`](https://github.com/doc-bricks/FormularErstellen) | Offline Formular- und PDF-Generator | Erstellung druckbarer Charakterbögen und Handouts |
+| [`ellmos-ai/ellmos-filecommander-mcp`](https://github.com/ellmos-ai/ellmos-filecommander-mcp) | Lokaler Dateisystem-MCP-Server (sicheres Löschen, Suche, OCR, ZIP) | Verwaltung von Karten, Soundbibliotheken und Assets durch KI-Agenten |
 | [`ellmos-ai/ellmos-homebase-mcp`](https://github.com/ellmos-ai/ellmos-homebase-mcp) | Lokaler Wissens- und Gedächtnis-MCP-Server | Kampagnengedächtnis für KI-Spielleiter |
 | [`ellmos-ai/open-compute`](https://github.com/ellmos-ai/open-compute) | Desktop-Automatisierung und OS-Interaktion | Autonome OS-Arbeitsabläufe und Tests |
 | [`open-bricks`](https://github.com/open-bricks) | Dachorganisation für modulare, lokale Open-Source-Tools | Übergreifende Architektur- und Qualitätsstandards |
