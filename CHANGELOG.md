@@ -5,6 +5,13 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Repository Hygiene & Internal File Exclusion (T-20260926-434768981) - 2026-09-28
+- **Internal File Untracking**:
+  - Untracked internal maintainer findings log `BEFUNDE.md` from git tracking while preserving local developer workspace file.
+  - Hardened `.gitignore` to explicitly exclude `BEFUNDE.md`, `TASKPLAN_STATUS_*.md`, and `_after-care/`.
+- **Contract Test Verification**:
+  - Added `test_gitignore_internal_file_hygiene` to `tests/test_metadata_contract.py` enforcing `.gitignore` coverage for internal management artifacts.
+
 ### Repository Hygiene, CI Matrix Hardening & Invariant Governance (Pfad A) - 2026-10-04
 - **Bilingual Contributing Guidelines & Invariants (`CONTRIBUTING.md`)**:
   - Implemented comprehensive bilingual (EN/DE) contributor guidelines specifying all 10 governance and runtime invariants (`INV-LOCAL-01` through `INV-SLA-10`), unprivileged user-mode `RunAsInvoker` non-elevation mode (`INV-USER-02`), Plan D local development workflow (`C:\_Local_DEV\repos\rpx`), § 521 BGB Gefälligkeitsrecht statutory limitation of liability, and binding 48h Security Response SLA (`security@open-bricks.org`, `security@ellmos.ai`, `support@lukasgeiger.com`).

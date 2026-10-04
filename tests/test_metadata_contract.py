@@ -425,6 +425,20 @@ class RepositoryContractTests(unittest.TestCase):
             self.assertIn("48", doc, f"{name} missing 48-hour SLA")
             self.assertIn("open-bricks.org", doc, f"{name} missing security reporting channel")
 
+    def test_gitignore_internal_file_hygiene(self):
+        gitignore = (ROOT / ".gitignore").read_text(encoding="utf-8")
+        patterns = [
+            "BEFUNDE.md",
+            "DECISIONS.md",
+            "PORTIERUNGSPLAN.md",
+            "TODO.md",
+            "DONE.md",
+            "TASKPLAN_STATUS_*.md",
+            "_after-care/",
+        ]
+        for pattern in patterns:
+            self.assertIn(pattern, gitignore, f".gitignore must contain {pattern}")
+
 
 if __name__ == "__main__":
     unittest.main()
