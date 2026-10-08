@@ -5,6 +5,9 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### GitHub Actions Runtime Upgrades - 2026-10-08
+- Updated `actions/stale` to v11 and `actions/github-script` to v9, moving both workflows to Node 24 while preserving their configured events, permissions, and behavior.
+
 ### Repository Hygiene & Internal File Exclusion (T-20260926-434768981) - 2026-09-28
 - **Internal File Untracking**:
   - Untracked internal maintainer findings log `BEFUNDE.md` from git tracking while preserving local developer workspace file.
