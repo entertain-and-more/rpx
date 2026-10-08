@@ -23,24 +23,28 @@ class TestI18nUiIntegration(unittest.TestCase):
     def tearDown(self):
         self.translator.set_language(self.original_lang)
 
-    def test_settings_tab_language_combo_emits_signal(self):
+    def test_settings_tab_language_combo_contains_all_six_languages(self):
         tab = SettingsTab(self.mock_data_manager)
+        items = [tab.language_combo.itemData(i) for i in range(tab.language_combo.count())]
+        self.assertEqual(items, ["de", "en", "es", "zh-Hans", "ja", "ru"])
 
-        received_signals = []
-        tab.language_changed.connect(lambda lang: received_signals.append(lang))
+    def test_settings_tab_language_combo_emits_signal(self):
+        for target_lang in ["es", "zh-Hans", "ja", "ru"]:
+            tab = SettingsTab(self.mock_data_manager)
+            received_signals = []
+            tab.language_changed.connect(lambda lang, sigs=received_signals: sigs.append(lang))
 
-        # Select Spanish (index 2: es)
-        es_index = -1
-        for idx in range(tab.language_combo.count()):
-            if tab.language_combo.itemData(idx) == "es":
-                es_index = idx
-                break
+            idx_found = -1
+            for idx in range(tab.language_combo.count()):
+                if tab.language_combo.itemData(idx) == target_lang:
+                    idx_found = idx
+                    break
 
-        self.assertNotEqual(es_index, -1)
-        tab.language_combo.setCurrentIndex(es_index)
+            self.assertNotEqual(idx_found, -1)
+            tab.language_combo.setCurrentIndex(idx_found)
 
-        self.assertEqual(received_signals, ["es"])
-        self.assertEqual(self.translator.get_language(), "es")
+            self.assertEqual(received_signals, [target_lang])
+            self.assertEqual(self.translator.get_language(), target_lang)
 
     def test_settings_tab_set_language_selection_does_not_loop(self):
         tab = SettingsTab(self.mock_data_manager)
@@ -52,6 +56,9 @@ class TestI18nUiIntegration(unittest.TestCase):
         self.assertEqual(received_signals, [])  # BlockSignals prevented signal loop
         self.assertEqual(tab.language_combo.currentData(), "en")
 
+        tab.set_language_selection("zh-Hans")
+        self.assertEqual(received_signals, [])
+        self.assertEqual(tab.language_combo.currentData(), "zh-Hans")
 
 if __name__ == "__main__":
     unittest.main()

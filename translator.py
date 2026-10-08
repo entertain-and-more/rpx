@@ -21,6 +21,8 @@ from typing import Callable, Dict, List, Optional, Set
 
 LANGUAGE_SLOTS = ("de", "en", "es", "zh-Hans", "ja", "ru")
 SUPPORTED_LANGUAGES = LANGUAGE_SLOTS
+DEFAULT_LANGUAGE = "de"
+FALLBACK_CHAIN = ("en", "de")
 
 LANGUAGE_DISPLAY_NAMES = {
     "de": "Deutsch",
@@ -30,6 +32,36 @@ LANGUAGE_DISPLAY_NAMES = {
     "ja": "日本語",
     "ru": "Русский",
 }
+LANGUAGE_NAMES = LANGUAGE_DISPLAY_NAMES
+
+
+def detect_system_language() -> str:
+    """Ermittelt die Systemsprache (de, en, es, zh-Hans, ja, ru). Fallback: 'de'."""
+    try:
+        import locale
+        import os
+
+        for env_var in ("LC_ALL", "LC_MESSAGES", "LANG"):
+            val = os.environ.get(env_var, "")
+            if val:
+                val = val.lower()
+                if val.startswith("zh"):
+                    return "zh-Hans"
+                for code in ("de", "en", "es", "ja", "ru"):
+                    if val.startswith(code):
+                        return code
+        loc, _ = locale.getlocale()
+        if loc:
+            loc = loc.lower()
+            if loc.startswith("zh"):
+                return "zh-Hans"
+            for code in ("de", "en", "es", "ja", "ru"):
+                if loc.startswith(code):
+                    return code
+    except Exception:
+        pass
+    return DEFAULT_LANGUAGE
+
 
 # Kuratierte spanische UI-Uebersetzungen fuer TTRPG- und Pen-&-Paper-Begriffe.
 # Regelwerk-, Kampagnen- und Charakterinhalte duerfen NIEMALS implizit uebersetzt werden.

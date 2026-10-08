@@ -3,1368 +3,1368 @@
     "de": "+ Charakter erstellen",
     "en": "+ Create Character",
     "es": "+ Crear personaje",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "+ 创建角色",
+    "ja": "+ キャラクター作成",
+    "ru": "+ Создать персонажа"
   },
   "+ Karte": {
     "de": "+ Karte",
     "en": "+ Map",
     "es": "+ Mapa",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "+ 地图",
+    "ja": "+ マップ",
+    "ru": "+ Карта"
   },
   "+ Mission hinzufügen": {
     "de": "+ Mission hinzufügen",
     "en": "+ Add Quest",
     "es": "+ Añadir misión",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "+ 添加任务",
+    "ja": "+ クエスト追加",
+    "ru": "+ Добавить задание"
   },
   "+ Neue Welt": {
     "de": "+ Neue Welt",
     "en": "+ New World",
     "es": "+ Nuevo mundo",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "+ 新世界",
+    "ja": "+ 新規ワールド",
+    "ru": "+ Новый мир"
   },
   "+ Ort hinzufügen": {
     "de": "+ Ort hinzufügen",
     "en": "+ Add Location",
     "es": "+ Añadir lugar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "+ 添加地点",
+    "ja": "+ ロケーション追加",
+    "ru": "+ Добавить локацию"
   },
   "+ Waffe hinzufügen": {
     "de": "+ Waffe hinzufügen",
     "en": "+ Add Weapon",
     "es": "+ Añadir arma",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "+ 添加武器",
+    "ja": "+ 武器追加",
+    "ru": "+ Добавить оружие"
   },
   "+ Zauber hinzufügen": {
     "de": "+ Zauber hinzufügen",
     "en": "+ Add Spell",
     "es": "+ Añadir hechizo",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "+ 添加法术",
+    "ja": "+ 呪文追加",
+    "ru": "+ Добавить заклинание"
   },
   "Abbrechen": {
     "de": "Abbrechen",
     "en": "Cancel",
     "es": "Cancelar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "取消",
+    "ja": "キャンセル",
+    "ru": "Отмена"
   },
   "Ablegen": {
     "de": "Ablegen",
     "en": "Drop",
     "es": "Soltar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "丢弃",
+    "ja": "捨てる",
+    "ru": "Сбросить"
   },
   "Abschliessen": {
     "de": "Abschliessen",
     "en": "Complete",
     "es": "Completar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "完成",
+    "ja": "完了",
+    "ru": "Завершить"
   },
   "Abschließen": {
     "de": "Abschließen",
     "en": "Complete",
     "es": "Completar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "完成",
+    "ja": "完了",
+    "ru": "Завершить"
   },
   "Abspielen": {
     "de": "Abspielen",
     "en": "Play",
     "es": "Reproducir",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "播放",
+    "ja": "再生",
+    "ru": "Воспроизвести"
   },
   "Aktionen: 0/Unbegrenzt": {
     "de": "Aktionen: 0/Unbegrenzt",
     "en": "Actions: 0/Unlimited",
     "es": "Acciones: 0/Ilimitadas",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "行动：0/无限制",
+    "ja": "アクション: 0/無制限",
+    "ru": "Действия: 0/Неограниченно"
   },
   "Aktive Missionen": {
     "de": "Aktive Missionen",
     "en": "Active Quests",
     "es": "Misiones activas",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "活跃任务",
+    "ja": "進行中のクエスト",
+    "ru": "Активные задания"
   },
   "Aktive Welt:": {
     "de": "Aktive Welt:",
     "en": "Active World:",
     "es": "Mundo activo:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "当前世界:",
+    "ja": "アクティブなワールド:",
+    "ru": "Активный мир:"
   },
   "Aktuell: -": {
     "de": "Aktuell: -",
     "en": "Current: -",
     "es": "Actual: -",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "当前: -",
+    "ja": "現在: -",
+    "ru": "Текущий: -"
   },
   "Ambiente": {
     "de": "Ambiente",
     "en": "Ambience",
     "es": "Ambiente",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "环境音",
+    "ja": "アンビエンス",
+    "ru": "Эмбиент"
   },
   "An Charakter geben...": {
     "de": "An Charakter geben...",
     "en": "Give to Character...",
     "es": "Dar a personaje...",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "给予角色...",
+    "ja": "キャラクターに渡す...",
+    "ru": "Передать персонажу..."
   },
   "Angreifer:": {
     "de": "Angreifer:",
     "en": "Attacker:",
     "es": "Atacante:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "攻击者:",
+    "ja": "攻撃側:",
+    "ru": "Атакующий:"
   },
   "Angriff würfeln!": {
     "de": "Angriff würfeln!",
     "en": "Roll Attack!",
     "es": "¡Tirar ataque!",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "掷攻击骰！",
+    "ja": "攻撃判定ダイス！",
+    "ru": "Бросить атаку!"
   },
   "Ansichten": {
     "de": "Ansichten",
     "en": "Views",
     "es": "Vistas",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "视图",
+    "ja": "表示",
+    "ru": "Виды"
   },
   "Anzahl:": {
     "de": "Anzahl:",
     "en": "Quantity:",
     "es": "Cantidad:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "数量:",
+    "ja": "数量:",
+    "ru": "Количество:"
   },
   "Bearbeiten": {
     "de": "Bearbeiten",
     "en": "Edit",
     "es": "Editar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "编辑",
+    "ja": "編集",
+    "ru": "Редактировать"
   },
   "Betreten": {
     "de": "Betreten",
     "en": "Enter",
     "es": "Entrar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "进入",
+    "ja": "入る",
+    "ru": "Войти"
   },
   "Bild": {
     "de": "Bild",
     "en": "Image",
     "es": "Imagen",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "图像",
+    "ja": "画像",
+    "ru": "Изображение"
   },
   "Bild laden...": {
     "de": "Bild laden...",
     "en": "Load Image...",
     "es": "Cargar imagen...",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "加载图像...",
+    "ja": "画像を読み込む...",
+    "ru": "Загрузить изображение..."
   },
   "Bitte Regelwerk auswählen": {
     "de": "Bitte Regelwerk auswählen",
     "en": "Please select ruleset",
     "es": "Por favor seleccione reglamento",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "请选择规则系统",
+    "ja": "ルールセットを選択してください",
+    "ru": "Пожалуйста, выберите правила"
   },
   "Bitte auswählen:": {
     "de": "Bitte auswählen:",
     "en": "Please select:",
     "es": "Por favor seleccione:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "请选择:",
+    "ja": "選択してください:",
+    "ru": "Пожалуйста, выберите:"
   },
   "Blitz": {
     "de": "Blitz",
     "en": "Lightning",
     "es": "Rayo",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "闪电",
+    "ja": "稲妻",
+    "ru": "Молния"
   },
   "Charakter:": {
     "de": "Charakter:",
     "en": "Character:",
     "es": "Personaje:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "角色:",
+    "ja": "キャラクター:",
+    "ru": "Персонаж:"
   },
   "Charaktere": {
     "de": "Charaktere",
     "en": "Characters",
     "es": "Personajes",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "角色列表",
+    "ja": "キャラクター一覧",
+    "ru": "Персонажи"
   },
   "Charaktername": {
     "de": "Charaktername",
     "en": "Character Name",
     "es": "Nombre del personaje",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "角色名称",
+    "ja": "キャラクター名",
+    "ru": "Имя персонажа"
   },
   "Chat": {
     "de": "Chat",
     "en": "Chat",
     "es": "Chat",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "聊天",
+    "ja": "チャット",
+    "ru": "Чат"
   },
   "Details anzeigen": {
     "de": "Details anzeigen",
     "en": "Show Details",
     "es": "Mostrar detalles",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "显示详情",
+    "ja": "詳細を表示",
+    "ru": "Показать детали"
   },
   "Einstellungen": {
     "de": "Einstellungen",
     "en": "Settings",
     "es": "Configuración",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "设置",
+    "ja": "設定",
+    "ru": "Настройки"
   },
   "Element löschen": {
     "de": "Element löschen",
     "en": "Delete Element",
     "es": "Eliminar elemento",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "删除元素",
+    "ja": "要素を削除",
+    "ru": "Удалить элемент"
   },
   "Entfernen": {
     "de": "Entfernen",
     "en": "Remove",
     "es": "Quitar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "移除",
+    "ja": "削除",
+    "ru": "Удалить"
   },
   "Ergebnis: -": {
     "de": "Ergebnis: -",
     "en": "Result: -",
     "es": "Resultado: -",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "结果: -",
+    "ja": "結果: -",
+    "ru": "Результат: -"
   },
   "Fehler beim Laden": {
     "de": "Fehler beim Laden",
     "en": "Error Loading",
     "es": "Error al cargar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "加载失败",
+    "ja": "読み込みエラー",
+    "ru": "Ошибка загрузки"
   },
   "Filter anwenden": {
     "de": "Filter anwenden",
     "en": "Apply Filter",
     "es": "Aplicar filtro",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "应用筛选",
+    "ja": "フィルター適用",
+    "ru": "Применить фильтр"
   },
   "Filter entfernen": {
     "de": "Filter entfernen",
     "en": "Remove Filter",
     "es": "Quitar filtro",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "清除筛选",
+    "ja": "フィルター解除",
+    "ru": "Снять фильтр"
   },
   "Fähigkeiten definieren": {
     "de": "Fähigkeiten definieren",
     "en": "Define Abilities",
     "es": "Definir habilidades",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "定义技能",
+    "ja": "アビリティ定義",
+    "ru": "Определить навыки"
   },
   "Fähigkeiten definieren...": {
     "de": "Fähigkeiten definieren...",
     "en": "Define Abilities...",
     "es": "Definir habilidades...",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "定义技能...",
+    "ja": "アビリティ定義...",
+    "ru": "Определить навыки..."
   },
   "Generieren": {
     "de": "Generieren",
     "en": "Generate",
     "es": "Generar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "生成",
+    "ja": "生成",
+    "ru": "Создать"
   },
   "Generierter Prompt:": {
     "de": "Generierter Prompt:",
     "en": "Generated Prompt:",
     "es": "Prompt generado:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "已生成的提示词:",
+    "ja": "生成されたプロンプト:",
+    "ru": "Созданный промпт:"
   },
   "Gesamtgewicht: 0.0": {
     "de": "Gesamtgewicht: 0.0",
     "en": "Total Weight: 0.0",
     "es": "Peso total: 0.0",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "总重量: 0.0",
+    "ja": "総重量: 0.0",
+    "ru": "Общий вес: 0.0"
   },
   "Gescheitert": {
     "de": "Gescheitert",
     "en": "Failed",
     "es": "Fallido",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "失败",
+    "ja": "失敗",
+    "ru": "Провалено"
   },
   "Gold:": {
     "de": "Gold:",
     "en": "Gold:",
     "es": "Oro:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "金币:",
+    "ja": "ゴールド:",
+    "ru": "Золото:"
   },
   "Gold: 0": {
     "de": "Gold: 0",
     "en": "Gold: 0",
     "es": "Oro: 0",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "金币: 0",
+    "ja": "ゴールド: 0",
+    "ru": "Золото: 0"
   },
   "HP": {
     "de": "HP",
     "en": "HP",
     "es": "PV",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "生命值",
+    "ja": "HP",
+    "ru": "ОЗ"
   },
   "Haupt-Toolbar": {
     "de": "Haupt-Toolbar",
     "en": "Main Toolbar",
     "es": "Barra de herramientas principal",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "主工具栏",
+    "ja": "メインツールバー",
+    "ru": "Главная панель инструментов"
   },
   "Heilen": {
     "de": "Heilen",
     "en": "Heal",
     "es": "Curar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "治疗",
+    "ja": "回復",
+    "ru": "Исцелить"
   },
   "Helden": {
     "de": "Helden",
     "en": "Heroes",
     "es": "Héroes",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "英雄",
+    "ja": "ヒーロー",
+    "ru": "Герои"
   },
   "Hilfe": {
     "de": "Hilfe",
     "en": "Help",
     "es": "Ayuda",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "帮助",
+    "ja": "ヘルプ",
+    "ru": "Справка"
   },
   "Hintergrund...": {
     "de": "Hintergrund...",
     "en": "Background...",
     "es": "Fondo...",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "背景...",
+    "ja": "背景...",
+    "ru": "Фон..."
   },
   "Hinzufügen": {
     "de": "Hinzufügen",
     "en": "Add",
     "es": "Añadir",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "添加",
+    "ja": "追加",
+    "ru": "Добавить"
   },
   "In Zwischenablage": {
     "de": "In Zwischenablage",
     "en": "To Clipboard",
     "es": "Al portapapeles",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "复制到剪贴板",
+    "ja": "クリップボードへ",
+    "ru": "В буфер обмена"
   },
   "Info/Preisliste": {
     "de": "Info/Preisliste",
     "en": "Info/Price List",
     "es": "Información/Lista de precios",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "信息/价目表",
+    "ja": "情報/価格表",
+    "ru": "Инфо/Прайс-лист"
   },
   "Inventar": {
     "de": "Inventar",
     "en": "Inventory",
     "es": "Inventario",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "物品栏",
+    "ja": "インベントリ",
+    "ru": "Инвентарь"
   },
   "Inventaransicht": {
     "de": "Inventaransicht",
     "en": "Inventory View",
     "es": "Vista de inventario",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "物品栏视图",
+    "ja": "インベントリ画面",
+    "ru": "Просмотр инвентаря"
   },
   "Item hier platzieren...": {
     "de": "Item hier platzieren...",
     "en": "Place item here...",
     "es": "Colocar objeto aquí...",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "在此放置物品...",
+    "ja": "アイテムをここに配置...",
+    "ru": "Поместите предмет сюда..."
   },
   "KI-Aufträge & Rollen": {
     "de": "KI-Aufträge & Rollen",
     "en": "AI Tasks & Roles",
     "es": "Tareas y roles de IA",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "AI 任务与角色",
+    "ja": "AIタスク＆ロール",
+    "ru": "Задачи и роли ИИ"
   },
   "KI-Promptgenerator": {
     "de": "KI-Promptgenerator",
     "en": "AI Prompt Generator",
     "es": "Generador de prompts de IA",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "AI 提示词生成器",
+    "ja": "AIプロンプト生成ツール",
+    "ru": "Генератор промптов ИИ"
   },
   "KI-Prompts": {
     "de": "KI-Prompts",
     "en": "AI Prompts",
     "es": "Prompts de IA",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "AI 提示词",
+    "ja": "AIプロンプト",
+    "ru": "Промпты ИИ"
   },
   "Kacheln": {
     "de": "Kacheln",
     "en": "Tiles",
     "es": "Casillas",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "地块",
+    "ja": "タイル",
+    "ru": "Тайлы"
   },
   "Kampf": {
     "de": "Kampf",
     "en": "Combat",
     "es": "Combate",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "战斗",
+    "ja": "戦闘",
+    "ru": "Бой"
   },
   "Karte": {
     "de": "Karte",
     "en": "Map",
     "es": "Mapa",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "地图",
+    "ja": "マップ",
+    "ru": "Карта"
   },
   "Karte:": {
     "de": "Karte:",
     "en": "Map:",
     "es": "Mapa:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "地图:",
+    "ja": "マップ:",
+    "ru": "Карта:"
   },
   "Kein Bild": {
     "de": "Kein Bild",
     "en": "No Image",
     "es": "Sin imagen",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "无图像",
+    "ja": "画像なし",
+    "ru": "Нет изображения"
   },
   "Kein Bild verfügbar": {
     "de": "Kein Bild verfügbar",
     "en": "No Image Available",
     "es": "Sin imagen disponible",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "无可用图像",
+    "ja": "画像がありません",
+    "ru": "Изображение недоступно"
   },
   "Kein Hintergrund": {
     "de": "Kein Hintergrund",
     "en": "No Background",
     "es": "Sin fondo",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "无背景",
+    "ja": "背景なし",
+    "ru": "Без фона"
   },
   "Kein Ort ausgewählt": {
     "de": "Kein Ort ausgewählt",
     "en": "No Location Selected",
     "es": "Ningún lugar seleccionado",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "未选择地点",
+    "ja": "ロケーション未選択",
+    "ru": "Локация не выбрана"
   },
   "Keine Ansichten aktiviert": {
     "de": "Keine Ansichten aktiviert",
     "en": "No Views Enabled",
     "es": "No hay vistas activadas",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "未激活任何视图",
+    "ja": "有効なビューはありません",
+    "ru": "Нет активных видов"
   },
   "Keine Karte hinterlegt": {
     "de": "Keine Karte hinterlegt",
     "en": "No Map Available",
     "es": "Sin mapa disponible",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "无地图",
+    "ja": "マップがありません",
+    "ru": "Карта отсутствует"
   },
   "Keine aktiven Missionen": {
     "de": "Keine aktiven Missionen",
     "en": "No Active Quests",
     "es": "No hay misiones activas",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "无活跃任务",
+    "ja": "進行中のクエストはありません",
+    "ru": "Нет активных заданий"
   },
   "Lautstärke:": {
     "de": "Lautstärke:",
     "en": "Volume:",
     "es": "Volumen:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "音量:",
+    "ja": "音量:",
+    "ru": "Громкость:"
   },
   "Letzte Session wiederhergestellt: {session.name}": {
     "de": "Letzte Session wiederhergestellt: {session.name}",
     "en": "Restored last session: {session.name}",
     "es": "Última sesión restaurada: {session.name}",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "已恢复上次会话: {session.name}",
+    "ja": "前回のセッションを復元: {session.name}",
+    "ru": "Восстановлена последняя сессия: {session.name}"
   },
   "Löschen": {
     "de": "Löschen",
     "en": "Delete",
     "es": "Eliminar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "删除",
+    "ja": "削除",
+    "ru": "Удалить"
   },
   "MP": {
     "de": "MP",
     "en": "MP",
     "es": "PM",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "魔法值",
+    "ja": "MP",
+    "ru": "ОМ"
   },
   "Mana abziehen": {
     "de": "Mana abziehen",
     "en": "Deduct Mana",
     "es": "Deducir maná",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "消耗魔法",
+    "ja": "MP消費",
+    "ru": "Отнять ману"
   },
   "Mana auffüllen": {
     "de": "Mana auffüllen",
     "en": "Replenish Mana",
     "es": "Rellenar maná",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "回复魔法",
+    "ja": "MP全回復",
+    "ru": "Восстановить ману"
   },
   "Missionen": {
     "de": "Missionen",
     "en": "Quests",
     "es": "Misiones",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "任务",
+    "ja": "クエスト",
+    "ru": "Задания"
   },
   "Monitor:": {
     "de": "Monitor:",
     "en": "Monitor:",
     "es": "Monitor:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "显示器:",
+    "ja": "モニター:",
+    "ru": "Монитор:"
   },
   "NPC hier platzieren...": {
     "de": "NPC hier platzieren...",
     "en": "Place NPC here...",
     "es": "Colocar PNJ aquí...",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "在此放置 NPC...",
+    "ja": "NPCをここに配置...",
+    "ru": "Поместите NPC сюда..."
   },
   "Nacht-Modus": {
     "de": "Nacht-Modus",
     "en": "Night Mode",
     "es": "Modo noche",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "夜间模式",
+    "ja": "ナイトモード",
+    "ru": "Ночной режим"
   },
   "Name:": {
     "de": "Name:",
     "en": "Name:",
     "es": "Nombre:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "名称:",
+    "ja": "名前:",
+    "ru": "Имя:"
   },
   "Nächste Runde": {
     "de": "Nächste Runde",
     "en": "Next Round",
     "es": "Siguiente ronda",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "下一轮",
+    "ja": "次のラウンド",
+    "ru": "Следующий раунд"
   },
   "Ort:": {
     "de": "Ort:",
     "en": "Location:",
     "es": "Lugar:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "地点:",
+    "ja": "場所:",
+    "ru": "Локация:"
   },
   "Ort: -": {
     "de": "Ort: -",
     "en": "Location: -",
     "es": "Lugar: -",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "地点: -",
+    "ja": "場所: -",
+    "ru": "Локация: -"
   },
   "Ortsansicht": {
     "de": "Ortsansicht",
     "en": "Location View",
     "es": "Vista de lugar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "地点视图",
+    "ja": "ロケーションビュー",
+    "ru": "Обзор локации"
   },
   "RPX": {
     "de": "RPX",
     "en": "RPX",
     "es": "RPX",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "RPX",
+    "ja": "RPX",
+    "ru": "RPX"
   },
   "RPX - Spieler-Ansicht": {
     "de": "RPX - Spieler-Ansicht",
     "en": "RPX - Player View",
     "es": "RPX - Vista del jugador",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "RPX - 玩家视图",
+    "ja": "RPX - プレイヤー画面",
+    "ru": "RPX - Экран игрока"
   },
   "Rasse | Beruf": {
     "de": "Rasse | Beruf",
     "en": "Race | Class",
     "es": "Raza | Clase",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "种族 | 职业",
+    "ja": "種族 | クラス",
+    "ru": "Раса | Класс"
   },
   "Regel hinzufügen": {
     "de": "Regel hinzufügen",
     "en": "Add Rule",
     "es": "Añadir regla",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "添加规则",
+    "ja": "ルール追加",
+    "ru": "Добавить правило"
   },
   "Regel löschen": {
     "de": "Regel löschen",
     "en": "Delete Rule",
     "es": "Eliminar regla",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "删除规则",
+    "ja": "ルール削除",
+    "ru": "Удалить правило"
   },
   "Regelwerk importieren": {
     "de": "Regelwerk importieren",
     "en": "Import Ruleset",
     "es": "Importar reglamento",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "导入规则集",
+    "ja": "ルールセットのインポート",
+    "ru": "Импортировать правила"
   },
   "Rolle:": {
     "de": "Rolle:",
     "en": "Role:",
     "es": "Rol:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "角色/身份:",
+    "ja": "役割:",
+    "ru": "Роль:"
   },
   "Rotation": {
     "de": "Rotation",
     "en": "Rotation",
     "es": "Rotación",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "旋转",
+    "ja": "回転",
+    "ru": "Вращение"
   },
   "Runde: -": {
     "de": "Runde: -",
     "en": "Round: -",
     "es": "Ronda: -",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "回合: -",
+    "ja": "ラウンド: -",
+    "ru": "Раунд: -"
   },
   "Runde: 1": {
     "de": "Runde: 1",
     "en": "Round: 1",
     "es": "Ronda: 1",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "回合: 1",
+    "ja": "ラウンド: 1",
+    "ru": "Раунд: 1"
   },
   "Rundensteuerung": {
     "de": "Rundensteuerung",
     "en": "Round Controls",
     "es": "Control de rondas",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "回合控制",
+    "ja": "ラウンド管理",
+    "ru": "Управление раундами"
   },
   "Schaden": {
     "de": "Schaden",
     "en": "Damage",
     "es": "Daño",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "伤害",
+    "ja": "ダメージ",
+    "ru": "Урон"
   },
   "Schliessen": {
     "de": "Schliessen",
     "en": "Close",
     "es": "Cerrar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "关闭",
+    "ja": "閉じる",
+    "ru": "Закрыть"
   },
   "Schließen": {
     "de": "Schließen",
     "en": "Close",
     "es": "Cerrar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "关闭",
+    "ja": "閉じる",
+    "ru": "Закрыть"
   },
   "Schwarzbild": {
     "de": "Schwarzbild",
     "en": "Black Screen",
     "es": "Pantalla negra",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "黑屏",
+    "ja": "ブラックアウト",
+    "ru": "Черный экран"
   },
   "Seiten:": {
     "de": "Seiten:",
     "en": "Sides:",
     "es": "Caras:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "面数:",
+    "ja": "面数:",
+    "ru": "Граней:"
   },
   "Senden": {
     "de": "Senden",
     "en": "Send",
     "es": "Enviar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "发送",
+    "ja": "送信",
+    "ru": "Отправить"
   },
   "Sound entfernen": {
     "de": "Sound entfernen",
     "en": "Remove Sound",
     "es": "Quitar sonido",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "移除音效",
+    "ja": "サウンド削除",
+    "ru": "Удалить звук"
   },
   "Sound hinzufügen": {
     "de": "Sound hinzufügen",
     "en": "Add Sound",
     "es": "Añadir sonido",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "添加音效",
+    "ja": "サウンド追加",
+    "ru": "Добавить звук"
   },
   "Soundboard": {
     "de": "Soundboard",
     "en": "Soundboard",
     "es": "Tabla de sonidos",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "音效板",
+    "ja": "サウンドボード",
+    "ru": "Звуковая панель"
   },
   "Speichern": {
     "de": "Speichern",
     "en": "Save",
     "es": "Guardar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "保存",
+    "ja": "保存",
+    "ru": "Сохранить"
   },
   "Spieler-Bildschirm": {
     "de": "Spieler-Bildschirm",
     "en": "Player Screen",
     "es": "Pantalla del jugador",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "玩家屏幕",
+    "ja": "プレイヤー画面",
+    "ru": "Экран игрока"
   },
   "Spieler-Bildschirm schließen": {
     "de": "Spieler-Bildschirm schließen",
     "en": "Close Player Screen",
     "es": "Cerrar pantalla del jugador",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "关闭玩家屏幕",
+    "ja": "プレイヤー画面を閉じる",
+    "ru": "Закрыть экран игрока"
   },
   "Spieler-Bildschirm öffnen": {
     "de": "Spieler-Bildschirm öffnen",
     "en": "Open Player Screen",
     "es": "Abrir pantalla del jugador",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "打开玩家屏幕",
+    "ja": "プレイヤー画面を開く",
+    "ru": "Открыть экран игрока"
   },
   "Spieler: -": {
     "de": "Spieler: -",
     "en": "Player: -",
     "es": "Jugador: -",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "玩家: -",
+    "ja": "プレイヤー: -",
+    "ru": "Игрок: -"
   },
   "Spielstart-Prompt": {
     "de": "Spielstart-Prompt",
     "en": "Game Start Prompt",
     "es": "Prompt de inicio de partida",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "开局提示词",
+    "ja": "ゲーム開始プロンプト",
+    "ru": "Стартовый промпт игры"
   },
   "Spielverlauf": {
     "de": "Spielverlauf",
     "en": "Game Log",
     "es": "Registro de juego",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "游戏记录",
+    "ja": "プレイログ",
+    "ru": "Журнал игры"
   },
   "Stopp": {
     "de": "Stopp",
     "en": "Stop",
     "es": "Detener",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "停止",
+    "ja": "停止",
+    "ru": "Стоп"
   },
   "Stroboskop": {
     "de": "Stroboskop",
     "en": "Strobe",
     "es": "Estroboscopio",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "频闪",
+    "ja": "ストロボ",
+    "ru": "Стробоскоп"
   },
   "Tag-Modus": {
     "de": "Tag-Modus",
     "en": "Day Mode",
     "es": "Modo día",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "日间模式",
+    "ja": "デイモード",
+    "ru": "Дневной режим"
   },
   "Typ:": {
     "de": "Typ:",
     "en": "Type:",
     "es": "Tipo:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "类型:",
+    "ja": "タイプ:",
+    "ru": "Тип:"
   },
   "Umbenennen": {
     "de": "Umbenennen",
     "en": "Rename",
     "es": "Renombrar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "重命名",
+    "ja": "名前変更",
+    "ru": "Переименовать"
   },
   "Update-Prompt": {
     "de": "Update-Prompt",
     "en": "Update Prompt",
     "es": "Actualizar prompt",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "更新提示词",
+    "ja": "更新プロンプト",
+    "ru": "Обновить промпт"
   },
   "Verlassen": {
     "de": "Verlassen",
     "en": "Leave",
     "es": "Salir",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "离开",
+    "ja": "退出",
+    "ru": "Покинуть"
   },
   "Verteidiger:": {
     "de": "Verteidiger:",
     "en": "Defender:",
     "es": "Defensor:",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "防御者:",
+    "ja": "防御側:",
+    "ru": "Защитник:"
   },
   "Völker": {
     "de": "Völker",
     "en": "Races",
     "es": "Razas",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "种族",
+    "ja": "種族",
+    "ru": "Расы"
   },
   "Waffe erstellen": {
     "de": "Waffe erstellen",
     "en": "Create Weapon",
     "es": "Crear arma",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "创建武器",
+    "ja": "武器作成",
+    "ru": "Создать оружие"
   },
   "Waffe erstellen...": {
     "de": "Waffe erstellen...",
     "en": "Create Weapon...",
     "es": "Crear arma...",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "创建武器...",
+    "ja": "武器作成...",
+    "ru": "Создать оружие..."
   },
   "Welt": {
     "de": "Welt",
     "en": "World",
     "es": "Mundo",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "世界",
+    "ja": "ワールド",
+    "ru": "Мир"
   },
   "Welt speichern": {
     "de": "Welt speichern",
     "en": "Save World",
     "es": "Guardar mundo",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "保存世界",
+    "ja": "ワールドを保存",
+    "ru": "Сохранить мир"
   },
   "Welteinstellungen": {
     "de": "Welteinstellungen",
     "en": "World Settings",
     "es": "Configuración del mundo",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "世界设置",
+    "ja": "ワールド設定",
+    "ru": "Настройки мира"
   },
   "Würfel": {
     "de": "Würfel",
     "en": "Dice",
     "es": "Dados",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "骰子",
+    "ja": "ダイス",
+    "ru": "Кости"
   },
   "Würfeln": {
     "de": "Würfeln",
     "en": "Roll Dice",
     "es": "Tirar dados",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "掷骰",
+    "ja": "ダイスロール",
+    "ru": "Бросить кости"
   },
   "Würfeln!": {
     "de": "Würfeln!",
     "en": "Roll Dice!",
     "es": "¡Tirar dados!",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "掷骰！",
+    "ja": "ダイスを振る！",
+    "ru": "Бросить кости!"
   },
   "Zeile löschen": {
     "de": "Zeile löschen",
     "en": "Delete Line",
     "es": "Eliminar línea",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "删除该行",
+    "ja": "行削除",
+    "ru": "Удалить строку"
   },
   "Zug beenden": {
     "de": "Zug beenden",
     "en": "End Turn",
     "es": "Terminar turno",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "结束回合",
+    "ja": "ターン終了",
+    "ru": "Завершить ход"
   },
   "▶ Ausführen → Spielverlauf": {
     "de": "▶ Ausführen → Spielverlauf",
     "en": "▶ Execute → Game Log",
     "es": "▶ Ejecutar → Registro de juego",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "▶ 执行 → 游戏记录",
+    "ja": "▶ 実行 → ゲームログ",
+    "ru": "▶ Выполнить → Журнал игры"
   },
   "▶ Nächster Zug": {
     "de": "▶ Nächster Zug",
     "en": "▶ Next Turn",
     "es": "▶ Siguiente turno",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "▶ 下一回合",
+    "ja": "▶ 次のターン",
+    "ru": "▶ Следующий ход"
   },
   "▶ Start (Loop)": {
     "de": "▶ Start (Loop)",
     "en": "▶ Start (Loop)",
     "es": "▶ Iniciar (bucle)",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "▶ 开始（循环）",
+    "ja": "▶ 開始（ループ）",
+    "ru": "▶ Старт (цикл)"
   },
   "✅ Abschließen": {
     "de": "✅ Abschließen",
     "en": "✅ Complete",
     "es": "✅ Completar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "✅ 完成",
+    "ja": "✅ 完了",
+    "ru": "✅ Завершить"
   },
   "✏️ Bearbeiten": {
     "de": "✏️ Bearbeiten",
     "en": "✏️ Edit",
     "es": "✏️ Editar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "✏️ 编辑",
+    "ja": "✏️ 編集",
+    "ru": "✏️ Редактировать"
   },
   "✓ Abschließen": {
     "de": "✓ Abschließen",
     "en": "✓ Complete",
     "es": "✓ Completar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "✓ 完成",
+    "ja": "✓ 完了",
+    "ru": "✓ Завершить"
   },
   "✖ Filter löschen": {
     "de": "✖ Filter löschen",
     "en": "✖ Clear Filter",
     "es": "✖ Borrar filtro",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "✖ 清除筛选",
+    "ja": "✖ フィルター解除",
+    "ru": "✖ Очистить фильтр"
   },
   "❌ Abbrechen": {
     "de": "❌ Abbrechen",
     "en": "❌ Cancel",
     "es": "❌ Cancelar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "❌ 取消",
+    "ja": "❌ キャンセル",
+    "ru": "❌ Отмена"
   },
   "➕ Hinzufügen": {
     "de": "➕ Hinzufügen",
     "en": "➕ Add",
     "es": "➕ Añadir",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "➕ 添加",
+    "ja": "➕ 追加",
+    "ru": "➕ Добавить"
   },
   "➕ Mission hinzufügen": {
     "de": "➕ Mission hinzufügen",
     "en": "➕ Add Quest",
     "es": "➕ Añadir misión",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "➕ 添加任务",
+    "ja": "➕ クエスト追加",
+    "ru": "➕ Добавить задание"
   },
   "➕ Ort hinzufügen": {
     "de": "➕ Ort hinzufügen",
     "en": "➕ Add Location",
     "es": "➕ Añadir lugar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "➕ 添加地点",
+    "ja": "➕ ロケーション追加",
+    "ru": "➕ Добавить локацию"
   },
   "➕ Sound hinzufügen": {
     "de": "➕ Sound hinzufügen",
     "en": "➕ Add Sound",
     "es": "➕ Añadir sonido",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "➕ 添加音效",
+    "ja": "➕ サウンド追加",
+    "ru": "➕ Добавить звук"
   },
   "➕ Waffe hinzufügen": {
     "de": "➕ Waffe hinzufügen",
     "en": "➕ Add Weapon",
     "es": "➕ Añadir arma",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "➕ 添加武器",
+    "ja": "➕ 武器追加",
+    "ru": "➕ Добавить оружие"
   },
   "➕ Zauber hinzufügen": {
     "de": "➕ Zauber hinzufügen",
     "en": "➕ Add Spell",
     "es": "➕ Añadir hechizo",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "➕ 添加法术",
+    "ja": "➕ 呪文追加",
+    "ru": "➕ Добавить заклинание"
   },
   "🎨 Farbfilter wählen": {
     "de": "🎨 Farbfilter wählen",
     "en": "🎨 Select Color Filter",
     "es": "🎨 Elegir filtro de color",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "🎨 选择滤色器",
+    "ja": "🎨 カラーフィルター選択",
+    "ru": "🎨 Выбрать цветной фильтр"
   },
   "🎬 Start-Prompt generieren": {
     "de": "🎬 Start-Prompt generieren",
     "en": "🎬 Generate Start Prompt",
     "es": "🎬 Generar prompt de inicio",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "🎬 生成开始提示词",
+    "ja": "🎬 スタートプロンプト生成",
+    "ru": "🎬 Создать стартовый промпт"
   },
   "🎲 Regeln & Würfel": {
     "de": "🎲 Regeln & Würfel",
     "en": "🎲 Rules & Dice",
     "es": "🎲 Reglas y dados",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "🎲 规则与骰子",
+    "ja": "🎲 ルール＆ダイス",
+    "ru": "🎲 Правила и кости"
   },
   "🎲 Würfeln!": {
     "de": "🎲 Würfeln!",
     "en": "🎲 Roll Dice!",
     "es": "🎲 ¡Tirar dados!",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "🎲 掷骰！",
+    "ja": "🎲 ダイスを振る！",
+    "ru": "🎲 Бросить кости!"
   },
   "🏞 Außen": {
     "de": "🏞 Außen",
     "en": "🏞 Outdoors",
     "es": "🏞 Exterior",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "🏞 室外",
+    "ja": "🏞 屋外",
+    "ru": "🏞 Снаружи"
   },
   "🏞️\nKein Bild verfügbar": {
     "de": "🏞️\nKein Bild verfügbar",
     "en": "🏞️\nNo Image Available",
     "es": "🏞️\nSin imagen disponible",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "🏞️\n无可用图像",
+    "ja": "🏞️\n画像がありません",
+    "ru": "🏞️\nИзображение недоступно"
   },
   "🏞️\nKein Ort ausgewählt": {
     "de": "🏞️\nKein Ort ausgewählt",
     "en": "🏞️\nNo Location Selected",
     "es": "🏞️\nNingún lugar seleccionado",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "🏞️\n未选择地点",
+    "ja": "🏞️\nロケーション未選択",
+    "ru": "🏞️\nЛокация не выбрана"
   },
   "💾 Chat exportieren": {
     "de": "💾 Chat exportieren",
     "en": "💾 Export Chat",
     "es": "💾 Exportar chat",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "💾 导出聊天",
+    "ja": "💾 チャットをエクスポート",
+    "ru": "💾 Экспорт чата"
   },
   "💾 Speichern": {
     "de": "💾 Speichern",
     "en": "💾 Save",
     "es": "💾 Guardar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "💾 保存",
+    "ja": "💾 保存",
+    "ru": "💾 Сохранить"
   },
   "💾 Welt speichern": {
     "de": "💾 Welt speichern",
     "en": "💾 Save World",
     "es": "💾 Guardar mundo",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "💾 保存世界",
+    "ja": "💾 ワールド保存",
+    "ru": "💾 Сохранить мир"
   },
   "📊 Details anzeigen": {
     "de": "📊 Details anzeigen",
     "en": "📊 Show Details",
     "es": "📊 Mostrar detalles",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "📊 显示详情",
+    "ja": "📊 詳細を表示",
+    "ru": "📊 Показать детали"
   },
   "📋 Spielstart → Clipboard": {
     "de": "📋 Spielstart → Clipboard",
     "en": "📋 Game Start → Clipboard",
     "es": "📋 Inicio de partida → Portapapeles",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "📋 游戏开始 → 剪贴板",
+    "ja": "📋 ゲーム開始 → クリップボード",
+    "ru": "📋 Старт игры → Буфер обмена"
   },
   "📥 Zu Session hinzufügen": {
     "de": "📥 Zu Session hinzufügen",
     "en": "📥 Add to Session",
     "es": "📥 Añadir a sesión",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "📥 添加到会话",
+    "ja": "📥 セッションに追加",
+    "ru": "📥 Добавить в сессию"
   },
   "🔄 Runde zurücksetzen": {
     "de": "🔄 Runde zurücksetzen",
     "en": "🔄 Reset Round",
     "es": "🔄 Reiniciar ronda",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "🔄 重置回合",
+    "ja": "🔄 ラウンドをリセット",
+    "ru": "🔄 Сбросить раунд"
   },
   "🔲 Effekte löschen": {
     "de": "🔲 Effekte löschen",
     "en": "🔲 Clear Effects",
     "es": "🔲 Borrar efectos",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "🔲 清除效果",
+    "ja": "🔲 エフェクト消去",
+    "ru": "🔲 Очистить эффекты"
   },
   "🔴 Rot-Filter": {
     "de": "🔴 Rot-Filter",
     "en": "🔴 Red Filter",
     "es": "🔴 Filtro rojo",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "🔴 红色滤镜",
+    "ja": "🔴 赤フィルター",
+    "ru": "🔴 Красный фильтр"
   },
   "🔵 Blau-Filter": {
     "de": "🔵 Blau-Filter",
     "en": "🔵 Blue Filter",
     "es": "🔴 Filtro azul",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "🔵 蓝色滤镜",
+    "ja": "🔵 青フィルター",
+    "ru": "🔵 Синий фильтр"
   },
   "🗑 Löschen": {
     "de": "🗑 Löschen",
     "en": "🗑 Delete",
     "es": "🗑 Eliminar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "🗑 删除",
+    "ja": "🗑 削除",
+    "ru": "🗑 Удалить"
   },
   "🗑️ Löschen": {
     "de": "🗑️ Löschen",
     "en": "🗑️ Delete",
     "es": "🗑️ Eliminar",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "🗑️ 删除",
+    "ja": "🗑️ 削除",
+    "ru": "🗑️ Удалить"
   },
   "🗺 Weltkarte laden": {
     "de": "🗺 Weltkarte laden",
     "en": "🗺 Load World Map",
     "es": "🗺 Cargar mapa mundial",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "🗺 加载世界地图",
+    "ja": "🗺 ワールドマップ読込",
+    "ru": "🗺 Загрузить карту мира"
   },
   "🚀 Spielstart-Prompt": {
     "de": "🚀 Spielstart-Prompt",
     "en": "🚀 Game Start Prompt",
     "es": "🚀 Prompt de inicio de partida",
-    "zh-Hans": "",
-    "ja": "",
-    "ru": ""
+    "zh-Hans": "🚀 游戏开始提示词",
+    "ja": "🚀 ゲーム開始プロンプト",
+    "ru": "🚀 Стартовый промпт игры"
   }
 }

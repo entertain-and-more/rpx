@@ -117,7 +117,7 @@ def manage_translations(source_dir="."):
 
 
 def check_translations(source_dir=".") -> bool:
-    """Validiert die Übersetzungsdatei auf vollständige de, en, es Werte und Slot-Struktur."""
+    """Validiert die Übersetzungsdatei auf vollständige de, en, es, zh-Hans, ja, ru Werte und Slot-Struktur."""
     trans_file = os.path.join(source_dir, TRANSLATION_FILE)
     if not os.path.exists(trans_file):
         print(f"[FAIL] Übersetzungsdatei nicht gefunden: {trans_file}")
@@ -131,9 +131,7 @@ def check_translations(source_dir=".") -> bool:
         return False
 
     missing_slots = []
-    missing_de = []
-    missing_en = []
-    missing_es = []
+    missing_by_lang = {lang: [] for lang in LANGUAGE_SLOTS}
     mojibake = []
 
     for k, v in data.items():
@@ -143,29 +141,35 @@ def check_translations(source_dir=".") -> bool:
         for slot in LANGUAGE_SLOTS:
             if slot not in v:
                 missing_slots.append(f"{k}:{slot}")
-        if not v.get("de"):
-            missing_de.append(k)
-        if not v.get("en"):
-            missing_en.append(k)
-        if not v.get("es"):
-            missing_es.append(k)
+            elif not v.get(slot):
+                missing_by_lang[slot].append(k)
+
         if any(c in k for c in ["\ufffd", "Ã", "âž•", "ðŸ"]):
             mojibake.append(k)
+        for slot in LANGUAGE_SLOTS:
+            val = v.get(slot, "")
+            if any(c in val for c in ["\ufffd", "Ã", "âž•", "ðŸ"]):
+                mojibake.append(f"{k}:{slot}")
 
-    if missing_slots or missing_de or missing_en or missing_es or mojibake:
-        if missing_slots:
-            print(f"[FAIL] {len(missing_slots)} Einträge mit fehlenden Sprach-Slots")
-        if missing_de:
-            print(f"[FAIL] {len(missing_de)} Einträge ohne deutsche Übersetzung")
-        if missing_en:
-            print(f"[FAIL] {len(missing_en)} Einträge ohne englische Übersetzung")
-        if missing_es:
-            print(f"[FAIL] {len(missing_es)} Einträge ohne spanische Übersetzung")
-        if mojibake:
-            print(f"[FAIL] {len(mojibake)} Einträge mit Mojibake-Artefakten")
+    has_error = False
+    if missing_slots:
+        print(f"[FAIL] {len(missing_slots)} Einträge mit fehlenden Sprach-Slots")
+        has_error = True
+    for slot in LANGUAGE_SLOTS:
+        if missing_by_lang[slot]:
+            print(f"[FAIL] {len(missing_by_lang[slot])} Einträge ohne {slot}-Übersetzung")
+            has_error = True
+    if mojibake:
+        print(f"[FAIL] {len(mojibake)} Einträge mit Mojibake-Artefakten")
+        has_error = True
+
+    if has_error:
         return False
 
-    print(f"[PASS] Alle {len(data)} UI-Schlüssel besitzen vollständige de-, en- und es-Übersetzungen.")
+    print(
+        f"[PASS] Alle {len(data)} UI-Schlüssel besitzen vollständige "
+        f"de-, en-, es-, zh-Hans-, ja- und ru-Übersetzungen (100% Tier-2 Parität)."
+    )
     return True
 
 

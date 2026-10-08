@@ -38,6 +38,9 @@ class SettingsTab(QWidget):
         self.language_combo.addItem("Deutsch (de)", "de")
         self.language_combo.addItem("English (en)", "en")
         self.language_combo.addItem("Español (es)", "es")
+        self.language_combo.addItem("简体中文 (zh-Hans)", "zh-Hans")
+        self.language_combo.addItem("日本語 (ja)", "ja")
+        self.language_combo.addItem("Русский (ru)", "ru")
 
         # Setze aktuelle Sprache
         current = self.translator.get_language()

@@ -91,10 +91,9 @@ def test_production_catalog_integrity_and_spanish_coverage():
         for slot in LANGUAGE_SLOTS:
             assert slot in entry, f"Key '{key}' missing slot '{slot}'"
 
-        # de, en, and es must be non-empty strings
-        assert entry["de"], f"Key '{key}' has empty German translation"
-        assert entry["en"], f"Key '{key}' has empty English translation"
-        assert entry["es"], f"Key '{key}' has empty Spanish translation"
+        # all 6 language slots must be non-empty strings
+        for slot in LANGUAGE_SLOTS:
+            assert entry[slot], f"Key '{key}' has empty {slot} translation"
 
         # Check for mojibake or corrupt characters
         for char in ("\ufffd", "Ã", "âž•", "ðŸ"):

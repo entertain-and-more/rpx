@@ -5,6 +5,25 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Tier-2 Multi-Language Expansion (6 Languages) & Spanish Documentation - 2026-10-08
+- **Full Tier-2 6-Languages Translation Catalog (`locales/translations.json`)**:
+  - Expanded all 171 UI, menu, combat, and session keys with 100% parity across 6 target languages (`de`, `en`, `es`, `zh-Hans`, `ja`, `ru`), reaching 1,026 curated translations.
+  - Authentic TTRPG and Pen & Paper vocabulary for East Asian (`zh-Hans`, `ja`) and Cyrillic (`ru`) locales (dice rolls, combat initiative, turn advancement, damage, healing, inventory, world settings).
+- **Core Translator & System Language Detection (`translator.py`)**:
+  - Exported standard ecosystem constants `DEFAULT_LANGUAGE = "de"`, `FALLBACK_CHAIN = ("en", "de")`, `LANGUAGE_NAMES`, and `SUPPORTED_LANGUAGES`.
+  - Implemented resilient `detect_system_language()` with environment variable inspections (`LC_ALL`, `LC_MESSAGES`, `LANG`) and locale fallback.
+- **Dynamic GUI Language Switching (`rpx_pro/main_window.py`, `rpx_pro/tabs/settings_tab.py`)**:
+  - Extended "Sprache" menubar with dedicated actions for `Deutsch (de)`, `English (en)`, `Español (es)`, `简体中文 (zh-Hans)`, `日本語 (ja)`, and `Русский (ru)`.
+  - Added all 6 languages to `SettingsTab.language_combo` with automatic signal-decoupled synchronization.
+- **Comprehensive Spanish Documentation (`README_es.md`)**:
+  - Authored complete Spanish documentation with 1:1 structural parity across all 18 numbered sections and dual reciprocal anchors `sec-01` through `sec-18`.
+  - Harmonized trilingual language navigation bar (`English | Deutsch | Español`) across `README.md`, `README_de.md`, and `README_es.md`.
+- **Translation Management & CI Gate (`manage_translations.py`)**:
+  - Upgraded `--check` gate to rigorously enforce 100% parity across all 6 language slots and detect corrupt or mojibake characters.
+- **Hermetic Contract Test Suites (`tests/test_i18n.py`, `tests/test_translation_contract.py`, `tests/test_i18n_ui_integration.py`)**:
+  - Added new `tests/test_i18n.py` (9 tests) verifying catalog completeness, 4-stage fallback chain, TTRPG terms, CJK/Cyrillic encoding integrity, and UI/content separation.
+  - Expanded `test_i18n_ui_integration.py` to cover all 6 languages in `language_combo`. Pytest full suite: 110 passed, 1 skipped (100% green).
+
 ### GitHub Actions Runtime Upgrades - 2026-10-08
 - Updated `actions/stale` to v11 and `actions/github-script` to v9, moving both workflows to Node 24 while preserving their configured events, permissions, and behavior.
 

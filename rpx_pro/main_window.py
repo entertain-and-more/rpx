@@ -295,6 +295,18 @@ class RPXProMainWindow(QMainWindow):
         self.lang_action_es.triggered.connect(lambda: self._set_ui_language("es"))
         lang_menu.addAction(self.lang_action_es)
 
+        self.lang_action_zh = QAction("简体中文 (zh-Hans)", self)
+        self.lang_action_zh.triggered.connect(lambda: self._set_ui_language("zh-Hans"))
+        lang_menu.addAction(self.lang_action_zh)
+
+        self.lang_action_ja = QAction("日本語 (ja)", self)
+        self.lang_action_ja.triggered.connect(lambda: self._set_ui_language("ja"))
+        lang_menu.addAction(self.lang_action_ja)
+
+        self.lang_action_ru = QAction("Русский (ru)", self)
+        self.lang_action_ru.triggered.connect(lambda: self._set_ui_language("ru"))
+        lang_menu.addAction(self.lang_action_ru)
+
         # Hilfe
         help_menu = menubar.addMenu("Hilfe")
         about_action = QAction("Über", self)
