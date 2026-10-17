@@ -1,5 +1,6 @@
 """CombatTab: Kampfsystem mit Wuerfeln, Angriffen, Waffen und Zaubern."""
 
+import contextlib
 import random
 import logging
 
@@ -167,21 +168,41 @@ class CombatTab(QWidget):
         if not attacker or not defender:
             return
 
+        if attacker.health <= 0:
+            msg = f"{attacker.name} ist BESIEGT und kann nicht angreifen!"
+            self.attack_result_label.setText(msg)
+            self.status_message.emit(msg)
+            return
+
+        if defender.health <= 0:
+            msg = f"{defender.name} ist bereits BESIEGT!"
+            self.attack_result_label.setText(msg)
+            self.status_message.emit(msg)
+            return
+
         weapon = None
         if attacker.equipped_weapon and attacker.equipped_weapon in world.weapons:
             weapon = world.weapons[attacker.equipped_weapon]
 
         hit_roll = random.randint(1, 20)
-        accuracy = weapon.accuracy if weapon else 0.5
+        try:
+            raw_acc = weapon.accuracy if weapon else 0.5
+            accuracy = max(0.0, min(1.0, float(raw_acc if raw_acc is not None else 0.5)))
+        except (ValueError, TypeError):
+            accuracy = 0.5
         hit_threshold = max(1, int(20 - accuracy * 20))
 
         skill_bonus = 0
-        if world.skill_definitions:
+        if isinstance(world.skill_definitions, dict):
             for skill_name, skill_def in world.skill_definitions.items():
+                if not isinstance(skill_def, dict):
+                    continue
                 affects = skill_def.get("affects", {})
-                if "strength" in affects or "dexterity" in affects:
-                    skill_val = attacker.skills.get(skill_name, 0)
-                    skill_bonus += skill_val
+                if isinstance(affects, (dict, list)) and ("strength" in affects or "dexterity" in affects):
+                    skill_map = attacker.skills if isinstance(attacker.skills, dict) else {}
+                    raw_val = skill_map.get(skill_name, 0)
+                    with contextlib.suppress(ValueError, TypeError):
+                        skill_bonus += int(raw_val or 0)
 
         lines = [f"--- ANGRIFF: {attacker.name} -> {defender.name} ---"]
         weapon_name = weapon.name if weapon else "Unbewaffnet"
@@ -196,11 +217,26 @@ class CombatTab(QWidget):
             lines.append("Ergebnis: VERFEHLT!")
         else:
             if weapon:
-                base_dmg = random.randint(weapon.damage_min, weapon.damage_max)
-                crit = hit_roll >= weapon.critical_threshold
+                try:
+                    d_min = int(getattr(weapon, "damage_min", 1) or 1)
+                    d_max = int(getattr(weapon, "damage_max", 6) or 6)
+                except (ValueError, TypeError):
+                    d_min, d_max = 1, 6
+                if d_min > d_max:
+                    d_min, d_max = d_max, d_min
+                base_dmg = random.randint(d_min, d_max)
+                try:
+                    crit_thresh = int(getattr(weapon, "critical_threshold", 20) or 20)
+                except (ValueError, TypeError):
+                    crit_thresh = 20
+                crit = hit_roll >= crit_thresh
                 if crit:
-                    base_dmg = int(base_dmg * weapon.critical_multiplier)
-                    lines.append(f"KRITISCHER TREFFER! (x{weapon.critical_multiplier})")
+                    try:
+                        mult = float(getattr(weapon, "critical_multiplier", 2.0) or 2.0)
+                    except (ValueError, TypeError):
+                        mult = 2.0
+                    base_dmg = int(base_dmg * mult)
+                    lines.append(f"KRITISCHER TREFFER! (x{mult})")
             else:
                 base_dmg = random.randint(1, 4)
                 crit = hit_roll >= DEFAULT_UNARMED_CRIT_THRESHOLD
@@ -208,13 +244,20 @@ class CombatTab(QWidget):
                     base_dmg *= 2
                     lines.append("KRITISCHER TREFFER! (x2)")
 
-            str_bonus = (attacker.strength - 10) // 2
+            try:
+                str_val = int(getattr(attacker, "strength", 10) or 10)
+            except (ValueError, TypeError):
+                str_val = 10
+            str_bonus = (str_val - 10) // 2
             total_dmg = max(0, base_dmg + str_bonus)
 
             armor_def = 0
             if defender.equipped_armor and defender.equipped_armor in world.armors:
                 armor = world.armors[defender.equipped_armor]
-                armor_def = armor.protection_avg
+                try:
+                    armor_def = int(getattr(armor, "protection_avg", 0) or 0)
+                except (ValueError, TypeError):
+                    armor_def = 0
             final_dmg = max(0, total_dmg - armor_def)
 
             defender.health = max(0, defender.health - final_dmg)

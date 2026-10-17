@@ -5,6 +5,21 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Ruleset Import, Template Validation & Combat System Resilience (dev/bugsweep) - 2026-10-18
+- **Ruleset Template Resilience & Safe Preview (`rpx_pro/widgets/ruleset_importer.py`)**:
+  - Fixed unhandled `AttributeError` and `TypeError: object of type 'NoneType' has no len()` when `template` or category keys (`races`, `professions`, `weapons`, `armors`, `spells`, `dice_rules`) evaluate to `None`.
+  - Hardened `import_ruleset()` against empty `categories=set()`, preventing unwanted default-fallback to all categories when zero categories are selected.
+  - Implemented case-insensitive enum parsing (`_parse_damage_type`, `_parse_spell_effect`, `_parse_spell_target`) with string sanitization and case normalization, preventing silent fallback of elemental and magical damage types (e.g. `FIRE`, `Ice`) to `PHYSICAL` and healing/buff spells (e.g. `HEAL`, `BUFF`) to `DAMAGE`.
+  - Added boundary validation and auto-inversion correction (`damage_min <= damage_max`, `protection_min <= protection_max`) preventing `random.randint` crashes during combat execution.
+  - Hardened `DiceRule` range parsing (`_normalize_range`) to support scalar integers (e.g. `20` -> `(20, 20)`), 1-element sequences (`[1]` -> `(1, 1)`), and inverted range boundaries (`[18, 2]` -> `(2, 18)`).
+  - Integrated full extraction and persistence of ruleset attributes and skill definitions into `world.skill_definitions`.
+- **Combat Tab Resilience & Defeated Actor Guards (`rpx_pro/tabs/combat_tab.py`)**:
+  - Added defeated actor guards preventing defeated attackers (`attacker.health <= 0`) from initiating attacks and defeated defenders (`defender.health <= 0`) from taking further damage.
+  - Guarded `skill_definitions` parsing against non-dict entries (strings or scalars), eliminating unhandled `AttributeError: 'str' object has no attribute 'get'`.
+  - Hardened weapon damage, critical thresholds, and armor protection lookups against invalid/None types.
+- **Hermetic Regression Test Suite (`tests/test_bugsweep_ruleset_and_combat_resilience_20261018.py`)**:
+  - Authored 8 comprehensive regression tests covering all facets (preview None-safety, empty categories, case-insensitive enums, bounds normalization, dice ranges, skill persistence, and combat guards).
+
 ### Tier-2 Multi-Language Expansion (6 Languages) & Spanish Documentation - 2026-10-08
 - **Full Tier-2 6-Languages Translation Catalog (`locales/translations.json`)**:
   - Expanded all 171 UI, menu, combat, and session keys with 100% parity across 6 target languages (`de`, `en`, `es`, `zh-Hans`, `ja`, `ru`), reaching 1,026 curated translations.
