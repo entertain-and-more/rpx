@@ -144,6 +144,8 @@ def test_translator_four_stage_fallback_chain(tmp_path):
 
 
 def test_translator_detect_system_language(monkeypatch):
+    monkeypatch.delenv("LC_ALL", raising=False)
+    monkeypatch.delenv("LC_MESSAGES", raising=False)
     monkeypatch.setenv("LANG", "zh_CN.UTF-8")
     assert detect_system_language() == "zh-Hans"
 
@@ -167,6 +169,17 @@ def test_translator_detect_system_language(monkeypatch):
     monkeypatch.delenv("LC_MESSAGES", raising=False)
     # Default fallback
     assert detect_system_language() in SUPPORTED_LANGUAGES
+
+
+def test_translator_locale_environment_priority(monkeypatch):
+    monkeypatch.setenv("LC_ALL", "ru_RU.UTF-8")
+    monkeypatch.setenv("LC_MESSAGES", "ja_JP.UTF-8")
+    monkeypatch.setenv("LANG", "zh_CN.UTF-8")
+    assert detect_system_language() == "ru"
+    monkeypatch.delenv("LC_ALL")
+    assert detect_system_language() == "ja"
+    monkeypatch.delenv("LC_MESSAGES")
+    assert detect_system_language() == "zh-Hans"
 
 
 def test_translator_dynamic_switching_and_callbacks():
