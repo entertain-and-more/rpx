@@ -5,6 +5,27 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### macOS & Linux Source Platform Smoke Runner, i18n CWD Resilience & CI Workflow (TW-RPG-05) - 2026-10-30
+- **Cross-Platform Source Smoke Runner (`tests/source_platform_smoke.py`)**:
+  - Implemented standalone multi-check smoke runner executing 8 platform readiness gates:
+    - Check 1: Python standard library & headless runtime environment.
+    - Check 2: PySide6 core, GUI & multimedia engine importability.
+    - Check 3: Headless offscreen `QApplication` initialization, screen detection & primary geometry checks.
+    - Check 4: POSIX audio backend resilience (verifying non-Windows audio paths, volume bounds & safe no-op fallbacks without `winsound`).
+    - Check 5: Entrypoints & headless CLI/JSON-RPC contract validation (`RPXProAPI` & `CLIInterface`).
+    - Check 6: Player screen multi-monitor routing, geometry detection, and fullscreen mode state contract.
+    - Check 7: Native Qt file dialogs (`QFileDialog.getOpenFileName`, `getSaveFileName`, `getExistingDirectory`) & accessible widget properties.
+    - Check 8: Translation system 6-language parity check (`de`, `en`, `es`, `zh-Hans`, `ja`, `ru`), CJK/Cyrillic integrity, and campaign bundle import/export contract.
+- **Translator CWD Resilience Fix (`translator.py`)**:
+  - Fixed regression in `TranslationSystem.__init__`: resolved `locales/translations.json` relative to `Path(__file__).resolve().parent` before falling back to `Path.cwd()`.
+  - Ensures external runners, CLI integrations, subagents, and test suites executed outside the repository root cleanly locate translation files and prevent silent fallback of East Asian and Cyrillic UI strings to German keys.
+- **Contract Test Suite Enhancement (`tests/test_source_platform_smoke.py`)**:
+  - Added unit test `test_source_platform_smoke_runner_passes` executing the standalone smoke runner as a subprocess and asserting exit code 0.
+- **GitHub Actions Cross-Platform Matrix Workflows (`.github/workflows/source-platform-smoke.yml`, `.github/workflows/tests.yml`)**:
+  - Added dedicated matrix workflow (`ubuntu-latest`, `macos-latest`) testing source platform readiness with headless `QT_QPA_PLATFORM=offscreen`.
+  - Integrated `python tests/source_platform_smoke.py` step into primary test workflow (`.github/workflows/tests.yml`) prior to pytest execution.
+
+
 ### Ruleset Import, Template Validation & Combat System Resilience (dev/bugsweep) - 2026-10-18
 - **Ruleset Template Resilience & Safe Preview (`rpx_pro/widgets/ruleset_importer.py`)**:
   - Fixed unhandled `AttributeError` and `TypeError: object of type 'NoneType' has no len()` when `template` or category keys (`races`, `professions`, `weapons`, `armors`, `spells`, `dice_rules`) evaluate to `None`.

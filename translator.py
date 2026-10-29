@@ -246,7 +246,11 @@ class TranslationSystem:
     def __init__(self, default_lang: str = "de", app_dir: Optional[Path] = None):
         self.current_lang = default_lang if default_lang in LANGUAGE_SLOTS else "de"
         if app_dir is None:
-            app_dir = Path.cwd()
+            module_dir = Path(__file__).resolve().parent
+            if (module_dir / "locales" / "translations.json").exists():
+                app_dir = module_dir
+            else:
+                app_dir = Path.cwd()
         self.app_dir = Path(app_dir)
         self.translations_file = self.app_dir / "locales" / "translations.json"
 
