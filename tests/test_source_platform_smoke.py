@@ -78,7 +78,17 @@ class SourcePlatformSmokeDefinitionTests(unittest.TestCase):
             py_compile.compile(str(ROOT / relative_path), doraise=True)
 
     def test_source_platform_smoke_runner_passes(self):
-        from tests.source_platform_smoke import run_all_checks
+        try:
+            from tests.source_platform_smoke import run_all_checks
+        except ModuleNotFoundError:
+            try:
+                from source_platform_smoke import run_all_checks
+            except ModuleNotFoundError:
+                import sys
+                tests_dir = str(ROOT / "tests")
+                if tests_dir not in sys.path:
+                    sys.path.insert(0, tests_dir)
+                from source_platform_smoke import run_all_checks
         self.assertTrue(run_all_checks())
 
 

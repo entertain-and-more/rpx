@@ -7,7 +7,7 @@
 [![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/entertain-and-more/rpx/releases)
 [![Store Paket](https://img.shields.io/badge/Store%20Paket-1.0.0.0-informational.svg)](store_package.json)
 [![Status](https://img.shields.io/badge/Status-unver%C3%B6ffentlicht-yellow.svg)](SECURITY.md)
-[![Pytest](https://img.shields.io/badge/Pytest-102%20passed%20%7C%201%20skipped-brightgreen.svg)](tests/)
+[![Pytest](https://img.shields.io/badge/Pytest-123%20passed%20%7C%201%20skipped-brightgreen.svg)](tests/)
 [![Mitwirken](https://img.shields.io/badge/Mitwirken-Willkommen-brightgreen.svg)](CONTRIBUTING.md)
 [![Web Companion](https://img.shields.io/badge/Web%20Companion-18%20passed-brightgreen.svg)](web_companion/)
 [![GUI](https://img.shields.io/badge/GUI-PySide6%20%2F%20Qt6-blue.svg)](https://www.qt.io/)
@@ -18,7 +18,7 @@
 [![Sicherheits-SLA](https://img.shields.io/badge/Sicherheits--SLA-48h%20%2F%205d-blue.svg)](SECURITY.md)
 [![Drittanbieter Geprueft](https://img.shields.io/badge/Drittanbieter-gepr%C3%BCft%20%7C%20Level%201%20SBOM%20(Text)-success.svg)](THIRD_PARTY_LICENSES.txt)
 [![Attribution](https://img.shields.io/badge/Attribution-NOTICE-blue.svg)](NOTICE)
-[![Geprüft](https://img.shields.io/badge/gepr%C3%BCft-2026--10--04-blue.svg)](MARKETING-LOG.txt)
+[![Geprüft](https://img.shields.io/badge/gepr%C3%BCft-2026--10--31-blue.svg)](MARKETING-LOG.txt)
 [![Marketing Log](https://img.shields.io/badge/Marketing%20Log-aktiv-blueviolet.svg)](MARKETING-LOG.txt)
 [![Code-Stil: ruff](https://img.shields.io/badge/Code--Stil-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![LLM Bereit](https://img.shields.io/badge/llms.txt-bereit-purple.svg)](llms.txt)
@@ -326,6 +326,8 @@ flowchart TD
 <a id="7-session-lebenszyklus--workflow"></a>
 ## 7. Session-Lebenszyklus & Workflow
 
+### 7.1 Multi-Tier Session-Workflow
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -361,6 +363,43 @@ sequenceDiagram
     SL->>PWA: Lädt ZIP via Drag & Drop in Web-Companion
     PWA->>PWA: Parst JSON-Manifest & cacht offline
     PWA-->>SL: Mobile Heldenübersicht & Kartenanzeige bereit
+```
+
+### 7.2 Atmosphären-Signal- & Kampfabwicklungs-Pipeline
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor SL as Spielleiter (GM)
+    participant GUI as RPX Desktop GUI (PySide6)
+    participant API as RPXProAPI Dispatcher-Schicht
+    participant COMBAT as Kampf- & Würfel-Engine
+    participant AUDIO as AudioManager (Qt / pygame / winsound)
+    participant LIGHT as LightManager (Blitz / Stroboskop / Tag-Nacht)
+    participant PLAYER as Zweitmonitor (Spieler-Kiosk)
+    participant JOURNAL as Lokales Session-WAL (rpx_pro_data/)
+
+    Note over SL,GUI: Atmosphären- & Unwetter-Trigger
+    SL->>GUI: Löst Gewitter & Blitz-Ambiente aus
+    GUI->>API: dispatch_event("ambience_thunderstorm", intensity=0.85)
+    activate API
+    API->>AUDIO: play_sound("thunder_strike.wav", loop=false)
+    API->>LIGHT: trigger_lightning(flashes=3, duration_ms=450)
+    API->>PLAYER: mirror_ambient_state(color="#1a1c2e", strobe=true)
+    deactivate API
+    PLAYER-->>SL: Blitz-Effekte & Sound am Spieltisch synchronisiert
+
+    Note over SL,COMBAT: Rundenablauf & Schadensabwicklung
+    SL->>GUI: Würfelt Drachenodem-Angriff (8W6 Feuerschaden)
+    GUI->>API: roll_combat_attack(dice="8d6", target_ac=16, dc=15)
+    activate API
+    API->>COMBAT: calculate_mitigation(damage_type="fire", roll_expr="8d6")
+    COMBAT-->>API: result(total=31, crit=false, dc_saved=false)
+    API->>AUDIO: play_sound("dragon_fire_breath.wav")
+    API->>PLAYER: broadcast_combat_overlay(hp_delta=-31, status="Brennend")
+    API->>JOURNAL: append_audit_entry(event="combat_turn", delta="-31 HP")
+    deactivate API
+    PLAYER-->>SL: Spieler-Kiosk spiegelt Treffer ohne geheime SL-Werte
 ```
 
 ---

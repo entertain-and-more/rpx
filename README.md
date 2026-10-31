@@ -7,7 +7,7 @@
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/entertain-and-more/rpx/releases)
 [![Store Package](https://img.shields.io/badge/store%20package-1.0.0.0-informational.svg)](store_package.json)
 [![Status](https://img.shields.io/badge/status-unreleased-yellow.svg)](SECURITY.md)
-[![Pytest](https://img.shields.io/badge/pytest-102%20passed%20%7C%201%20skipped-brightgreen.svg)](tests/)
+[![Pytest](https://img.shields.io/badge/pytest-123%20passed%20%7C%201%20skipped-brightgreen.svg)](tests/)
 [![Contributing](https://img.shields.io/badge/contributing-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Web Companion](https://img.shields.io/badge/web%20companion-18%20passed-brightgreen.svg)](web_companion/)
 [![GUI](https://img.shields.io/badge/GUI-PySide6%20%2F%20Qt6-blue.svg)](https://www.qt.io/)
@@ -18,7 +18,7 @@
 [![Security SLA](https://img.shields.io/badge/security%20SLA-48h%20%2F%205d-blue.svg)](SECURITY.md)
 [![Third-Party Audited](https://img.shields.io/badge/third--party-audited%20%7C%20Level%201%20SBOM%20(Text)-success.svg)](THIRD_PARTY_LICENSES.txt)
 [![Attribution](https://img.shields.io/badge/attribution-NOTICE-blue.svg)](NOTICE)
-[![Verified](https://img.shields.io/badge/verified-2026--10--04-blue.svg)](MARKETING-LOG.txt)
+[![Verified](https://img.shields.io/badge/verified-2026--10--31-blue.svg)](MARKETING-LOG.txt)
 [![Marketing Log](https://img.shields.io/badge/marketing%20log-active-blueviolet.svg)](MARKETING-LOG.txt)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![LLM Ready](https://img.shields.io/badge/llms.txt-ready-purple.svg)](llms.txt)
@@ -281,6 +281,8 @@ flowchart TD
 <a id="7-session-lifecycle--workflow"></a>
 ## 7. Session Lifecycle & Workflow
 
+### 7.1 Multi-Tier Session Workflow
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -316,6 +318,43 @@ sequenceDiagram
     GM->>PWA: Load ZIP bundle via drag-and-drop
     PWA->>PWA: Parse JSON manifest & cache offline
     PWA-->>GM: Mobile party status & map viewer ready
+```
+
+### 7.2 Atmospheric Signal & Combat Resolution Pipeline
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor GM as Game Master
+    participant GUI as RPX Desktop GUI (PySide6)
+    participant API as RPXProAPI Sovereign Dispatcher
+    participant COMBAT as Combat & Dice Engine
+    participant AUDIO as AudioManager (Qt / pygame / winsound)
+    participant LIGHT as LightManager (Strobe / Flash / Ambience)
+    participant PLAYER as Secondary Monitor (Player Kiosk)
+    participant JOURNAL as Local Session WAL (rpx_pro_data/)
+
+    Note over GM,GUI: Atmospheric & Combat Event Trigger
+    GM->>GUI: Trigger Thunderstorm & Lightning Ambience
+    GUI->>API: dispatch_event("ambience_thunderstorm", intensity=0.85)
+    activate API
+    API->>AUDIO: play_sound("thunder_strike.wav", loop=false)
+    API->>LIGHT: trigger_lightning(flashes=3, duration_ms=450)
+    API->>PLAYER: mirror_ambient_state(color="#1a1c2e", strobe=true)
+    deactivate API
+    PLAYER-->>GM: Atmospheric lightning & sound projected to table
+
+    Note over GM,COMBAT: Initiative & Combat Turn Resolution
+    GM->>GUI: Roll Dragon Breath Attack (8d6 Fire Damage)
+    GUI->>API: roll_combat_attack(dice="8d6", target_ac=16, dc=15)
+    activate API
+    API->>COMBAT: calculate_mitigation(damage_type="fire", roll_expr="8d6")
+    COMBAT-->>API: result(total=31, crit=false, dc_saved=false)
+    API->>AUDIO: play_sound("dragon_fire_breath.wav")
+    API->>PLAYER: broadcast_combat_overlay(hp_delta=-31, status="Burning")
+    API->>JOURNAL: append_audit_entry(event="combat_turn", delta="-31 HP")
+    deactivate API
+    PLAYER-->>GM: Player monitor displays damage without revealing GM stats
 ```
 
 ---

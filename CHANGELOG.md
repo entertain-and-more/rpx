@@ -5,6 +5,15 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Discoverability, README Architecture & Signal Pipeline (2026-10-31) [Pfad B]
+- **Mermaid Signal Pipeline Sequence Diagram**: Section 7 in `README.md` and `README_de.md` expanded with dedicated `### 7.2 Atmospheric Signal & Combat Resolution Pipeline` showing GM trigger -> RPXProAPI dispatcher -> AudioManager / LightManager -> 2nd-monitor Player Screen mirroring & Local Session WAL.
+- **Badge Currency & Test Parity**: Synchronized pytest test count badge across all 6 international READMEs (`README.md`, `README_de.md`, `README_es.md`, `README_zh.md`, `README_ja.md`, `README_ru.md`) to real-measured `123 passed | 1 skipped` (was 102).
+- **Verified Date Stamps**: Synchronized verified badges to `2026-10-31` across all documentation.
+- **RAG & Agent Context Refresh**: Updated `llms.txt` with current 2026-10-31 date stamp, 122 tests passed count, and `tests/source_platform_smoke.py` multi-OS smoke runner reference.
+- **Third-Party Transparency Re-Audit**: Confirmed Level 1 SBOM invariant cross-reference matrix (`INV-LOCAL-01` through `INV-SLA-10`), RunAsInvoker non-elevation, and 0% AGPL copyleft contamination in `THIRD_PARTY_LICENSES.md` and `THIRD_PARTY_LICENSES.txt` as of 2026-10-31.
+- **Automated Contract Tests**: Added `test_pfad_b_20261031_sequence_diagrams_and_badge_currency` to `tests/test_metadata_contract.py` ensuring continuous adherence to Pfad B standards.
+- **Strict Version Discipline**: Version 1.0.0 strictly frozen per T-20260920-167562623.
+
 ### macOS & Linux Source Platform Smoke Runner, i18n CWD Resilience & CI Workflow (TW-RPG-05) - 2026-10-30
 - **Cross-Platform Source Smoke Runner (`tests/source_platform_smoke.py`)**:
   - Implemented standalone multi-check smoke runner executing 8 platform readiness gates:
