@@ -5,6 +5,27 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### WCAG 2.1 AA Keyboard Navigation, Accessible Dialogs, Retranslation & Translation CLI Hardening (TW-RPG-07) - 2026-11-01
+- **WCAG 2.1 AA / BITV 2.0 Tab Navigation & Keyboard Ergonomics (`rpx_pro/main_window.py`)**:
+  - Direct Tab Switching: Configured `Ctrl+1` through `Ctrl+9` and `Ctrl+0` keyboard accelerators for instantaneous 10-tab navigation.
+  - Cyclic Tab Traversal: Configured `Ctrl+Tab` and `Ctrl+Shift+Tab` accelerators for sequential forward/backward tab cycling.
+  - Menu Mnemonics and Standard Shortcuts: Wired `&Datei`, `&Spieler-Bildschirm`, `&Sprache`, `&Hilfe` with accelerators `Ctrl+N` (New Session), `Ctrl+O` (Load), `Ctrl+S` (Save), `Ctrl+I` (Import Ruleset), `Ctrl+Q` (Exit), `F11` (Toggle Player Screen), `Ctrl+B` (Blackout), `Ctrl+M` (Show Map), `Ctrl+Shift+I` (Load Image), `F1` (Keyboard Shortcuts Guide), and `Shift+F1` (About RPX Pro).
+  - Dynamic UI Retranslation: Implemented `retranslate_ui()` updating window title, menu bars, action texts, and tab headings dynamically when switching language at runtime.
+- **Hierarchical Shortcuts & Accessible Metadata Dialogs (`rpx_pro/widgets/dialogs.py`)**:
+  - `ShortcutsDialog`: Modal dialog with accessible roles and descriptions, structured into 4 hierarchical categories (`Navigation & Registerkarten`, `Menü & Session`, `Spieler-Bildschirm`, `Kampf & Rundensteuerung`), alternating row styling, and escape-key dismissal.
+  - `AboutDialog`: Modal dialog with accessible metadata presentation (version 1.0.0, MIT license, Python 3.10+ & PySide6 runtime, WCAG 2.1 AA compliance note, and strict 100% Local-First & Zero-Egress architectural reassurance).
+- **Tier-2 6-Language Localization Expansion (`locales/translations.json`)**:
+  - Added 23 new UI keys (expanded catalog from 171 to 194 keys) covering shortcuts, categories, actions, and dialogs.
+  - Achieved 100% Tier-2 parity across all 6 supported locales: German (`de`), English (`en`), Spanish (`es`), Simplified Chinese (`zh-Hans`), Japanese (`ja`), and Russian (`ru`).
+- **Translation CLI Tooling Hardening (`manage_translations.py`, `translator.py`)**:
+  - Modernized CLI with `argparse` supporting `--check` (CI validation gate returning boolean/exit-code) and `--dir` (target directory).
+  - Bound `APP_DIR = Path(__file__).resolve().parent` for CWD independence when executed outside the repository.
+  - Sourced safe UTF-8 streams for stdout and stderr under Windows consoles.
+  - Implemented atomic JSON writes via PID-tagged `.tmp` files with `fsync`.
+  - Added scan exclusions for `tests/`, `scripts/`, `docs/`, `web_companion/`, `build/`, `dist/`, `.venv/`.
+- **Contract & Accessibility Test Suites (`tests/test_ui_accessibility.py`, `tests/test_manage_translations_cli.py`)**:
+  - Added 3 accessible UI & dialog contract tests and 9 CLI regression tests; entire test suite passing with 135 passed, 1 skipped.
+
 ### Discoverability, README Architecture & Signal Pipeline (2026-10-31) [Pfad B]
 - **Mermaid Signal Pipeline Sequence Diagram**: Section 7 in `README.md` and `README_de.md` expanded with dedicated `### 7.2 Atmospheric Signal & Combat Resolution Pipeline` showing GM trigger -> RPXProAPI dispatcher -> AudioManager / LightManager -> 2nd-monitor Player Screen mirroring & Local Session WAL.
 - **Badge Currency & Test Parity**: Synchronized pytest test count badge across all 6 international READMEs (`README.md`, `README_de.md`, `README_es.md`, `README_zh.md`, `README_ja.md`, `README_ru.md`) to real-measured `123 passed | 1 skipped` (was 102).

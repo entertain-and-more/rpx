@@ -1366,5 +1366,189 @@
     "zh-Hans": "🚀 游戏开始提示词",
     "ja": "🚀 ゲーム開始プロンプト",
     "ru": "🚀 Стартовый промпт игры"
+  },
+  "shortcuts_dialog_title": {
+    "de": "Tastaturkürzel & Barrierefreiheit",
+    "en": "Keyboard Shortcuts & Accessibility",
+    "es": "Atajos de teclado y accesibilidad",
+    "zh-Hans": "快捷键与无障碍",
+    "ja": "キーボードショートカットとアクセシビリティ",
+    "ru": "Горячие клавиши и доступность"
+  },
+  "shortcuts_dialog_desc": {
+    "de": "Übersicht aller verfügbaren Tastenkombinationen und Navigationshilfen.",
+    "en": "Overview of all available keyboard shortcuts and navigation aids.",
+    "es": "Resumen de todos los atajos de teclado y ayudas de navegación disponibles.",
+    "zh-Hans": "所有可用快捷键和导航辅助工具的概览。",
+    "ja": "利用可能なすべてのキーボードショートカットとナビゲーション支援の概要。",
+    "ru": "Обзор всех доступных сочетаний клавиш и средств навигации."
+  },
+  "cat_navigation": {
+    "de": "Navigation & Registerkarten",
+    "en": "Navigation & Tabs",
+    "es": "Navegación y pestañas",
+    "zh-Hans": "导航与标签页",
+    "ja": "ナビゲーションとタブ",
+    "ru": "Навигация и вкладки"
+  },
+  "cat_menu": {
+    "de": "Menü & Session",
+    "en": "Menu & Session",
+    "es": "Menú y sesión",
+    "zh-Hans": "菜单与会话",
+    "ja": "メニューとセッション",
+    "ru": "Меню и сессия"
+  },
+  "cat_player_screen": {
+    "de": "Spieler-Bildschirm",
+    "en": "Player Screen",
+    "es": "Pantalla del jugador",
+    "zh-Hans": "玩家屏幕",
+    "ja": "プレイヤースクリーン",
+    "ru": "Экран игрока"
+  },
+  "cat_combat": {
+    "de": "Kampf & Rundensteuerung",
+    "en": "Combat & Turn Control",
+    "es": "Combate y control de rondas",
+    "zh-Hans": "战斗与回合控制",
+    "ja": "戦闘とターン管理",
+    "ru": "Бой и управление раундами"
+  },
+  "about_dialog_title": {
+    "de": "Über RPX Pro",
+    "en": "About RPX Pro",
+    "es": "Acerca de RPX Pro",
+    "zh-Hans": "关于 RPX Pro",
+    "ja": "RPX Pro について",
+    "ru": "О программе RPX Pro"
+  },
+  "about_subtitle": {
+    "de": "Ein umfassendes Pen & Paper Spielleiter-Toolkit.",
+    "en": "A comprehensive Pen & Paper Game Master toolkit.",
+    "es": "Un conjunto completo de herramientas para el director de juego de rol.",
+    "zh-Hans": "全面的跑团主持人（GM）工具包。",
+    "ja": "包括的なTRPGゲームマスターツールキット。",
+    "ru": "Комплексный набор инструментов для ведущего настольных ролевых игр."
+  },
+  "about_license": {
+    "de": "Lizenz: MIT-Lizenz (Open Source)",
+    "en": "License: MIT License (Open Source)",
+    "es": "Licencia: Licencia MIT (Código abierto)",
+    "zh-Hans": "许可证：MIT 许可证（开源）",
+    "ja": "ライセンス: MIT ライセンス (オープンソース)",
+    "ru": "Лицензия: Лицензия MIT (Открытый исходный код)"
+  },
+  "about_architecture": {
+    "de": "Architektur: 100% Local-First & Zero-Egress (keine Datensammlung, keine Telemetrie)",
+    "en": "Architecture: 100% Local-First & Zero-Egress (no data collection, no telemetry)",
+    "es": "Arquitectura: 100% Local-First y Zero-Egress (sin recopilación de datos, sin telemetría)",
+    "zh-Hans": "架构：100% 本地优先且零外发（无数据收集，无遥测）",
+    "ja": "アーキテクチャ: 100% ローカルファースト & ゼロエグレス (データ収集なし、テレメトリなし)",
+    "ru": "Архитектура: 100% Local-First и Zero-Egress (без сбора данных и телеметрии)"
+  },
+  "about_a11y": {
+    "de": "Barrierefreiheit: WCAG 2.1 AA / BITV 2.0 Tastatur-Ergonomie",
+    "en": "Accessibility: WCAG 2.1 AA / BITV 2.0 Keyboard Ergonomics",
+    "es": "Accesibilidad: Ergonomía de teclado WCAG 2.1 AA / BITV 2.0",
+    "zh-Hans": "无障碍：WCAG 2.1 AA / BITV 2.0 键盘人机工程",
+    "ja": "アクセシビリティ: WCAG 2.1 AA / BITV 2.0 キーボードエルゴノミクス",
+    "ru": "Доступность: эргономика клавиатуры WCAG 2.1 AA / BITV 2.0"
+  },
+  "btn_schliessen": {
+    "de": "Schließen",
+    "en": "Close",
+    "es": "Cerrar",
+    "zh-Hans": "关闭",
+    "ja": "閉じる",
+    "ru": "Закрыть"
+  },
+  "menu_file": {
+    "de": "&Datei",
+    "en": "&File",
+    "es": "&Archivo",
+    "zh-Hans": "文件(&F)",
+    "ja": "ファイル(&F)",
+    "ru": "&Файл"
+  },
+  "menu_player_screen": {
+    "de": "&Spieler-Bildschirm",
+    "en": "&Player Screen",
+    "es": "&Pantalla de jugador",
+    "zh-Hans": "玩家屏幕(&P)",
+    "ja": "プレイヤースクリーン(&P)",
+    "ru": "&Экран игрока"
+  },
+  "menu_language": {
+    "de": "&Sprache",
+    "en": "&Language",
+    "es": "&Idioma",
+    "zh-Hans": "语言(&L)",
+    "ja": "言語(&L)",
+    "ru": "&Язык"
+  },
+  "menu_help": {
+    "de": "&Hilfe",
+    "en": "&Help",
+    "es": "A&yuda",
+    "zh-Hans": "帮助(&H)",
+    "ja": "ヘルプ(&H)",
+    "ru": "&Справка"
+  },
+  "action_shortcuts": {
+    "de": "&Tastaturkürzel...",
+    "en": "Keyboard &Shortcuts...",
+    "es": "&Atajos de teclado...",
+    "zh-Hans": "快捷键(&S)...",
+    "ja": "キーボードショートカット(&S)...",
+    "ru": "&Горячие клавиши..."
+  },
+  "action_about": {
+    "de": "&Über RPX Pro",
+    "en": "&About RPX Pro",
+    "es": "&Acerca de RPX Pro",
+    "zh-Hans": "关于 RPX Pro(&A)",
+    "ja": "RPX Pro について(&A)",
+    "ru": "&О программе RPX Pro"
+  },
+  "action_new_session": {
+    "de": "&Neue Session...",
+    "en": "&New Session...",
+    "es": "&Nueva sesión...",
+    "zh-Hans": "新建会话(&N)...",
+    "ja": "新規セッション(&N)...",
+    "ru": "&Новая сессия..."
+  },
+  "action_load_session": {
+    "de": "Session &laden...",
+    "en": "&Load Session...",
+    "es": "&Cargar sesión...",
+    "zh-Hans": "加载会话(&L)...",
+    "ja": "セッション読み込み(&L)...",
+    "ru": "&Загрузить сессию..."
+  },
+  "action_save_session": {
+    "de": "Session &speichern",
+    "en": "&Save Session",
+    "es": "&Guardar sesión",
+    "zh-Hans": "保存会话(&S)",
+    "ja": "セッション保存(&S)",
+    "ru": "&Сохранить сессию"
+  },
+  "action_import_ruleset": {
+    "de": "&Regelwerk importieren...",
+    "en": "&Import Ruleset...",
+    "es": "&Importar reglamento...",
+    "zh-Hans": "导入规则集(&I)...",
+    "ja": "ルールセットのインポート(&I)...",
+    "ru": "&Импорт свода правил..."
+  },
+  "action_exit": {
+    "de": "&Beenden",
+    "en": "E&xit",
+    "es": "&Salir",
+    "zh-Hans": "退出(&X)",
+    "ja": "終了(&X)",
+    "ru": "&Выход"
   }
 }

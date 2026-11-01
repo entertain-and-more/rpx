@@ -8,11 +8,12 @@ from rpx_pro.widgets.prompt_widget import PromptGeneratorWidget
 from rpx_pro.widgets.ruleset_importer import RulesetImporter, RulesetImportDialog
 from rpx_pro.widgets.map_widget import CharacterMarker, LocationMarker, ResizeHandle, MapWidget
 from rpx_pro.widgets.player_screen import PlayerScreen
+from rpx_pro.widgets.dialogs import ShortcutsDialog, AboutDialog
 
 __all__ = [
     "ChatWidget", "SoundboardWidget", "CharacterWidget",
     "LocationViewWidget", "PromptGeneratorWidget",
     "RulesetImporter", "RulesetImportDialog",
     "CharacterMarker", "LocationMarker", "ResizeHandle", "MapWidget",
-    "PlayerScreen",
+    "PlayerScreen", "ShortcutsDialog", "AboutDialog",
 ]

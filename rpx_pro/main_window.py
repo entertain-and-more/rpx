@@ -11,7 +11,8 @@ from PySide6.QtWidgets import (
     QListWidget, QMessageBox, QInputDialog, QFileDialog, QApplication,
 )
 from PySide6.QtCore import QTimer
-from PySide6.QtGui import QAction, QKeySequence
+from PySide6.QtGui import QAction, QKeySequence, QShortcut
+from rpx_pro.widgets.dialogs import ShortcutsDialog, AboutDialog
 
 from rpx_pro.constants import (
     APP_TITLE, VERSION, IMAGES_DIR,
@@ -183,6 +184,7 @@ class RPXProMainWindow(QMainWindow):
         )):
             self.tabs.setTabToolTip(index, hint)
 
+        self._setup_shortcuts()
         main_layout.addWidget(self.tabs, stretch=1)
 
         # Rechte Seite: Rundensteuerung
@@ -229,92 +231,187 @@ class RPXProMainWindow(QMainWindow):
         layout.addStretch()
         return panel
 
+    def _setup_shortcuts(self):
+        """Standardisierte Tastaturkürzel für Tabwechsel und Navigation (WCAG 2.1 AA)."""
+        self._tab_shortcuts = []
+        for i in range(10):
+            key = f"Ctrl+{i + 1 if i < 9 else 0}"
+            shortcut = QShortcut(QKeySequence(key), self)
+            shortcut.activated.connect(lambda idx=i: self._switch_tab(idx))
+            self._tab_shortcuts.append(shortcut)
+
+        next_tab_shortcut = QShortcut(QKeySequence("Ctrl+Tab"), self)
+        next_tab_shortcut.activated.connect(self._next_tab)
+        self._tab_shortcuts.append(next_tab_shortcut)
+
+        prev_tab_shortcut = QShortcut(QKeySequence("Ctrl+Shift+Tab"), self)
+        prev_tab_shortcut.activated.connect(self._prev_tab)
+        self._tab_shortcuts.append(prev_tab_shortcut)
+
+    def _switch_tab(self, index: int):
+        if 0 <= index < self.tabs.count():
+            self.tabs.setCurrentIndex(index)
+
+    def _next_tab(self):
+        count = self.tabs.count()
+        if count > 0:
+            self.tabs.setCurrentIndex((self.tabs.currentIndex() + 1) % count)
+
+    def _prev_tab(self):
+        count = self.tabs.count()
+        if count > 0:
+            self.tabs.setCurrentIndex((self.tabs.currentIndex() - 1) % count)
+
     def _setup_menu(self):
         menubar = self.menuBar()
 
-        file_menu = menubar.addMenu("Datei")
+        # Datei
+        self.file_menu = menubar.addMenu(self.translator.t("menu_file"))
 
-        new_session_action = QAction("Neue Session", self)
-        new_session_action.setShortcut(QKeySequence.New)
-        new_session_action.triggered.connect(self._new_session)
-        file_menu.addAction(new_session_action)
+        self.new_session_action = QAction(self.translator.t("action_new_session"), self)
+        self.new_session_action.setShortcut(QKeySequence("Ctrl+N"))
+        self.new_session_action.triggered.connect(self._new_session)
+        self.file_menu.addAction(self.new_session_action)
 
-        load_session_action = QAction("Session laden", self)
-        load_session_action.setShortcut(QKeySequence.Open)
-        load_session_action.triggered.connect(self._load_session)
-        file_menu.addAction(load_session_action)
+        self.load_session_action = QAction(self.translator.t("action_load_session"), self)
+        self.load_session_action.setShortcut(QKeySequence("Ctrl+O"))
+        self.load_session_action.triggered.connect(self._load_session)
+        self.file_menu.addAction(self.load_session_action)
 
-        save_session_action = QAction("Session speichern", self)
-        save_session_action.setShortcut(QKeySequence.Save)
-        save_session_action.triggered.connect(self._save_session)
-        file_menu.addAction(save_session_action)
+        self.save_session_action = QAction(self.translator.t("action_save_session"), self)
+        self.save_session_action.setShortcut(QKeySequence("Ctrl+S"))
+        self.save_session_action.triggered.connect(self._save_session)
+        self.file_menu.addAction(self.save_session_action)
 
-        file_menu.addSeparator()
+        self.file_menu.addSeparator()
 
-        import_ruleset_action = QAction("Regelwerk importieren...", self)
-        import_ruleset_action.triggered.connect(self._import_ruleset)
-        file_menu.addAction(import_ruleset_action)
+        self.import_ruleset_action = QAction(self.translator.t("action_import_ruleset"), self)
+        self.import_ruleset_action.setShortcut(QKeySequence("Ctrl+I"))
+        self.import_ruleset_action.triggered.connect(self._import_ruleset)
+        self.file_menu.addAction(self.import_ruleset_action)
 
-        file_menu.addSeparator()
+        self.file_menu.addSeparator()
 
-        exit_action = QAction("Beenden", self)
-        exit_action.setShortcut(QKeySequence.Quit)
-        exit_action.triggered.connect(self.close)
-        file_menu.addAction(exit_action)
+        self.exit_action = QAction(self.translator.t("action_exit"), self)
+        self.exit_action.setShortcut(QKeySequence("Ctrl+Q"))
+        self.exit_action.triggered.connect(self.close)
+        self.file_menu.addAction(self.exit_action)
 
         # PlayerScreen-Menu
-        ps_menu = menubar.addMenu("Spieler-Bildschirm")
+        self.ps_menu = menubar.addMenu(self.translator.t("menu_player_screen"))
 
-        self.ps_open_action = QAction("Spieler-Bildschirm öffnen", self)
+        self.ps_open_action = QAction(self.translator.t("Spieler-Bildschirm öffnen"), self)
+        self.ps_open_action.setShortcut(QKeySequence("F11"))
         self.ps_open_action.triggered.connect(self._toggle_player_screen)
-        ps_menu.addAction(self.ps_open_action)
+        self.ps_menu.addAction(self.ps_open_action)
 
-        ps_black_action = QAction("Schwarzbild", self)
-        ps_black_action.triggered.connect(self._ps_show_black)
-        ps_menu.addAction(ps_black_action)
+        self.ps_black_action = QAction(self.translator.t("Schwarzbild"), self)
+        self.ps_black_action.setShortcut(QKeySequence("Ctrl+B"))
+        self.ps_black_action.triggered.connect(self._ps_show_black)
+        self.ps_menu.addAction(self.ps_black_action)
 
-        ps_map_action = QAction("Karte zeigen", self)
-        ps_map_action.triggered.connect(self._ps_show_map)
-        ps_menu.addAction(ps_map_action)
+        self.ps_map_action = QAction(self.translator.t("Karte zeigen"), self)
+        self.ps_map_action.setShortcut(QKeySequence("Ctrl+M"))
+        self.ps_map_action.triggered.connect(self._ps_show_map)
+        self.ps_menu.addAction(self.ps_map_action)
 
-        ps_image_action = QAction("Bild laden...", self)
-        ps_image_action.triggered.connect(self._ps_load_image)
-        ps_menu.addAction(ps_image_action)
+        self.ps_image_action = QAction(self.translator.t("Bild laden..."), self)
+        self.ps_image_action.setShortcut(QKeySequence("Ctrl+Shift+I"))
+        self.ps_image_action.triggered.connect(self._ps_load_image)
+        self.ps_menu.addAction(self.ps_image_action)
 
         # Sprache / Language Menu
-        lang_menu = menubar.addMenu("Sprache")
-        self.lang_action_de = QAction("Deutsch (de)", self)
+        self.lang_menu = menubar.addMenu(self.translator.t("menu_language"))
+        self.lang_action_de = QAction("Deutsch (&de)", self)
         self.lang_action_de.triggered.connect(lambda: self._set_ui_language("de"))
-        lang_menu.addAction(self.lang_action_de)
+        self.lang_menu.addAction(self.lang_action_de)
 
-        self.lang_action_en = QAction("English (en)", self)
+        self.lang_action_en = QAction("English (&en)", self)
         self.lang_action_en.triggered.connect(lambda: self._set_ui_language("en"))
-        lang_menu.addAction(self.lang_action_en)
+        self.lang_menu.addAction(self.lang_action_en)
 
-        self.lang_action_es = QAction("Español (es)", self)
+        self.lang_action_es = QAction("Español (&es)", self)
         self.lang_action_es.triggered.connect(lambda: self._set_ui_language("es"))
-        lang_menu.addAction(self.lang_action_es)
+        self.lang_menu.addAction(self.lang_action_es)
 
-        self.lang_action_zh = QAction("简体中文 (zh-Hans)", self)
+        self.lang_action_zh = QAction("简体中文 (&zh-Hans)", self)
         self.lang_action_zh.triggered.connect(lambda: self._set_ui_language("zh-Hans"))
-        lang_menu.addAction(self.lang_action_zh)
+        self.lang_menu.addAction(self.lang_action_zh)
 
-        self.lang_action_ja = QAction("日本語 (ja)", self)
+        self.lang_action_ja = QAction("日本語 (&ja)", self)
         self.lang_action_ja.triggered.connect(lambda: self._set_ui_language("ja"))
-        lang_menu.addAction(self.lang_action_ja)
+        self.lang_menu.addAction(self.lang_action_ja)
 
-        self.lang_action_ru = QAction("Русский (ru)", self)
+        self.lang_action_ru = QAction("Русский (&ru)", self)
         self.lang_action_ru.triggered.connect(lambda: self._set_ui_language("ru"))
-        lang_menu.addAction(self.lang_action_ru)
+        self.lang_menu.addAction(self.lang_action_ru)
 
         # Hilfe
-        help_menu = menubar.addMenu("Hilfe")
-        about_action = QAction("Über", self)
-        about_action.triggered.connect(self._show_about)
-        help_menu.addAction(about_action)
+        self.help_menu = menubar.addMenu(self.translator.t("menu_help"))
+        self.shortcuts_action = QAction(self.translator.t("action_shortcuts"), self)
+        self.shortcuts_action.setShortcut(QKeySequence("F1"))
+        self.shortcuts_action.triggered.connect(self._show_shortcuts_dialog)
+        self.help_menu.addAction(self.shortcuts_action)
+
+        self.about_action = QAction(self.translator.t("action_about"), self)
+        self.about_action.setShortcut(QKeySequence("Shift+F1"))
+        self.about_action.triggered.connect(self._show_about_dialog)
+        self.help_menu.addAction(self.about_action)
+
+    def retranslate_ui(self):
+        """Aktualisiert alle UI-Texte, Menüs, Reiter und Tooltips dynamisch (P-006 Tier-2)."""
+        self.setWindowTitle(f"{APP_TITLE} v{VERSION}")
+
+        if hasattr(self, "file_menu"):
+            self.file_menu.setTitle(self.translator.t("menu_file"))
+        if hasattr(self, "new_session_action"):
+            self.new_session_action.setText(self.translator.t("action_new_session"))
+        if hasattr(self, "load_session_action"):
+            self.load_session_action.setText(self.translator.t("action_load_session"))
+        if hasattr(self, "save_session_action"):
+            self.save_session_action.setText(self.translator.t("action_save_session"))
+        if hasattr(self, "import_ruleset_action"):
+            self.import_ruleset_action.setText(self.translator.t("action_import_ruleset"))
+        if hasattr(self, "exit_action"):
+            self.exit_action.setText(self.translator.t("action_exit"))
+
+        if hasattr(self, "ps_menu"):
+            self.ps_menu.setTitle(self.translator.t("menu_player_screen"))
+        if hasattr(self, "ps_open_action"):
+            self.ps_open_action.setText(
+                self.translator.t("Spieler-Bildschirm schließen")
+                if self.player_screen and self.player_screen.isVisible()
+                else self.translator.t("Spieler-Bildschirm öffnen")
+            )
+        if hasattr(self, "ps_black_action"):
+            self.ps_black_action.setText(self.translator.t("Schwarzbild"))
+        if hasattr(self, "ps_map_action"):
+            self.ps_map_action.setText(self.translator.t("Karte zeigen"))
+        if hasattr(self, "ps_image_action"):
+            self.ps_image_action.setText(self.translator.t("Bild laden..."))
+
+        if hasattr(self, "lang_menu"):
+            self.lang_menu.setTitle(self.translator.t("menu_language"))
+
+        if hasattr(self, "help_menu"):
+            self.help_menu.setTitle(self.translator.t("menu_help"))
+        if hasattr(self, "shortcuts_action"):
+            self.shortcuts_action.setText(self.translator.t("action_shortcuts"))
+        if hasattr(self, "about_action"):
+            self.about_action.setText(self.translator.t("action_about"))
+
+        tab_names = [
+            "Chat", "Ansichten", "Welt", "Charaktere", "Kampf",
+            "Missionen", "Inventar", "Soundboard", "KI-Prompts", "Einstellungen"
+        ]
+        if hasattr(self, "tabs"):
+            for idx, name in enumerate(tab_names):
+                if idx < self.tabs.count():
+                    self.tabs.setTabText(idx, self.translator.t(name))
 
     def _set_ui_language(self, lang: str):
         if self.translator.set_language(lang):
+            self.retranslate_ui()
             self.settings_tab.set_language_selection(lang)
             self.status_bar_msg(f"Sprache gewechselt zu {lang}")
 
@@ -1250,11 +1347,16 @@ class RPXProMainWindow(QMainWindow):
     # About / Close
     # ================================================================
 
+    def _show_shortcuts_dialog(self):
+        dialog = ShortcutsDialog(self)
+        dialog.exec()
+
+    def _show_about_dialog(self):
+        dialog = AboutDialog(self)
+        dialog.exec()
+
     def _show_about(self):
-        QMessageBox.about(self, "Über",
-            f"<h2>{APP_TITLE}</h2>"
-            f"<p>Version {VERSION}</p>"
-            f"<p>Ein umfassendes Pen & Paper Toolkit</p>")
+        self._show_about_dialog()
 
     def closeEvent(self, event):
         if hasattr(self, 'sim_timer'):

@@ -305,8 +305,11 @@ class TranslationSystem:
             key: self._with_language_slots(value)
             for key, value in self.translations.items()
         }
-        with open(self.translations_file, "w", encoding="utf-8") as f:
+        temp_path = self.translations_file.with_name(f"{self.translations_file.name}.tmp")
+        with open(temp_path, "w", encoding="utf-8") as f:
             json.dump(self.translations, f, indent=2, ensure_ascii=False)
+            f.flush()
+        temp_path.replace(self.translations_file)
 
     def t(self, key: str) -> str:
         """
@@ -404,10 +407,23 @@ class TranslationSystem:
 
     def _find_german_strings(self, directory: Path) -> Set[str]:
         german_strings = set()
-        skip_dirs = {"build", "dist", "venv", ".venv", "__pycache__", "releases"}
+        skip_dirs = {
+            "build", "dist", "venv", ".venv", "__pycache__", "releases",
+            "scratch", "tests", "scripts", "docs", "flutter_port",
+            "web_companion", ".git", ".pytest_cache", ".pytest_temp", ".ruff_cache",
+        }
+        skip_files = {
+            "run_tests.py", "manage_translations.py", "translator.py", "source_platform_smoke.py",
+        }
 
         for py_file in directory.rglob("*.py"):
-            if any(folder in py_file.parts for folder in skip_dirs):
+            try:
+                rel_parts = py_file.relative_to(directory).parts[:-1]
+            except ValueError:
+                rel_parts = py_file.parts[:-1]
+            if any(folder in rel_parts for folder in skip_dirs):
+                continue
+            if py_file.name.startswith("test_") or py_file.name in skip_files:
                 continue
             try:
                 with open(py_file, "r", encoding="utf-8") as f:
