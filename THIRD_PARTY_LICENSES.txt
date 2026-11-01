@@ -2,7 +2,7 @@
 # Level 1 SBOM & Third-Party Software Inventory (Plain-Text Companion)
 # =============================================================================
 # Project: RPX Pro (RolePlay Xtreme Professional Edition)
-# Audited: 2026-10-04 against Level 1 SBOM and runtime invariants
+# Audited: 2026-10-04 (Re-audited: 2026-10-31) against Level 1 SBOM and runtime invariants
 # License: MIT License (see LICENSE and NOTICE)
 # Contributing Guidelines: CONTRIBUTING.md (see Section 1 and CONTRIBUTING.md)
 # Repository: https://github.com/entertain-and-more/rpx

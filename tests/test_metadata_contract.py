@@ -295,7 +295,7 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertTrue(llms_path.exists(), "llms.txt must exist")
         content = llms_path.read_text(encoding="utf-8")
 
-        self.assertTrue(content.startswith("## Last-checked: 2026-10-04"), "llms.txt must have current date")
+        self.assertTrue(content.startswith("## Last-checked: 2026-10-31"), "llms.txt must have current date")
         self.assertIn("[PERSONA-01]", content)
         self.assertIn("INV-LOCAL-01", content)
         self.assertIn("CONTRIBUTING.md", content)
@@ -438,6 +438,39 @@ class RepositoryContractTests(unittest.TestCase):
         ]
         for pattern in patterns:
             self.assertIn(pattern, gitignore, f".gitignore must contain {pattern}")
+
+
+    def test_pfad_b_20261031_sequence_diagrams_and_badge_currency(self):
+        readme_en = (ROOT / "README.md").read_text(encoding="utf-8")
+        readme_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
+        llms_txt = (ROOT / "llms.txt").read_text(encoding="utf-8")
+
+        # 1. Badge currency and test count across all 6 READMEs
+        for fname in ["README.md", "README_de.md", "README_es.md", "README_zh.md", "README_ja.md", "README_ru.md"]:
+            doc = (ROOT / fname).read_text(encoding="utf-8")
+            self.assertIn("123%20passed", doc, f"{fname} missing 123 passed pytest badge")
+            self.assertIn("2026--10--31", doc, f"{fname} missing 2026-10-31 verified badge")
+
+        # 2. llms.txt context currency
+        self.assertIn("123 passed, 1 skipped", llms_txt)
+        self.assertIn("tests/source_platform_smoke.py", llms_txt)
+
+        # 3. Section 7 sequence diagrams expansion
+        self.assertIn("### 7.1 Multi-Tier Session Workflow", readme_en)
+        self.assertIn("### 7.2 Atmospheric Signal & Combat Resolution Pipeline", readme_en)
+        self.assertIn("dispatch_event(\"ambience_thunderstorm\", intensity=0.85)", readme_en)
+        self.assertIn("mirror_ambient_state(color=\"#1a1c2e\", strobe=true)", readme_en)
+        self.assertIn("roll_combat_attack(dice=\"8d6\", target_ac=16, dc=15)", readme_en)
+
+        self.assertIn("### 7.1 Multi-Tier Session-Workflow", readme_de)
+        self.assertIn("### 7.2 Atmosphären-Signal- & Kampfabwicklungs-Pipeline", readme_de)
+        self.assertIn("dispatch_event(\"ambience_thunderstorm\", intensity=0.85)", readme_de)
+        self.assertIn("mirror_ambient_state(color=\"#1a1c2e\", strobe=true)", readme_de)
+        self.assertIn("roll_combat_attack(dice=\"8d6\", target_ac=16, dc=15)", readme_de)
+
+        # 4. Strict Version Freeze per T-20260920-167562623
+        pyproject_txt = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+        self.assertIn('version = "1.0.0"', pyproject_txt)
 
 
 if __name__ == "__main__":

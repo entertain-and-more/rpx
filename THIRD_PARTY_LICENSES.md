@@ -1,7 +1,7 @@
 # Third-Party Licenses & Transparency Notice (Level 1 SBOM)
 
 > **Project:** `entertain-and-more/rpx` (RPX Pro — RolePlay Xtreme Professional Edition)<br>
-> **Audited:** 2026-10-04<br>
+> **Audited:** 2026-10-04 (Re-audited: 2026-10-31)<br>
 > **Repository License:** [MIT License](LICENSE)<br>
 > **Contributing Guidelines:** [CONTRIBUTING.md](CONTRIBUTING.md)<br>
 > **Canonical Notice:** [NOTICE](NOTICE)<br>
