@@ -47,7 +47,7 @@ jobs:
       QT_QPA_PLATFORM: offscreen
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Python einrichten
         uses: actions/setup-python@v7
