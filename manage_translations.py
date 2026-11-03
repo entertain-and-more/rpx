@@ -4,7 +4,7 @@ manage_translations.py - Multi-Language Translation Manager & CI Gate
 Policy P-006: Tier-2 Multi-Language Standard (DE, EN, ES, ZH-HANS, JA, RU)
 
 Verwendung:
-    python manage_translations.py [--check] [--dir PROJEKTVERZEICHNIS]
+    python manage_translations.py [--check] [--stats] [--scan] [--dir PROJEKTVERZEICHNIS]
 """
 
 from __future__ import annotations
@@ -17,6 +17,7 @@ import re
 import stat
 import sys
 from pathlib import Path
+from typing import Any
 
 APP_DIR = Path(__file__).resolve().parent
 LANGUAGE_SLOTS = ("de", "en", "es", "zh-Hans", "ja", "ru")
@@ -114,7 +115,17 @@ def find_german_strings(source_dir: str | None = None) -> set[str]:
     return german_strings
 
 
+def load_translations(trans_file: Path | str) -> dict[str, Any]:
+    """Lädt den Übersetzungskatalog ein."""
+    path = Path(trans_file)
+    if not path.exists():
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
 def _atomic_write_json(file_path: str, data: dict) -> None:
+    """Persistiert JSON-Daten atomar via Staging (.tmp.<pid>), flush und fsync."""
     dirname = os.path.dirname(file_path)
     if dirname:
         os.makedirs(dirname, exist_ok=True)
@@ -122,6 +133,7 @@ def _atomic_write_json(file_path: str, data: dict) -> None:
     try:
         with open(temp_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
+            f.write("\n")
             f.flush()
             os.fsync(f.fileno())
         if os.path.exists(file_path):
@@ -135,41 +147,50 @@ def _atomic_write_json(file_path: str, data: dict) -> None:
         raise
 
 
-def check_translations(source_dir: str | None = None) -> bool:
-    """CI Check: Ueberprueft Vollstaendigkeit aller 6 Zielsprachen in translations.json."""
-    _ensure_utf8_streams()
-    if not source_dir:
-        source_dir = str(APP_DIR)
-    trans_file = os.path.join(source_dir, TRANSLATION_FILE)
-    if not os.path.exists(trans_file):
-        print(f"[FAIL] Übersetzungsdatei nicht gefunden: {trans_file}")
-        return False
+def save_translations(trans_file: Path | str, translations: dict[str, Any]) -> None:
+    """Öffentliche Fassade für atomares Speichern."""
+    _atomic_write_json(str(trans_file), translations)
+
+
+def validate_catalog(trans_file: Path | str) -> tuple[bool, list[str]]:
+    """
+    Validiert die Tier-2 6-Sprachen-Parität (DE, EN, ES, ZH-HANS, JA, RU).
+    Gibt (is_valid, findings) zurück.
+    """
+    path = Path(trans_file)
+    findings: list[str] = []
+
+    if not path.exists():
+        findings.append(f"Übersetzungsdatei nicht gefunden: {path}")
+        return False, findings
 
     try:
-        with open(trans_file, "r", encoding="utf-8") as f:
-            translations = json.load(f)
-    except (json.JSONDecodeError, OSError, Exception) as e:
-        print(f"[FAIL] Fehler beim Parsen von {trans_file}: {e}")
-        return False
+        data = load_translations(path)
+    except Exception as exc:
+        findings.append(f"Fehler beim Parsen von {path}: {exc}")
+        return False, findings
 
-    if not isinstance(translations, dict) or not translations:
-        print("[FAIL] Übersetzungsdatei ist leer oder ungültig")
-        return False
+    if not isinstance(data, dict) or not data:
+        findings.append(f"Übersetzungsdatei {path} ist leer oder ungültig")
+        return False, findings
 
-    missing_slots: list[str] = []
+    keys_checked = 0
     missing_by_lang: dict[str, list[str]] = {lang: [] for lang in LANGUAGE_SLOTS}
     mojibake: list[str] = []
 
-    for k, v in translations.items():
+    for k, v in data.items():
         if k.startswith("_"):
             continue
+        keys_checked += 1
+
         if not isinstance(v, dict):
-            missing_slots.append(k)
+            findings.append(f"Schlüssel '{k}': Wert ist kein Objekt mit Sprachschlüsseln")
             continue
+
         for slot in LANGUAGE_SLOTS:
             if slot not in v:
-                missing_slots.append(f"{k}:{slot}")
-            elif not v.get(slot):
+                findings.append(f"Schlüssel '{k}': Fehlender Sprach-Slot '{slot}'")
+            elif not str(v.get(slot, "")).strip():
                 missing_by_lang[slot].append(k)
 
         if any(c in k for c in ["\ufffd", "Ã", "âž•", "ðŸ"]):
@@ -179,26 +200,151 @@ def check_translations(source_dir: str | None = None) -> bool:
             if isinstance(val, str) and any(c in val for c in ["\ufffd", "Ã", "âž•", "ðŸ"]):
                 mojibake.append(f"{k}:{slot}")
 
-    has_error = False
-    if missing_slots:
-        print(f"[FAIL] {len(missing_slots)} Einträge mit fehlenden Sprach-Slots")
-        has_error = True
+    if keys_checked == 0:
+        findings.append("Katalog enthält keine prüfbaren Übersetzungsschlüssel")
+
     for slot in LANGUAGE_SLOTS:
         if missing_by_lang[slot]:
-            print(f"[FAIL] {len(missing_by_lang[slot])} Einträge ohne {slot}-Übersetzung")
-            has_error = True
-    if mojibake:
-        print(f"[FAIL] {len(mojibake)} Einträge mit Mojibake-Artefakten")
-        has_error = True
+            findings.append(f"{len(missing_by_lang[slot])} Einträge ohne {slot}-Übersetzung")
 
-    if has_error:
+    if mojibake:
+        findings.append(f"{len(mojibake)} Einträge mit Mojibake-Artefakten")
+
+    is_valid = len(findings) == 0
+    return is_valid, findings
+
+
+def check_translations(source_dir: str | None = None) -> bool:
+    """CI Check: Ueberprueft Vollstaendigkeit aller 6 Zielsprachen in translations.json."""
+    _ensure_utf8_streams()
+    if not source_dir:
+        source_dir = str(APP_DIR)
+    trans_file = os.path.join(source_dir, TRANSLATION_FILE)
+    is_valid, findings = validate_catalog(trans_file)
+
+    if not is_valid:
+        for finding in findings:
+            print(f"[FAIL] {finding}")
         return False
 
+    data = load_translations(trans_file)
+    content_keys = [k for k in data if not k.startswith("_")]
     print(
-        f"[PASS] Alle {len(translations)} UI-Schlüssel besitzen vollständige "
+        f"[PASS] Alle {len(content_keys)} UI-Schlüssel besitzen vollständige "
         f"de-, en-, es-, zh-Hans-, ja- und ru-Übersetzungen (100% Tier-2 Parität)."
     )
     return True
+
+
+def get_catalog_stats(source_dir_or_file: Path | str | None = None) -> dict[str, Any]:
+    """Liefert detaillierte Statistiken über den Katalog."""
+    if source_dir_or_file is None:
+        path = APP_DIR / TRANSLATION_FILE
+    else:
+        p = Path(source_dir_or_file)
+        path = p if p.name.endswith(".json") else (p / TRANSLATION_FILE)
+
+    if not path.exists():
+        return {"error": f"Datei nicht gefunden: {path}", "perfect_parity": False}
+
+    try:
+        data = load_translations(path)
+    except Exception as exc:
+        return {"error": f"Parse-Fehler: {exc}", "perfect_parity": False}
+
+    content_keys = [k for k in data if not k.startswith("_")]
+    total_keys = len(content_keys)
+
+    stats: dict[str, Any] = {
+        "file": str(path),
+        "total_keys": total_keys,
+        "metadata_keys": len(data) - total_keys,
+        "languages": {},
+        "perfect_parity": True,
+    }
+
+    for lang in LANGUAGE_SLOTS:
+        filled = 0
+        missing = 0
+        for k in content_keys:
+            val = data.get(k, {})
+            if isinstance(val, dict) and str(val.get(lang, "")).strip():
+                filled += 1
+            else:
+                missing += 1
+        pct = (filled / total_keys * 100.0) if total_keys > 0 else 0.0
+        stats["languages"][lang] = {
+            "filled": filled,
+            "missing": missing,
+            "coverage_pct": round(pct, 2),
+        }
+        if missing > 0:
+            stats["perfect_parity"] = False
+
+    return stats
+
+
+def print_catalog_stats(source_dir_or_file: Path | str | None = None) -> bool:
+    """Gibt eine strukturierte Statistik-Übersicht für die Konsole aus."""
+    _ensure_utf8_streams()
+    stats = get_catalog_stats(source_dir_or_file)
+    if "error" in stats:
+        print(f"[FAIL] {stats['error']}")
+        return False
+
+    print("=" * 65)
+    print("RPX Pro — Tier-2 Übersetzungs-Statistik (Policy P-006)")
+    print("=" * 65)
+    print(f"Datei:           {stats['file']}")
+    print(f"UI-Schlüssel:    {stats['total_keys']}")
+    print(f"Metadaten-Keys:  {stats['metadata_keys']}")
+    print("-" * 65)
+    print(f"{'Sprache':<12} | {'Gefüllt':<10} | {'Fehlend':<10} | {'Abdeckung':<10}")
+    print("-" * 65)
+    for lang in LANGUAGE_SLOTS:
+        lang_stat = stats["languages"].get(lang, {})
+        filled = lang_stat.get("filled", 0)
+        missing = lang_stat.get("missing", 0)
+        pct = lang_stat.get("coverage_pct", 0.0)
+        print(f"{lang:<12} | {filled:<10} | {missing:<10} | {pct:>8.1f} %")
+    print("=" * 65)
+    if stats.get("perfect_parity"):
+        print("[PASS] 100% Tier-2 Parität über alle 6 Zielsprachen erfüllt.")
+    else:
+        print("[WARN] Übersetzungslücken vorhanden — Parität unvollständig.")
+    print("=" * 65)
+    return bool(stats.get("perfect_parity"))
+
+
+def scan_translations(source_dir: str | None = None) -> dict[str, Any]:
+    """Führt einen Dry-Run Quellcode-Scan nach neuen deutschen Strings durch."""
+    _ensure_utf8_streams()
+    if not source_dir:
+        source_dir = str(APP_DIR)
+    trans_file = os.path.join(source_dir, TRANSLATION_FILE)
+
+    translations = load_translations(trans_file) if os.path.exists(trans_file) else {}
+    found = find_german_strings(source_dir)
+    new_strings = [s for s in sorted(found) if s not in translations]
+
+    print(f"[i] Quellcode-Scan in: {source_dir}")
+    print(f"[i] Gefundene UI-Strings gesamt: {len(found)}")
+    print(f"[i] Bereits im Katalog erfasst:   {len(found) - len(new_strings)}")
+    print(f"[i] Neu zu erfassende Strings:   {len(new_strings)}")
+    if new_strings:
+        print("\nNeu gefundene Strings (Dry-Run, nicht gespeichert):")
+        for s in new_strings[:20]:
+            print(f"  + {s}")
+        if len(new_strings) > 20:
+            print(f"  ... und {len(new_strings) - 20} weitere")
+    else:
+        print("[ok] Alle gefundenen Strings sind bereits im Katalog enthalten.")
+
+    return {
+        "found_count": len(found),
+        "cataloged_count": len(found) - len(new_strings),
+        "new_strings": new_strings,
+    }
 
 
 def manage_translations(source_dir: str | None = None) -> None:
@@ -209,8 +355,7 @@ def manage_translations(source_dir: str | None = None) -> None:
 
     if os.path.exists(trans_file):
         try:
-            with open(trans_file, "r", encoding="utf-8") as f:
-                loaded = json.load(f)
+            loaded = load_translations(trans_file)
             translations = {
                 key: with_language_slots(value)
                 for key, value in loaded.items()
@@ -264,6 +409,16 @@ def main() -> None:
         help="Validiert Vollständigkeit und Parität der Übersetzungen in allen 6 Sprachen.",
     )
     parser.add_argument(
+        "--stats",
+        action="store_true",
+        help="Zeigt detaillierte Statistiken und Abdeckungsgrade je Zielsprache an.",
+    )
+    parser.add_argument(
+        "--scan",
+        action="store_true",
+        help="Quellcode-Scan nach neuen deutschen UI-Strings im Read-Only-Modus (Dry-Run).",
+    )
+    parser.add_argument(
         "--dir",
         default=str(APP_DIR),
         help=f"Projektverzeichnis (Standard: {APP_DIR})",
@@ -272,6 +427,11 @@ def main() -> None:
 
     if args.check:
         sys.exit(0 if check_translations(args.dir) else 1)
+    if args.stats:
+        sys.exit(0 if print_catalog_stats(args.dir) else 1)
+    if args.scan:
+        scan_translations(args.dir)
+        sys.exit(0)
     manage_translations(args.dir)
 
 

@@ -15,7 +15,9 @@ translator.set_language('es')
 
 import contextlib
 import json
+import os
 import re
+import stat
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Set
 
@@ -305,11 +307,21 @@ class TranslationSystem:
             key: self._with_language_slots(value)
             for key, value in self.translations.items()
         }
-        temp_path = self.translations_file.with_name(f"{self.translations_file.name}.tmp")
-        with open(temp_path, "w", encoding="utf-8") as f:
-            json.dump(self.translations, f, indent=2, ensure_ascii=False)
-            f.flush()
-        temp_path.replace(self.translations_file)
+        temp_path = self.translations_file.parent / f".{self.translations_file.name}.tmp.{os.getpid()}"
+        try:
+            with open(temp_path, "w", encoding="utf-8") as f:
+                json.dump(self.translations, f, indent=2, ensure_ascii=False)
+                f.write("\n")
+                f.flush()
+                os.fsync(f.fileno())
+            if self.translations_file.exists():
+                with contextlib.suppress(OSError, PermissionError):
+                    os.chmod(self.translations_file, stat.S_IWRITE | stat.S_IREAD)
+            os.replace(temp_path, self.translations_file)
+        finally:
+            if temp_path.exists():
+                with contextlib.suppress(OSError):
+                    temp_path.unlink()
 
     def t(self, key: str) -> str:
         """

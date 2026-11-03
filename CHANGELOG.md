@@ -5,6 +5,21 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Translation Management Tooling, Stats, Scan & Atomic Persistence Hardening (TW-RPG-12) - 2026-11-03
+- **Translation Management CLI Expansion (`manage_translations.py`)**:
+  - Added `--stats` option: Outputs detailed per-language translation statistics (total UI keys, metadata keys, filled/missing counts, and coverage percentage for all 6 Tier-2 languages: `de`, `en`, `es`, `zh-Hans`, `ja`, `ru`) with a perfect parity indicator.
+  - Added `--scan` option: Read-only dry-run scanner that audits Python codebase for German UI strings and reports uncataloged candidate strings without writing to disk.
+  - Retained and hardened `--check` (CI validation gate with exit code 0/1) and `--dir` (custom project directory targeting).
+  - Modularized programmatic APIs: `load_translations`, `save_translations`, `validate_catalog`, `get_catalog_stats`, `print_catalog_stats`, `find_german_strings`, and `scan_translations`.
+- **Atomic Persistence & Crash Durability (`translator.py`, `manage_translations.py`)**:
+  - Hardened `TranslationSystem._save_translations` in `translator.py` with PID-tagged staging file (`.{name}.tmp.{pid}`), `flush()`, `os.fsync(f.fileno())`, permissions handling, and atomic `os.replace`. Prevents partial file writes, race conditions, and corrupted translation catalogs across concurrent processes and crash scenarios.
+- **Source Platform Smoke Runner Check 9 (`tests/source_platform_smoke.py`)**:
+  - Added Check 9 (`check_translation_parity`): Automates verification of translation catalog structure, full 6-language Tier-2 parity across all 194 keys, and `check_translations()` exit code. Smoke suite expanded from 8 to 9 checks (9/9 passed).
+- **Hermetic Contract Test Suite Expansion (`tests/test_manage_translations_cli.py`)**:
+  - Added 6 new unit & integration tests covering `--stats` formatting, `--scan` dry-run behavior, `get_catalog_stats()` API, corrupted/empty file handling, `translator._save_translations` atomic write, and `save_translations` helper (15/15 passed).
+  - Pytest test suite expanded from 135 passed, 1 skipped to 141 passed, 1 skipped (100% green).
+- **Strict Version Discipline**: Version 1.0.0 maintained unchanged per T-20260920-167562623.
+
 ### WCAG 2.1 AA Keyboard Navigation, Accessible Dialogs, Retranslation & Translation CLI Hardening (TW-RPG-07) - 2026-11-01
 - **WCAG 2.1 AA / BITV 2.0 Tab Navigation & Keyboard Ergonomics (`rpx_pro/main_window.py`)**:
   - Direct Tab Switching: Configured `Ctrl+1` through `Ctrl+9` and `Ctrl+0` keyboard accelerators for instantaneous 10-tab navigation.

@@ -197,6 +197,21 @@ def check_i18n_and_bundle_contract():
     assert hasattr(api, "import_campaign_bundle")
 
 
+# --- Check 9: Tier-2 Translation Parity & Translation Management Integrity ---
+def check_translation_parity():
+    from manage_translations import check_translations, get_catalog_stats, validate_catalog
+
+    trans_file = REPO_ROOT / "locales" / "translations.json"
+    is_valid, findings = validate_catalog(trans_file)
+    assert is_valid, f"Translation catalog validation failed: {findings}"
+
+    stats = get_catalog_stats(REPO_ROOT)
+    assert stats.get("perfect_parity") is True, f"Translation catalog lacks perfect parity: {stats}"
+    assert stats.get("total_keys", 0) >= 194, f"Unexpected key count: {stats.get('total_keys')}"
+
+    assert check_translations(str(REPO_ROOT)) is True
+
+
 def run_all_checks() -> bool:
     print("=" * 70)
     print("RPX Pro — macOS / Linux Source-Platform-Smoke (P3)")
@@ -211,6 +226,7 @@ def run_all_checks() -> bool:
         check(6, "PlayerScreen Multi-Monitor & Fullscreen Routing", check_player_screen_routing)
         check(7, "Native Qt File Dialogs & Accessible Navigation Context", check_native_file_dialogs_and_a11y)
         check(8, "TranslationSystem CJK/Kyrillisch & Campaign Bundle Contract", check_i18n_and_bundle_contract)
+        check(9, "Tier-2 Translation Parity & Translations Catalog Integrity", check_translation_parity)
 
     passed_count = sum(1 for _, status, _ in results if status == PASS)
     failed_count = sum(1 for _, status, _ in results if status == FAIL)
