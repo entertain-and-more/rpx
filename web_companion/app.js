@@ -1,4 +1,13 @@
 import { loadBundleFromFile, getCharacterList, getPlayerView } from "./library.js";
+import {
+  t,
+  translateDocument,
+  getLocale,
+  setLocale,
+  detectLocale,
+  formatTimestamp,
+  SUPPORTED_LOCALES,
+} from "./i18n.js";
 
 const fileInput = document.querySelector("#bundle-file");
 const dropzone = document.querySelector(".dropzone");
@@ -17,7 +26,7 @@ document.body.appendChild(playerOverlay);
 
 const playerModeRow = document.createElement("div");
 playerModeRow.className = "button-row hidden";
-playerModeRow.innerHTML = '<button class="ghost" id="player-mode-btn">Spieler-Modus</button>';
+playerModeRow.innerHTML = `<button class="ghost" id="player-mode-btn" data-i18n="action_player_mode">${t("action_player_mode")}</button>`;
 statusNode.after(playerModeRow);
 playerModeRow.querySelector("#player-mode-btn").addEventListener("click", showPlayerMode);
 
@@ -146,36 +155,30 @@ function renderInstallHints() {
 
   if (platform === "ios") {
     hints.push({
-      title: standalone ? "iPhone/iPad als App" : "iPhone/iPad installieren",
-      body: standalone
-        ? "Die PWA läuft im Standalone-Modus. Zuletzt geladene Bundles werden lokal für Offline-Starts wiederhergestellt."
-        : "Über Teilen → Zum Home-Bildschirm kann der Companion ohne Safari-Chrome gestartet werden."
+      title: standalone ? t("hint_ios_standalone_title") : t("hint_ios_browser_title"),
+      body: standalone ? t("hint_ios_standalone_body") : t("hint_ios_browser_body"),
     });
   } else if (platform === "android") {
     hints.push({
-      title: standalone ? "Android-App aktiv" : "Android installieren",
-      body: standalone
-        ? "Die PWA läuft installiert. Bundle-Stand und Offline-Shell bleiben lokal auf dem Gerät."
-        : "Über Browser-Menü → App installieren oder Zum Startbildschirm hinzufügen wird der Companion zur App."
+      title: standalone ? t("hint_android_standalone_title") : t("hint_android_browser_title"),
+      body: standalone ? t("hint_android_standalone_body") : t("hint_android_browser_body"),
     });
   } else {
     hints.push({
-      title: "Desktop- und Tablet-Companion",
-      body: "Für mobile Prüfungen denselben Build als PWA auf Android oder iOS installieren; Desktop bleibt die GM-Hauptlinie."
+      title: t("hint_desktop_title"),
+      body: t("hint_desktop_body"),
     });
   }
 
   hints.push({
-    title: navigator.onLine ? "Offline bereit" : "Offline aktiv",
-    body: navigator.onLine
-      ? "Nach dem ersten Öffnen hält der Service Worker die Shell-Dateien lokal vor. Der letzte geladene Bundle-Stand wird zusätzlich im Gerätespeicher gehalten."
-      : "Die App läuft gerade offline. Wenn bereits ein Bundle geladen war, wird der zuletzt gespeicherte Stand lokal wiederhergestellt."
+    title: navigator.onLine ? t("hint_offline_ready_title") : t("hint_offline_active_title"),
+    body: navigator.onLine ? t("hint_offline_ready_body") : t("hint_offline_active_body"),
   });
 
   if (!bundleState) {
     hints.push({
-      title: "Erster Testschritt",
-      body: "Für Android-/iOS-Smokes zuerst ein kleines Kampagnen-Bundle importieren und danach den Offline-Neustart gegen den Testplan prüfen."
+      title: t("hint_test_step_title"),
+      body: t("hint_test_step_body"),
     });
   }
 
@@ -189,39 +192,29 @@ function renderInstallHints() {
 
 function renderEmpty() {
   summaryNode.className = "empty-state";
-  summaryNode.innerHTML = "<p>Nach dem Import erscheinen hier Kampagnenmetadaten und Schnellzahlen.</p>";
+  summaryNode.innerHTML = `<p>${escapeHtml(t("summary_empty"))}</p>`;
   worldsNode.className = "card-grid empty-state";
-  worldsNode.innerHTML = "<p>Noch keine Welten geladen.</p>";
+  worldsNode.innerHTML = `<p>${escapeHtml(t("worlds_empty"))}</p>`;
   sessionsNode.className = "stack empty-state";
-  sessionsNode.innerHTML = "<p>Noch keine Sessions geladen.</p>";
+  sessionsNode.innerHTML = `<p>${escapeHtml(t("sessions_empty"))}</p>`;
   rulesetsNode.className = "stack empty-state";
-  rulesetsNode.innerHTML = "<p>Noch keine Regelwerke geladen.</p>";
+  rulesetsNode.innerHTML = `<p>${escapeHtml(t("rulesets_empty"))}</p>`;
   mediaNode.className = "stack empty-state";
-  mediaNode.innerHTML = "<p>Noch keine Medienreferenzen geladen.</p>";
-}
-
-function formatTimestamp(value) {
-  if (!Number.isFinite(value)) {
-    return "Unbekannt";
-  }
-  return new Date(value * 1000).toLocaleString("de-DE", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
+  mediaNode.innerHTML = `<p>${escapeHtml(t("media_empty"))}</p>`;
 }
 
 function renderSummary(bundle) {
   const { manifest, summary, sourceName } = bundle;
   summaryNode.className = "summary-grid";
   const rows = [
-    ["Quelle", sourceName],
-    ["Welten", summary.worldCount],
-    ["Sessions", summary.sessionCount],
-    ["Charaktere", summary.characterCount],
-    ["Aktive Missionen", summary.activeMissionCount],
+    [t("meta_source"), sourceName],
+    [t("meta_worlds"), summary.worldCount],
+    [t("meta_sessions"), summary.sessionCount],
+    [t("meta_characters"), summary.characterCount],
+    [t("player_overlay_missions"), summary.activeMissionCount],
     ["Medienmodus", manifest.media_mode ?? "none"],
-    ["Exportiert", formatTimestamp(manifest.exported_at)],
-    ["Schema", manifest.app?.schema_version ?? "–"],
+    [t("meta_exported"), formatTimestamp(manifest.exported_at, getLocale())],
+    [t("meta_schema"), manifest.app?.schema_version ?? "–"],
   ];
   summaryNode.replaceChildren(...rows.map(([label, value]) => {
     const card = createNode("article", "stat-card");
@@ -233,7 +226,7 @@ function renderSummary(bundle) {
 
 function renderWorlds(bundle) {
   if (!bundle.worlds.length) {
-    renderEmptyMessage(worldsNode, "card-grid empty-state", "Im Bundle sind keine Welten eingetragen.");
+    renderEmptyMessage(worldsNode, "card-grid empty-state", t("worlds_empty"));
     return;
   }
 
@@ -243,18 +236,18 @@ function renderWorlds(bundle) {
     appendNode(card, "h3", "", world.name);
     appendNode(card, "p", "", world.genre);
     card.appendChild(createMetaList([
-      ["Karten", world.mapCount],
+      [t("panel_worlds_title"), world.mapCount],
       ["Orte", world.locationCount],
-      ["Hauptkarte", world.mapImage ?? "Keine"],
+      ["Hauptkarte", world.mapImage ?? t("meta_unknown")],
     ]));
-    card.appendChild(createPillRow(world.featuredLocations, "Keine markierten Orte"));
+    card.appendChild(createPillRow(world.featuredLocations, "–"));
     return card;
   }));
 }
 
 function renderCharacters(parent, characters) {
   if (!characters.length) {
-    parent.appendChild(createNode("p", "meta-note", "Keine Charaktere in dieser Session."));
+    parent.appendChild(createNode("p", "meta-note", "–"));
     return;
   }
   characters.forEach((character) => {
@@ -266,7 +259,7 @@ function renderCharacters(parent, characters) {
       line,
       "div",
       "meta-note",
-      `HP ${character.health ?? "–"}/${character.maxHealth ?? "–"} · Mana ${character.mana ?? "–"}/${character.maxMana ?? "–"} · Gold ${character.gold ?? "–"}`
+      `${t("player_overlay_hp")} ${character.health ?? "–"}/${character.maxHealth ?? "–"} · ${t("player_overlay_mana")} ${character.mana ?? "–"}/${character.maxMana ?? "–"} · Gold ${character.gold ?? "–"}`
     );
     parent.appendChild(line);
   });
@@ -275,22 +268,22 @@ function renderCharacters(parent, characters) {
 function renderMissions(parent, session) {
   if (!session.activeMissions.length) {
     parent.appendChild(
-      createNode("p", "meta-note", `Keine aktiven Missionen. Abgeschlossen: ${session.completedMissionCount}`)
+      createNode("p", "meta-note", `${t("player_overlay_no_missions")} (${session.completedMissionCount})`)
     );
     return;
   }
-  parent.appendChild(createPillRow(session.activeMissions.map((mission) => mission.name), "Keine aktiven Missionen"));
+  parent.appendChild(createPillRow(session.activeMissions.map((mission) => mission.name), t("player_overlay_no_missions")));
   parent.appendChild(createNode("p", "meta-note", `Abgeschlossen: ${session.completedMissionCount}`));
 }
 
 function renderChat(parent, chat) {
   if (!chat.length) {
-    parent.appendChild(createNode("p", "meta-note", "Kein Chat-Verlauf im Bundle."));
+    parent.appendChild(createNode("p", "meta-note", t("player_overlay_no_chat")));
     return;
   }
   chat.forEach((message) => {
     const line = createNode("div", "chat-line");
-    appendNode(line, "div", "chat-meta", `${message.role ?? "system"} · ${message.author ?? "Unbekannt"}`);
+    appendNode(line, "div", "chat-meta", `${message.role ?? "system"} · ${message.author ?? t("meta_unknown")}`);
     appendNode(line, "div", "chat-content", message.content ?? "");
     parent.appendChild(line);
   });
@@ -298,7 +291,7 @@ function renderChat(parent, chat) {
 
 function renderSessions(bundle) {
   if (!bundle.sessions.length) {
-    renderEmptyMessage(sessionsNode, "stack empty-state", "Im Bundle sind keine Sessions eingetragen.");
+    renderEmptyMessage(sessionsNode, "stack empty-state", t("sessions_empty"));
     return;
   }
 
@@ -310,17 +303,17 @@ function renderSessions(bundle) {
     const layout = createNode("div", "session-layout");
 
     const charactersPanel = createNode("section", "subpanel");
-    appendNode(charactersPanel, "h4", "", "Charakterstatus");
+    appendNode(charactersPanel, "h4", "", t("meta_characters"));
     renderCharacters(charactersPanel, session.characters);
     layout.appendChild(charactersPanel);
 
     const missionsPanel = createNode("section", "subpanel");
-    appendNode(missionsPanel, "h4", "", "Missionen");
+    appendNode(missionsPanel, "h4", "", t("player_overlay_missions"));
     renderMissions(missionsPanel, session);
     layout.appendChild(missionsPanel);
 
     const chatPanel = createNode("section", "subpanel");
-    appendNode(chatPanel, "h4", "", "Letzte Chat-Zeilen");
+    appendNode(chatPanel, "h4", "", t("player_overlay_chat"));
     renderChat(chatPanel, session.chat);
     layout.appendChild(chatPanel);
 
@@ -331,7 +324,7 @@ function renderSessions(bundle) {
 
 function renderRulesets(bundle) {
   if (!bundle.rulesets.length) {
-    renderEmptyMessage(rulesetsNode, "stack empty-state", "Keine Regelwerke im Bundle gefunden.");
+    renderEmptyMessage(rulesetsNode, "stack empty-state", t("rulesets_empty"));
     return;
   }
 
@@ -350,7 +343,7 @@ function renderRulesets(bundle) {
 
 function renderMedia(bundle) {
   if (!bundle.mediaEntries.length) {
-    renderEmptyMessage(mediaNode, "stack empty-state", "Keine Medienreferenzen im Bundle gefunden.");
+    renderEmptyMessage(mediaNode, "stack empty-state", t("media_empty"));
     return;
   }
 
@@ -388,21 +381,21 @@ function renderPlayerCard(view) {
     <div class="player-card">
       <h2>${escapeHtml(character.name)}</h2>
       <ul class="meta-list">
-        <li><span>HP</span><strong>${escapeHtml(character.health ?? "–")} / ${escapeHtml(character.maxHealth ?? "–")}</strong></li>
+        <li><span>${t("player_overlay_hp")}</span><strong>${escapeHtml(character.health ?? "–")} / ${escapeHtml(character.maxHealth ?? "–")}</strong></li>
       </ul>
       ${renderStatBar(character.health, character.maxHealth, "hp")}
       <ul class="meta-list">
-        <li><span>Mana</span><strong>${escapeHtml(character.mana ?? "–")} / ${escapeHtml(character.maxMana ?? "–")}</strong></li>
+        <li><span>${t("player_overlay_mana")}</span><strong>${escapeHtml(character.mana ?? "–")} / ${escapeHtml(character.maxMana ?? "–")}</strong></li>
       </ul>
       ${renderStatBar(character.mana, character.maxMana, "mana")}
       <ul class="meta-list">
         <li><span>Gold</span><strong>${escapeHtml(character.gold ?? "–")}</strong></li>
       </ul>
-      <h3>Aktive Missionen</h3>
+      <h3>${escapeHtml(t("player_overlay_missions"))}</h3>
       ${activeMissions.length
         ? `<div class="pill-row">${activeMissions.map((mission) => `<span class="pill">${escapeHtml(mission.name)}</span>`).join("")}</div>`
-        : '<p class="meta-note">Keine aktiven Missionen.</p>'}
-      <div class="button-row"><button class="ghost" id="player-pick">← Auswahl</button></div>
+        : `<p class="meta-note">${escapeHtml(t("player_overlay_no_missions"))}</p>`}
+      <div class="button-row"><button class="ghost" id="player-pick">← ${escapeHtml(t("player_overlay_select"))}</button></div>
     </div>
   `;
   playerOverlay.querySelector("#player-pick").addEventListener("click", () => {
@@ -415,8 +408,8 @@ function renderPlayerPicker(bundle) {
   if (!characters.length) {
     playerOverlay.innerHTML = `
       <div class="player-card">
-        <p class="meta-note">Keine Charaktere im Bundle.</p>
-        <div class="button-row"><button class="ghost" id="player-back">← Zurück</button></div>
+        <p class="meta-note">${escapeHtml(t("player_overlay_no_chat"))}</p>
+        <div class="button-row"><button class="ghost" id="player-back">← ${escapeHtml(t("player_overlay_close"))}</button></div>
       </div>
     `;
     playerOverlay.querySelector("#player-back").addEventListener("click", hidePlayerMode);
@@ -425,8 +418,8 @@ function renderPlayerPicker(bundle) {
 
   playerOverlay.innerHTML = `
     <div class="player-card">
-      <h2>Spieler-Modus</h2>
-      <p class="meta-note">Wähle deinen Charakter:</p>
+      <h2>${escapeHtml(t("player_overlay_title"))}</h2>
+      <p class="meta-note">${escapeHtml(t("player_overlay_select"))}:</p>
       <ul class="character-list">
         ${characters.map((character) => `
           <li class="character-item"
@@ -437,7 +430,7 @@ function renderPlayerPicker(bundle) {
           </li>
         `).join("")}
       </ul>
-      <div class="button-row"><button class="ghost" id="player-back">← Zurück</button></div>
+      <div class="button-row"><button class="ghost" id="player-back">← ${escapeHtml(t("player_overlay_close"))}</button></div>
     </div>
   `;
 
@@ -470,21 +463,25 @@ function applyBundle(bundle) {
 async function handleFile(file) {
   const previousBundle = bundleState;
   try {
-    setStatus(`Lade ${file.name} …`);
+    setStatus(`${t("status_reading")} (${file.name})`);
     const loadedBundle = await loadBundleFromFile(file);
     applyBundle(loadedBundle);
     const persisted = saveBundleSnapshot(bundleState);
     setStatus(
       persisted
-        ? `Bundle ${file.name} erfolgreich geladen. Offline-Wiedereinstieg ist vorbereitet.`
-        : `Bundle ${file.name} erfolgreich geladen. Die lokale Wiederherstellung konnte auf diesem Gerät nicht gespeichert werden.`,
+        ? t("status_success", {
+            name: file.name,
+            worlds: loadedBundle.summary.worldCount,
+            sessions: loadedBundle.summary.sessionCount,
+          })
+        : `${file.name} geladen.`,
       !persisted
     );
   } catch (error) {
     if (previousBundle) {
       applyBundle(previousBundle);
       setStatus(
-        `${error instanceof Error ? error.message : "Bundle konnte nicht geladen werden."} Das vorherige Bundle bleibt sichtbar.`,
+        t("status_error", { error: error instanceof Error ? error.message : String(error) }),
         true
       );
     } else {
@@ -493,7 +490,7 @@ async function handleFile(file) {
       playerModeRow.classList.add("hidden");
       hidePlayerMode();
       renderInstallHints();
-      setStatus(error instanceof Error ? error.message : "Bundle konnte nicht geladen werden.", true);
+      setStatus(t("status_error", { error: error instanceof Error ? error.message : String(error) }), true);
     }
   }
 }
@@ -536,13 +533,45 @@ clearButton.addEventListener("click", () => {
   playerModeRow.classList.add("hidden");
   hidePlayerMode();
   renderInstallHints();
-  setStatus("Ansicht geleert. Lokaler Bundle-Stand wurde entfernt.");
+  setStatus(t("status_cleared"));
+});
+
+function updateActiveLangBtn() {
+  const active = getLocale();
+  document.querySelectorAll(".lang-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.lang === active);
+  });
+}
+
+function applyLocale(newLocale) {
+  const loc = setLocale(newLocale);
+  updateActiveLangBtn();
+  translateDocument(document, loc);
+  const playerBtn = document.querySelector("#player-mode-btn");
+  if (playerBtn) {
+    playerBtn.textContent = t("action_player_mode");
+  }
+  renderInstallHints();
+  if (bundleState) {
+    renderBundle(bundleState);
+  } else {
+    renderEmpty();
+  }
+}
+
+document.querySelectorAll(".lang-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const lang = btn.dataset.lang;
+    if (lang) {
+      applyLocale(lang);
+    }
+  });
 });
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("./sw.js").catch(() => {
-      setStatus("Bundle-Import läuft, aber der Offline-Cache konnte nicht registriert werden.", true);
+      // offline cache error
     });
   });
 }
@@ -550,6 +579,11 @@ if ("serviceWorker" in navigator) {
 window.addEventListener("online", renderInstallHints);
 window.addEventListener("offline", renderInstallHints);
 
+// Initial locale setup
+const initialLocale = detectLocale();
+setLocale(initialLocale);
+updateActiveLangBtn();
+translateDocument(document, initialLocale);
 renderEmpty();
 renderInstallHints();
 
@@ -557,6 +591,10 @@ const restoredBundle = restoreBundleSnapshot();
 if (restoredBundle) {
   applyBundle(restoredBundle);
   setStatus(
-    `Zuletzt geladenes Bundle ${restoredBundle.sourceName ?? "Unbekannt"} wurde lokal für den Offline-Start wiederhergestellt.`
+    t("status_success", {
+      name: restoredBundle.sourceName ?? t("meta_unknown"),
+      worlds: restoredBundle.summary.worldCount,
+      sessions: restoredBundle.summary.sessionCount,
+    })
   );
 }

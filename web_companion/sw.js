@@ -4,6 +4,7 @@ const SHELL_FILES = [
   "./styles.css",
   "./app.js",
   "./library.js",
+  "./i18n.js",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-maskable.svg",

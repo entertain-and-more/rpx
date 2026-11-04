@@ -80,6 +80,12 @@ def check_store_package_json(project_root: Path) -> List[str]:
         elif field == "publisher" and not val.startswith("CN=52596601-BAB4-4F3F-B182-E8F3F273B202"):
             errors.append(f"store_package.json publisher '{val}' does not match canonical publisher DN.")
 
+    expected_langs = {"de-DE", "en-US", "es-ES", "zh-CN", "ja-JP", "ru-RU"}
+    actual_langs = set(data.get("languages", []))
+    if not expected_langs.issubset(actual_langs):
+        missing = expected_langs - actual_langs
+        errors.append(f"store_package.json missing required Tier-2 languages: {sorted(missing)}")
+
     return errors
 
 
@@ -123,6 +129,16 @@ def check_appx_manifest(project_root: Path) -> List[str]:
     cap = root.find(".//{*}Capability[@Name='runFullTrust']")
     if cap is None:
         errors.append("AppxManifest missing runFullTrust capability.")
+
+    resources = root.find(".//{*}Resources")
+    if resources is None:
+        errors.append("AppxManifest.xml missing Resources element.")
+    else:
+        found_res_langs = {r.attrib.get("Language") for r in resources.findall(".//{*}Resource") if r.attrib.get("Language")}
+        expected_langs = {"de-DE", "en-US", "es-ES", "zh-CN", "ja-JP", "ru-RU"}
+        if not expected_langs.issubset(found_res_langs):
+            missing = expected_langs - found_res_langs
+            errors.append(f"AppxManifest Resources missing required Tier-2 languages: {sorted(missing)}")
 
     app = root.find(".//{*}Application")
     if app is not None:
@@ -177,6 +193,10 @@ def check_staging_directory(project_root: Path) -> List[str]:
         "store_settings.json",
         "store_listing_de.md",
         "store_listing_en.md",
+        "store_listing_es.md",
+        "store_listing_zh.md",
+        "store_listing_ja.md",
+        "store_listing_ru.md",
         "StoreLogo.png",
     ]
     for fn in required_files:
@@ -221,7 +241,15 @@ def check_screenshots(project_root: Path) -> List[str]:
 
 def check_keyword_compliance(project_root: Path) -> List[str]:
     errors = []
-    for fn in ["store_listing_de.md", "store_listing_en.md"]:
+    kw_headers = ["schlüsselwörter", "keywords", "palabras clave", "关键词", "キーワード", "ключевые слова"]
+    for fn in [
+        "store_listing_de.md",
+        "store_listing_en.md",
+        "store_listing_es.md",
+        "store_listing_zh.md",
+        "store_listing_ja.md",
+        "store_listing_ru.md",
+    ]:
         fpath = project_root / "releases" / "windowsstore" / fn
         if not fpath.exists():
             continue
@@ -229,7 +257,8 @@ def check_keyword_compliance(project_root: Path) -> List[str]:
         kw_section = False
         keywords = []
         for line in text.splitlines():
-            if "schlüsselwörter" in line.lower() or "keywords" in line.lower():
+            low = line.lower()
+            if any(h in low for h in kw_headers):
                 kw_section = True
                 continue
             if kw_section and line.strip():

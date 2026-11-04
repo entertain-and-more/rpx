@@ -73,6 +73,42 @@ class StoreReadinessContractTests(unittest.TestCase):
         self.assertEqual(data.get("fail_count"), 0)
         self.assertGreaterEqual(data.get("pass_count"), 6)
 
+    def test_store_package_json_tier2_six_languages(self):
+        pkg_file = ROOT / "store_package.json"
+        self.assertTrue(pkg_file.exists())
+        data = json.loads(pkg_file.read_text(encoding="utf-8"))
+        langs = set(data.get("languages", []))
+        expected = {"de-DE", "en-US", "es-ES", "zh-CN", "ja-JP", "ru-RU"}
+        self.assertTrue(expected.issubset(langs), f"Missing languages: {expected - langs}")
+
+    def test_appx_manifest_tier2_resources(self):
+        manifest_path = ROOT / "store_package" / "RPX Pro" / "AppxManifest.xml"
+        self.assertTrue(manifest_path.exists())
+        tree = ET.parse(manifest_path)
+        root = tree.getroot()
+        resources = root.find(".//{*}Resources")
+        self.assertIsNotNone(resources, "Resources element must be present in AppxManifest")
+        langs = {r.attrib.get("Language") for r in resources.findall(".//{*}Resource") if r.attrib.get("Language")}
+        expected = {"de-DE", "en-US", "es-ES", "zh-CN", "ja-JP", "ru-RU"}
+        self.assertTrue(expected.issubset(langs), f"Missing Resource languages: {expected - langs}")
+
+    def test_store_listing_has_tier2_six_languages(self):
+        listing_path = ROOT / "STORE_LISTING.md"
+        self.assertTrue(listing_path.exists())
+        text = listing_path.read_text(encoding="utf-8")
+        self.assertIn("## Deutsch", text)
+        self.assertIn("## English", text)
+        self.assertIn("## Español", text)
+        self.assertIn("## 简体中文", text)
+        self.assertIn("## 日本語", text)
+        self.assertIn("## Русский", text)
+
+    def test_staging_directory_has_six_language_listings(self):
+        staging = ROOT / "releases" / "windowsstore"
+        for lang in ["de", "en", "es", "zh", "ja", "ru"]:
+            fpath = staging / f"store_listing_{lang}.md"
+            self.assertTrue(fpath.exists(), f"Missing staging listing for {lang}: {fpath.name}")
+
     def test_plan_d_pointer_integrity(self):
         pointer = ROOT / "REPO.pointer.json"
         self.assertTrue(pointer.exists())

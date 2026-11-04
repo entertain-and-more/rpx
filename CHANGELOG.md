@@ -5,6 +5,26 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Tier-2 6-Language Store Packaging Harmonization, Web Companion i18n & Contract Gate (TW-RPG-13..16) - 2026-11-04
+- **Windows Store Packaging & AppxManifest 6-Language Harmonization (TW-RPG-13)**:
+  - Harmonized `store_package.json` to include all 6 Tier-2 languages: `de-DE`, `en-US`, `es-ES`, `zh-CN`, `ja-JP`, `ru-RU`.
+  - Added `<Resources>` block with explicit language declarations for all 6 Tier-2 languages to `store_package/RPX Pro/AppxManifest.xml`.
+  - Updated `scripts/check_store_readiness.py` to enforce presence of all 6 Tier-2 language entries in `store_package.json`, AppxManifest `<Resources>`, and staging listings.
+- **Tier-2 6-Language Store Listing Expansion (TW-RPG-14)**:
+  - Expanded `STORE_LISTING.md` from bilingual (DE/EN) to all 6 Tier-2 languages: added comprehensive sections for `Español`, `简体中文`, `日本語`, and `Русский` with short descriptions (<= 100 chars), full feature overviews, screenshot tables, and Partner Center Policy 10.1.3 compliant keywords (strictly 7 non-trademarked keywords per language, <= 30 chars).
+  - Staged individual listings in `releases/windowsstore/`: `store_listing_es.md`, `store_listing_zh.md`, `store_listing_ja.md`, `store_listing_ru.md`.
+- **Web/PWA-Companion Tier-2 6-Language Localization (TW-RPG-15)**:
+  - Created standalone ES module `web_companion/i18n.js` supporting `de`, `en`, `es`, `zh`, `ja`, and `ru` with 4-stage fallback chain (`requested -> en -> de -> key`), parameter interpolation, and locale-aware timestamp formatting across all 64 UI keys with 100% parity.
+  - Added accessible language selector buttons (`.lang-switcher` / `.lang-btn`) and `data-i18n` attributes to `web_companion/index.html`.
+  - Updated `web_companion/app.js` with dynamic language switching, live re-rendering of summary, worlds, sessions, rulesets, media, player mode overlay, and install hints.
+  - Sourced `i18n.js` in `web_companion/sw.js` for full offline cache readiness.
+  - Implemented 7 hermetic contract tests in `web_companion/tests/i18n.test.mjs` (25/25 Node companion tests passing).
+- **Hermetic Python Contract Test Suite Expansion (TW-RPG-16)**:
+  - Expanded `tests/test_store_readiness.py` with contract tests verifying 6-language declaration in `store_package.json`, AppxManifest `<Resources>`, and `STORE_LISTING.md` (10/10 passed).
+  - Added `tests/test_web_companion_i18n.py` with 6 automated tests validating zero-egress, core files, manifest, language buttons, i18n contract, service worker cache, and companion test suite execution (6/6 passed).
+  - Pytest full suite expanded from 141 passed, 1 skipped to 151 passed, 1 skipped (100% green).
+- **Strict Version Discipline**: Version 1.0.0 maintained unchanged per T-20260920-167562623.
+
 ### Translation Management Tooling, Stats, Scan & Atomic Persistence Hardening (TW-RPG-12) - 2026-11-03
 - **Translation Management CLI Expansion (`manage_translations.py`)**:
   - Added `--stats` option: Outputs detailed per-language translation statistics (total UI keys, metadata keys, filled/missing counts, and coverage percentage for all 6 Tier-2 languages: `de`, `en`, `es`, `zh-Hans`, `ja`, `ru`) with a perfect parity indicator.
