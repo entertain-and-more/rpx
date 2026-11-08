@@ -5,6 +5,23 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Pfad A Repository Hygiene: PEP 621 / PEP 639 License Standardization, Setuptools Package Discovery & CI Packaging Gate - 2026-11-08
+- **PEP 621 & PEP 639 License Standardization (`pyproject.toml`)**:
+  - Replaced legacy dictionary `license = {text = "MIT"}` with standard SPDX license expression string `license = "MIT"` conforming to modern setuptools (>=77 / 82) and PEP 639.
+  - Removed redundant `"License :: OSI Approved :: MIT License"` classifier to eliminate build failures under PEP 639 fail-closed validation.
+- **Setuptools Packaging Discovery & Sdist Manifest (`pyproject.toml`, `MANIFEST.in`)**:
+  - Configured explicit `[tool.setuptools.packages.find]` (including `rpx_pro*` and excluding non-package root folders) and `py-modules = ["RPX_Pro_1", "translator", "manage_translations"]` to resolve flat-layout discovery ambiguity during wheel/sdist builds.
+  - Added `MANIFEST.in` ensuring licenses, documentation, locales, rulesets, store package assets, web companion components, and tests are bundled into source distributions.
+- **CI Matrix Packaging Verification Gate (`.github/workflows/tests.yml`)**:
+  - Added package metadata and build verification step (`python -m pip install --upgrade pip setuptools build` & `python -m pip install --no-build-isolation --dry-run .`) in `syntax` job across all supported Python versions (3.10-3.13) to catch packaging regressions early.
+- **Hermetic Contract Test Suite Expansion (`tests/test_metadata_contract.py`, `tests/test_security_license_contract.py`)**:
+  - Added `test_pep621_pep639_metadata_and_setuptools_package_contract`: asserts SPDX license string format, absence of deprecated license classifiers, setuptools discovery config, and `MANIFEST.in` declarations.
+  - Added `test_ci_packaging_build_verification_contract`: asserts presence of package metadata verification step in `tests.yml`.
+  - Updated `test_security_license_contract.py` to validate modern PEP 639 `license = "MIT"` declaration.
+  - Pytest full suite expanded from 151 passed, 1 skipped to 153 passed, 1 skipped (100% green).
+- **Strict Version Discipline**: Version 1.0.0 maintained unchanged per T-20260920-167562623.
+
+
 ### Tier-2 6-Language Store Packaging Harmonization, Web Companion i18n & Contract Gate (TW-RPG-13..16) - 2026-11-04
 - **Windows Store Packaging & AppxManifest 6-Language Harmonization (TW-RPG-13)**:
   - Harmonized `store_package.json` to include all 6 Tier-2 languages: `de-DE`, `en-US`, `es-ES`, `zh-CN`, `ja-JP`, `ru-RU`.

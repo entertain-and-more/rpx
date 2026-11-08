@@ -212,7 +212,7 @@ def test_license_parity_across_manifests() -> None:
 
     pyproject_path = ROOT / "pyproject.toml"
     pyproject_text = pyproject_path.read_text(encoding="utf-8")
-    assert 'license = {text = "MIT"}' in pyproject_text or 'license = { text = "MIT" }' in pyproject_text
+    assert 'license = "MIT"' in pyproject_text or 'license = {text = "MIT"}' in pyproject_text or 'license = { text = "MIT" }' in pyproject_text
 
     for readme_name in ["README.md", "README_de.md"]:
         readme_path = ROOT / readme_name
