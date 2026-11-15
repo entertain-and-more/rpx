@@ -1,4 +1,7 @@
 const CACHE_NAME = "rpx-companion-v5";
+// Inhalts-Hash aller SHELL_FILES-Dateien inkl. Manifest und Icons (web_companion/tests/sw_asset_hash.test.mjs prueft ihn):
+// aendert sich eine davon, CACHE_NAME erhoehen, sonst behalten installierte PWAs den alten Code.
+const ASSET_HASH = '66b644315e5e'; // eslint-disable-line no-unused-vars
 const SHELL_FILES = [
   "./index.html",
   "./styles.css",
