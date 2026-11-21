@@ -473,5 +473,40 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn('version = "1.0.0"', pyproject_txt)
 
 
+
+    def test_pep621_pep639_metadata_and_setuptools_package_contract(self):
+        pyproject_path = ROOT / "pyproject.toml"
+        self.assertTrue(pyproject_path.exists(), "pyproject.toml must exist")
+        with pyproject_path.open("rb") as f:
+            data = tomllib.load(f)
+
+        project = data.get("project", {})
+        # PEP 639: license must be an SPDX expression string
+        self.assertEqual(project.get("license"), "MIT", "PEP 639 requires string license identifier")
+        classifiers = project.get("classifiers", [])
+        for c in classifiers:
+            self.assertFalse(c.startswith("License :: OSI Approved"), f"PEP 639 prohibits license classifier: {c}")
+
+        # Setuptools packaging discovery configuration
+        setuptools_cfg = data.get("tool", {}).get("setuptools", {})
+        self.assertIn("rpx_pro*", setuptools_cfg.get("packages", {}).get("find", {}).get("include", []))
+        self.assertIn("RPX_Pro_1", setuptools_cfg.get("py-modules", []))
+
+        # MANIFEST.in existence and core packaging declarations
+        manifest = ROOT / "MANIFEST.in"
+        self.assertTrue(manifest.exists(), "MANIFEST.in must exist for sdist packaging")
+        manifest_text = manifest.read_text(encoding="utf-8")
+        self.assertIn("include LICENSE", manifest_text)
+        self.assertIn("recursive-include locales *.json", manifest_text)
+        self.assertIn("recursive-include rulesets", manifest_text)
+
+    def test_ci_packaging_build_verification_contract(self):
+        tests_workflow = ROOT / ".github" / "workflows" / "tests.yml"
+        self.assertTrue(tests_workflow.exists(), "tests.yml workflow must exist")
+        content = tests_workflow.read_text(encoding="utf-8")
+        self.assertIn("Verify package metadata and PEP 621 / PEP 639 build", content)
+        self.assertIn("pip install --no-build-isolation --dry-run .", content)
+
+
 if __name__ == "__main__":
     unittest.main()

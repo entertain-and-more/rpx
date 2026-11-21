@@ -34,6 +34,10 @@ jobs:
         run: |
           python -m pip install ruff
           ruff check .
+      - name: Verify package metadata and PEP 621 / PEP 639 build
+        run: |
+          python -m pip install --upgrade pip setuptools build
+          python -m pip install --no-build-isolation --dry-run .
 
   source-smoke:
     runs-on: ${{ matrix.os }}
