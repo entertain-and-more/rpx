@@ -1,0 +1,11 @@
+include LICENSE NOTICE CONTRIBUTING.md CODE_OF_CONDUCT.md SECURITY.md SUPPORT.md
+include THIRD_PARTY_LICENSES.md THIRD_PARTY_LICENSES.txt
+include README.md README_*.md llms.txt CHANGELOG.md
+include pyproject.toml requirements.txt requirements-dev.txt
+include store_package.json
+recursive-include locales *.json
+recursive-include rulesets *.json *.txt
+recursive-include store_package *
+recursive-include web_companion *.html *.js *.css *.json *.mjs
+recursive-include assets *
+recursive-include tests *.py *.json *.txt *.mjs

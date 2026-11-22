@@ -8,7 +8,7 @@ version = "1.0.0"
 description = "RolePlay Xtreme Professional Edition — Open source tabletop pen & paper RPG control center"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = "MIT"
 license-files = [
   "CONTRIBUTING.md",
   "LICENSE",
@@ -49,7 +49,6 @@ classifiers = [
   "Environment :: Win32 (MS Windows)",
   "Environment :: X11 Applications :: Qt",
   "Intended Audience :: End Users/Desktop",
-  "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.10",
@@ -114,3 +113,11 @@ ignore = ["E501"]
 
 [tool.ruff.lint.per-file-ignores]
 "generate_store_screenshots.py" = ["E402"]
+
+[tool.setuptools]
+py-modules = ["RPX_Pro_1", "translator", "manage_translations"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["rpx_pro*"]
+exclude = ["tests*", "assets*", "docs*", "locales*", "releases*", "rulesets*", "rpx_pro_data*", "store_assets*", "store_package*", "web_companion*"]
