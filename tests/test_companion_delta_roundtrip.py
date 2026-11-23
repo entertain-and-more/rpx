@@ -273,6 +273,55 @@ fs.writeFileSync({str(delta_path)!r}, JSON.stringify(payload, null, 2), "utf8");
         )
         self.assertEqual(res2["note_count"], 0)
 
+    def test_out_of_range_note_timestamps_fall_back_to_now(self):
+        import time as _time
+        from datetime import datetime
+
+        before = _time.time()
+        res = self.api.import_companion_delta(
+            {
+                "format": "rpx-companion-delta-v1",
+                "player_notes": [
+                    {"session_id": self.session.id, "author": "Ayla",
+                     "content": "Millisekunden", "created_at": 1779647010000},
+                    {"session_id": self.session.id, "author": "Ayla",
+                     "content": "Ausreisser", "created_at": 1e20},
+                ],
+            }
+        )
+        self.assertEqual(res["note_count"], 2)
+        for msg in self.session.chat_history[-2:]:
+            self.assertGreaterEqual(msg.timestamp, before - 1)
+            self.assertLessEqual(msg.timestamp, _time.time() + 1)
+            datetime.fromtimestamp(msg.timestamp)
+
+    def test_huge_integer_timestamps_and_stats_do_not_overflow(self):
+        res = self.api.import_companion_delta(
+            {
+                "format": "rpx-companion-delta-v1",
+                "character_patches": [
+                    {"session_id": self.session.id, "character_id": "ayla", "gold": 10**12}
+                ],
+                "player_notes": [
+                    {"session_id": self.session.id, "author": "Ayla",
+                     "content": "Riesenzahl", "created_at": 10**400},
+                ],
+            }
+        )
+        self.assertEqual(res["note_count"], 1)
+        self.assertEqual(self.session.characters["ayla"].gold, dm_module.MAX_COMPANION_GOLD)
+
+        with self.assertRaises(ValueError):
+            self.api.import_companion_delta(
+                {
+                    "format": "rpx-companion-delta-v1",
+                    "character_patches": [
+                        {"session_id": self.session.id, "character_id": "ayla", "health": 10**400}
+                    ],
+                }
+            )
+        self.assertEqual(self.session.characters["ayla"].health, 19)
+
     def test_manifest_in_includes_pwa_webmanifest_icons_and_skill_md(self):
         manifest_in = (PROJECT_ROOT / "MANIFEST.in").read_text(encoding="utf-8")
         self.assertIn("SKILL.md", manifest_in)

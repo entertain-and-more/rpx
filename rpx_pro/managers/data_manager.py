@@ -27,6 +27,9 @@ logger = logging.getLogger("RPX")
 
 COMPANION_DELTA_FORMAT = "rpx-companion-delta-v1"
 MAX_COMPANION_DELTA_BYTES = 1_048_576
+MAX_DELTA_NOTE_CLOCK_SKEW_S = 86400
+# Entspricht dem QSpinBox-Bereich im Inventar-Dialog (widgets/inventory_dialog.py).
+MAX_COMPANION_GOLD = 999_999
 MAX_COMPANION_NOTE_LEN = 500
 
 MEDIA_PATH_KEYS = {
@@ -583,7 +586,7 @@ class DataManager:
                 raise ValueError("Leerer numerischer Companion-Statuswert")
         try:
             parsed_float = float(value)
-        except (TypeError, ValueError) as exc:
+        except (TypeError, ValueError, OverflowError) as exc:
             raise ValueError("Ungueltiger numerischer Companion-Statuswert") from exc
         if not math.isfinite(parsed_float):
             raise ValueError("Nicht-endlicher numerischer Companion-Statuswert")
@@ -680,7 +683,7 @@ class DataManager:
                 if "mana" in item and item["mana"] is not None:
                     updates["mana"] = self._coerce_companion_stat(item["mana"], character.max_mana)
                 if "gold" in item and item["gold"] is not None:
-                    updates["gold"] = self._coerce_companion_stat(item["gold"], None)
+                    updates["gold"] = self._coerce_companion_stat(item["gold"], MAX_COMPANION_GOLD)
 
                 if updates:
                     staged_patches.append((session_id, char_id, updates))
@@ -722,14 +725,19 @@ class DataManager:
                 try:
                     if raw_ts is not None and not isinstance(raw_ts, bool):
                         parsed_ts = float(raw_ts)
-                        if math.isfinite(parsed_ts) and parsed_ts > 0:
+                        # Obergrenze: Millisekunden-Werte oder Ausreißer würden später
+                        # datetime.fromtimestamp() (Chat-Anzeige, Prompt) sprengen.
+                        if (
+                            math.isfinite(parsed_ts)
+                            and 0 < parsed_ts <= time.time() + MAX_DELTA_NOTE_CLOCK_SKEW_S
+                        ):
                             ts = parsed_ts
                             explicit_ts = int(parsed_ts)
                         else:
                             ts = time.time()
                     else:
                         ts = time.time()
-                except (TypeError, ValueError):
+                except (TypeError, ValueError, OverflowError):
                     ts = time.time()
 
                 raw_note_id = str(note.get("id") or "").strip()[:120]
