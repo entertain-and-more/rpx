@@ -22,13 +22,13 @@
           Liest lokale rpx-campaign-bundle-v1-ZIPs für Kampagnenübersicht,
           Charakterstatus, Missionen, Karten- und Medienhinweise.
         </p>
-        <div class="lang-switcher" role="group" aria-label="Language selection">
-          <button type="button" class="lang-btn active" data-lang="de">DE</button>
-          <button type="button" class="lang-btn" data-lang="en">EN</button>
-          <button type="button" class="lang-btn" data-lang="es">ES</button>
-          <button type="button" class="lang-btn" data-lang="zh">ZH</button>
-          <button type="button" class="lang-btn" data-lang="ja">JA</button>
-          <button type="button" class="lang-btn" data-lang="ru">RU</button>
+        <div class="lang-switcher" role="group" aria-label="Sprachauswahl" data-i18n-aria-label="lang_switcher_label">
+          <button type="button" class="lang-btn active" data-lang="de" aria-pressed="true">DE</button>
+          <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+          <button type="button" class="lang-btn" data-lang="es" aria-pressed="false">ES</button>
+          <button type="button" class="lang-btn" data-lang="zh" aria-pressed="false">ZH</button>
+          <button type="button" class="lang-btn" data-lang="ja" aria-pressed="false">JA</button>
+          <button type="button" class="lang-btn" data-lang="ru" aria-pressed="false">RU</button>
         </div>
       </header>
 
@@ -111,12 +111,5 @@
     </div>
 
     <script type="module" src="./app.js"></script>
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker.register("./sw.js").catch(() => {});
-        });
-      }
-    </script>
   </body>
 </html>

@@ -23,17 +23,20 @@ describe("RPX Pro Web-Companion i18n Contract (Tier-2 6-Languages)", () => {
     assert.equal(STORAGE_KEY, "rpx-companion:language");
   });
 
-  test("translations dictionary contains all 64 required keys with 100% parity across all 6 languages", () => {
+  test("translations dictionary contains all 92 required keys with 100% parity across all 6 languages", () => {
     const deKeys = Object.keys(TRANSLATIONS.de).sort();
-    assert.equal(deKeys.length, 64, `DE should contain exactly 64 keys, found ${deKeys.length}`);
+    assert.equal(deKeys.length, 92, `DE should contain exactly 92 keys, found ${deKeys.length}`);
 
     for (const lang of ["en", "es", "zh", "ja", "ru"]) {
       const langKeys = Object.keys(TRANSLATIONS[lang]).sort();
       assert.deepEqual(langKeys, deKeys, `${lang.toUpperCase()} keys must be 100% identical to DE keys`);
+      for (const k of langKeys) {
+        assert.ok(String(TRANSLATIONS[lang][k]).trim().length > 0, `${lang}.${k} must be non-empty`);
+      }
     }
   });
 
-  test("t() returns accurate translations for all 6 languages", () => {
+  test("t() returns accurate translations for all 6 languages including newly localized chrome & delta keys", () => {
     assert.equal(t("action_clear", {}, "de"), "Ansicht leeren");
     assert.equal(t("action_clear", {}, "en"), "Clear view");
     assert.equal(t("action_clear", {}, "es"), "Limpiar vista");
@@ -41,12 +44,12 @@ describe("RPX Pro Web-Companion i18n Contract (Tier-2 6-Languages)", () => {
     assert.equal(t("action_clear", {}, "ja"), "表示をクリア");
     assert.equal(t("action_clear", {}, "ru"), "Очистить");
 
-    assert.equal(t("panel_worlds_title", {}, "de"), "Welten");
-    assert.equal(t("panel_worlds_title", {}, "en"), "Worlds");
-    assert.equal(t("panel_worlds_title", {}, "es"), "Mundos");
-    assert.equal(t("panel_worlds_title", {}, "zh"), "游戏世界");
-    assert.equal(t("panel_worlds_title", {}, "ja"), "ワールド");
-    assert.equal(t("panel_worlds_title", {}, "ru"), "Миры");
+    assert.equal(t("ruleset_weapons", {}, "en"), "Weapons");
+    assert.equal(t("ruleset_spells", {}, "es"), "Hechizos");
+    assert.equal(t("meta_locations", {}, "zh"), "地点");
+    assert.equal(t("meta_main_map", {}, "ja"), "メインマップ");
+    assert.equal(t("meta_gold", {}, "ru"), "Золото");
+    assert.equal(t("lang_switcher_label", {}, "de"), "Sprachauswahl");
   });
 
   test("t() interpolates parameters properly across languages", () => {
@@ -57,19 +60,15 @@ describe("RPX Pro Web-Companion i18n Contract (Tier-2 6-Languages)", () => {
     }, "de");
     assert.equal(formattedDe, "Campaign1 erfolgreich geladen (3 Welten, 5 Sessions).");
 
-    const formattedEn = t("status_success", {
-      name: "Campaign1",
-      worlds: 3,
-      sessions: 5,
+    const mediaLineEn = t("media_meta_line", {
+      source: "maps/castle.png",
+      exists: t("bool_yes", {}, "en"),
+      included: t("bool_no", {}, "en"),
     }, "en");
-    assert.equal(formattedEn, "Campaign1 loaded successfully (3 worlds, 5 sessions).");
+    assert.equal(mediaLineEn, "Source: maps/castle.png · exists: yes · embedded: no");
 
-    const formattedZh = t("status_success", {
-      name: "Campaign1",
-      worlds: 3,
-      sessions: 5,
-    }, "zh");
-    assert.equal(formattedZh, "成功加载 Campaign1（3 个世界，5 个会话）。");
+    const deltaExportZh = t("action_export_delta", { count: 2 }, "zh");
+    assert.equal(deltaExportZh, "导出变更 (2)");
   });
 
   test("fallback mechanism works correctly", () => {
@@ -80,6 +79,10 @@ describe("RPX Pro Web-Companion i18n Contract (Tier-2 6-Languages)", () => {
     assert.equal(normalizeLocale("ja-JP"), "ja");
     assert.equal(normalizeLocale("ru-RU"), "ru");
     assert.equal(normalizeLocale("unknown-lang"), "de");
+    assert.equal(DATE_LOCALES.ja, "ja-JP");
+    setLocale("es");
+    assert.equal(getLocale(), "es");
+    assert.equal(detectLocale(), "de");
   });
 
   test("formatTimestamp respects locale", () => {
@@ -96,18 +99,24 @@ describe("RPX Pro Web-Companion i18n Contract (Tier-2 6-Languages)", () => {
     assert.equal(formatTimestamp(NaN, "ru"), "Неизвестно");
   });
 
-  test("translateDocument updates mock DOM attributes", () => {
+  test("translateDocument updates mock DOM attributes including aria-label", () => {
     const node1 = { dataset: { i18n: "action_clear" }, textContent: "old" };
     const node2 = { dataset: { i18n: "action_player_mode" }, textContent: "old" };
-    const textNodes = [node1, node2];
+    const ariaNode = {
+      dataset: { i18nAriaLabel: "lang_switcher_label" },
+      attrs: {},
+      setAttribute(k, v) {
+        this.attrs[k] = v;
+      },
+    };
 
     const mockDoc = {
       documentElement: { lang: "de" },
       querySelectorAll(selector) {
-        if (selector === "[data-i18n]") return textNodes;
+        if (selector === "[data-i18n]") return [node1, node2];
         if (selector === "[data-i18n-html]") return [];
         if (selector === "[data-i18n-placeholder]") return [];
-        if (selector === "[data-i18n-aria-label]") return [];
+        if (selector === "[data-i18n-aria-label]") return [ariaNode];
         return [];
       },
     };
@@ -116,5 +125,6 @@ describe("RPX Pro Web-Companion i18n Contract (Tier-2 6-Languages)", () => {
     assert.equal(mockDoc.documentElement.lang, "en");
     assert.equal(node1.textContent, "Clear view");
     assert.equal(node2.textContent, "Player Mode");
+    assert.equal(ariaNode.attrs["aria-label"], "Language selection");
   });
 });

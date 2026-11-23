@@ -163,6 +163,7 @@ class CLIInterface:
             # Bundles
             "export_campaign_bundle": self.api.export_campaign_bundle,
             "import_campaign_bundle": self.api.import_campaign_bundle,
+            "import_companion_delta": self.api.import_companion_delta,
         }
 
         if method not in method_map:

@@ -19,7 +19,7 @@ session manager, or an LLM-controllable campaign backend that operates strictly 
 - `python -m rpx_pro.app --cli` — start in JSON-RPC CLI mode for LLM / autonomous agent control via stdin/stdout
 - `pytest` — run Python unit & contract test suite (123 passed, 1 skipped)
 - python tests/source_platform_smoke.py — run cross-platform source platform smoke runner (macOS/Linux/Windows)
-- `node --test web_companion/tests/*.mjs` — run web companion PWA test suite (18 passed)
+- `node --test web_companion/tests/*.mjs` — run web companion PWA test suite (29 passed)
 - `python _scripts/verify_release_metadata.py` — verify strict release and privacy metadata contract
 - `cd web_companion && python -m http.server 8765` — serve the PWA companion locally
 
@@ -77,10 +77,11 @@ open-bricks tabletop roleplaying workstation
 - `THIRD_PARTY_LICENSES.md`: Level 1 SBOM invariant cross-reference matrix, LGPL-3.0 dynamic linking notice, and invariant compliance
 - `THIRD_PARTY_LICENSES.txt`: Level 1 SBOM plain-text companion with Invariant Cross-Reference Matrix (INV-LOCAL-01..INV-SLA-10), full license texts, and unprivileged RunAsInvoker non-elevation certification
 - `MARKETING-LOG.txt`: marketing strategy, personas, SEO discoverability, and 10-dimension comparative matrix
-- `rpx_pro/api.py`: programmatic Python API dataclass contract
-- `rpx_pro/cli.py`: JSON-RPC CLI entry point over stdin/stdout
-- `web_companion/`: static PWA companion for offline bundle format
-- `EXPORTFORMAT.md`: `rpx-campaign-bundle-v1` bundle specification
+- `rpx_pro/api.py`: programmatic Python API dataclass contract (`export_campaign_bundle`, `import_campaign_bundle`, `import_companion_delta`)
+- `rpx_pro/cli.py`: JSON-RPC CLI entry point over stdin/stdout (`--command`, `--interactive`)
+- `SKILL.md`: structured agent & developer skill guide (P-022: API + CLI + GUI + Offline PWA roundtrip)
+- `web_companion/`: static 6-language offline PWA companion for `rpx-campaign-bundle-v1` and `rpx-companion-delta-v1` return exports
+- `EXPORTFORMAT.md`: `rpx-campaign-bundle-v1` bundle and `rpx-companion-delta-v1` delta specification
 - `CHANGELOG.md`: version history and release logs
 - `SECURITY.md`: vulnerability disclosure policy, 48h SLA, and § 521 BGB statutory notice
 - `.github/dependabot.yml`: automated weekly GitHub Actions dependency updates

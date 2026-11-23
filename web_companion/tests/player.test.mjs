@@ -2,7 +2,21 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { deflateRawSync } from "node:zlib";
 
-import { loadBundleFromArrayBuffer, getCharacterList, getPlayerView } from "../library.js";
+import {
+  loadBundleFromArrayBuffer,
+  getCharacterList,
+  getPlayerView,
+  COMPANION_DELTA_FORMAT,
+  clampCharacterStat,
+  createEmptyCompanionDelta,
+  getEffectiveCharacter,
+  recordCharacterPatch,
+  addPlayerNote,
+  removePlayerNote,
+  countDeltaEntries,
+  buildCompanionDeltaPayload,
+  parseCompanionDeltaJson,
+} from "../library.js";
 
 function buildZip(entries) {
   const localParts = [];
@@ -100,8 +114,6 @@ function buildFixtureZip() {
   ]);
 }
 
-// --- getCharacterList ---
-
 test("getCharacterList gibt flache Liste aller Charaktere zurück", async () => {
   const bundle = await loadBundleFromArrayBuffer(buildFixtureZip(), "demo.zip");
   const list = getCharacterList(bundle);
@@ -122,8 +134,6 @@ test("getCharacterList gibt leere Liste zurück wenn keine Sessions", async () =
 
   assert.deepEqual(list, []);
 });
-
-// --- getPlayerView ---
 
 test("getPlayerView gibt Charakter + Missionen + Chat zurück", async () => {
   const bundle = await loadBundleFromArrayBuffer(buildFixtureZip(), "demo.zip");
@@ -152,4 +162,75 @@ test("getPlayerView wirft bei unbekanntem Charakter", async () => {
     () => getPlayerView(bundle, "session-1", "nonexistent"),
     /Charakter nicht gefunden/
   );
+});
+
+test("Companion-Delta: clampCharacterStat begrenzt Werte sicher und lehnt Booleans/NaN ab", () => {
+  assert.equal(clampCharacterStat(99, 24), 24);
+  assert.equal(clampCharacterStat(-5, 24), 0);
+  assert.equal(clampCharacterStat("15", 24), 15);
+  assert.equal(clampCharacterStat(250, null), 250);
+  assert.throws(() => clampCharacterStat(true, 10), RangeError);
+  assert.throws(() => clampCharacterStat("", 10), RangeError);
+  assert.throws(() => clampCharacterStat(NaN, 10), RangeError);
+});
+
+test("Companion-Delta: recordCharacterPatch, addPlayerNote und JSON-Roundtrip (rpx-companion-delta-v1)", async () => {
+  const bundle = await loadBundleFromArrayBuffer(buildFixtureZip(), "demo.zip");
+  let delta = createEmptyCompanionDelta(bundle);
+
+  delta = recordCharacterPatch(delta, bundle, "session-1", "ayla", {
+    health: 30, // clamped to maxHealth=24
+    mana: -2,   // clamped to 0
+    gold: 55,
+  }, 1779646000);
+
+  const effective = getEffectiveCharacter(bundle, delta, "session-1", "ayla");
+  assert.equal(effective.hasDelta, true);
+  assert.equal(effective.health, 24);
+  assert.equal(effective.mana, 0);
+  assert.equal(effective.gold, 55);
+  // Base bundle remains immutable
+  assert.equal(bundle.sessions[0].characters[0].health, 19);
+
+  delta = addPlayerNote(delta, bundle, {
+    sessionId: "session-1",
+    characterId: "ayla",
+    content: "  Geheimgang am Nordturm entdeckt.  ",
+  }, 1779646050);
+
+  assert.deepEqual(countDeltaEntries(delta), { patchCount: 1, noteCount: 1, totalCount: 2 });
+
+  const payload = buildCompanionDeltaPayload(bundle, delta, 1779646100);
+  assert.equal(payload.format, COMPANION_DELTA_FORMAT);
+  assert.equal(payload.character_patches.length, 1);
+  assert.equal(payload.character_patches[0].health, 24);
+  assert.equal(payload.player_notes.length, 1);
+  assert.equal(payload.player_notes[0].author, "Ayla");
+  assert.equal(payload.player_notes[0].content, "Geheimgang am Nordturm entdeckt.");
+
+  const restored = parseCompanionDeltaJson(JSON.stringify(payload));
+  assert.deepEqual(countDeltaEntries(restored), { patchCount: 1, noteCount: 1, totalCount: 2 });
+
+  // Reverting stats back to original baseline removes redundant patch
+  const reverted = recordCharacterPatch(restored, bundle, "session-1", "ayla", {
+    health: 19,
+    mana: 7,
+    gold: 42,
+  });
+  assert.equal(countDeltaEntries(reverted).patchCount, 0);
+
+  const withoutNote = removePlayerNote(reverted, payload.player_notes[0].id);
+  assert.equal(countDeltaEntries(withoutNote).totalCount, 0);
+});
+
+test("Companion-Delta: addPlayerNote erzeugt kollisionsfreie IDs auch nach Löschen in derselben Sekunde", async () => {
+  const bundle = await loadBundleFromArrayBuffer(buildFixtureZip(), "demo.zip");
+  let delta = createEmptyCompanionDelta(bundle);
+  delta = addPlayerNote(delta, bundle, { sessionId: "session-1", content: "Notiz 1" }, 1779646200);
+  delta = addPlayerNote(delta, bundle, { sessionId: "session-1", content: "Notiz 2" }, 1779646200);
+  const firstId = delta.playerNotes[0].id;
+  delta = removePlayerNote(delta, firstId);
+  delta = addPlayerNote(delta, bundle, { sessionId: "session-1", content: "Notiz 3" }, 1779646200);
+  assert.equal(delta.playerNotes.length, 2);
+  assert.notEqual(delta.playerNotes[0].id, delta.playerNotes[1].id);
 });

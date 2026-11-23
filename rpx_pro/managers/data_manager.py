@@ -2,8 +2,10 @@
 
 import contextlib
 import copy
+import hashlib
 import json
 import logging
+import math
 import os
 import tempfile
 import time
@@ -16,11 +18,16 @@ from rpx_pro.constants import (
     CONFIG_FILE, PROJECT_ROOT, MEDIA_DIR, WORLDS_DIR, SESSIONS_DIR,
     BACKUPS_DIR, RULESETS_DIR,
 )
+from rpx_pro.models.enums import MessageRole
 from rpx_pro.models.world import World, WorldSettings
-from rpx_pro.models.session import Session
+from rpx_pro.models.session import ChatMessage, Session
 from rpx_pro.managers.async_persistence import AsyncPersistenceQueue
 
 logger = logging.getLogger("RPX")
+
+COMPANION_DELTA_FORMAT = "rpx-companion-delta-v1"
+MAX_COMPANION_DELTA_BYTES = 1_048_576
+MAX_COMPANION_NOTE_LEN = 500
 
 MEDIA_PATH_KEYS = {
     "ambient_sound",
@@ -564,6 +571,247 @@ class DataManager:
             "session_count": len([item for item in imported_sessions if item["action"] != "skipped"]),
             "ruleset_count": len([item for item in imported_rulesets if item["action"] != "skipped"]),
             "media_count": len(media_cache),
+        }
+
+    @staticmethod
+    def _coerce_companion_stat(value: Any, max_bound: Optional[int] = None) -> int:
+        if value is None or isinstance(value, bool):
+            raise ValueError("Ungueltiger numerischer Companion-Statuswert")
+        if isinstance(value, str):
+            value = value.strip()
+            if not value:
+                raise ValueError("Leerer numerischer Companion-Statuswert")
+        try:
+            parsed_float = float(value)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("Ungueltiger numerischer Companion-Statuswert") from exc
+        if not math.isfinite(parsed_float):
+            raise ValueError("Nicht-endlicher numerischer Companion-Statuswert")
+        normalized = max(0, int(parsed_float))
+        if (
+            max_bound is not None
+            and isinstance(max_bound, int)
+            and not isinstance(max_bound, bool)
+            and max_bound >= 0
+        ):
+            normalized = min(normalized, max_bound)
+        return normalized
+
+    @staticmethod
+    def _is_safe_entity_id(raw_id: Any) -> bool:
+        if not isinstance(raw_id, str):
+            return False
+        cleaned = raw_id.strip()
+        if not cleaned or len(cleaned) > 128:
+            return False
+        return ".." not in cleaned and "/" not in cleaned and "\\" not in cleaned
+
+    def import_companion_delta(
+        self,
+        source: Path | str | Dict[str, Any],
+        apply_character_patches: bool = True,
+        import_notes: bool = True,
+    ) -> Dict[str, Any]:
+        """Importiert ein lokales Companion-Delta (rpx-companion-delta-v1) zweiphasig atomar und nicht-destruktiv."""
+        if isinstance(source, dict):
+            payload = source
+            source_label = "inline"
+        else:
+            delta_path = Path(source)
+            if not delta_path.exists() or not delta_path.is_file():
+                raise FileNotFoundError(f"Companion-Delta-Datei nicht gefunden: {delta_path}")
+            size_bytes = delta_path.stat().st_size
+            if size_bytes > MAX_COMPANION_DELTA_BYTES:
+                raise ValueError(
+                    f"Companion-Delta ueberschreitet Maximalgroesse ({size_bytes} > {MAX_COMPANION_DELTA_BYTES} Bytes)"
+                )
+            try:
+                payload = json.loads(delta_path.read_text(encoding="utf-8"))
+            except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+                raise ValueError(f"Companion-Delta enthaelt kein valides UTF-8-JSON: {exc}") from exc
+            source_label = str(delta_path)
+
+        if not isinstance(payload, dict) or payload.get("format") != COMPANION_DELTA_FORMAT:
+            raise ValueError("Unbekanntes Companion-Delta-Format")
+
+        raw_patches = payload.get("character_patches", [])
+        raw_notes = payload.get("player_notes", [])
+        if not isinstance(raw_patches, list):
+            raise ValueError("character_patches muss eine Liste sein")
+        if not isinstance(raw_notes, list):
+            raise ValueError("player_notes muss eine Liste sein")
+
+        applied_patches: List[Dict[str, Any]] = []
+        skipped_patches: List[Dict[str, Any]] = []
+        imported_notes: List[Dict[str, Any]] = []
+        skipped_notes: List[Dict[str, Any]] = []
+        staged_patches: List[Tuple[str, str, Dict[str, int]]] = []
+        staged_notes: List[Tuple[str, ChatMessage, str, str]] = []
+        seen_note_ids: Dict[str, set[str]] = {}
+
+        # Phase 1: Vollstaendige Vorab-Validierung & Staging ohne In-Memory-Mutation
+        if apply_character_patches:
+            for item in raw_patches:
+                if not isinstance(item, dict):
+                    raise ValueError("Eintrag in character_patches ist kein Objekt")
+                session_id = item.get("session_id")
+                char_id = item.get("character_id")
+                if not self._is_safe_entity_id(session_id) or not self._is_safe_entity_id(char_id):
+                    raise ValueError("Ungueltige oder unsichere ID in character_patches")
+                session_id = session_id.strip()
+                char_id = char_id.strip()
+
+                session = self.sessions.get(session_id)
+                if session is None:
+                    skipped_patches.append(
+                        {"session_id": session_id, "character_id": char_id, "reason": "session_not_found"}
+                    )
+                    continue
+                character = session.characters.get(char_id)
+                if character is None:
+                    skipped_patches.append(
+                        {"session_id": session_id, "character_id": char_id, "reason": "character_not_found"}
+                    )
+                    continue
+
+                updates: Dict[str, int] = {}
+                if "health" in item and item["health"] is not None:
+                    updates["health"] = self._coerce_companion_stat(item["health"], character.max_health)
+                if "mana" in item and item["mana"] is not None:
+                    updates["mana"] = self._coerce_companion_stat(item["mana"], character.max_mana)
+                if "gold" in item and item["gold"] is not None:
+                    updates["gold"] = self._coerce_companion_stat(item["gold"], None)
+
+                if updates:
+                    staged_patches.append((session_id, char_id, updates))
+
+        if import_notes:
+            for note in raw_notes:
+                if not isinstance(note, dict):
+                    raise ValueError("Eintrag in player_notes ist kein Objekt")
+                session_id = note.get("session_id")
+                if not self._is_safe_entity_id(session_id):
+                    raise ValueError("Ungueltige oder unsichere session_id in player_notes")
+                session_id = session_id.strip()
+
+                raw_char_id = note.get("character_id")
+                if raw_char_id is not None and raw_char_id != "":
+                    if not self._is_safe_entity_id(raw_char_id):
+                        raise ValueError("Ungueltige oder unsichere character_id in player_notes")
+                    char_id: Optional[str] = raw_char_id.strip()
+                else:
+                    char_id = None
+
+                raw_content = note.get("content")
+                if not isinstance(raw_content, str) or not raw_content.strip():
+                    skipped_notes.append({"session_id": session_id, "id": note.get("id"), "reason": "empty_content"})
+                    continue
+                trimmed_content = raw_content.strip()[:MAX_COMPANION_NOTE_LEN]
+
+                session = self.sessions.get(session_id)
+                if session is None:
+                    skipped_notes.append(
+                        {"session_id": session_id, "id": note.get("id"), "reason": "session_not_found"}
+                    )
+                    continue
+
+                author = str(note.get("author") or "Player").strip()[:80] or "Player"
+
+                raw_ts = note.get("created_at")
+                explicit_ts: Optional[int] = None
+                try:
+                    if raw_ts is not None and not isinstance(raw_ts, bool):
+                        parsed_ts = float(raw_ts)
+                        if math.isfinite(parsed_ts) and parsed_ts > 0:
+                            ts = parsed_ts
+                            explicit_ts = int(parsed_ts)
+                        else:
+                            ts = time.time()
+                    else:
+                        ts = time.time()
+                except (TypeError, ValueError):
+                    ts = time.time()
+
+                raw_note_id = str(note.get("id") or "").strip()[:120]
+                if not raw_note_id:
+                    hash_basis = (
+                        f"{session_id}:{author}:{explicit_ts}:{trimmed_content}"
+                        if explicit_ts is not None
+                        else f"{session_id}:{author}:{trimmed_content}"
+                    )
+                    digest = hashlib.sha256(hash_basis.encode("utf-8")).hexdigest()[:12]
+                    raw_note_id = f"note-{digest}"
+
+                session_seen = seen_note_ids.setdefault(
+                    session_id,
+                    {
+                        str(msg.metadata.get("companion_note_id"))
+                        for msg in session.chat_history
+                        if isinstance(getattr(msg, "metadata", None), dict)
+                        and msg.metadata.get("companion_note_id")
+                    },
+                )
+                if raw_note_id in session_seen:
+                    skipped_notes.append(
+                        {"session_id": session_id, "id": raw_note_id, "reason": "duplicate_note_id"}
+                    )
+                    continue
+                session_seen.add(raw_note_id)
+
+                formatted_text = (
+                    trimmed_content
+                    if trimmed_content.startswith("[Companion]")
+                    else f"[Companion] {trimmed_content}"
+                )
+                staged_msg = ChatMessage(
+                    role=MessageRole.PLAYER,
+                    author=author,
+                    content=formatted_text,
+                    timestamp=ts,
+                    metadata={
+                        "source": COMPANION_DELTA_FORMAT,
+                        "companion_note_id": raw_note_id,
+                        "character_id": char_id,
+                    },
+                )
+                staged_notes.append((session_id, staged_msg, raw_note_id, author))
+
+        # Phase 2: Atomare Anwendung auf Live-Session-Objekte & Persistenz
+        touched_sessions: set[str] = set()
+        for session_id, char_id, updates in staged_patches:
+            session = self.sessions[session_id]
+            character = session.characters[char_id]
+            for attr, val in updates.items():
+                setattr(character, attr, val)
+            touched_sessions.add(session_id)
+            applied_patches.append(
+                {
+                    "session_id": session_id,
+                    "character_id": char_id,
+                    "health": character.health,
+                    "mana": character.mana,
+                    "gold": character.gold,
+                }
+            )
+
+        for session_id, staged_msg, raw_note_id, author in staged_notes:
+            self.sessions[session_id].chat_history.append(staged_msg)
+            touched_sessions.add(session_id)
+            imported_notes.append({"session_id": session_id, "id": raw_note_id, "author": author})
+
+        for sid in sorted(touched_sessions):
+            self.save_session(self.sessions[sid])
+
+        return {
+            "format": COMPANION_DELTA_FORMAT,
+            "source": source_label,
+            "updated_sessions": sorted(touched_sessions),
+            "applied_patches": applied_patches,
+            "skipped_patches": skipped_patches,
+            "imported_notes": imported_notes,
+            "skipped_notes": skipped_notes,
+            "patch_count": len(applied_patches),
+            "note_count": len(imported_notes),
         }
 
     def _select_sessions(

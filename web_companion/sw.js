@@ -1,8 +1,9 @@
-const CACHE_NAME = "rpx-companion-v5";
+const CACHE_NAME = "rpx-companion-v6";
 // Inhalts-Hash aller SHELL_FILES-Dateien inkl. Manifest und Icons (web_companion/tests/sw_asset_hash.test.mjs prueft ihn):
 // aendert sich eine davon, CACHE_NAME erhoehen, sonst behalten installierte PWAs den alten Code.
-const ASSET_HASH = '66b644315e5e'; // eslint-disable-line no-unused-vars
+const ASSET_HASH = 'ddf5fdb5ae8c'; // eslint-disable-line no-unused-vars
 const SHELL_FILES = [
+  "./",
   "./index.html",
   "./styles.css",
   "./app.js",
@@ -50,17 +51,25 @@ self.addEventListener("fetch", (event) => {
   }
 
   event.respondWith(
-    caches.match(event.request, { ignoreSearch: true }).then((cached) => {
+    caches.match(event.request, { ignoreSearch: true }).then(async (cached) => {
       if (cached) {
         return cached;
       }
-      return fetch(event.request).catch(() =>
-        new Response("Offline – Ressource nicht im Cache.", {
+      if (event.request.mode === "navigate" || requestUrl.pathname.endsWith("/")) {
+        const shellFallback = await caches.match("./index.html", { ignoreSearch: true });
+        if (shellFallback) {
+          return shellFallback;
+        }
+      }
+      try {
+        return await fetch(event.request);
+      } catch {
+        return new Response("Offline – Ressource nicht im Cache.", {
           status: 503,
           statusText: "Service Unavailable",
           headers: { "Content-Type": "text/plain; charset=utf-8" },
-        })
-      );
+        });
+      }
     })
   );
 });

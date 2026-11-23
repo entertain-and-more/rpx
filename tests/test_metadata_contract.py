@@ -129,7 +129,10 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn(".nyc_output", pytest_config.get("norecursedirs", []))
         self.assertIn(".tox", pytest_config.get("norecursedirs", []))
         self.assertIn(".turbo", pytest_config.get("norecursedirs", []))
-        self.assertIn("--basetemp=.pytest_temp", pytest_config.get("addopts", ""))
+        self.assertNotIn("--basetemp", pytest_config.get("addopts", ""))
+        conftest_path = ROOT / "conftest.py"
+        self.assertTrue(conftest_path.exists(), "conftest.py must exist for CWD-safe basetemp")
+        self.assertIn(".pytest_temp", conftest_path.read_text(encoding="utf-8"))
 
     def test_gitignore_cloud_sync_and_lock_defense(self):
         gitignore_path = ROOT / ".gitignore"

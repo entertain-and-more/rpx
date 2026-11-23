@@ -5,6 +5,20 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
 
+### Multi-Target Companion Delta Roundtrip, 6-Language PWA Completion, Mobile Touch/A11y & Source Smoke Check 10 (TW-RPG-03/04) - 2026-11-23
+- **Web/PWA, Android & iOS Companion Localization & Mobile A11y (`web_companion/`)**:
+  - Completed Tier-2 6-language UI parity across `de`, `en`, `es`, `zh`, `ja`, and `ru` in `web_companion/i18n.js` (expanded from 64 to 92 keys), eliminating all 14 remaining hardcoded German/English UI labels in `app.js` and `index.html` and fixing the empty-character fallback in Player Mode.
+  - Removed duplicate inline Service Worker registration from `web_companion/index.html` and bumped `CACHE_NAME` to `rpx-companion-v6` with verified `ASSET_HASH` (`sw_asset_hash.test.mjs`).
+  - Hardened mobile touch targets (`min-width: 44px; min-height: 44px;` and `aria-pressed` on `.lang-btn`), added WCAG 2.1 AA modal dialog semantics (`role="dialog"`, `aria-modal="true"`, `aria-labelledby`, `Escape`/backdrop dismissal, focus restoration) to `playerOverlay`, and enabled keyboard navigation (`tabindex="0"`, `role="button"`, `Enter`/`Space`) on `.character-item`.
+- **Offline Companion Delta Return-Export & Non-Destructive Desktop Reimport (`rpx-companion-delta-v1`, TW-RPG-03)**:
+  - Implemented pure companion delta helpers in `web_companion/library.js` and offline persistence/export UI in `web_companion/app.js` (`rpx-companion:delta:v1`) for recording bounded character status changes (`HP`, `Mana`, `Gold`) and table player notes without mutating the base campaign bundle.
+  - Added `DataManager.import_companion_delta`, `RPXProAPI.import_companion_delta`, and `CLIInterface` JSON-RPC method `import_companion_delta` with strict format/size/path validation, stat clamping (`0..max_health`, `0..max_mana`, `gold >= 0`), idempotent note deduplication (`companion_note_id`), and zero mutation of worlds, maps, locations, or rulesets; documented in `EXPORTFORMAT.md` and `SKILL.md` (P-022).
+- **macOS/Linux Source Smoke Check 10, Sdist Packaging & Pytest 9.2 Isolation**:
+  - Expanded `tests/source_platform_smoke.py` to 10/10 checks (`check_companion_delta_and_pwa_contract` verifying CLI delta roundtrip and case-sensitive PWA shell assets).
+  - Fixed `MANIFEST.in` sdist rules to bundle `manifest.webmanifest`, `web_companion/icons/*`, `EXPORTFORMAT.md`, `SKILL.md`, and `conftest.py`.
+  - Moved `.pytest_temp` configuration from `pyproject.toml` `addopts` to root-bound `conftest.py` (`config.rootpath / ".pytest_temp"`) to prevent CWD-relative temp folder creation under Pytest 9.x.
+- **Strict Version & Asset Discipline**: Version `1.0.0` (`1.0.0.0`) and all binary icon/screenshot assets maintained completely unchanged.
+
 ### Pfad A Repository Hygiene: PEP 621 / PEP 639 License Standardization, Setuptools Package Discovery & CI Packaging Gate - 2026-11-08
 - **PEP 621 & PEP 639 License Standardization (`pyproject.toml`)**:
   - Replaced legacy dictionary `license = {text = "MIT"}` with standard SPDX license expression string `license = "MIT"` conforming to modern setuptools (>=77 / 82) and PEP 639.

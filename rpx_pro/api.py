@@ -761,3 +761,15 @@ class RPXProAPI:
             source=source,
             conflict_strategy=conflict_strategy,
         )
+
+    def import_companion_delta(
+        self,
+        source: Any,
+        apply_character_patches: bool = True,
+        import_notes: bool = True,
+    ) -> dict:
+        return self.dm.import_companion_delta(
+            source=source,
+            apply_character_patches=apply_character_patches,
+            import_notes=import_notes,
+        )

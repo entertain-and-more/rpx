@@ -1,0 +1,5 @@
+# RPX Pro — LLM & Agent Entrypoint Pointer (`P-022`)
+
+Canonical machine-readable context: [llms.txt](llms.txt)
+Structured agent & CLI/API skill guide: [SKILL.md](SKILL.md)
+Repository: https://github.com/entertain-and-more/rpx

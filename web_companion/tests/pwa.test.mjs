@@ -24,7 +24,7 @@ test("manifest beschreibt eine installierbare RPX-PWA", async () => {
   assert.ok(manifest.icons.length >= 2);
 });
 
-test("HTML-Shell bietet lokalen ZIP-Import an", async () => {
+test("HTML-Shell bietet lokalen ZIP-Import und barrierefreien Sprachwähler ohne Inline-SW-Duplikat an", async () => {
   const html = await readFile(resolve(baseDir, "index.html"), "utf8");
 
   assert.match(html, /type="file"/);
@@ -35,29 +35,40 @@ test("HTML-Shell bietet lokalen ZIP-Import an", async () => {
   assert.doesNotMatch(html, /apple-mobile-web-app-capable/, "apple-mobile-web-app-capable gesetzt — deprecated iOS 11.3, soll nicht gesetzt sein");
   assert.match(html, /apple-mobile-web-app-title/);
   assert.match(html, /install-hints/);
+  assert.match(html, /data-i18n-aria-label="lang_switcher_label"/);
+  assert.match(html, /aria-pressed="true"/);
+  assert.doesNotMatch(html, /navigator\.serviceWorker\.register/, "SW-Registrierung darf nur einmalig in app.js stehen");
 });
 
-test("Service Worker cached nur lokale Shell-Dateien", async () => {
+test("Service Worker cached nur lokale Shell-Dateien inkl. start_url ./ und Navigations-Fallback", async () => {
   const sw = await readFile(resolve(baseDir, "sw.js"), "utf8");
 
-  assert.match(sw, /CACHE_NAME = "rpx-companion-v5"/);
+  assert.match(sw, /CACHE_NAME = "rpx-companion-v6"/);
+  assert.match(sw, /"\.\/"/, "start_url './' muss in SHELL_FILES gecacht werden");
   assert.match(sw, /index\.html/);
+  assert.match(sw, /event\.request\.mode === "navigate"/, "Navigations-Fallback auf ./index.html fehlt");
   assert.doesNotMatch(sw, /https?:\/\//);
   assert.match(sw, /skipWaiting/, "skipWaiting fehlt");
   assert.match(sw, /clients\.claim/, "clients.claim fehlt");
   assert.match(sw, /ignoreSearch\s*:\s*true/, "ignoreSearch fehlt");
 });
 
-test("App und Styles sichern Mobile-Restore und Safe-Area-Verhalten", async () => {
+test("App und Styles sichern Mobile-Restore, 44px-Touch-Ziele, Dialog-ARIA und Safe-Area-Verhalten", async () => {
   const app = await readFile(resolve(baseDir, "app.js"), "utf8");
   const styles = await readFile(resolve(baseDir, "styles.css"), "utf8");
 
   assert.match(app, /rpx-companion:last-bundle:v1/);
+  assert.match(app, /rpx-companion:delta:v1/);
   assert.match(app, /localStorage\.setItem/);
   assert.match(app, /restoreBundleSnapshot/);
   assert.match(app, /renderInstallHints/);
+  assert.match(app, /setAttribute\("role",\s*"dialog"\)/);
+  assert.match(app, /setAttribute\("aria-modal",\s*"true"\)/);
+  assert.match(app, /event\.key === "Escape"/);
+  assert.doesNotMatch(app, /\["Medienmodus"|\["Orte"|\["Hauptkarte"|\["Waffen"|\["Zauber"|\["Datei"|Abgeschlossen:/);
   assert.match(styles, /safe-area-inset-top/);
   assert.match(styles, /min-height:\s*44px/);
+  assert.match(styles, /\.lang-btn\s*\{[\s\S]*?min-width:\s*44px;/);
 });
 
 test("iOS PWA: apple-touch-icon-180.png existiert physisch", async () => {

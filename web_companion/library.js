@@ -2,6 +2,12 @@ const EOCD_SIGNATURE = 0x06054b50;
 const CENTRAL_DIRECTORY_SIGNATURE = 0x02014b50;
 const LOCAL_FILE_SIGNATURE = 0x04034b50;
 
+export const COMPANION_DELTA_FORMAT = "rpx-companion-delta-v1";
+export const MAX_NOTE_LENGTH = 500;
+export const MAX_PLAYER_NOTES = 50;
+
+let noteIdCounter = 0;
+
 function sliceView(buffer) {
   return buffer instanceof Uint8Array ? buffer : new Uint8Array(buffer);
 }
@@ -273,4 +279,270 @@ export function getPlayerView(bundle, sessionId, characterId) {
 
 export async function loadBundleFromFile(file) {
   return loadBundleFromArrayBuffer(await file.arrayBuffer(), file.name);
+}
+
+// --- Companion Delta Return-Export Engine (rpx-companion-delta-v1) ---
+
+export function clampCharacterStat(value, maxValue = null) {
+  if (value === null || value === undefined || typeof value === "boolean") {
+    throw new RangeError("Ungültiger numerischer Statuswert.");
+  }
+  if (typeof value === "string" && value.trim() === "") {
+    throw new RangeError("Leerer numerischer Statuswert.");
+  }
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) {
+    throw new RangeError("Nicht-endlicher numerischer Statuswert.");
+  }
+  let normalized = Math.max(0, Math.trunc(parsed));
+  if (maxValue !== null && maxValue !== undefined && Number.isFinite(Number(maxValue)) && Number(maxValue) > 0) {
+    normalized = Math.min(normalized, Math.trunc(Number(maxValue)));
+  }
+  return normalized;
+}
+
+export function createEmptyCompanionDelta(bundle = null) {
+  return {
+    version: 1,
+    sourceName: bundle?.sourceName ?? null,
+    bundleExportedAt: bundle?.manifest?.exported_at ?? null,
+    characterPatches: {},
+    playerNotes: [],
+  };
+}
+
+function makePatchKey(sessionId, characterId) {
+  return `${sessionId}::${characterId}`;
+}
+
+export function getEffectiveCharacter(bundle, deltaState, sessionId, characterId) {
+  const { character } = getPlayerView(bundle, sessionId, characterId);
+  const key = makePatchKey(sessionId, characterId);
+  const patch = deltaState?.characterPatches?.[key] ?? null;
+  if (!patch) {
+    return { ...character, hasDelta: false };
+  }
+  return {
+    ...character,
+    health: patch.health ?? character.health,
+    mana: patch.mana ?? character.mana,
+    gold: patch.gold ?? character.gold,
+    hasDelta: true,
+  };
+}
+
+export function recordCharacterPatch(
+  deltaState,
+  bundle,
+  sessionId,
+  characterId,
+  patch,
+  updatedAt = Math.floor(Date.now() / 1000)
+) {
+  const { character } = getPlayerView(bundle, sessionId, characterId);
+  const baseState = deltaState ?? createEmptyCompanionDelta(bundle);
+  const key = makePatchKey(sessionId, characterId);
+  const previous = baseState.characterPatches?.[key] ?? {};
+
+  const nextHealth = patch.health !== undefined
+    ? clampCharacterStat(patch.health, character.maxHealth)
+    : (previous.health ?? character.health ?? 0);
+  const nextMana = patch.mana !== undefined
+    ? clampCharacterStat(patch.mana, character.maxMana)
+    : (previous.mana ?? character.mana ?? 0);
+  const nextGold = patch.gold !== undefined
+    ? clampCharacterStat(patch.gold, null)
+    : (previous.gold ?? character.gold ?? 0);
+
+  const unchanged =
+    nextHealth === (character.health ?? 0) &&
+    nextMana === (character.mana ?? 0) &&
+    nextGold === (character.gold ?? 0);
+
+  const nextPatches = { ...(baseState.characterPatches ?? {}) };
+  if (unchanged) {
+    delete nextPatches[key];
+  } else {
+    nextPatches[key] = {
+      sessionId,
+      characterId,
+      characterName: character.name,
+      health: nextHealth,
+      mana: nextMana,
+      gold: nextGold,
+      updatedAt: Math.trunc(Number(updatedAt) || 0),
+    };
+  }
+
+  return {
+    ...baseState,
+    sourceName: bundle?.sourceName ?? baseState.sourceName ?? null,
+    bundleExportedAt: bundle?.manifest?.exported_at ?? baseState.bundleExportedAt ?? null,
+    characterPatches: nextPatches,
+  };
+}
+
+export function addPlayerNote(
+  deltaState,
+  bundle,
+  { sessionId, characterId = null, author = "", content = "" },
+  createdAt = Math.floor(Date.now() / 1000)
+) {
+  const session = bundle?.sessions?.find((s) => s.id === sessionId);
+  if (!session) {
+    throw new Error(`Session nicht gefunden: ${sessionId}`);
+  }
+  let resolvedAuthor = String(author ?? "").trim();
+  if (characterId) {
+    const character = session.characters.find((c) => c.id === characterId);
+    if (!character) {
+      throw new Error(`Charakter nicht gefunden: ${characterId}`);
+    }
+    if (!resolvedAuthor) {
+      resolvedAuthor = character.name;
+    }
+  }
+  if (!resolvedAuthor) {
+    resolvedAuthor = "Player";
+  }
+  resolvedAuthor = resolvedAuthor.slice(0, 80);
+
+  const trimmedContent = String(content ?? "").trim().slice(0, MAX_NOTE_LENGTH);
+  if (!trimmedContent) {
+    throw new Error("Spielernotiz darf nicht leer sein.");
+  }
+
+  const baseState = deltaState ?? createEmptyCompanionDelta(bundle);
+  const existingNotes = Array.isArray(baseState.playerNotes) ? baseState.playerNotes : [];
+  const safeTs = Math.trunc(Number(createdAt) || Math.floor(Date.now() / 1000));
+  const existingIds = new Set(existingNotes.map((n) => n.id));
+  let noteId = "";
+  do {
+    noteIdCounter += 1;
+    noteId = `note-${safeTs}-${noteIdCounter}-${sessionId}`;
+  } while (existingIds.has(noteId));
+
+  const nextNotes = [
+    ...existingNotes,
+    {
+      id: noteId,
+      sessionId,
+      characterId: characterId || null,
+      author: resolvedAuthor,
+      content: trimmedContent,
+      createdAt: safeTs,
+    },
+  ].slice(-MAX_PLAYER_NOTES);
+
+  return {
+    ...baseState,
+    sourceName: bundle?.sourceName ?? baseState.sourceName ?? null,
+    bundleExportedAt: bundle?.manifest?.exported_at ?? baseState.bundleExportedAt ?? null,
+    playerNotes: nextNotes,
+  };
+}
+
+export function removePlayerNote(deltaState, noteId) {
+  if (!deltaState) {
+    return createEmptyCompanionDelta();
+  }
+  return {
+    ...deltaState,
+    playerNotes: (deltaState.playerNotes ?? []).filter((note) => note.id !== noteId),
+  };
+}
+
+export function countDeltaEntries(deltaState) {
+  const patchCount = Object.keys(deltaState?.characterPatches ?? {}).length;
+  const noteCount = Array.isArray(deltaState?.playerNotes) ? deltaState.playerNotes.length : 0;
+  return {
+    patchCount,
+    noteCount,
+    totalCount: patchCount + noteCount,
+  };
+}
+
+export function buildCompanionDeltaPayload(
+  bundle,
+  deltaState,
+  exportedAt = Math.floor(Date.now() / 1000)
+) {
+  const safeDelta = deltaState ?? createEmptyCompanionDelta(bundle);
+  const patches = Object.values(safeDelta.characterPatches ?? {}).map((entry) => ({
+    session_id: entry.sessionId,
+    character_id: entry.characterId,
+    character_name: entry.characterName,
+    health: entry.health,
+    mana: entry.mana,
+    gold: entry.gold,
+    updated_at: entry.updatedAt,
+  }));
+  const notes = (safeDelta.playerNotes ?? []).map((note) => ({
+    id: note.id,
+    session_id: note.sessionId,
+    character_id: note.characterId ?? null,
+    author: note.author,
+    content: note.content,
+    created_at: note.createdAt,
+  }));
+
+  return {
+    format: COMPANION_DELTA_FORMAT,
+    exported_at: Math.trunc(Number(exportedAt) || Math.floor(Date.now() / 1000)),
+    source_bundle: {
+      source_name: bundle?.sourceName ?? safeDelta.sourceName ?? "campaign.zip",
+      bundle_exported_at: bundle?.manifest?.exported_at ?? safeDelta.bundleExportedAt ?? null,
+      schema_version: bundle?.manifest?.app?.schema_version ?? "1.0",
+    },
+    character_patches: patches,
+    player_notes: notes,
+  };
+}
+
+export function parseCompanionDeltaJson(rawJson) {
+  const payload = typeof rawJson === "string" ? JSON.parse(rawJson) : rawJson;
+  if (!payload || typeof payload !== "object" || payload.format !== COMPANION_DELTA_FORMAT) {
+    throw new Error(`Ungültiges Companion-Delta-Format: ${payload?.format ?? "ohne Kennung"}`);
+  }
+  const characterPatches = {};
+  for (const item of Array.isArray(payload.character_patches) ? payload.character_patches : []) {
+    if (!item || typeof item.session_id !== "string" || typeof item.character_id !== "string") {
+      continue;
+    }
+    const key = makePatchKey(item.session_id, item.character_id);
+    characterPatches[key] = {
+      sessionId: item.session_id,
+      characterId: item.character_id,
+      characterName: String(item.character_name ?? item.character_id),
+      health: clampCharacterStat(item.health ?? 0),
+      mana: clampCharacterStat(item.mana ?? 0),
+      gold: clampCharacterStat(item.gold ?? 0),
+      updatedAt: Math.trunc(Number(item.updated_at) || 0),
+    };
+  }
+  const playerNotes = [];
+  for (const note of Array.isArray(payload.player_notes) ? payload.player_notes : []) {
+    if (!note || typeof note.session_id !== "string" || typeof note.content !== "string") {
+      continue;
+    }
+    const trimmed = note.content.trim().slice(0, MAX_NOTE_LENGTH);
+    if (!trimmed) {
+      continue;
+    }
+    playerNotes.push({
+      id: String(note.id || `note-${playerNotes.length + 1}`),
+      sessionId: note.session_id,
+      characterId: typeof note.character_id === "string" ? note.character_id : null,
+      author: String(note.author || "Player").slice(0, 80),
+      content: trimmed,
+      createdAt: Math.trunc(Number(note.created_at) || 0),
+    });
+  }
+  return {
+    version: 1,
+    sourceName: payload.source_bundle?.source_name ?? null,
+    bundleExportedAt: payload.source_bundle?.bundle_exported_at ?? null,
+    characterPatches,
+    playerNotes: playerNotes.slice(-MAX_PLAYER_NOTES),
+  };
 }
