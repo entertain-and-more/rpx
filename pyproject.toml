@@ -97,7 +97,7 @@ Notice = "https://github.com/entertain-and-more/rpx/blob/master/NOTICE"
 
 [tool.pytest.ini_options]
 minversion = "9.1.1"
-addopts = "-ra -q --basetemp=.pytest_temp"
+addopts = "-ra -q"
 pythonpath = ["."]
 testpaths = ["tests"]
 norecursedirs = [".git", ".pytest_cache", ".pytest_temp", ".pytest_tmp*", "__pycache__", "build", "dist", ".venv", ".hypothesis", ".nyc_output", ".tox", ".turbo"]

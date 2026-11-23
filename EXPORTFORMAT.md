@@ -177,3 +177,56 @@ Import-Beispiel:
 - Bei `rename` erhalten kollidierende Welt-/Session-IDs und Regelwerk-Dateien neue eindeutige Namen; Medien werden auf freie lokale Dateinamen umgebogen.
 - Bei `replace` überschreibt das Bundle vorhandene Welten, Sessions, Regelwerk-Dateien und Medien mit denselben Zielnamen.
 - Bei `skip` bleiben vorhandene Konflikte unangetastet; der Import verwendet dann die bestehenden lokalen Ziele.
+
+## Optionaler Companion-Delta-Rückexport – `rpx-companion-delta-v1`
+
+Für den dateibasierten Rückweg vom Web/PWA-Companion an die GM-Desktop-Zentrale ohne Cloud oder Server-Sync unterstützt RPX Pro kleine JSON-Deltadateien im Format `rpx-companion-delta-v1`:
+
+```json
+{
+  "format": "rpx-companion-delta-v1",
+  "exported_at": 1779647020,
+  "source_bundle": {
+    "source_name": "campaign.zip",
+    "bundle_exported_at": 1779645600,
+    "schema_version": "1.0"
+  },
+  "character_patches": [
+    {
+      "session_id": "e19fa19c",
+      "character_id": "ayla",
+      "character_name": "Ayla",
+      "health": 14,
+      "mana": 9,
+      "gold": 60,
+      "updated_at": 1779647000
+    }
+  ],
+  "player_notes": [
+    {
+      "id": "note-1779647010-1-e19fa19c",
+      "session_id": "e19fa19c",
+      "character_id": "ayla",
+      "author": "Ayla",
+      "content": "Geheimtür im Weinkeller markiert.",
+      "created_at": 1779647010
+    }
+  ]
+}
+```
+
+### Schutz- und Reimportregeln (`import_companion_delta`)
+
+- **Strikt nicht-destruktiv:** Welten, Karten, Orte, aktive Missionen, Medien und Regelwerke werden durch ein Companion-Delta niemals überschrieben oder gelöscht.
+- **Sichere Wertegrenzen:** `health` wird auf `0..max_health` begrenzt, `mana` auf `0..max_mana` und `gold` auf `>= 0`. Nicht-numerische Werte, Booleans, Pfad-Traversals (`..`, `/`, `\`) und Dateien über 1 MiB werden abgewiesen.
+- **Idempotente Spielernotizen:** Notizen werden als `ChatMessage` (`role = "player"`, Präfix `[Companion]`) mit `metadata.companion_note_id` angehängt; ein erneuter Import derselben Deltadatei erzeugt keine Duplikate.
+- **CLI / JSON-RPC:**
+  ```json
+  {
+    "id": 9,
+    "method": "import_companion_delta",
+    "params": {
+      "source": "releases/campaigns/demo-companion-delta.json"
+    }
+  }
+  ```

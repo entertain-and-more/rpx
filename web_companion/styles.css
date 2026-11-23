@@ -117,6 +117,11 @@ code {
   cursor: pointer;
 }
 
+.dropzone:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .dropzone.is-dragover {
   border-color: var(--accent);
   background:
@@ -142,7 +147,9 @@ code {
 
 .button-row {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
+  gap: 10px;
   margin-top: 14px;
 }
 
@@ -165,9 +172,24 @@ button:active {
   transform: translateY(0);
 }
 
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .ghost {
   color: var(--text);
   background: rgba(255, 255, 255, 0.08);
+}
+
+.accent-btn {
+  color: #130d0c;
+  font-weight: 700;
+  background: var(--accent);
+}
+
+.hidden {
+  display: none !important;
 }
 
 .status {
@@ -306,6 +328,18 @@ button:active {
   font-size: 0.92rem;
 }
 
+.delta-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  background: rgba(134, 181, 171, 0.22);
+  color: var(--accent-2);
+}
+
 .session-layout {
   display: grid;
   gap: 14px;
@@ -387,7 +421,7 @@ button:active {
   }
 }
 
-/* --- Player Mode --- */
+/* --- Player Mode & Companion Delta --- */
 
 .player-overlay {
   position: fixed;
@@ -402,12 +436,8 @@ button:active {
   backdrop-filter: blur(12px);
 }
 
-.player-overlay.hidden {
-  display: none;
-}
-
 .player-card {
-  width: min(480px, 100%);
+  width: min(520px, 100%);
   padding: 28px 24px;
   border-radius: var(--radius);
   background: linear-gradient(180deg, rgba(59, 38, 33, 0.98), var(--panel));
@@ -471,9 +501,87 @@ button:active {
 }
 
 .character-item:hover,
-.character-item:focus {
+.character-item:focus,
+.character-item:focus-visible {
   border-color: var(--accent);
-  outline: none;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.delta-panel {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(11, 8, 7, 0.42);
+  border: 1px solid var(--line);
+}
+
+.delta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.delta-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+
+.delta-field input,
+.delta-note-form textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font: inherit;
+}
+
+.delta-field input:focus-visible,
+.delta-note-form textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.delta-note-form {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.delta-note-form textarea {
+  min-height: 76px;
+  resize: vertical;
+}
+
+.delta-note-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  display: grid;
+  gap: 8px;
+}
+
+.delta-note-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--panel-strong);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.delta-note-text {
+  word-break: break-word;
+  font-size: 0.92rem;
 }
 
 @media (max-width: 560px) {
@@ -483,6 +591,10 @@ button:active {
 
   .button-row button {
     width: 100%;
+  }
+
+  .delta-grid {
+    grid-template-columns: 1fr;
   }
 
   .dropzone {
@@ -502,17 +614,22 @@ button:active {
 .lang-switcher {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
   margin-top: 14px;
 }
 
 .lang-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--line);
   color: var(--muted);
-  padding: 4px 10px;
+  padding: 8px 12px;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
