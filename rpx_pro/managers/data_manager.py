@@ -27,6 +27,7 @@ logger = logging.getLogger("RPX")
 
 COMPANION_DELTA_FORMAT = "rpx-companion-delta-v1"
 MAX_COMPANION_DELTA_BYTES = 1_048_576
+MAX_DELTA_NOTE_CLOCK_SKEW_S = 86400
 MAX_COMPANION_NOTE_LEN = 500
 
 MEDIA_PATH_KEYS = {
@@ -722,7 +723,12 @@ class DataManager:
                 try:
                     if raw_ts is not None and not isinstance(raw_ts, bool):
                         parsed_ts = float(raw_ts)
-                        if math.isfinite(parsed_ts) and parsed_ts > 0:
+                        # Obergrenze: Millisekunden-Werte oder Ausreißer würden später
+                        # datetime.fromtimestamp() (Chat-Anzeige, Prompt) sprengen.
+                        if (
+                            math.isfinite(parsed_ts)
+                            and 0 < parsed_ts <= time.time() + MAX_DELTA_NOTE_CLOCK_SKEW_S
+                        ):
                             ts = parsed_ts
                             explicit_ts = int(parsed_ts)
                         else:
